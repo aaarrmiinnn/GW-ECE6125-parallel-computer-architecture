@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="1200" height="800" viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+  <!-- Styles -->
+  <style>
+    text { font-family: Arial, sans-serif; }
+    .title { font-size: 26px; font-weight: bold; text-anchor: middle; }
+    .subtitle { font-size: 20px; font-style: italic; text-anchor: middle; }
+    .section-title { font-size: 22px; font-weight: bold; text-anchor: middle; }
+    .direct-mapped { fill: #fff2cc; stroke: #ffcc00; stroke-width: 2; }
+    .set-associative { fill: #d1e7ff; stroke: #0066cc; stroke-width: 2; }
+    .data-path { fill: #ffe6cc; stroke: #ff9933; stroke-width: 2; }
+    .control-path { fill: #e6ccff; stroke: #9966ff; stroke-width: 2; }
+    .address-path { fill: #ccffcc; stroke: #66cc66; stroke-width: 2; }
+    .label { font-size: 16px; }
+    .small-label { font-size: 14px; }
+    .arrow { stroke: #333; stroke-width: 1.5; fill: none; marker-end: url(#arrowhead); }
+    .memory { fill: #e6f3ff; stroke: #0066cc; stroke-width: 2; }
+    .cpu { fill: #ffcccc; stroke: #ff6666; stroke-width: 2; }
+    .cache { fill: #f5f5f5; stroke: #004065; stroke-width: 2; }
+    .tag-array { fill: #fff0f0; stroke: #ff6666; stroke-width: 1; }
+    .data-array { fill: #f0f8ff; stroke: #6666ff; stroke-width: 1; }
+    .comparator { fill: #ffffc0; stroke: #cccc00; stroke-width: 1; }
+    .multiplexer { fill: #fff0e0; stroke: #ff9966; stroke-width: 1; }
+    .decoder { fill: #e0f0e0; stroke: #66cc66; stroke-width: 1; }
+    .control-logic { fill: #f0e0ff; stroke: #cc99ff; stroke-width: 1; }
+    .text-bg { fill: white; stroke: #aaa; stroke-width: 1; }
+  </style>
+
+  <!-- Arrow marker definitions -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#333"/>
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <rect x="300" y="20" width="600" height="40" fill="white" rx="5" ry="5"/>
+  <text x="600" y="48" class="title">Cache Memory Hardware Organization</text>
+  <rect x="350" y="60" width="500" height="30" fill="white" rx="5" ry="5"/>
+  <text x="600" y="82" class="subtitle">Physical components and data paths in cache designs</text>
+
+  <!-- Direct-Mapped Cache Hardware -->
+  <rect x="80" y="110" width="500" height="320" class="direct-mapped" rx="10" ry="10"/>
+  <text x="330" y="135" class="section-title">Direct-Mapped Cache Hardware</text>
+
+  <!-- CPU and Address Bus -->
+  <rect x="120" y="160" width="120" height="60" rx="5" ry="5" class="cpu"/>
+  <text x="180" y="195" class="label" text-anchor="middle">CPU</text>
+
+  <!-- Address Components -->
+  <rect x="280" y="160" width="260" height="35" rx="3" ry="3" class="text-bg"/>
+  <rect x="280" y="160" width="90" height="35" fill="#ffcccc" stroke="#ff6666" stroke-width="1"/>
+  <rect x="370" y="160" width="85" height="35" fill="#ccffcc" stroke="#66cc66" stroke-width="1"/>
+  <rect x="455" y="160" width="85" height="35" fill="#e6ccff" stroke="#9966ff" stroke-width="1"/>
+  <text x="325" y="182" class="label" text-anchor="middle">Tag</text>
+  <text x="412" y="182" class="label" text-anchor="middle">Index</text>
+  <text x="497" y="182" class="label" text-anchor="middle">Offset</text>
+
+  <!-- Address Paths -->
+  <line x1="240" y1="190" x2="270" y2="190" class="arrow" stroke="#66cc66" stroke-width="2"/>
+  
+  <!-- Index to Decoder -->
+  <line x1="412" y1="195" x2="412" y2="230" class="arrow" stroke="#66cc66" stroke-width="2"/>
+  
+  <!-- Decoder -->
+  <rect x="362" y="230" width="100" height="50" rx="5" ry="5" class="decoder"/>
+  <text x="412" y="260" class="label" text-anchor="middle">Decoder</text>
+
+  <!-- Tag Array -->
+  <rect x="180" y="300" width="120" height="80" rx="5" ry="5" class="tag-array"/>
+  <text x="240" y="345" class="label" text-anchor="middle">Tag Array</text>
+
+  <!-- Data Array -->
+  <rect x="362" y="300" width="120" height="80" rx="5" ry="5" class="data-array"/>
+  <text x="422" y="345" class="label" text-anchor="middle">Data Array</text>
+
+  <!-- Decoder to Arrays -->
+  <line x1="412" y1="280" x2="412" y2="300" class="arrow" stroke="#66cc66" stroke-width="2"/>
+  <line x1="412" y1="280" x2="240" y2="300" class="arrow" stroke="#66cc66" stroke-width="2"/>
+
+  <!-- Tag Comparator -->
+  <rect x="180" y="220" width="120" height="50" rx="5" ry="5" class="comparator"/>
+  <text x="240" y="250" class="label" text-anchor="middle">Tag Comparator</text>
+
+  <!-- Tag to Comparator -->
+  <line x1="280" y1="190" x2="240" y2="220" class="arrow" stroke="#ff6666" stroke-width="2"/>
+  <line x1="240" y1="300" x2="240" y2="270" class="arrow" stroke="#ff6666" stroke-width="2"/>
+
+  <!-- Hit/Miss Signal -->
+  <line x1="180" y1="245" x2="140" y2="245" class="arrow" stroke="#9966ff" stroke-width="2"/>
+  <text x="160" y="240" class="small-label">Hit/Miss</text>
+
+  <!-- Data Path -->
+  <line x1="422" y1="380" x2="422" y2="400" class="arrow" stroke="#ff9933" stroke-width="2"/>
+  <line x1="422" y1="400" x2="180" y2="400" class="arrow" stroke="#ff9933" stroke-width="2"/>
+  <line x1="180" y1="400" x2="180" y2="220" class="arrow" stroke="#ff9933" stroke-width="2"/>
+  <text x="280" y="395" class="small-label">Data to CPU</text>
+
+  <!-- N-Way Set-Associative Cache Hardware -->
+  <rect x="620" y="110" width="500" height="320" class="set-associative" rx="10" ry="10"/>
+  <text x="870" y="135" class="section-title">2-Way Set-Associative Cache Hardware</text>
+
+  <!-- CPU Block -->
+  <rect x="660" y="160" width="120" height="60" rx="5" ry="5" class="cpu"/>
+  <text x="720" y="195" class="label" text-anchor="middle">CPU</text>
+
+  <!-- Address Components -->
+  <rect x="820" y="160" width="260" height="35" rx="3" ry="3" class="text-bg"/>
+  <rect x="820" y="160" width="90" height="35" fill="#ffcccc" stroke="#ff6666" stroke-width="1"/>
+  <rect x="910" y="160" width="85" height="35" fill="#ccffcc" stroke="#66cc66" stroke-width="1"/>
+  <rect x="995" y="160" width="85" height="35" fill="#e6ccff" stroke="#9966ff" stroke-width="1"/>
+  <text x="865" y="182" class="label" text-anchor="middle">Tag</text>
+  <text x="952" y="182" class="label" text-anchor="middle">Index</text>
+  <text x="1037" y="182" class="label" text-anchor="middle">Offset</text>
+
+  <!-- Address Path -->
+  <line x1="780" y1="190" x2="810" y2="190" class="arrow" stroke="#66cc66" stroke-width="2"/>
+  
+  <!-- Index to Decoder -->
+  <line x1="952" y1="195" x2="952" y2="230" class="arrow" stroke="#66cc66" stroke-width="2"/>
+  
+  <!-- Decoder -->
+  <rect x="902" y="230" width="100" height="50" rx="5" ry="5" class="decoder"/>
+  <text x="952" y="260" class="label" text-anchor="middle">Decoder</text>
+
+  <!-- Way 0 -->
+  <rect x="760" y="300" width="90" height="60" rx="5" ry="5" class="tag-array"/>
+  <text x="805" y="330" class="small-label" text-anchor="middle">Way 0</text>
+  <text x="805" y="350" class="small-label" text-anchor="middle">Tags</text>
+
+  <rect x="860" y="300" width="90" height="60" rx="5" ry="5" class="data-array"/>
+  <text x="905" y="330" class="small-label" text-anchor="middle">Way 0</text>
+  <text x="905" y="350" class="small-label" text-anchor="middle">Data</text>
+
+  <!-- Way 1 -->
+  <rect x="960" y="300" width="90" height="60" rx="5" ry="5" class="tag-array"/>
+  <text x="1005" y="330" class="small-label" text-anchor="middle">Way 1</text>
+  <text x="1005" y="350" class="small-label" text-anchor="middle">Tags</text>
+
+  <rect x="1060" y="300" width="90" height="60" rx="5" ry="5" class="data-array"/>
+  <text x="1105" y="330" class="small-label" text-anchor="middle">Way 1</text>
+  <text x="1105" y="350" class="small-label" text-anchor="middle">Data</text>
+
+  <!-- Decoder to Arrays -->
+  <line x1="952" y1="280" x2="805" y2="300" class="arrow" stroke="#66cc66" stroke-width="2"/>
+  <line x1="952" y1="280" x2="905" y2="300" class="arrow" stroke="#66cc66" stroke-width="2"/>
+  <line x1="952" y1="280" x2="1005" y2="300" class="arrow" stroke="#66cc66" stroke-width="2"/>
+  <line x1="952" y1="280" x2="1105" y2="300" class="arrow" stroke="#66cc66" stroke-width="2"/>
+
+  <!-- Tag Comparators -->
+  <rect x="760" y="230" width="90" height="50" rx="5" ry="5" class="comparator"/>
+  <text x="805" y="245" class="small-label" text-anchor="middle">Tag</text>
+  <text x="805" y="265" class="small-label" text-anchor="middle">Comparator</text>
+
+  <rect x="960" y="230" width="90" height="50" rx="5" ry="5" class="comparator"/>
+  <text x="1005" y="245" class="small-label" text-anchor="middle">Tag</text>
+  <text x="1005" y="265" class="small-label" text-anchor="middle">Comparator</text>
+
+  <!-- Tags to Comparators -->
+  <line x1="865" y1="190" x2="805" y2="230" class="arrow" stroke="#ff6666" stroke-width="2"/>
+  <line x1="865" y1="190" x2="1005" y2="230" class="arrow" stroke="#ff6666" stroke-width="2"/>
+  
+  <line x1="805" y1="300" x2="805" y2="280" class="arrow" stroke="#ff6666" stroke-width="2"/>
+  <line x1="1005" y1="300" x2="1005" y2="280" class="arrow" stroke="#ff6666" stroke-width="2"/>
+
+  <!-- Multiplexer -->
+  <rect x="860" y="380" width="90" height="50" rx="5" ry="5" class="multiplexer"/>
+  <text x="905" y="410" class="label" text-anchor="middle">MUX</text>
+
+  <!-- Data to MUX -->
+  <line x1="905" y1="360" x2="905" y2="380" class="arrow" stroke="#ff9933" stroke-width="2"/>
+  <line x1="1105" y1="360" x2="1105" y2="370" class="arrow" stroke="#ff9933" stroke-width="2"/>
+  <line x1="1105" y1="370" x2="905" y2="370" class="arrow" stroke="#ff9933" stroke-width="2"/>
+
+  <!-- Hit signals to Control Logic -->
+  <rect x="1060" y="380" width="90" height="50" rx="5" ry="5" class="control-logic"/>
+  <text x="1105" y="410" class="small-label" text-anchor="middle">Way Select</text>
+
+  <line x1="760" y1="245" x2="750" y2="245" class="arrow" stroke="#9966ff" stroke-width="2"/>
+  <line x1="750" y1="245" x2="750" y2="405" class="arrow" stroke="#9966ff" stroke-width="2"/>
+  <line x1="750" y1="405" x2="1060" y2="405" class="arrow" stroke="#9966ff" stroke-width="2"/>
+  
+  <line x1="960" y1="245" x2="950" y2="245" class="arrow" stroke="#9966ff" stroke-width="2"/>
+  <line x1="950" y1="245" x2="950" y2="395" class="arrow" stroke="#9966ff" stroke-width="2"/>
+  <line x1="950" y1="395" x2="1060" y2="395" class="arrow" stroke="#9966ff" stroke-width="2"/>
+
+  <!-- Control to MUX -->
+  <line x1="1060" y1="410" x2="950" y2="410" class="arrow" stroke="#9966ff" stroke-width="2"/>
+
+  <!-- Output to CPU -->
+  <line x1="905" y1="430" x2="905" y2="450" class="arrow" stroke="#ff9933" stroke-width="2"/>
+  <line x1="905" y1="450" x2="720" y2="450" class="arrow" stroke="#ff9933" stroke-width="2"/>
+  <line x1="720" y1="450" x2="720" y2="220" class="arrow" stroke="#ff9933" stroke-width="2"/>
+  <text x="820" y="445" class="small-label">Data to CPU</text>
+
+  <!-- Common Cache Hardware Components -->
+  <rect x="100" y="450" width="1000" height="330" fill="#f8f8f8" stroke="#aaa" stroke-width="2" rx="10" ry="10"/>
+  <text x="600" y="480" class="section-title">Key Hardware Components in Cache Design</text>
+
+  <!-- Components Table -->
+  <rect x="150" y="500" width="900" height="240" rx="5" ry="5" class="text-bg"/>
+  
+  <!-- Component Headers -->
+  <rect x="150" y="500" width="300" height="35" fill="#e6e6e6" stroke="#999" stroke-width="1"/>
+  <rect x="450" y="500" width="600" height="35" fill="#e6e6e6" stroke="#999" stroke-width="1"/>
+  <text x="300" y="523" class="label" font-weight="bold">Component</text>
+  <text x="750" y="523" class="label" font-weight="bold">Function</text>
+
+  <!-- Tag Array -->
+  <rect x="150" y="535" width="300" height="40" fill="white" stroke="#999" stroke-width="1"/>
+  <rect x="450" y="535" width="600" height="40" fill="white" stroke="#999" stroke-width="1"/>
+  <rect x="170" y="542" width="35" height="25" class="tag-array"/>
+  <text x="230" y="560" class="label">Tag Array</text>
+  <text x="460" y="552" class="small-label">Stores the tag portion of addresses for cache lines</text>
+  <text x="460" y="572" class="small-label">Organized by index to allow lookup of potential matching tags</text>
+
+  <!-- Data Array -->
+  <rect x="150" y="575" width="300" height="40" fill="white" stroke="#999" stroke-width="1"/>
+  <rect x="450" y="575" width="600" height="40" fill="white" stroke="#999" stroke-width="1"/>
+  <rect x="170" y="582" width="35" height="25" class="data-array"/>
+  <text x="230" y="600" class="label">Data Array</text>
+  <text x="460" y="592" class="small-label">Stores actual cached data blocks from memory</text>
+  <text x="460" y="612" class="small-label">Provides fast access to frequently used data</text>
+
+  <!-- Tag Comparator -->
+  <rect x="150" y="615" width="300" height="40" fill="white" stroke="#999" stroke-width="1"/>
+  <rect x="450" y="615" width="600" height="40" fill="white" stroke="#999" stroke-width="1"/>
+  <rect x="170" y="622" width="35" height="25" class="comparator"/>
+  <text x="230" y="640" class="label">Tag Comparator</text>
+  <text x="460" y="632" class="small-label">Checks if requested address tag matches stored tag</text>
+  <text x="460" y="652" class="small-label">Generates hit/miss signal based on comparison result</text>
+
+  <!-- Multiplexer -->
+  <rect x="150" y="655" width="300" height="40" fill="white" stroke="#999" stroke-width="1"/>
+  <rect x="450" y="655" width="600" height="40" fill="white" stroke="#999" stroke-width="1"/>
+  <rect x="170" y="662" width="35" height="25" class="multiplexer"/>
+  <text x="230" y="680" class="label">Multiplexer (MUX)</text>
+  <text x="460" y="672" class="small-label">Selects appropriate data from multiple sources (ways)</text>
+  <text x="460" y="692" class="small-label">Used in set-associative and fully-associative caches</text>
+
+  <!-- Way Select Logic -->
+  <rect x="150" y="695" width="300" height="40" fill="white" stroke="#999" stroke-width="1"/>
+  <rect x="450" y="695" width="600" height="40" fill="white" stroke="#999" stroke-width="1"/>
+  <rect x="170" y="702" width="35" height="25" class="control-logic"/>
+  <text x="230" y="720" class="label">Control Logic</text>
+  <text x="460" y="712" class="small-label">Manages hit/miss handling, way selection, and replacement</text>
+  <text x="460" y="732" class="small-label">Coordinates cache operations and memory interactions</text>
+  
+  <!-- Legend -->
+  <text x="200" y="755" class="small-label" fill="#333">Data Path:</text>
+  <line x1="270" y1="755" x2="300" y2="755" stroke="#ff9933" stroke-width="2"/>
+  
+  <text x="350" y="755" class="small-label" fill="#333">Address Path:</text>
+  <line x1="440" y1="755" x2="470" y2="755" stroke="#66cc66" stroke-width="2"/>
+  
+  <text x="520" y="755" class="small-label" fill="#333">Control Path:</text>
+  <line x1="610" y1="755" x2="640" y2="755" stroke="#9966ff" stroke-width="2"/>
+</svg> 

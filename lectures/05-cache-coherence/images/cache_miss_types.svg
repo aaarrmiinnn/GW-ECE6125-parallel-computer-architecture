@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="1000" height="700" viewBox="0 0 1000 700" xmlns="http://www.w3.org/2000/svg">
+  <!-- Styles -->
+  <style>
+    .background { fill: white; }
+    .title { font-size: 24px; font-weight: bold; text-anchor: middle; }
+    .subtitle { font-size: 18px; font-style: italic; text-anchor: middle; }
+    .section-title { font-size: 20px; font-weight: bold; text-anchor: middle; }
+    .cache-container { fill: #f5f5f5; stroke: #004065; stroke-width: 2; rx: 10; ry: 10; }
+    .cache-set { fill: #d1e7ff; stroke: #0066cc; stroke-width: 1; }
+    .cache-block { fill: white; stroke: #666; stroke-width: 1; }
+    .cache-block-used { fill: #ffe6cc; stroke: #ff9933; stroke-width: 1; }
+    .cache-block-conflict { fill: #ffcccc; stroke: #ff3333; stroke-width: 1; }
+    .memory-block { fill: #e6ccff; stroke: #9966ff; stroke-width: 1; }
+    .memory-container { fill: #f2f2f2; stroke: #666666; stroke-width: 2; rx: 5; ry: 5; }
+    .miss-type-box { fill: #f8f8f8; stroke: #aaa; stroke-width: 2; rx: 15; ry: 15; }
+    .cold-miss { fill: #d1e7ff; stroke: #0066cc; stroke-width: 2; rx: 5; ry: 5; }
+    .capacity-miss { fill: #fff2cc; stroke: #ffcc00; stroke-width: 2; rx: 5; ry: 5; }
+    .conflict-miss { fill: #ffcccc; stroke: #ff6666; stroke-width: 2; rx: 5; ry: 5; }
+    .arrow { stroke: #333333; stroke-width: 1.5; fill: none; marker-end: url(#arrowhead); }
+    .arrow-miss { stroke: #ff3333; stroke-width: 2; fill: none; marker-end: url(#arrowhead-red); stroke-dasharray: 5,3; }
+    .text-bg { fill: white; fill-opacity: 0.9; stroke: #cccccc; stroke-width: 1; rx: 5; ry: 5; }
+    .text-container { fill: white; stroke: #aaa; stroke-width: 1; rx: 5; ry: 5; }
+    .highlight { font-weight: bold; fill: #ff3333; }
+    text { font-family: Arial, sans-serif; font-size: 14px; fill: #333; }
+    .label { font-size: 12px; text-anchor: middle; }
+    .memory-label { font-size: 12px; text-anchor: start; }
+    .summary-text { font-size: 13px; }
+    .summary-title { font-size: 16px; font-weight: bold; }
+  </style>
+  
+  <!-- Arrow marker definitions -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#333333"/>
+    </marker>
+    <marker id="arrowhead-red" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#ff3333"/>
+    </marker>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1000" height="700" class="background"/>
+  
+  <!-- Title -->
+  <rect x="300" y="20" width="400" height="40" class="text-bg"/>
+  <text x="500" y="48" class="title">Understanding Cache Miss Types</text>
+  
+  <!-- Cold Miss Section -->
+  <rect x="50" y="80" width="280" height="380" class="miss-type-box"/>
+  <rect x="70" y="90" width="240" height="40" class="cold-miss"/>
+  <rect x="85" y="95" width="210" height="30" class="text-bg"/>
+  <text x="190" y="115" class="section-title">Cold Miss</text>
+  
+  <!-- Cold Miss Cache (Empty) -->
+  <rect x="70" y="140" width="240" height="130" class="cache-container"/>
+  <rect x="85" y="145" width="210" height="25" class="text-bg"/>
+  <text x="190" y="162" text-anchor="middle">Cache (Empty)</text>
+  
+  <rect x="80" y="175" width="220" height="85" rx="3" class="cache-set"/>
+  <rect x="90" y="185" width="40" height="25" rx="2" class="cache-block"/>
+  <text x="110" y="202" text-anchor="middle" class="label">Empty</text>
+  <rect x="140" y="185" width="40" height="25" rx="2" class="cache-block"/>
+  <text x="160" y="202" text-anchor="middle" class="label">Empty</text>
+  <rect x="190" y="185" width="40" height="25" rx="2" class="cache-block"/>
+  <text x="210" y="202" text-anchor="middle" class="label">Empty</text>
+  <rect x="240" y="185" width="40" height="25" rx="2" class="cache-block"/>
+  <text x="260" y="202" text-anchor="middle" class="label">Empty</text>
+  <rect x="90" y="220" width="40" height="25" rx="2" class="cache-block"/>
+  <text x="110" y="237" text-anchor="middle" class="label">Empty</text>
+  <rect x="140" y="220" width="40" height="25" rx="2" class="cache-block"/>
+  <text x="160" y="237" text-anchor="middle" class="label">Empty</text>
+  <rect x="190" y="220" width="40" height="25" rx="2" class="cache-block"/>
+  <text x="210" y="237" text-anchor="middle" class="label">Empty</text>
+  <rect x="240" y="220" width="40" height="25" rx="2" class="cache-block"/>
+  <text x="260" y="237" text-anchor="middle" class="label">Empty</text>
+  
+  <!-- Cold Miss Memory -->
+  <rect x="70" y="300" width="240" height="100" class="memory-container"/>
+  <rect x="85" y="305" width="210" height="25" class="text-bg"/>
+  <text x="190" y="322" text-anchor="middle">Memory</text>
+  
+  <rect x="80" y="335" width="220" height="55" rx="3" class="cache-set" opacity="0.5"/>
+  <rect x="90" y="345" width="40" height="25" rx="2" class="memory-block"/>
+  <text x="110" y="362" text-anchor="middle" class="label">A</text>
+  <rect x="140" y="345" width="40" height="25" rx="2" class="memory-block"/>
+  <text x="160" y="362" text-anchor="middle" class="label">B</text>
+  <rect x="190" y="345" width="40" height="25" rx="2" class="memory-block"/>
+  <text x="210" y="362" text-anchor="middle" class="label">C</text>
+  <rect x="240" y="345" width="40" height="25" rx="2" class="memory-block"/>
+  <text x="260" y="362" text-anchor="middle" class="label">D</text>
+  
+  <!-- Cold Miss Arrow -->
+  <path d="M110 340 C110 300 110 285 110 250" class="arrow-miss"/>
+  <rect x="120" y="290" width="140" height="25" class="text-bg"/>
+  <text x="190" y="307" text-anchor="middle" class="highlight">First access to block A</text>
+  
+  <!-- Cold Miss Explanation -->
+  <rect x="60" y="410" width="260" height="40" class="text-container"/>
+  <text x="80" y="425" class="summary-text">• First time accessing the data</text>
+  <text x="80" y="442" class="summary-text">• Cannot be avoided (compulsory)</text>
+  
+  <!-- Capacity Miss Section -->
+  <rect x="360" y="80" width="280" height="380" class="miss-type-box"/>
+  <rect x="380" y="90" width="240" height="40" class="capacity-miss"/>
+  <rect x="395" y="95" width="210" height="30" class="text-bg"/>
+  <text x="500" y="115" class="section-title">Capacity Miss</text>
+  
+  <!-- Capacity Miss Full Cache -->
+  <rect x="380" y="140" width="240" height="130" class="cache-container"/>
+  <rect x="395" y="145" width="210" height="25" class="text-bg"/>
+  <text x="500" y="162" text-anchor="middle">Cache (Full)</text>
+  
+  <rect x="390" y="175" width="220" height="85" rx="3" class="cache-set"/>
+  <rect x="400" y="185" width="40" height="25" rx="2" class="cache-block-used"/>
+  <text x="420" y="202" text-anchor="middle" class="label">A</text>
+  <rect x="450" y="185" width="40" height="25" rx="2" class="cache-block-used"/>
+  <text x="470" y="202" text-anchor="middle" class="label">B</text>
+  <rect x="500" y="185" width="40" height="25" rx="2" class="cache-block-used"/>
+  <text x="520" y="202" text-anchor="middle" class="label">C</text>
+  <rect x="550" y="185" width="40" height="25" rx="2" class="cache-block-used"/>
+  <text x="570" y="202" text-anchor="middle" class="label">D</text>
+  <rect x="400" y="220" width="40" height="25" rx="2" class="cache-block-used"/>
+  <text x="420" y="237" text-anchor="middle" class="label">E</text>
+  <rect x="450" y="220" width="40" height="25" rx="2" class="cache-block-used"/>
+  <text x="470" y="237" text-anchor="middle" class="label">F</text>
+  <rect x="500" y="220" width="40" height="25" rx="2" class="cache-block-used"/>
+  <text x="520" y="237" text-anchor="middle" class="label">G</text>
+  <rect x="550" y="220" width="40" height="25" rx="2" class="cache-block-used"/>
+  <text x="570" y="237" text-anchor="middle" class="label">H</text>
+  
+  <!-- Capacity Miss Memory -->
+  <rect x="380" y="300" width="240" height="100" class="memory-container"/>
+  <rect x="395" y="305" width="210" height="25" class="text-bg"/>
+  <text x="500" y="322" text-anchor="middle">Memory</text>
+  
+  <rect x="390" y="335" width="220" height="55" rx="3" class="cache-set" opacity="0.5"/>
+  <rect x="400" y="345" width="40" height="25" rx="2" class="memory-block"/>
+  <text x="420" y="362" text-anchor="middle" class="label">I</text>
+  <rect x="450" y="345" width="40" height="25" rx="2" class="memory-block"/>
+  <text x="470" y="362" text-anchor="middle" class="label">J</text>
+  <rect x="500" y="345" width="40" height="25" rx="2" class="memory-block"/>
+  <text x="520" y="362" text-anchor="middle" class="label">K</text>
+  <rect x="550" y="345" width="40" height="25" rx="2" class="memory-block"/>
+  <text x="570" y="362" text-anchor="middle" class="label">L</text>
+  
+  <!-- Capacity Miss Arrows -->
+  <path d="M420 345 C420 310 420 280 420 245" class="arrow-miss"/>
+  <rect x="430" y="290" width="140" height="25" class="text-bg"/>
+  <text x="500" y="307" text-anchor="middle" class="highlight">Need to evict A for I</text>
+  
+  <path d="M410 220 C370 220 340 220 290 220" class="arrow" style="stroke-dasharray: 5,3;"/>
+  <rect x="300" y="200" width="80" height="25" class="text-bg"/>
+  <text x="340" y="217" text-anchor="middle" class="label">Evicted</text>
+  
+  <!-- Capacity Miss Explanation -->
+  <rect x="370" y="410" width="260" height="40" class="text-container"/>
+  <text x="390" y="425" class="summary-text">• Cache is full, must evict a block</text>
+  <text x="390" y="442" class="summary-text">• Limited by cache size</text>
+  
+  <!-- Conflict Miss Section -->
+  <rect x="670" y="80" width="280" height="380" class="miss-type-box"/>
+  <rect x="690" y="90" width="240" height="40" class="conflict-miss"/>
+  <rect x="705" y="95" width="210" height="30" class="text-bg"/>
+  <text x="810" y="115" class="section-title">Conflict Miss</text>
+  
+  <!-- Conflict Miss Cache -->
+  <rect x="690" y="140" width="240" height="130" class="cache-container"/>
+  <rect x="705" y="145" width="210" height="25" class="text-bg"/>
+  <text x="810" y="162" text-anchor="middle">Cache (Partially Filled)</text>
+  
+  <rect x="700" y="175" width="220" height="85" rx="3" class="cache-set"/>
+  <rect x="710" y="185" width="40" height="25" rx="2" class="cache-block-used"/>
+  <text x="730" y="202" text-anchor="middle" class="label">A</text>
+  <rect x="760" y="185" width="40" height="25" rx="2" class="cache-block"/>
+  <text x="780" y="202" text-anchor="middle" class="label">Empty</text>
+  <rect x="810" y="185" width="40" height="25" rx="2" class="cache-block-used"/>
+  <text x="830" y="202" text-anchor="middle" class="label">C</text>
+  <rect x="860" y="185" width="40" height="25" rx="2" class="cache-block"/>
+  <text x="880" y="202" text-anchor="middle" class="label">Empty</text>
+  <rect x="710" y="220" width="40" height="25" rx="2" class="cache-block-used"/>
+  <text x="730" y="237" text-anchor="middle" class="label">E</text>
+  <rect x="760" y="220" width="40" height="25" rx="2" class="cache-block"/>
+  <text x="780" y="237" text-anchor="middle" class="label">Empty</text>
+  <rect x="810" y="220" width="40" height="25" rx="2" class="cache-block"/>
+  <text x="830" y="237" text-anchor="middle" class="label">Empty</text>
+  <rect x="860" y="220" width="40" height="25" rx="2" class="cache-block"/>
+  <text x="880" y="237" text-anchor="middle" class="label">Empty</text>
+  
+  <!-- Conflict Miss Memory -->
+  <rect x="690" y="300" width="240" height="100" class="memory-container"/>
+  <rect x="705" y="305" width="210" height="25" class="text-bg"/>
+  <text x="810" y="322" text-anchor="middle">Memory</text>
+  
+  <rect x="700" y="335" width="220" height="55" rx="3" class="cache-set" opacity="0.5"/>
+  <rect x="710" y="345" width="40" height="25" rx="2" class="memory-block"/>
+  <text x="730" y="362" text-anchor="middle" class="label">I</text>
+  <rect x="760" y="345" width="40" height="25" rx="2" class="memory-block"/>
+  <text x="780" y="362" text-anchor="middle" class="label">J</text>
+  <rect x="810" y="345" width="40" height="25" rx="2" class="memory-block"/>
+  <text x="830" y="362" text-anchor="middle" class="label">K</text>
+  <rect x="860" y="345" width="40" height="25" rx="2" class="memory-block"/>
+  <text x="880" y="362" text-anchor="middle" class="label">L</text>
+  
+  <!-- Conflict Miss Index Mapping -->
+  <rect x="675" y="280" width="70" height="20" class="text-container"/>
+  <text x="710" y="294" text-anchor="middle" class="label">Index = 0</text>
+  
+  <path d="M710 280 L710 245" class="arrow" style="stroke: #666;"/>
+  <path d="M710 280 L710 345" class="arrow" style="stroke: #666;"/>
+  
+  <!-- Conflict Miss Arrows -->
+  <path d="M730 345 C730 310 730 270 730 210" class="arrow-miss"/>
+  <rect x="735" y="290" width="170" height="25" class="text-bg"/>
+  <text x="820" y="307" text-anchor="middle" class="highlight">I and A map to same location</text>
+  
+  <!-- Conflict Miss Explanation -->
+  <rect x="680" y="410" width="260" height="40" class="text-container"/>
+  <text x="700" y="425" class="summary-text">• Multiple blocks map to same location</text>
+  <text x="700" y="442" class="summary-text">• Cache not full but conflict occurs</text>
+  
+  <!-- Common Explanation Section -->
+  <rect x="50" y="480" width="900" height="200" class="miss-type-box"/>
+  <rect x="380" y="490" width="240" height="30" class="text-bg"/>
+  <text x="500" y="510" class="summary-title">Cache Miss Types: Key Characteristics</text>
+  
+  <!-- Cold Miss Summary -->
+  <rect x="70" y="530" width="260" height="130" class="cold-miss" opacity="0.7"/>
+  <rect x="85" y="535" width="230" height="120" class="text-container"/>
+  <text x="100" y="555" class="summary-title">Cold Miss</text>
+  <text x="100" y="575" class="summary-text">• First access to a memory block</text>
+  <text x="100" y="595" class="summary-text">• Unavoidable in normal operation</text>
+  <text x="100" y="615" class="summary-text">• Occurs even with infinite cache</text>
+  <text x="100" y="635" class="summary-text">• Solution: Prefetching</text>
+  
+  <!-- Capacity Miss Summary -->
+  <rect x="370" y="530" width="260" height="130" class="capacity-miss" opacity="0.7"/>
+  <rect x="385" y="535" width="230" height="120" class="text-container"/>
+  <text x="400" y="555" class="summary-title">Capacity Miss</text>
+  <text x="400" y="575" class="summary-text">• Cache is full and must evict</text>
+  <text x="400" y="595" class="summary-text">• Working set > cache size</text>
+  <text x="400" y="615" class="summary-text">• High temporal locality hurts less</text>
+  <text x="400" y="635" class="summary-text">• Solution: Larger cache, better policy</text>
+  
+  <!-- Conflict Miss Summary -->
+  <rect x="670" y="530" width="260" height="130" class="conflict-miss" opacity="0.7"/>
+  <rect x="685" y="535" width="230" height="120" class="text-container"/>
+  <text x="700" y="555" class="summary-title">Conflict Miss</text>
+  <text x="700" y="575" class="summary-text">• Multiple blocks map to same location</text>
+  <text x="700" y="595" class="summary-text">• Cache not full but conflict occurs</text>
+  <text x="700" y="615" class="summary-text">• Common in set-associative caches</text>
+  <text x="700" y="635" class="summary-text">• Solution: Higher associativity</text>
+</svg> 

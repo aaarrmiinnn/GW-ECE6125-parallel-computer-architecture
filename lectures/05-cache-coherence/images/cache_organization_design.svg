@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="1200" height="800" viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+  <!-- Styles -->
+  <style>
+    text { font-family: Arial, sans-serif; }
+    .title { font-size: 26px; font-weight: bold; text-anchor: middle; }
+    .section-title { font-size: 22px; font-weight: bold; text-anchor: middle; }
+    .direct-mapped { fill: #fff2cc; stroke: #ffcc00; stroke-width: 2; }
+    .set-associative { fill: #d1e7ff; stroke: #0066cc; stroke-width: 2; }
+    .fully-associative { fill: #d5f5d5; stroke: #339933; stroke-width: 2; }
+    .label { font-size: 16px; }
+    .arrow { stroke: #333; stroke-width: 1.5; fill: none; marker-end: url(#arrowhead); }
+    .memory-box { fill: #e6f3ff; stroke: #0066cc; stroke-width: 1; }
+    .cache-box { fill: #f5f5f5; stroke: #004065; stroke-width: 1; }
+    .tag { fill: #ffcccc; stroke: #ff6666; stroke-width: 1; }
+    .index { fill: #ccffcc; stroke: #66cc66; stroke-width: 1; }
+    .offset { fill: #e6ccff; stroke: #9966ff; stroke-width: 1; }
+    .text-bg { fill: white; stroke: #aaa; stroke-width: 1; }
+  </style>
+  
+  <!-- Arrow marker definition -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#333"/>
+    </marker>
+  </defs>
+  
+  <!-- Main Title -->
+  <rect x="300" y="20" width="600" height="40" fill="white" rx="5" ry="5"/>
+  <text x="600" y="48" class="title">Cache Organization Approaches</text>
+  
+  <!-- Direct-Mapped Cache -->
+  <rect x="60" y="80" width="320" height="270" class="direct-mapped" rx="10" ry="10"/>
+  <text x="220" y="115" class="section-title">Direct-Mapped Cache</text>
+  
+  <!-- Direct-Mapped Memory Address -->
+  <rect x="120" y="140" width="200" height="35" class="text-bg" rx="5" ry="5"/>
+  <rect x="120" y="140" width="100" height="35" class="tag"/>
+  <rect x="220" y="140" width="65" height="35" class="index"/>
+  <rect x="285" y="140" width="35" height="35" class="offset"/>
+  <text x="170" y="163" class="label">Tag</text>
+  <text x="252" y="163" class="label">Index</text>
+  <text x="302" y="163" class="label">Offset</text>
+  
+  <!-- Direct-Mapped Cache Structure -->
+  <rect x="100" y="195" width="240" height="125" class="cache-box" rx="5" ry="5"/>
+  <line x1="100" y1="225" x2="340" y2="225" stroke="#004065" stroke-width="1"/>
+  <text x="220" y="215" class="label" text-anchor="middle">Cache</text>
+  <rect x="110" y="235" width="90" height="25" class="tag"/>
+  <rect x="200" y="235" width="130" height="25" fill="white" stroke="#666" stroke-width="1"/>
+  <text x="155" y="252" class="label" text-anchor="middle">Tag</text>
+  <text x="265" y="252" class="label" text-anchor="middle">Data</text>
+  
+  <rect x="110" y="270" width="90" height="25" class="tag"/>
+  <rect x="200" y="270" width="130" height="25" fill="white" stroke="#666" stroke-width="1"/>
+  <rect x="110" y="305" width="90" height="25" class="tag"/>
+  <rect x="200" y="305" width="130" height="25" fill="white" stroke="#666" stroke-width="1"/>
+  
+  <!-- Direct-Mapped Description -->
+  <rect x="100" y="335" width="240" height="35" class="text-bg" rx="5" ry="5"/>
+  <text x="220" y="357" class="label" text-anchor="middle">One location per index</text>
+  
+  <!-- Set-Associative Cache -->
+  <rect x="440" y="80" width="320" height="270" class="set-associative" rx="10" ry="10"/>
+  <text x="600" y="115" class="section-title">Set-Associative Cache</text>
+  
+  <!-- Set-Associative Memory Address -->
+  <rect x="500" y="140" width="200" height="35" class="text-bg" rx="5" ry="5"/>
+  <rect x="500" y="140" width="100" height="35" class="tag"/>
+  <rect x="600" y="140" width="65" height="35" class="index"/>
+  <rect x="665" y="140" width="35" height="35" class="offset"/>
+  <text x="550" y="163" class="label">Tag</text>
+  <text x="632" y="163" class="label">Index</text>
+  <text x="682" y="163" class="label">Offset</text>
+  
+  <!-- Set-Associative Cache Structure -->
+  <rect x="480" y="195" width="240" height="125" class="cache-box" rx="5" ry="5"/>
+  <line x1="480" y1="225" x2="720" y2="225" stroke="#004065" stroke-width="1"/>
+  <text x="600" y="215" class="label" text-anchor="middle">Cache (2-way)</text>
+  
+  <rect x="490" y="235" width="45" height="25" class="tag"/>
+  <rect x="535" y="235" width="85" height="25" fill="white" stroke="#666" stroke-width="1"/>
+  <rect x="630" y="235" width="45" height="25" class="tag"/>
+  <rect x="675" y="235" width="85" height="25" fill="white" stroke="#666" stroke-width="1"/>
+  <text x="512" y="230" class="label" text-anchor="middle" font-size="12">Way 0</text>
+  <text x="652" y="230" class="label" text-anchor="middle" font-size="12">Way 1</text>
+  
+  <rect x="490" y="270" width="45" height="25" class="tag"/>
+  <rect x="535" y="270" width="85" height="25" fill="white" stroke="#666" stroke-width="1"/>
+  <rect x="630" y="270" width="45" height="25" class="tag"/>
+  <rect x="675" y="270" width="85" height="25" fill="white" stroke="#666" stroke-width="1"/>
+  
+  <rect x="490" y="305" width="45" height="25" class="tag"/>
+  <rect x="535" y="305" width="85" height="25" fill="white" stroke="#666" stroke-width="1"/>
+  <rect x="630" y="305" width="45" height="25" class="tag"/>
+  <rect x="675" y="305" width="85" height="25" fill="white" stroke="#666" stroke-width="1"/>
+  
+  <!-- Set-Associative Description -->
+  <rect x="480" y="335" width="240" height="35" class="text-bg" rx="5" ry="5"/>
+  <text x="600" y="357" class="label" text-anchor="middle">Multiple ways per index</text>
+  
+  <!-- Fully-Associative Cache -->
+  <rect x="820" y="80" width="320" height="270" class="fully-associative" rx="10" ry="10"/>
+  <text x="980" y="115" class="section-title">Fully-Associative Cache</text>
+  
+  <!-- Fully-Associative Memory Address -->
+  <rect x="880" y="140" width="200" height="35" class="text-bg" rx="5" ry="5"/>
+  <rect x="880" y="140" width="165" height="35" class="tag"/>
+  <rect x="1045" y="140" width="35" height="35" class="offset"/>
+  <text x="962" y="163" class="label">Tag</text>
+  <text x="1062" y="163" class="label">Offset</text>
+  
+  <!-- Fully-Associative Cache Structure -->
+  <rect x="860" y="195" width="240" height="125" class="cache-box" rx="5" ry="5"/>
+  <line x1="860" y1="225" x2="1100" y2="225" stroke="#004065" stroke-width="1"/>
+  <text x="980" y="215" class="label" text-anchor="middle">Cache</text>
+  
+  <rect x="870" y="235" width="110" height="25" class="tag"/>
+  <rect x="980" y="235" width="110" height="25" fill="white" stroke="#666" stroke-width="1"/>
+  <text x="925" y="252" class="label" text-anchor="middle">Tag</text>
+  <text x="1035" y="252" class="label" text-anchor="middle">Data</text>
+  
+  <rect x="870" y="270" width="110" height="25" class="tag"/>
+  <rect x="980" y="270" width="110" height="25" fill="white" stroke="#666" stroke-width="1"/>
+  
+  <rect x="870" y="305" width="110" height="25" class="tag"/>
+  <rect x="980" y="305" width="110" height="25" fill="white" stroke="#666" stroke-width="1"/>
+  
+  <!-- Fully-Associative Description -->
+  <rect x="860" y="335" width="240" height="35" class="text-bg" rx="5" ry="5"/>
+  <text x="980" y="357" class="label" text-anchor="middle">Any block can go anywhere</text>
+  
+  <!-- Comparison Table -->
+  <rect x="100" y="400" width="1000" height="350" fill="#f8f8f8" stroke="#aaa" stroke-width="2" rx="10" ry="10"/>
+  <text x="600" y="435" class="section-title">Cache Organization Comparison</text>
+  
+  <!-- Table headers -->
+  <rect x="150" y="460" width="250" height="35" fill="#e6e6e6" stroke="#999" stroke-width="1"/>
+  <rect x="400" y="460" width="200" height="35" fill="#e6e6e6" stroke="#999" stroke-width="1"/>
+  <rect x="600" y="460" width="200" height="35" fill="#e6e6e6" stroke="#999" stroke-width="1"/>
+  <rect x="800" y="460" width="200" height="35" fill="#e6e6e6" stroke="#999" stroke-width="1"/>
+  
+  <text x="275" y="483" class="label" font-weight="bold">Property</text>
+  <text x="500" y="483" class="label" font-weight="bold">Direct-Mapped</text>
+  <text x="700" y="483" class="label" font-weight="bold">Set-Associative</text>
+  <text x="900" y="483" class="label" font-weight="bold">Fully-Associative</text>
+  
+  <!-- Row 1: Hardware Complexity -->
+  <rect x="150" y="495" width="250" height="35" fill="white" stroke="#999" stroke-width="1"/>
+  <rect x="400" y="495" width="200" height="35" fill="white" stroke="#999" stroke-width="1"/>
+  <rect x="600" y="495" width="200" height="35" fill="white" stroke="#999" stroke-width="1"/>
+  <rect x="800" y="495" width="200" height="35" fill="white" stroke="#999" stroke-width="1"/>
+  
+  <text x="275" y="518" class="label">Hardware Complexity</text>
+  <text x="500" y="518" class="label">Low</text>
+  <text x="700" y="518" class="label">Medium</text>
+  <text x="900" y="518" class="label">High</text>
+  
+  <!-- Row 2: Hit Rate -->
+  <rect x="150" y="530" width="250" height="35" fill="white" stroke="#999" stroke-width="1"/>
+  <rect x="400" y="530" width="200" height="35" fill="white" stroke="#999" stroke-width="1"/>
+  <rect x="600" y="530" width="200" height="35" fill="white" stroke="#999" stroke-width="1"/>
+  <rect x="800" y="530" width="200" height="35" fill="white" stroke="#999" stroke-width="1"/>
+  
+  <text x="275" y="553" class="label">Hit Rate</text>
+  <text x="500" y="553" class="label">Lowest</text>
+  <text x="700" y="553" class="label">Medium</text>
+  <text x="900" y="553" class="label">Highest</text>
+  
+  <!-- Row 3: Power Usage -->
+  <rect x="150" y="565" width="250" height="35" fill="white" stroke="#999" stroke-width="1"/>
+  <rect x="400" y="565" width="200" height="35" fill="white" stroke="#999" stroke-width="1"/>
+  <rect x="600" y="565" width="200" height="35" fill="white" stroke="#999" stroke-width="1"/>
+  <rect x="800" y="565" width="200" height="35" fill="white" stroke="#999" stroke-width="1"/>
+  
+  <text x="275" y="588" class="label">Power Usage</text>
+  <text x="500" y="588" class="label">Low</text>
+  <text x="700" y="588" class="label">Medium</text>
+  <text x="900" y="588" class="label">High</text>
+  
+  <!-- Row 4: Lookup Speed -->
+  <rect x="150" y="600" width="250" height="35" fill="white" stroke="#999" stroke-width="1"/>
+  <rect x="400" y="600" width="200" height="35" fill="white" stroke="#999" stroke-width="1"/>
+  <rect x="600" y="600" width="200" height="35" fill="white" stroke="#999" stroke-width="1"/>
+  <rect x="800" y="600" width="200" height="35" fill="white" stroke="#999" stroke-width="1"/>
+  
+  <text x="275" y="623" class="label">Lookup Speed</text>
+  <text x="500" y="623" class="label">Fast</text>
+  <text x="700" y="623" class="label">Medium</text>
+  <text x="900" y="623" class="label">Slow</text>
+  
+  <!-- Row 5: Coherence Impact -->
+  <rect x="150" y="635" width="250" height="35" fill="white" stroke="#999" stroke-width="1"/>
+  <rect x="400" y="635" width="200" height="35" fill="white" stroke="#999" stroke-width="1"/>
+  <rect x="600" y="635" width="200" height="35" fill="white" stroke="#999" stroke-width="1"/>
+  <rect x="800" y="635" width="200" height="35" fill="white" stroke="#999" stroke-width="1"/>
+  
+  <text x="275" y="658" class="label">Coherence Impact</text>
+  <text x="500" y="658" class="label">Simplest</text>
+  <text x="700" y="658" class="label">Moderate</text>
+  <text x="900" y="658" class="label">Complex</text>
+  
+  <!-- Row 6: Typical Usage -->
+  <rect x="150" y="670" width="250" height="35" fill="white" stroke="#999" stroke-width="1"/>
+  <rect x="400" y="670" width="200" height="35" fill="white" stroke="#999" stroke-width="1"/>
+  <rect x="600" y="670" width="200" height="35" fill="white" stroke="#999" stroke-width="1"/>
+  <rect x="800" y="670" width="200" height="35" fill="white" stroke="#999" stroke-width="1"/>
+  
+  <text x="275" y="693" class="label">Typical Usage</text>
+  <text x="500" y="693" class="label">L1 instr. cache</text>
+  <text x="700" y="693" class="label">L1/L2 data cache</text>
+  <text x="900" y="693" class="label">TLBs, victim cache</text>
+  
+  <!-- Conclusion -->
+  <rect x="200" y="720" width="800" height="50" class="text-bg" rx="5" ry="5"/>
+  <text x="600" y="750" class="label" text-anchor="middle" font-style="italic">
+    Choice of cache organization is a fundamental design decision that impacts
+    both system performance and coherence protocol complexity.
+  </text>
+</svg> 

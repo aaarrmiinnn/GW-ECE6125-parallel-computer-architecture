@@ -15,6 +15,21 @@
 
 ---
 
+## Cache Coherence: Visual Explanation
+- In multiprocessor systems, **each processor has its own cache** to speed up memory access
+- **Problem arises** when multiple processors cache the same memory location
+
+![Basic cache coherence visualization showing step-by-step how inconsistency happens](images/basic_coherence_explained.svg)
+
+1. **Processor 1** reads X=0 from memory into its cache
+2. **Processor 2** also reads X=0 from memory into its cache
+3. **Processor 1** updates X=1 in its cache
+4. **Problem**: Processor 2 still sees X=0 (stale data!)
+
+Without coherence: Different processors see **different values** for the same memory location!
+
+---
+
 ## Why Cache Coherence Matters
 - Enables **correct execution** of parallel algorithms
 - Allows for **efficient parallel processing**
@@ -33,6 +48,179 @@
   - Performance implications
   - Modern implementations
 - **Learning outcomes**: Design and analyze cache coherence solutions
+
+---
+
+## Cache Fundamentals & Organization
+- Caches improve memory access performance
+- Key design considerations:
+  - Placement policy (where a block can be stored)
+  - Replacement policy (which block to evict)
+  - Write policy (how to handle writes)
+- Organization directly impacts coherence protocol design and efficiency
+
+---
+
+## Memory Address Structure
+
+- Memory addresses are typically divided into three parts:
+  - **Tag**: Identifies the actual memory block
+  - **Index**: Determines the set/location in cache
+  - **Offset**: Identifies the byte within the block
+- Different cache organizations use these fields differently
+
+---
+
+## Cache Organization Design
+- Different cache organization approaches impact coherence protocol efficiency
+- Design choices determine how memory addresses map to cache locations
+- Trade-offs between complexity, performance, and power usage
+
+---
+
+## Cache Organization Approaches
+
+![Cache Organization Design](images/cache_organization_design.svg)
+
+---
+
+## Cache Organization Design (Hardware View)
+
+![Cache Hardware Organization](images/cache_design_hardware.svg)
+
+---
+
+## Direct-Mapped Cache
+- Each memory address maps to exactly one cache location
+- **Simple indexing**: `index = (address >> offset_bits) & index_mask`
+- **Coherence implications**: Simpler tracking, but higher conflict rate
+- **Low hardware complexity**: Simple comparators and minimal state tracking
+- **Common uses**: L1 instruction caches, embedded systems
+
+---
+
+## Set-Associative Cache
+- Memory block can be placed in any way within the correct set
+- **Index calculation**: Same as direct-mapped
+- **Way selection**: Requires comparing tags within a set
+- **Coherence implications**: Balanced complexity and miss rate
+- **Common choice**: Most L1/L2 caches are N-way set associative (N=4-16)
+
+---
+
+## Fully-Associative Cache
+- Memory block can be placed anywhere in cache
+- **No index bits**: Entire address (minus offset) is tag
+- **Coherence implications**: Most complex tracking, best hit rate
+- **Expensive**: Requires parallel comparison of all tags
+- **Common uses**: TLBs, victim caches, small specialized caches
+
+---
+
+## Cache Organization and Coherence
+- **Direct-mapped**: Simplifies coherence but increases conflict misses
+- **Set-associative**: Balance between complexity and performance
+- **Fully-associative**: Best hit rate but most complex coherence tracking
+- **Coherence directories scale with associativity**
+- **Inclusive/exclusive policies** interact with organization choices
+
+---
+
+## Cache Miss Types
+- **Cache misses** directly impact system performance
+- Three fundamental types of cache misses (the "Three Cs"):
+  - **Cold misses**: First access to data
+  - **Capacity misses**: Cache is too small for working set
+  - **Conflict misses**: Multiple blocks map to same location
+- Each type has unique implications for coherence protocols
+
+---
+
+## Cache Miss Types Visualized
+
+![Types of Cache Misses](images/cache_miss_types.svg)
+
+---
+
+## Cold Misses
+- Occur on first access to a memory block
+- **Coherence impact**: May require coherence state initialization
+- Inevitable in any cache system
+- Amortized over program execution time
+
+---
+
+## Capacity Misses
+- Occur when cache cannot hold entire working set
+- **Coherence impact**: Eviction may require coherence actions (e.g., writebacks)
+- Larger caches or better replacement policies help reduce capacity misses
+
+---
+
+## Conflict Misses
+- Occur when multiple blocks map to the same cache location
+- Common in set-associative and direct-mapped caches
+- **Coherence impact**: Can cause "ping-ponging" of cache lines between processors
+- Higher associativity and improved mapping functions reduce conflict misses
+
+---
+
+## Cache Misses and Coherence Interactions
+- Coherence protocols increase the cost of certain misses
+- **Example**: A read miss in MESI requires invalidations of other cached copies
+- **Example**: Capacity misses in directory protocols may need directory updates
+- Optimized protocols aim to minimize coherence-related overheads for each miss type
+
+---
+
+## Cache Coherence - Problem Definition
+- **Definition**: A memory system is coherent if:
+  1. A read returns the most recently written value
+  2. Writes to the same location are serialized
+  3. Propagation of writes is eventually visible to all processors
+- **Challenges**: Performance, scalability, verification
+
+---
+
+## Coherence vs. Consistency
+- **Cache coherence**: Deals with the visibility of individual writes
+- **Memory consistency**: Defines ordering rules for multiple memory operations
+
+![Coherence vs. Consistency](images/coherence_vs_consistency.svg)
+
+---
+
+## Approaches to Cache Coherence
+- **Snooping protocols**: Use broadcast on a shared bus
+- **Directory-based protocols**: Use a centralized directory
+- **Hybrid approaches**: Combine elements of both
+
+![Coherence approaches comparison](images/coherence_approaches.svg)
+
+---
+
+## Cache Coherence Protocol States
+- **Basic states**: Modified, Shared, Invalid
+- **Extended states**: Exclusive, Owned, Forward
+- **State transitions**: Triggered by processor and bus events
+- **Design goals**: Minimize invalidations, reduce bus traffic
+
+---
+
+## MSI Protocol
+- **Modified (M)**: Cache has the only valid copy, which is dirty
+- **Shared (S)**: Cache has a clean copy, others may have it too
+- **Invalid (I)**: Cache does not have a valid copy
+- **Transitions**: Triggered by read, write, and bus operations
+
+![MSI State Diagram](images/msi_state_diagram.svg)
+
+---
+
+## MSI Protocol Example
+- Illustration of state transitions across multiple processors
+
+![MSI Protocol Example](images/msi_protocol_example.svg)
 
 ---
 
@@ -136,17 +324,6 @@
 
 ---
 
-## Coherence vs. Consistency
-- **Cache Coherence**: Ensures visibility of memory updates
-- **Memory Consistency**: Defines the order of memory operations
-- Coherence addresses the "what" of memory updates
-- Consistency addresses the "when" of memory updates
-- Both are required for correct parallel execution
-
-![Coherence vs consistency diagram](images/coherence_vs_consistency.svg)
-
----
-
 ## Coherence vs. Consistency - Detailed Example
 - **Program example**:
   ```
@@ -165,8 +342,6 @@
 - **Directory-based protocols**: Scalable for larger systems
 - **Software-based approaches**: Explicit coherence management in software
 - **Hybrid approaches**: Combining hardware and software techniques
-
-![Taxonomy of coherence approaches](images/coherence_approaches.svg)
 
 ---
 
@@ -245,6 +420,23 @@
 
 ---
 
+## Snooping vs. Directory-Based Coherence: Visual Comparison
+- Key differences in message flow and scaling properties
+
+![Visual comparison of snooping vs. directory protocol message flows](images/snooping_vs_directory.svg)
+
+| Aspect | Snooping Protocol | Directory Protocol |
+|--------|-------------------|-------------------|
+| **Message flow** | Broadcast to all processors | Point-to-point messages |
+| **Interconnect** | Shared bus (typically) | Any network topology |
+| **Scaling** | Limited (8-32 cores) | Better (hundreds of cores) |
+| **Latency** | Lower for small systems | Higher (multiple hops) |
+| **Typical use** | Single-socket CPUs | Multi-socket servers, large systems |
+
+- Example: Intel uses snooping within a socket, directory between sockets
+
+---
+
 ## Directory Organization
 - **Full-map directories**: One bit per processor per block
 - **Limited directories**: Track a limited number of sharers
@@ -292,6 +484,23 @@
 - Foundation for more complex protocols
 
 ![MSI state diagram](images/msi_state_diagram.svg)
+
+---
+
+## MSI Protocol in Action: Visual Example
+- Let's trace through a complete example with two processors and memory
+
+![MSI protocol execution example showing step-by-step state changes](images/msi_protocol_example.svg)
+
+| Step | Action | P1 Cache | P2 Cache | Memory | Bus Activity |
+|------|--------|----------|----------|--------|-------------|
+| 1 | Initial state | I | I | X=0 | None |
+| 2 | P1 reads X | S(0) | I | X=0 | Read X |
+| 3 | P2 reads X | S(0) | S(0) | X=0 | Read X |
+| 4 | P1 writes X=1 | M(1) | I | X=0 | Invalidate |
+| 5 | P2 reads X | S(1) | S(1) | X=1 | Read X, P1 provides data |
+
+- Note how coherence is maintained: P2 gets the updated value (X=1) in step 5
 
 ---
 
@@ -491,6 +700,26 @@
 
 ---
 
+## Protocol Performance: Visual Comparison
+
+![Performance comparison of different coherence protocols under various workloads](images/protocol_performance_comparison.svg)
+
+- **Protocol suitability by workload type:**
+  - **Compute-intensive**: MESI offers good balance (Intel cores)
+  - **Data sharing-intensive**: MOESI reduces memory traffic (AMD cores)
+  - **Read-intensive**: MESIF optimizes for shared reads (Intel server chips)
+  - **Write-intensive**: All protocols have similar overhead
+
+- **Real-world impact**:
+  - Database workloads: Up to 35% performance difference between protocols
+  - Scientific computing: 15-20% impact from protocol choice
+  - Web servers: 5-10% performance impact
+  - Graphics/AI: Highly dependent on sharing patterns (0-40%)
+
+- **Industry choices reflect workload optimization**
+
+---
+
 ## Snooping Protocol Implementation
 - **Bus-side interface**: Monitors all bus transactions
 - **Processor-side interface**: Handles processor requests
@@ -570,6 +799,34 @@
   - Thread-local storage for hot variables
   - Restructuring algorithms to improve access patterns
 - **Example code**: `struct { char data; char padding[63]; } aligned_data;`
+
+---
+
+## False Sharing: Code Example and Performance Impact
+
+![Performance comparison with and without false sharing](images/false_sharing_performance.svg)
+
+**Problem code (with false sharing):**
+```c
+// Shared array accessed by multiple threads
+int counter[8];  // Fits in one or two cache lines
+
+// Thread 0 continuously updates counter[0]
+// Thread 1 continuously updates counter[1]
+// and so on...
+```
+
+**Fixed code (padding eliminates false sharing):**
+```c
+// Each counter on its own cache line
+struct padded_counter {
+    int value;
+    char padding[60];  // Assuming 64-byte cache line
+};
+padded_counter counters[8];
+```
+
+- Real-world impact: **5-10x performance improvement** for heavily threaded code
 
 ---
 
@@ -662,6 +919,27 @@
 - **Selective coherence domains**: Not all components need full coherence
 - **Hardware-software co-design**: Some coherence managed in software
 - **Example**: Apple M1/M2 unified memory architecture
+
+---
+
+## Case Study: Apple M-Series SoC Cache Coherence
+
+![Apple M1/M2 SoC architecture highlighting coherence domains](images/apple_m_series_coherence.svg)
+
+- **Unified Memory Architecture (UMA)**: Single memory pool shared by CPU, GPU, Neural Engine
+- **Coherence implementation**:
+  - Hardware-managed coherence between all processors
+  - CPU cores: Enhanced MOESI protocol within a cluster
+  - Cross-cluster: Directory-based protocol
+  - CPU-GPU coherence: Special protocol to handle asymmetric access patterns
+
+- **Key innovations**:
+  - **Fabric design**: High-bandwidth, low-latency interconnect
+  - **Asymmetric coherence**: Different policies for different processor types
+  - **Intelligent prediction**: Usage pattern detection to optimize coherence traffic
+  - **Performance advantage**: Up to 2-3x efficiency over discrete memory systems
+
+- **Industry impact**: Showing the benefits of full hardware coherence in heterogeneous systems
 
 ---
 
@@ -830,3 +1108,95 @@
 10. Choi, B., Komuravelli, R., Sung, H., Smolinski, R., Honarmand, N., Adve, S. V., Adve, V. S., Ooi, N., & Ceze, L. (2011). DeNovo: Rethinking the Memory Hierarchy for Disciplined Parallelism. Proceedings of the 20th International Conference on Parallel Architectures and Compilation Techniques, 155-166.
 11. Bakhoda, A., Yuan, G. L., Fung, W. W., Wong, H., & Aamodt, T. M. (2009). Analyzing CUDA Workloads Using a Detailed GPU Simulator. Proceedings of the 2009 IEEE International Symposium on Performance Analysis of Systems and Software, 163-174.
 12. Zhao, H., Shriraman, A., Dwarkadas, S., & Snoeren, A. C. (2010). SPACE: Sharing Pattern-based Directory Coherence for Multicore Scalability. Proceedings of the 19th International Conference on Parallel Architectures and Compilation Techniques, 135-146.
+
+---
+
+## Understanding Cache Miss Types
+- Three primary types of cache misses impact performance
+- Each miss type has different implications for coherence protocols
+- Effective coherence solutions must address all miss types
+- Modern architectures use specialized techniques to reduce each type
+
+---
+
+## Cache Miss Types Explained
+
+![Cache miss types visual explanation](images/cache_miss_types.svg)
+
+---
+
+## Cold Misses
+- Also called **compulsory misses**
+- Occur on first access to a memory block
+- Unavoidable in normal operation
+- **Coherence impact**: Initial state of cache lines must be managed
+- Prefetching can help reduce cold misses
+
+---
+
+## Capacity Misses
+- Occur when cache is full and must evict a block
+- Limited by cache size and working set
+- **Coherence impact**: Eviction may require coherence actions (e.g., writebacks)
+- Larger caches or better replacement policies help reduce capacity misses
+
+---
+
+## Conflict Misses
+- Occur when multiple blocks map to the same cache location
+- Common in set-associative and direct-mapped caches
+- **Coherence impact**: Can cause "ping-ponging" of cache lines between processors
+- Higher associativity and improved mapping functions reduce conflict misses
+
+---
+
+## Cache Misses and Coherence Interactions
+- Coherence protocols increase the cost of certain misses
+- **Example**: A read miss in MESI requires invalidations of other cached copies
+- **Example**: Capacity misses in directory protocols may need directory updates
+- Optimized protocols aim to minimize coherence-related overheads for each miss type
+
+---
+
+## Optimizing for Cache Miss Types in Modern Systems
+- **Cold misses**: Aggressive prefetching, predictive fetch
+- **Capacity misses**: Multi-level cache hierarchies, victim caches
+- **Conflict misses**: Higher associativity, intelligent replacement
+- **Coherence optimizations**: Self-invalidation, selective invalidation, region-based tracking
+- **Software approaches**: Cache-oblivious algorithms, cache-aligned data structures
+
+---
+
+## Modern CPU Architecture: AMD Zen 4
+
+![AMD Zen 4 Architecture](images/modern_cpu_gpu_architecture.svg)
+
+---
+
+## Coherence in Modern Architectures
+- **Hierarchical approach**: Different protocols at different levels
+- **AMD Zen 4 Example**:
+  - MOESI protocol within Core Complex Die (CCD)
+  - Directory-based coherence between CCDs via Infinity Fabric
+  - Specialized coherence engines per core
+- Similar approaches in Intel, ARM, and NVIDIA architectures
+
+---
+
+## Modern Coherence Challenges
+- **Scale**: Managing coherence across dozens/hundreds of cores
+- **Heterogeneity**: Maintaining coherence between CPUs, GPUs, and accelerators
+- **Energy Efficiency**: Coherence protocols consume significant power
+- **Latency**: Coherence operations add to critical path
+- **Bandwidth**: Coherence traffic can saturate interconnects
+
+---
+
+## Optimizing for Cache Miss Types in Modern Systems
+- **Cold misses**: Aggressive prefetching, predictive fetch
+- **Capacity misses**: Multi-level cache hierarchies, victim caches
+- **Conflict misses**: Higher associativity, intelligent replacement
+- **Coherence optimizations**: Self-invalidation, selective invalidation, region-based tracking
+- **Software approaches**: Cache-oblivious algorithms, cache-aligned data structures
+
+---
