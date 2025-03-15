@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="1200" height="900" xmlns="http://www.w3.org/2000/svg">
+  <!-- MSI State Diagram with improved text placement and layout -->
+  
+  <!-- Background -->
+  <rect x="0" y="0" width="1200" height="900" fill="#f9f9f9"/>
+  
+  <!-- Arrow definition -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#000"/>
+    </marker>
+  </defs>
+  
+  <!-- Title -->
+  <rect x="300" y="40" width="600" height="80" rx="15" ry="15" fill="#f0f8ff" stroke="#0066cc" stroke-width="3" opacity="0.9"/>
+  <text x="600" y="80" font-family="Arial" font-size="32" text-anchor="middle" font-weight="bold">MSI Cache Coherence Protocol</text>
+  <text x="600" y="110" font-family="Arial" font-size="22" text-anchor="middle">State Transition Diagram</text>
+  
+  <!-- Background for states -->
+  <circle cx="600" cy="300" r="80" fill="#e6f7ff" stroke="#0066cc" stroke-width="3"/>
+  <circle cx="300" cy="600" r="80" fill="#e6f7ff" stroke="#0066cc" stroke-width="3"/>
+  <circle cx="900" cy="600" r="80" fill="#e6f7ff" stroke="#0066cc" stroke-width="3"/>
+  
+  <!-- State labels -->
+  <text x="600" y="300" font-family="Arial" font-size="40" text-anchor="middle" font-weight="bold">I</text>
+  <text x="600" y="330" font-family="Arial" font-size="20" text-anchor="middle">(Invalid)</text>
+  
+  <text x="300" y="600" font-family="Arial" font-size="40" text-anchor="middle" font-weight="bold">S</text>
+  <text x="300" y="630" font-family="Arial" font-size="20" text-anchor="middle">(Shared)</text>
+  
+  <text x="900" y="600" font-family="Arial" font-size="40" text-anchor="middle" font-weight="bold">M</text>
+  <text x="900" y="630" font-family="Arial" font-size="20" text-anchor="middle">(Modified)</text>
+  
+  <!-- Transition arrows with better positioning and curved paths -->
+  <!-- I to S -->
+  <path d="M535 355 C490 420, 440 480, 365 535" fill="none" stroke="#000" stroke-width="3" marker-end="url(#arrowhead)"/>
+  <rect x="410" y="420" width="100" height="30" rx="8" ry="8" fill="white" stroke="#0066cc" stroke-width="1.5" opacity="0.9"/>
+  <text x="460" y="442" font-family="Arial" font-size="18" text-anchor="middle">Read miss</text>
+  
+  <!-- I to M -->
+  <path d="M665 355 C710 420, 760 480, 835 535" fill="none" stroke="#000" stroke-width="3" marker-end="url(#arrowhead)"/>
+  <rect x="690" y="420" width="100" height="30" rx="8" ry="8" fill="white" stroke="#0066cc" stroke-width="1.5" opacity="0.9"/>
+  <text x="740" y="442" font-family="Arial" font-size="18" text-anchor="middle">Write miss</text>
+  
+  <!-- S to M path - curved above -->
+  <path d="M380 580 C480 520, 720 520, 820 580" fill="none" stroke="#000" stroke-width="3" marker-end="url(#arrowhead)"/>
+  <rect x="520" y="520" width="160" height="30" rx="8" ry="8" fill="white" stroke="#0066cc" stroke-width="1.5" opacity="0.9"/>
+  <text x="600" y="542" font-family="Arial" font-size="18" text-anchor="middle">Write hit / BusUpgr</text>
+  
+  <!-- M to S path - curved below -->
+  <path d="M820 620 C720 680, 480 680, 380 620" fill="none" stroke="#000" stroke-width="3" marker-end="url(#arrowhead)"/>
+  <rect x="480" y="650" width="240" height="30" rx="8" ry="8" fill="white" stroke="#0066cc" stroke-width="1.5" opacity="0.9"/>
+  <text x="600" y="672" font-family="Arial" font-size="18" text-anchor="middle">Read by other / BusRd</text>
+  
+  <!-- S to I - curved path -->
+  <path d="M350 530 C400 460, 470 400, 560 360" fill="none" stroke="#000" stroke-width="3" marker-end="url(#arrowhead)"/>
+  <rect x="380" y="450" width="140" height="30" rx="8" ry="8" fill="white" stroke="#0066cc" stroke-width="1.5" opacity="0.9"/>
+  <text x="450" y="472" font-family="Arial" font-size="18" text-anchor="middle">Write by other</text>
+  
+  <!-- M to I - curved path -->
+  <path d="M850 530 C800 460, 730 400, 640 360" fill="none" stroke="#000" stroke-width="3" marker-end="url(#arrowhead)"/>
+  <rect x="680" y="450" width="140" height="30" rx="8" ry="8" fill="white" stroke="#0066cc" stroke-width="1.5" opacity="0.9"/>
+  <text x="750" y="472" font-family="Arial" font-size="18" text-anchor="middle">Write by other</text>
+  
+  <!-- Legend box at bottom with better styling -->
+  <rect x="250" y="750" width="700" height="100" rx="15" ry="15" fill="#f0f8ff" stroke="#0066cc" stroke-width="2"/>
+  <text x="600" y="780" font-family="Arial" font-size="22" text-anchor="middle" font-weight="bold">MSI Protocol States:</text>
+  <text x="600" y="810" font-family="Arial" font-size="18" text-anchor="middle">I: Invalid - Cache line contains invalid data</text>
+  <text x="600" y="835" font-family="Arial" font-size="18" text-anchor="middle">S: Shared - Cache line contains valid, unmodified data</text>
+  <text x="600" y="860" font-family="Arial" font-size="18" text-anchor="middle">M: Modified - Cache line contains modified data</text>
+</svg> 

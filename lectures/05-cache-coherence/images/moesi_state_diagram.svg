@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="1200" height="900" xmlns="http://www.w3.org/2000/svg">
+  <!-- MOESI State Diagram with improved layout -->
+  
+  <!-- Background -->
+  <rect x="0" y="0" width="1200" height="900" fill="#f9f9f9"/>
+  
+  <!-- Title and Description -->
+  <rect x="200" y="40" width="800" height="90" rx="15" ry="15" fill="#f0f8ff" stroke="#0066cc" stroke-width="3" opacity="0.9"/>
+  <text x="600" y="85" font-family="Arial" font-size="36" text-anchor="middle" font-weight="bold">MOESI Cache Coherence Protocol</text>
+  <text x="600" y="120" font-family="Arial" font-size="20" text-anchor="middle" font-style="italic">State Transition Diagram</text>
+  
+  <!-- Arrow definition -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#000"/>
+    </marker>
+  </defs>
+  
+  <!-- States -->
+  <!-- Modified state -->
+  <circle cx="600" cy="250" r="75" fill="#ffcccc" stroke="#cc0000" stroke-width="3"/>
+  <text x="600" y="240" font-family="Arial" font-size="40" text-anchor="middle" font-weight="bold">M</text>
+  <text x="600" y="270" font-family="Arial" font-size="18" text-anchor="middle" font-style="italic">(Modified)</text>
+  
+  <!-- Owner state - highlighted as new -->
+  <circle cx="900" cy="400" r="75" fill="#ffffcc" stroke="#cc0000" stroke-width="3"/>
+  <circle cx="900" cy="400" r="85" fill="none" stroke="#cc0000" stroke-width="3" stroke-dasharray="8,4"/>
+  <text x="900" y="390" font-family="Arial" font-size="40" text-anchor="middle" font-weight="bold">O</text>
+  <text x="900" y="420" font-family="Arial" font-size="18" text-anchor="middle" font-style="italic">(Owned)</text>
+  
+  <!-- Exclusive state -->
+  <circle cx="300" cy="400" r="75" fill="#e6f7ff" stroke="#0066cc" stroke-width="3"/>
+  <circle cx="300" cy="400" r="85" fill="none" stroke="#0066cc" stroke-width="3" stroke-dasharray="8,4"/>
+  <text x="300" y="390" font-family="Arial" font-size="40" text-anchor="middle" font-weight="bold">E</text>
+  <text x="300" y="420" font-family="Arial" font-size="18" text-anchor="middle" font-style="italic">(Exclusive)</text>
+  
+  <!-- Shared state -->
+  <circle cx="600" cy="550" r="75" fill="#e6ffe6" stroke="#009900" stroke-width="3"/>
+  <text x="600" y="540" font-family="Arial" font-size="40" text-anchor="middle" font-weight="bold">S</text>
+  <text x="600" y="570" font-family="Arial" font-size="18" text-anchor="middle" font-style="italic">(Shared)</text>
+  
+  <!-- Invalid state -->
+  <circle cx="600" cy="700" r="75" fill="#e6e6e6" stroke="#666666" stroke-width="3"/>
+  <text x="600" y="690" font-family="Arial" font-size="40" text-anchor="middle" font-weight="bold">I</text>
+  <text x="600" y="720" font-family="Arial" font-size="18" text-anchor="middle" font-style="italic">(Invalid)</text>
+  
+  <!-- Transitions -->
+  <!-- M to O -->
+  <path d="M675 275 Q800 300 850 350" fill="none" stroke="#000" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <text x="775" y="310" font-family="Arial" font-size="16" text-anchor="middle" fill="#000">
+    <tspan x="775" dy="0">Read by other</tspan>
+    <tspan x="775" dy="20">(with ownership transfer)</tspan>
+  </text>
+  
+  <!-- M to S -->
+  <path d="M600 325 L600 475" fill="none" stroke="#000" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <text x="650" y="400" font-family="Arial" font-size="16" text-anchor="middle" fill="#000">
+    <tspan x="650" dy="0">Read by other</tspan>
+    <tspan x="650" dy="20">(without ownership)</tspan>
+  </text>
+  
+  <!-- M to I -->
+  <path d="M675 300 Q800 400 675 650" fill="none" stroke="#000" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <text x="750" y="475" font-family="Arial" font-size="16" text-anchor="middle" fill="#000">
+    <tspan x="750" dy="0">Replacement</tspan>
+    <tspan x="750" dy="20">or Invalidate</tspan>
+  </text>
+  
+  <!-- E to M -->
+  <path d="M350 350 Q450 250 525 250" fill="none" stroke="#000" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <text x="425" y="290" font-family="Arial" font-size="16" text-anchor="middle" fill="#000">
+    <tspan x="425" dy="0">Write hit</tspan>
+    <tspan x="425" dy="20">(silent transition)</tspan>
+  </text>
+  
+  <!-- E to S -->
+  <path d="M350 450 Q450 550 525 550" fill="none" stroke="#000" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <text x="425" y="525" font-family="Arial" font-size="16" text-anchor="middle" fill="#000">
+    <tspan x="425" dy="0">Read by other</tspan>
+  </text>
+  
+  <!-- E to I -->
+  <path d="M300 475 L300 650 Q300 690 525 700" fill="none" stroke="#000" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <text x="300" y="600" font-family="Arial" font-size="16" text-anchor="middle" fill="#000">
+    <tspan x="300" dy="0">Replacement</tspan>
+    <tspan x="300" dy="20">or Invalidate</tspan>
+  </text>
+  
+  <!-- S to M -->
+  <path d="M550 500 Q450 400 550 300" fill="none" stroke="#000" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <text x="475" y="400" font-family="Arial" font-size="16" text-anchor="middle" fill="#000">
+    <tspan x="475" dy="0">Write hit /</tspan>
+    <tspan x="475" dy="20">BusUpgr</tspan>
+  </text>
+  
+  <!-- S to I -->
+  <path d="M600 625 L600 625" fill="none" stroke="#000" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <text x="525" y="625" font-family="Arial" font-size="16" text-anchor="middle" fill="#000">
+    <tspan x="525" dy="0">Replacement</tspan>
+    <tspan x="525" dy="20">or Invalidate</tspan>
+  </text>
+  
+  <!-- O to M -->
+  <path d="M850 350 Q750 250 675 250" fill="none" stroke="#000" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <text x="775" y="260" font-family="Arial" font-size="16" text-anchor="middle" fill="#000">
+    <tspan x="775" dy="0">Write hit /</tspan>
+    <tspan x="775" dy="20">BusUpgr</tspan>
+  </text>
+  
+  <!-- O to S -->
+  <path d="M825 425 Q700 475 675 500" fill="none" stroke="#000" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <text x="750" y="455" font-family="Arial" font-size="16" text-anchor="middle" fill="#000">
+    <tspan x="750" dy="0">Read by other</tspan>
+  </text>
+  
+  <!-- O to I -->
+  <path d="M900 475 L900 650 Q900 700 675 700" fill="none" stroke="#000" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <text x="925" y="600" font-family="Arial" font-size="16" text-anchor="middle" fill="#000">
+    <tspan x="925" dy="0">Replacement</tspan>
+    <tspan x="925" dy="20">or Invalidate</tspan>
+  </text>
+  
+  <!-- I to M -->
+  <path d="M525 700 Q375 700 350 600 Q300 400 550 250" fill="none" stroke="#000" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <text x="375" y="675" font-family="Arial" font-size="16" text-anchor="middle" fill="#000">
+    <tspan x="375" dy="0">Write miss /</tspan>
+    <tspan x="375" dy="20">BusRdX</tspan>
+  </text>
+  
+  <!-- I to E -->
+  <path d="M525 700 Q450 650 350 475" fill="none" stroke="#000" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <text x="425" y="615" font-family="Arial" font-size="16" text-anchor="middle" fill="#000">
+    <tspan x="425" dy="0">Read miss</tspan>
+    <tspan x="425" dy="20">(no shared copies)</tspan>
+  </text>
+  
+  <!-- I to S -->
+  <path d="M600 625 L600 625" fill="none" stroke="#000" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <text x="675" y="625" font-family="Arial" font-size="16" text-anchor="middle" fill="#000">
+    <tspan x="675" dy="0">Read miss</tspan>
+    <tspan x="675" dy="20">(shared copies exist)</tspan>
+  </text>
+  
+  <!-- I to O -->
+  <path d="M675 700 Q900 700 900 475" fill="none" stroke="#000" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <text x="850" y="650" font-family="Arial" font-size="16" text-anchor="middle" fill="#000">
+    <tspan x="850" dy="0">Read miss</tspan>
+    <tspan x="850" dy="20">(with ownership transfer)</tspan>
+  </text>
+  
+  <!-- Legend -->
+  <rect x="100" y="750" width="1000" height="130" rx="15" ry="15" fill="#ffffff" stroke="#666666" stroke-width="2"/>
+  <text x="600" y="775" font-family="Arial" font-size="22" text-anchor="middle" font-weight="bold">MOESI Protocol States</text>
+  
+  <text x="200" y="810" font-family="Arial" font-size="18" text-anchor="middle" font-weight="bold">M</text>
+  <text x="300" y="810" font-family="Arial" font-size="16" text-anchor="start">Modified: Exclusive ownership, dirty, must write back</text>
+  
+  <text x="200" y="840" font-family="Arial" font-size="18" text-anchor="middle" font-weight="bold">O</text>
+  <text x="300" y="840" font-family="Arial" font-size="16" text-anchor="start">Owned: Shared ownership, dirty, responsible for memory update</text>
+  
+  <text x="200" y="870" font-family="Arial" font-size="18" text-anchor="middle" font-weight="bold">E</text>
+  <text x="300" y="870" font-family="Arial" font-size="16" text-anchor="start">Exclusive: Exclusive ownership, clean copy, consistent with memory</text>
+  
+  <text x="700" y="810" font-family="Arial" font-size="18" text-anchor="middle" font-weight="bold">S</text>
+  <text x="800" y="810" font-family="Arial" font-size="16" text-anchor="start">Shared: Multiple copies may exist, clean, read-only</text>
+  
+  <text x="700" y="840" font-family="Arial" font-size="18" text-anchor="middle" font-weight="bold">I</text>
+  <text x="800" y="840" font-family="Arial" font-size="16" text-anchor="start">Invalid: Cache line not present or invalid</text>
+  
+  <text x="600" y="870" font-family="Arial" font-size="16" text-anchor="middle" font-style="italic" fill="#cc0000">Key innovation: O state allows for dirty sharing without memory updates</text>
+</svg> 

@@ -48,32 +48,49 @@ To run the lecture series locally:
 
 ## Downloading Slides as PDF
 
-Each lecture presentation includes a "Download PDF" button in the bottom right corner. To save the slides as a PDF:
+Each lecture presentation includes a "Download PDF" button in the top right corner. To save the slides as a PDF:
 
 1. Click the "Download PDF" button
-2. A new tab will open with the print-optimized version of the slides
-3. Use your browser's print function (Ctrl/Cmd+P)
-4. Select "Save as PDF" as the destination
-5. Configure PDF settings as needed (landscape orientation recommended)
-6. Save the PDF
+2. When the print dialog opens, select "Save as PDF" as the destination
+3. Important print settings:
+   - Orientation: **Landscape**
+   - Margins: **None** or **Minimum**
+   - Scale: **100%**
+   - **Check "Background graphics"** to include diagrams and colors
+   - **Uncheck "Headers and footers"** to prevent blank pages
+4. Click "Save" to generate the PDF
+
+### Troubleshooting PDF Download Issues
+
+If you experience issues with the PDF export (such as blank pages between slides):
+
+1. **Use Chrome or Edge**: These browsers work best for PDF exports
+2. **Disable headers and footers**: This is critical to prevent blank pages
+3. **Set margins to none**: Minimizes whitespace in the output
+4. **Try printing sections**: If the full presentation has issues, try printing specific sections
+5. **Update your browser**: Older browser versions may have issues with the PDF export
 
 ## Repository Structure
 
 ```
 lecture-series/
-├── index.html                  # Main landing page
-├── css/                        # Stylesheets
-│   └── styles.css              # Main CSS file
-├── images/                     # Shared images (logos, etc.)
-│   ├── gw_monogram_2c.png      # GWU logo (light mode)
-│   └── gw_monogram_2c_rev.png  # GWU logo (dark mode)
-├── cache-coherence/            # Cache coherence lecture
-│   ├── index.html              # Lecture HTML
-│   ├── slides.md               # Lecture content in Markdown
-│   └── images/                 # Lecture-specific images
-│       └── *.svg               # Diagrams and illustrations
-├── start.sh                    # Script to start local server
-└── README.md                   # This file
+├── index.html                          # Main landing page
+├── css/                                # Stylesheets
+│   └── styles.css                      # Main CSS file
+├── images/                             # Shared images (logos, etc.)
+│   ├── gw_monogram_2c.png              # GWU logo (light mode)
+│   └── gw_monogram_2c_rev.png          # GWU logo (dark mode)
+├── lectures/                           # Lectures directory
+│   └── 05-cache-coherence/             # Cache coherence lecture
+│       ├── index.html                  # Lecture HTML
+│       ├── slides.md                   # Lecture content in Markdown
+│       └── images/                     # Lecture-specific images
+│           └── *.svg                   # Diagrams and illustrations
+├── .github/                            # GitHub configuration
+│   └── workflows/                      # GitHub Actions workflows
+│       └── deploy.yml                  # Automatic deployment config
+├── start.sh                            # Script to start local server
+└── README.md                           # This file
 ```
 
 ## Contributing
