@@ -60,6 +60,10 @@
   - *Time spent transferring data instead of computing results*
   - *Can become the dominant cost in distributed systems*
 
+---
+
+## Challenges in Parallel Programming (Cont.)
+
 - **Scalability**: Performance as processors increase
   - *Maintaining efficiency as you add more processors*
   - *Limited by serial portions and increasing communication costs*
@@ -145,7 +149,8 @@
   - Blur, sharpen, edge detection, color transformations
   - Each can be done in parallel across the image
 - **Speedup**: Nearly linear with processor count for embarrassingly parallel operations
-
+parallel-image-processing
+![Parallel Image Processing](images/parallel-image-processing.svg)
 ---
 
 ## The SPMD Model (Single Program Multiple Data)
@@ -202,80 +207,125 @@
 
 ## Choosing the Right Decomposition Strategy
 
+Decomposition is a critical design decision that determines how effectively a parallel program will scale and perform. Choosing the wrong strategy can lead to poor load balancing, excessive communication, or underutilized resources.
+
 - **Consider these factors**:
-  - Problem structure (data vs. function oriented)
-  - Data access patterns and dependencies
-  - Communication requirements
-  - Load balance
-  - Hardware architecture
+  - **Problem structure**: Is your problem naturally *data-centric* (e.g., matrix operations) or *task-centric* (e.g., different phases in a simulation)?
+  - **Data access patterns and dependencies**: Are data elements mostly independent, or do computations frequently need to communicate intermediate results?
+  - **Communication requirements**: How much data needs to be exchanged between tasks? Is minimizing communication critical to performance?
+  - **Load balance**: Can work be evenly distributed, or is there a risk of some processors being idle while others are overloaded?
+  - **Hardware architecture**: Does the system favor shared memory, distributed memory, or a hybrid model? What are the costs of communication and synchronization?
+
+---
+
+## Choosing the Right Decomposition Strategy (Cont.)
 
 - **Decision framework**:
-  - Highly regular data operations → Data decomposition
-  - Different computational phases → Task decomposition
-  - Complex, irregular dependencies → Task/data hybrid
-  - Streaming data → Pipeline decomposition
+  - **Highly regular data operations → Data decomposition**
+    - *Example*: Matrix multiplication, image processing.
+    - Each processor performs the same operation on different chunks of data.
+  - **Different computational phases → Task decomposition**
+    - *Example*: In a physics simulation, one phase may handle collision detection, another handles rendering.
+    - Best when the program can be divided into distinct, often heterogeneous tasks.
+  - **Complex, irregular dependencies → Task/data hybrid**
+    - *Example*: Graph processing, adaptive mesh refinement.
+    - Combine both data and task decomposition to balance irregular workloads and dependencies.
+  - **Streaming data → Pipeline decomposition**
+    - *Example*: Video encoding, data analytics pipelines.
+    - Different stages of processing operate concurrently, each working on different parts of the data stream.
 
 ---
 
 ## Example - Summing an Array
 
+Summing an array is a classic example to illustrate parallel decomposition and reduction.
+
 - **Serial sum**:
-  ```
+  ```python
   sum = 0
-  for i from 0 to n-1:
-    sum += array[i]
+  for i in range(0, n):
+      sum += array[i]
   ```
 
 - **Parallel sum**:
-  ```
-  // Each processor does this:
+  ```python
+  # Each processor computes a partial sum
   local_sum = 0
   for i in my_chunk:
-    local_sum += array[i]
+      local_sum += array[i]
   
-  // Then combine using tree reduction
+  # Combine local sums using a tree reduction
   global_sum = reduce_sum(local_sum)
   ```
 
-- **Tree reduction**: Logarithmic communication steps
-- **Speedup**: Can approach linear with enough data
+- **Tree reduction**:
+  - Combines partial sums in a logarithmic number of steps.
+  - Example: 8 processors → log₂(8) = 3 steps.
+  - Reduces communication time compared to a sequential combination.
+
+- **Speedup**:
+  - Near-linear speedup with enough data and processors.
+  - Performance depends on:
+    - Array size (more data = better speedup)
+    - Load balance (even work distribution)
+    - Reduction overhead (logarithmic, but non-zero)
 
 ---
 
 ## Decomposition in SPMD Programs
 
-- **Common approach**: Each processor handles a subset of the data
+- **Approach**:  
+  Each processor works on a subset of the data.
+
 - **Data division methods**:
-  - **Block division**: Contiguous chunks
-  - **Cyclic division**: Round-robin assignment
-  - **Block-cyclic**: Blocks in round-robin fashion
-- **Example: Vector addition in SPMD**
-  ```
-  function parallel_vector_add(A, B):
-    my_id = get_processor_id()
-    my_chunk = get_my_data_range(my_id, A.length)
-    
-    for i in my_chunk:
-      C[i] = A[i] + B[i]
+  - **Block**: Contiguous chunks  
+    (e.g., Processor 0 → elements 0–99)
+  - **Cyclic**: Round-robin assignment  
+    (e.g., Processor 0 → elements 0, 4, 8…)
+  - **Block-cyclic**: Blocks assigned round-robin  
+    (e.g., blocks of 4 elements distributed cyclically)
+
+- **Example: Vector addition (SPMD)**  
+  ```python
+  def parallel_vector_add(A, B, C):
+      my_id = get_processor_id()
+      my_chunk = get_my_data_range(my_id, len(A))
+      
+      for i in my_chunk:
+          C[i] = A[i] + B[i]
   ```
 
 ---
 
-## Decomposition Granularity: Fine vs. Coarse
+## Decomposition Granularity
 
-- **Fine-grained decomposition**:
-  - Many small tasks/data chunks
-  - Better load balancing
-  - Higher overhead (communication, management)
-  - Example: One matrix element per task
+### Fine-grained Decomposition
+- Many small tasks or data chunks  
+- **Advantages**:  
+  - Better load balancing  
+  - More flexibility in dynamic workloads  
+- **Disadvantages**:  
+  - Higher overhead (communication, synchronization, task management)  
+- **Example**:  
+  - One matrix **element** per task  
 
-- **Coarse-grained decomposition**:
-  - Fewer, larger tasks/data chunks
-  - Lower overhead
-  - Potential load imbalance
-  - Example: One matrix row per task
+---
 
-- **Optimal granularity**: Balance overhead vs. parallelism
+## Decomposition Granularity (Cont.)
+
+### Coarse-grained Decomposition
+- Fewer, larger tasks or data chunks  
+- **Advantages**:  
+  - Lower overhead  
+  - Less frequent communication and synchronization  
+- **Disadvantages**:  
+  - Potential load imbalance (some processors may finish early)  
+- **Example**:  
+  - One matrix **row** per task  
+
+### Optimal Granularity
+- Balance overhead and parallelism  
+- Goal: Maximize efficiency while minimizing management costs  
 
 ---
 
@@ -283,74 +333,127 @@
 
 ### Assigning Tasks to Processors
 
-- **Definition**: Mapping decomposed tasks to physical processors
-- **Considerations**:
-  - Processor capabilities (heterogeneous systems)
-  - Communication patterns and proximity
-  - Memory access patterns
-  - Load balance
+- **Definition**:  
+  Mapping decomposed tasks to physical processors.
 
-- **Assignment policy impacts**:
-  - Overall performance
-  - Resource utilization
-  - Communication overhead
+- **Considerations**:  
+  - Processor capabilities (heterogeneous systems)  
+  - Communication patterns and proximity  
+  - Memory access patterns  
+  - Load balance  
+
+---
+
+## 4. Assignment (Cont.)
+
+### Assignment Policy Impacts
+
+- **Overall performance**  
+- **Resource utilization**  
+- **Communication overhead**
+
+Assignment decisions affect how well parallel programs scale and perform.  
+Choosing the right mapping strategy can minimize communication costs and maximize processor efficiency.
 
 ---
 
 ## Static vs. Dynamic Assignment
 
-- **Static Assignment**:
-  - Tasks assigned at compile/start time
-  - Fixed throughout execution
-  - Low runtime overhead
-  - Works well for predictable, uniform workloads
-  - Examples: Regular domains in scientific computing
+### Static Assignment
+- Tasks assigned at **compile time** or **program start**  
+- Fixed assignment throughout execution  
+- **Low runtime overhead**  
+- Best for **predictable, uniform workloads**  
+- **Examples**:  
+  - Regular domain decomposition in scientific simulations  
+  - Matrix operations with even workload distribution  
 
-- **Dynamic Assignment**:
-  - Tasks assigned during execution
-  - Task queues, work stealing
-  - Better load balancing for irregular workloads
-  - Higher runtime overhead
-  - Examples: Graph algorithms, recursive divide-and-conquer
+---
+
+## Static vs. Dynamic Assignment (Cont.)
+
+### Dynamic Assignment
+- Tasks assigned **during execution**  
+- Uses **task queues** or **work stealing**  
+- **Better load balancing** for irregular or unpredictable workloads  
+- **Higher runtime overhead** due to scheduling and coordination  
+- **Examples**:  
+  - Graph algorithms with variable node processing times  
+  - Recursive divide-and-conquer algorithms (e.g., parallel quicksort)
 
 ---
 
 ## Load Balancing: Ensuring Equal Workload
 
-- **Goal**: Equal computation on all processors
-- **Challenges**:
-  - Unpredictable task durations
-  - Heterogeneous processor capabilities
-  - Dynamic workloads
+### Goal
+- Distribute computation **equally** across all processors  
+- Minimize idle time to maximize resource utilization  
 
-- **Techniques**:
-  - **Work stealing**: Idle processors take work from busy ones
-  - **Task queues**: Centralized or distributed queues of pending tasks
-  - **Over-decomposition**: More tasks than processors
-  - **Self-scheduling**: Processors request work as they become available
+### Challenges
+- **Unpredictable task durations**  
+- **Heterogeneous processor capabilities**  
+- **Dynamic and irregular workloads**  
+
+---
+
+## Load Balancing: Ensuring Equal Workload (Cont.)
+
+### Techniques
+- **Work stealing**  
+  - Idle processors take tasks from busy processors  
+- **Task queues**  
+  - Centralized or distributed queues manage pending tasks  
+- **Over-decomposition**  
+  - Break work into more tasks than processors to improve flexibility  
+- **Self-scheduling**  
+  - Processors request new work as they become available  
 
 ---
 
 ## Load Balancing Strategies
 
-- **Static load balancing**:
-  - Predetermined task distribution before execution
-  - Block distribution: consecutive chunks to each process
-  - Cyclic distribution: interleaved assignment (round-robin)
-  - Good for homogeneous tasks/processors
-  - Simple implementation with low overhead
+### Static Load Balancing
+- Task distribution is **predetermined** before execution  
+- Low runtime overhead  
+- Best for **homogeneous tasks** and **predictable workloads**  
 
-- **Dynamic load balancing**:
-  - Tasks assigned during runtime as processors become available
-  - Work stealing: idle processors take work from busy ones
-  - Centralized queue: central task pool for all processors
-  - Better for irregular workloads and heterogeneous systems
-  - Adds runtime overhead but improves resource utilization
+#### Examples:
+- **Block distribution**  
+  - Consecutive chunks of tasks assigned to each processor  
+  - Example: Processor 0 → tasks 0–99, Processor 1 → tasks 100–199  
+- **Cyclic distribution**  
+  - Tasks are assigned in a **round-robin** fashion  
+  - Example: Processor 0 → tasks 0, 4, 8...  
+    Processor 1 → tasks 1, 5, 9...  
+  - Useful when **task execution times vary**, as it balances load more evenly  
+  - **Disadvantage**: Poor data locality, may increase communication overhead  
 
-- **Hybrid approaches**:
-  - Combine static initial distribution with dynamic adjustments
-  - Hierarchical strategies for different architecture levels
-  - Example: static distribution between nodes, dynamic within nodes
+---
+
+## Load Balancing Strategies (Cont.)
+
+### Dynamic Load Balancing
+- Tasks assigned **at runtime** as processors become available  
+- Best for **irregular workloads** and **heterogeneous systems**  
+- Adds **runtime overhead**, but improves resource utilization  
+
+#### Techniques:
+- **Work stealing**  
+  - Idle processors take tasks from busy processors  
+- **Centralized task queues**  
+  - All processors pull work from a common task pool  
+
+---
+
+## Load Balancing Strategies (Cont.)
+
+### Hybrid Approaches
+- Combine **static** and **dynamic** techniques  
+- Useful for **large-scale, hierarchical systems**  
+
+#### Example:
+- **Static distribution** across nodes (e.g., block distribution)  
+- **Dynamic load balancing** within nodes (e.g., work stealing)  
 
 ![Load Balancing Strategies](images/load_balancing_strategies.svg)
 
@@ -358,37 +461,51 @@
 
 ## Mapping Data to Processors in Data Parallelism
 
-- **Block distribution**:
-  - Contiguous chunks of data to each processor
-  - Good spatial locality
-  - Simple indexing
+### Block Distribution
+- Contiguous chunks assigned to each processor  
+- **Pros**: Good locality, simple indexing  
+- **Example**:  
+  - Processor 0 → elements 0–99  
+  - Processor 1 → elements 100–199  
 
-- **Cyclic distribution**:
-  - Round-robin assignment
-  - Better load balancing for non-uniform workloads
-  - More complex indexing
 
-- **Block-cyclic distribution**:
-  - Blocks assigned in round-robin fashion
-  - Balance between locality and load balancing
-  - Used in scientific libraries (ScaLAPACK)
+### Cyclic Distribution
+- Assign elements round-robin  
+- **Pros**: Better load balance with irregular workloads  
+- **Cons**: Poor locality, complex indexing  
+- **Example**:  
+  - Processor 0 → elements 0, 4, 8...  
+  - Processor 1 → elements 1, 5, 9...  
+
+
+### Block-Cyclic Distribution
+- Blocks assigned in round-robin fashion  
+- Balances locality and load balancing  
+- Common in **ScaLAPACK**
+
+---
+
+## Mapping Data to Processors in Data Parallelism (Cont.)
+
+### Parallel Quicksort
+
+1. **Select pivot**  
+   - Partition point; splits data into two groups  
+2. **Partition in parallel**  
+   - Elements reorganized into subarrays  
+3. **Recursively sort in parallel**  
+   - Subarrays sorted independently  
+
+
+### Assignment Strategies
+- Fixed processors per subarray (static)  
+- Dynamic reassignment to larger subarrays  
+- Work stealing for better load balance  
+- Over-decomposition: more tasks than processors  
 
 ---
 
-## Example - Work Assignment in Parallel Sorting
 
-- **Parallel quicksort approach**:
-  1. Select pivot
-  2. Partition elements in parallel
-  3. Recursively sort subarrays in parallel
-
-- **Assignment strategies**:
-  - Fixed processors per subarray (static)
-  - Dynamic processor reassignment to larger subarrays
-  - Work stealing for load balancing
-  - Over-decomposition: create more subtasks than processors
-
----
 
 ## Granularity Revisited: Impact on Assignment
 
@@ -425,153 +542,289 @@
   - Balance parallelism and coordination
   - Select appropriate communication patterns
 
+![Orchesteration](images/parallel-orchestration.svg)
+
 ---
 
 ## Coordination Between Parallel Tasks
 
-- **Types of dependencies**:
-  - **Data dependencies**: Output from one task needed by another
-    - *Occurs when one task produces data that another task requires*
-    - *Example: Task B needs results computed by Task A to proceed*
-  
-  - **Control dependencies**: Task ordering requirements
-    - *One task must complete before another can begin regardless of data*
-    - *Example: Initialization must complete before main processing starts*
-  
-  - **Resource dependencies**: Access to shared resources
-    - *Multiple tasks need access to the same limited resource*
-    - *Example: Multiple threads writing to the same file or network connection*
+### Types of Dependencies
 
-- **Coordination mechanisms**:
-  - **Barriers**:
-    - *Force all threads/processes to wait until everyone reaches the barrier*
-    - *Synchronizes all participating tasks at a specific point in execution*
-    - *Useful for phase-based algorithms where all tasks must complete a phase before any can proceed*
-  
-  - **Locks/semaphores**:
-    - *Locks (mutexes): Allow only one thread to access a resource at a time*
-    - *Semaphores: Control access to a limited number of resources (counting semaphores)*
-    - *Protect critical sections from concurrent access to prevent data corruption*
-  
-  - **Message passing**:
-    - *Tasks explicitly send/receive data between each other*
-    - *Synchronization is implicit in the communication (e.g., blocking receive)*
-    - *Primary coordination mechanism in distributed memory systems (MPI)*
-  
-  - **Futures/promises**:
-    - *Placeholders for values that will be computed asynchronously*
-    - *Allow tasks to continue until they actually need the result*
-    - *Example: Task A computes value X while Task B works on other things, then waits for X only when needed*
-  
-  - **Atomic operations**:
-    - *Hardware-supported indivisible operations that cannot be interrupted*
-    - *Examples: atomic increment, compare-and-swap, test-and-set*
-    - *Useful for simple shared data updates without the overhead of locks*
+- **Data dependencies**  
+  - One task produces data another needs  
+  - *Example*: Task B waits for Task A’s result  
+
+- **Control dependencies**  
+  - Task order matters, even if no data is shared  
+  - *Example*: Initialization must finish before processing starts  
+
+- **Resource dependencies**  
+  - Tasks need access to shared resources  
+  - *Example*: Multiple threads writing to the same file  
+
+---
+
+## Coordination Between Parallel Tasks (Cont.)
+
+### Coordination Mechanisms
+
+- **Barriers**  
+  - All tasks wait until every task reaches the barrier  
+  - Useful for phase-based algorithms  
+
+- **Locks / Semaphores**  
+  - **Locks (mutexes)**: One thread at a time in a critical section  
+  - **Semaphores**:  
+    - Counting mechanism controlling access to **N** identical resources  
+    - *Example*: Limit 3 threads accessing a database connection pool  
+    - Can also be used to **signal** between tasks (producer-consumer patterns)  
+
+- **Message Passing**  
+  - Tasks exchange data explicitly (e.g., MPI)  
+  - Synchronization happens during send/receive  
+
+- **Futures / Promises**  
+  - Placeholders for values computed asynchronously  
+  - Tasks continue until they need the result  
+
+- **Atomic Operations**  
+  - Hardware-supported, indivisible updates to shared variables  
+  - *Examples*:  
+    - **Atomic increment**: Safely increase a counter  
+    - **Compare-and-swap (CAS)**: Change a value only if it matches an expected one  
+  - Useful for **lock-free programming**:  
+    - Lower overhead  
+    - Reduced risk of deadlock  
+    - Ideal for simple updates (counters, flags)  
 
 ---
 
 ## Synchronization: Why It's Needed
 
-- **Purpose**:
-  - Protect shared data
-  - Enforce ordering constraints
-  - Ensure task completion
-  - Coordinate shared resource access
+### Purpose
+- **Protect shared data**  
+  - Prevent race conditions and data corruption  
+- **Enforce ordering constraints**  
+  - Ensure operations happen in the correct sequence  
+- **Ensure task completion**  
+  - Wait for other tasks to finish before proceeding  
+- **Coordinate shared resource access**  
+  - Manage access to files, memory, network, etc.
 
-- **Common situations requiring synchronization**:
-  - Shared variable updates
-  - Producer-consumer relationships
-  - Critical sections
-  - Data aggregation points
+---
+
+## Synchronization: Why It's Needed (Cont.)
+
+### Common Situations Requiring Synchronization
+
+- **Shared variable updates**  
+  - Example: Incrementing a shared counter for task completion tracking  
+
+- **Producer-consumer relationships**  
+  - Example: One thread adds tasks to a queue, another processes them  
+
+- **Critical sections**  
+  - Example:  
+    Multiple threads writing to a **shared log file**  
+    - If not synchronized, log messages can be interleaved and corrupted  
+    - Critical section ensures only one thread writes at a time  
+
+- **Data aggregation points**  
+  - Example: Combining partial sums into a shared result in a parallel reduction  
 
 ---
 
 ## Race Conditions: What Can Go Wrong
 
-- **Definition**: Outcome depends on relative timing of operations
-- **Common causes**:
-  - Unprotected shared data access
-  - Missing synchronization
-  - Incorrect locking protocols
+### Definition
+- A race condition occurs when the **outcome** of a program depends on the **timing** or **interleaving** of operations between threads or processes.
 
-- **Example: Shared counter**:
-  ```
-  // Incorrect parallel increment
-  counter++;  // Actually: load, increment, store
-  
-  // Correct version
-  atomic_increment(counter);  // Or use locks
-  ```
+### Common Causes
+- **Unprotected access** to shared data  
+- **Missing synchronization** (no locks or coordination)  
+- **Incorrect use of locking protocols** (deadlocks, improper releases)
 
-- **Consequences**: Incorrect results, data corruption, system crashes
+---
+
+## Race Conditions: What Can Go Wrong (Cont.)
+
+### Example – Shared Counter Problem
+
+```c
+// Incorrect parallel increment (race condition)
+counter++;  // Actually three steps: load, increment, store
+```
+
+- Multiple threads can read the same value and overwrite each other.  
+- Final counter value will be wrong.
+
+### Correct Approaches
+
+```c
+// Use atomic operation
+atomic_increment(counter);
+
+// Or use a lock
+lock(mutex);
+counter++;
+unlock(mutex);
+```
+
+### Consequences
+- Incorrect results  
+- Data corruption  
+- Crashes or undefined behavior  
 
 ---
 
 ## Synchronization Tools
 
-- **Locks**:
-  - Mutex: Exclusive access to a resource
-    - *A mutual exclusion (mutex) lock ensures only one thread can enter a critical section at a time*
-    - *Thread must acquire the lock before entering protected code and release it when done*
-    - *Other threads attempting to acquire the lock will wait (block) until it's available*
-  
-  - Reader-writer locks: Multiple readers, exclusive writers
-    - *Allow concurrent read access but exclusive write access*
-    - *Useful when reads are frequent but writes are rare*
-    - *Example: Database systems where many queries read data but few update it*
+### Locks
 
-- **Semaphores**:
-  - Control access to a finite number of resources
-    - *A counting mechanism that restricts access to a specified number of threads*
-    - *Binary semaphore (value 0 or 1) is similar to a mutex*
-    - *Counting semaphore can allow multiple threads (up to a limit) to access a resource*
-  
-  - Signal between threads/processes
-    - *Used for producer-consumer problems and thread synchronization*
-    - *Producer increases count, consumer decreases count*
-    - *Can block when resources are unavailable (count = 0)*
+- **Mutex (Mutual Exclusion)**  
+  - Ensures **exclusive access** to a critical section  
+  - One thread at a time; others wait until the lock is released  
+  - Simple but can lead to contention if overused  
 
-- **Barriers**:
-  - Force all threads to wait at a specific point
-    - *A barrier blocks threads until a specified number have reached the barrier*
-    - *Creates a synchronization point in parallel algorithms*
-    - *Example: In an iterative solver, all threads must complete iteration N before any can start iteration N+1*
-  
-  - Continue only when all threads arrive
-    - *Ensures all threads are at the same logical point in the program*
-    - *Prevents threads from getting too far ahead or behind*
-    - *Implementation: counter with a mutex and condition variable*
+- **Reader-Writer Locks**  
+  - Multiple readers allowed concurrently  
+  - Writers require exclusive access  
+  - Good when **reads are frequent** and **writes are rare**  
+  - Example: Database with many read queries and few updates  
 
-- **Atomic operations**:
-  - Hardware-supported indivisible operations
-    - *Operations that complete in a single, uninterruptible step*
-    - *Guaranteed to be executed without interference from other threads*
-    - *Much more efficient than using locks for simple operations*
-  
-  - Compare-and-swap, fetch-and-add, etc.
-    - *Compare-and-swap (CAS): Atomically compare and change a value if it matches expected value*
-    - *Fetch-and-add: Atomically increment a value and return the original value*
-    - *Used to implement lock-free data structures and algorithms*
+---
+
+## Synchronization Tools (Cont.)
+
+### Semaphores
+
+- Control access to **multiple identical resources**  
+  - Binary semaphore (0 or 1): Like a mutex  
+  - Counting semaphore: Allows up to N concurrent accesses  
+
+- Common for **producer-consumer** synchronization  
+  - Producer increments the count  
+  - Consumer decrements the count  
+  - Consumers block when count = 0 (no items to consume)  
+
+### Barriers
+
+- Forces all threads to wait at a **synchronization point**  
+- Used to **coordinate phases** in parallel algorithms  
+  - Example: Iterative solver; all threads finish iteration N before N+1 starts  
+
+---
+
+## Synchronization Tools (Cont.)
+
+### Atomic Operations
+
+- **Hardware-supported**, indivisible instructions  
+- No locks required; safe from interference by other threads  
+- **Efficient** for simple shared data updates  
+
+#### Example: Atomic Counter Increment
+```c
+// Non-atomic (not safe)
+counter = counter + 1;
+
+// Atomic (safe)
+atomic_fetch_add(&counter, 1);
+```
+- Guarantees **no two threads** update the counter at the same time  
+- Eliminates the risk of **race conditions**
+
+### Deadlocks (What to Avoid)
+- **Deadlock** happens when two or more threads **wait forever** for each other’s locks  
+- Example:  
+  - Thread A holds Lock 1, waiting for Lock 2  
+  - Thread B holds Lock 2, waiting for Lock 1  
+- Causes programs to hang; no thread can proceed  
+![Atomic Operations](images/atomic-operations.svg)
+
+---
+
+## Shared vs. Distributed Memory Architectures
+![Shared vs Distributed Memory](images/shared_vs_dist_mem.svg)
 
 ---
 
 ## Shared vs. Distributed Memory Architectures
 
-- **Shared memory**:
-  - All processors access same address space
-  - Direct read/write to shared variables
-  - Synchronization via locks, atomics
+### Shared Memory
+- **Single address space** shared by all processors  
+- Processors **directly read/write** shared variables  
+- **Synchronization** through locks, semaphores, or atomic operations  
 
-- **Distributed memory**:
-  - Each processor has private memory
-  - Communication through explicit messages
-  - Synchronization via message passing
+#### Example (Chapel)
+```chapel
+// Shared array across all threads
+var A: [1..10] int;
 
-- **Hybrid systems**:
-  - Shared memory within nodes
-  - Distributed memory across nodes
+// Parallel update (shared memory)
+forall i in A.domain do
+  A[i] = i * 2;
+```
+- `A.domain` refers to the index set of array `A`  
+- This example runs in parallel with **shared access** to `A`
+
+- **Advantages**  
+  - Easier to program (no explicit communication)  
+  - Fast communication via shared memory  
+
+- **Challenges**  
+  - Scalability limited by memory bandwidth  
+  - Risk of contention and race conditions  
 
 ---
+
+## Shared vs. Distributed Memory Architectures (Cont.)
+
+### Distributed Memory
+- Each processor has its **own private memory**  
+- Communication happens via **explicit message passing** (e.g., MPI)  
+- Synchronization through **message coordination**
+
+#### Example (MPI-style pseudocode)
+```c
+// Each process computes a local result
+local_A = compute_local_chunk();
+
+// Send local results to process 0
+MPI_Gather(local_A, global_A, root=0);
+```
+
+- **Advantages**  
+  - Scales well across many nodes  
+  - Clear data ownership  
+
+- **Challenges**  
+  - Requires explicit communication  
+  - Higher latency and programming complexity  
+
+---
+
+## Hybrid Memory Architectures
+
+### Hybrid Systems
+- Combine **shared memory** (within nodes) and **distributed memory** (across nodes)  
+- Typical in modern clusters and supercomputers  
+
+#### Example: MPI + OpenMP  
+- MPI distributes work across nodes  
+- OpenMP runs threads on shared-memory within a node  
+
+- **Advantages**  
+  - Good **performance** and **scalability**  
+  - Matches hierarchical hardware architectures  
+
+- **Challenges**  
+  - More complex programming  
+  - Careful tuning needed for optimal performance  
+
+---
+
+
 
 ## Orchestration in SPMD and Data Parallel Systems
 
@@ -598,87 +851,116 @@
 
 ### Communication in Parallel Programs
 
-- **Purpose**: Exchange data between parallel tasks
-- **Types of communication**:
-  - **Point-to-point**: Direct exchange between two tasks
-    - *Communication occurs directly between a sender and a receiver*
-    - *Examples: MPI_Send/MPI_Recv in MPI, direct message passing*
-    - *Can be synchronous (blocking) or asynchronous (non-blocking)*
-    - *Useful for nearest-neighbor communication patterns*
-  
-  - **Collective**: Coordinated among multiple tasks
-    - *Operations involving a group of processes/threads*
-    - *Examples: broadcast, gather, scatter, reduce, alltoall*
-    - *More efficient than multiple point-to-point communications*
-    - *Often optimized with tree-based or other advanced algorithms*
-  
-  - **One-sided**: Remote memory access
-    - *One process directly accesses memory of another without its participation*
-    - *Examples: MPI_Put, MPI_Get, PGAS operations*
-    - *Can reduce synchronization overhead*
-    - *Requires special hardware/software support*
+#### Purpose
+- Exchange data between parallel tasks  
+- Enable coordination and data sharing  
 
-- **Performance considerations**:
-  - **Latency**: Time to initiate transfer
-    - *Fixed overhead to start a communication*
-    - *Dominates performance for small messages*
-  
-  - **Bandwidth**: Data volume per time
-    - *Maximum rate at which data can be transferred*
-    - *Dominates performance for large messages*
-  
-  - **Contention**: Multiple tasks communicating simultaneously
-    - *When communication channels become congested*
-    - *Reduces effective bandwidth and increases latency*
+#### Types of Communication
+- **Point-to-Point**  
+  - Direct exchange between two tasks  
+  - Examples: `MPI_Send`, `MPI_Recv`  
+  - Can be **blocking** (synchronous) or **non-blocking** (asynchronous)  
+  - Common in **nearest-neighbor** communication  
+
+- **Collective**  
+  - Involves a group of tasks working together  
+  - Examples: broadcast, scatter, gather, reduce, all-to-all  
+  - Often more **efficient** than multiple point-to-point operations  
+  - Optimized with **tree-based algorithms** in libraries like MPI  
+
+---
+
+## 6. Communication (Cont.)
+
+#### Types of Communication (Cont.)
+- **One-Sided Communication**  
+  - Direct remote memory access (RMA) without explicit participation by the target  
+  - Examples: `MPI_Put`, `MPI_Get`, PGAS models (like Chapel)  
+  - Reduces synchronization overhead  
+  - Requires hardware/software support  
+
+#### Performance Considerations
+- **Latency**  
+  - Time to initiate a communication  
+  - Dominates small messages  
+- **Bandwidth**  
+  - Data transfer rate (bytes per second)  
+  - Dominates large messages  
+- **Contention**  
+  - Congestion from multiple tasks communicating at once  
+  - Lowers effective bandwidth and increases latency  
 
 ---
 
 ## Shared Memory Communication
 
-- **Mechanism**: Direct read/write to shared variables
-- **Advantages**:
-  - Simple programming model
-  - Low latency
-  - Zero-copy data exchange
+### Mechanism
+- Direct **read/write** access to shared variables  
+- All threads/processes operate in a **common address space**  
 
-- **Challenges**:
-  - Cache coherence overhead
-  - Synchronization required
-  - Limited scalability
-  - False sharing
+### Advantages
+- Simple programming model (easy to understand and implement)  
+- **Low latency** data exchange  
+- **Zero-copy**: No need to explicitly transfer data  
 
-- **OpenMP example**:
-  ```c
-  #pragma omp parallel shared(result)
-  {
-    // All threads read/write to shared variable
+---
+
+## Shared Memory Communication (Cont.)
+
+### Challenges
+- **Cache coherence overhead**  
+  - Hardware ensures consistency between processor caches  
+- **Synchronization required**  
+  - To prevent race conditions when accessing shared data  
+- **Limited scalability**  
+  - Memory bandwidth becomes a bottleneck as the number of processors increases  
+- **False sharing**  
+  - Performance loss when threads modify different variables that reside on the same cache line  
+
+### OpenMP Example
+```c
+#pragma omp parallel shared(result)
+{
+    // Each thread writes its result to a shared array
     result[omp_get_thread_num()] = compute();
-  }
-  ```
+}
+```
 
 ---
 
 ## Message Passing Communication (MPI)
 
-- **Mechanism**: Explicit send/receive operations
-- **Characteristics**:
-  - Sender specifies data and recipient
-  - Receiver allocates buffer
-  - Synchronous or asynchronous
+### Mechanism
+- Communication through **explicit send/receive** operations  
+- Processes have **private memory** and exchange data by messages  
 
-- **Communication types**:
-  - **Point-to-point**: Between specific processes
-  - **Collective**: Involves all processes in a group
+### Characteristics
+- Sender specifies **what to send** and **to whom**  
+- Receiver provides **buffer** to store incoming data  
+- Can be **synchronous** (blocking) or **asynchronous** (non-blocking)  
 
-- **MPI example**:
-  ```c
-  // Process 0 sends data to process 1
-  if (rank == 0) {
+---
+
+## Message Passing Communication (MPI) (Cont.)
+
+### Communication Types
+- **Point-to-Point**  
+  - Direct exchange between specific processes  
+  - Examples: `MPI_Send`, `MPI_Recv`  
+
+- **Collective**  
+  - Involves all processes in a group  
+  - Examples: broadcast, scatter, gather, reduce  
+
+### MPI Example (Point-to-Point)
+```c
+// Process 0 sends data to process 1
+if (rank == 0) {
     MPI_Send(data, size, MPI_INT, 1, tag, comm);
-  } else if (rank == 1) {
+} else if (rank == 1) {
     MPI_Recv(buffer, size, MPI_INT, 0, tag, comm, &status);
-  }
-  ```
+}
+```
 
 ---
 
@@ -726,37 +1008,62 @@
 
 ## Communication Overhead and Minimizing It
 
-- **Sources of overhead**:
-  - Latency (setup time)
-  - Limited bandwidth
-  - Contention
-  - Synchronization delays
-  - Protocol processing
-
-- **Minimization strategies**:
-  - Reduce communication frequency
-  - Batch communications (coarser granularity)
-  - Overlap communication with computation
-  - Use asynchronous communication
-  - Optimize data layouts
+### Sources of Overhead
+- **Latency**  
+  - Time to initiate communication (setup time)  
+- **Limited Bandwidth**  
+  - Maximum data transfer rate  
+- **Contention**  
+  - Multiple tasks compete for communication channels  
+- **Synchronization Delays**  
+  - Waiting for coordination between tasks  
+- **Protocol Processing**  
+  - Extra time spent handling communication protocols  
 
 ---
 
-## Example - Parallel Matrix Multiplication Communication
+## Communication Overhead and Minimizing It (Cont.)
 
-- **1D decomposition (row-based)**:
-  - Each process has complete rows
-  - All processes need the entire second matrix
-  - Collective broadcast of second matrix
+### Minimization Strategies
+- **Reduce communication frequency**  
+  - Communicate only when necessary  
+- **Batch communications**  
+  - Group messages to minimize overhead (coarser granularity)  
+- **Overlap communication with computation**  
+  - Perform communication and useful work simultaneously  
+- **Use asynchronous communication**  
+  - Avoid blocking on message transfers  
+- **Optimize data layouts**  
+  - Arrange data to reduce the amount and frequency of communication  
 
-- **2D decomposition (block-based)**:
-  - Each process has a submatrix block
-  - Communication along rows and columns
-  - Reduced communication volume
+---
 
-- **Communication volume comparison**:
-  - 1D: O(n²)
-  - 2D: O(n²/√p) where p is processor count
+## Example – Parallel Matrix Multiplication Communication
+
+### 1D Decomposition (Row-Based)
+- Each process owns a **block of rows**  
+- All processes need the **entire second matrix (B)** to compute their part  
+- Requires a **collective broadcast** of matrix B to all processes  
+
+#### Communication Volume  
+- O(n²), because each process requires a full copy of B 
+
+![1D Decomposition Matrix Multiplication](images/matrix-multiplication-example-1d.svg)
+
+---
+
+## Example – Parallel Matrix Multiplication Communication (Cont.)
+
+### 2D Decomposition (Block-Based)
+- Each process owns a **submatrix block**  
+- Communication happens **along rows and columns** of the process grid  
+- Reduces data exchange compared to 1D decomposition  
+
+#### Communication Volume  
+- O(n² / √p), where **p** is the number of processors  
+- More scalable than 1D decomposition for large **p**  
+
+![2D Decomposition Matrix Multiplication](images/2d-matrix-multiplication.svg)
 
 ---
 
@@ -777,6 +1084,8 @@
 - **Performance comparison**:
   - Strong scaling: Fixed problem size
   - Weak scaling: Problem size grows with processors
+
+---
 
 ## Performance Metrics in Parallel Computing
 
