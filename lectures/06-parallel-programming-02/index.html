@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Add base tag for GitHub Pages compatibility -->
+    <base id="baseTag" href="">
+    <title>Parallel Programming: Concepts and Strategies - GWU</title>
+    
+    <!-- Reveal.js -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/reveal.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/theme/white.min.css" id="theme">
+    
+    <!-- Plugins CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/plugin/highlight/monokai.css">
+    
+    <!-- PDF Export - Directly include the print stylesheet -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/css/print/pdf.css" media="print">
+    
+    <!-- Custom script to handle GitHub Pages base URL -->
+    <script>
+        // Set the base href dynamically for GitHub Pages compatibility
+        (function() {
+            // Get the current path
+            var path = window.location.pathname;
+            var isGitHubPages = path.indexOf('github.io') !== -1;
+            
+            // Only modify base if needed
+            if (isGitHubPages) {
+                // Extract the repository name from the path
+                var repoName = path.split('/')[1]; 
+                document.getElementById('baseTag').href = '/' + repoName + '/';
+            }
+        })();
+    </script>
+    
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --gwu-blue: #004065;
+            --gwu-gold: #FFD200;
+        }
+        
+        /* Increase font sizes for better readability */
+        .reveal {
+            font-size: 1.35em;
+        }
+        
+        .reveal h1 {
+            font-size: 2.6em;
+            color: var(--gwu-blue);
+            padding-right: 100px;
+        }
+        
+        .reveal h2 {
+            font-size: 2.0em;
+            color: var(--gwu-blue);
+            padding-right: 100px;
+        }
+        
+        .reveal h3 {
+            font-size: 1.7em;
+            color: #333;
+            padding-right: 100px;
+        }
+        
+        .reveal h4 {
+            font-size: 1.4em;
+            color: #333;
+            padding-right: 100px;
+        }
+        
+        .reveal p, .reveal li {
+            font-size: 1.25em;
+            line-height: 1.4;
+        }
+        
+        .reveal li li {
+            font-size: 0.95em;
+        }
+        
+        .reveal strong {
+            color: var(--gwu-blue);
+        }
+        
+        .reveal ul li::marker {
+            color: var(--gwu-gold);
+        }
+        
+        .reveal ul {
+            list-style-type: disc;
+        }
+        
+        .reveal .slides {
+            text-align: left;
+        }
+        
+        .reveal .slide-number {
+            font-size: 20px;
+            background-color: rgba(0, 0, 0, 0.3);
+            padding: 5px 10px;
+            border-radius: 8px;
+            right: auto;
+            bottom: 18px;
+            left: 18px;
+        }
+        
+        .logo {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 90px;
+            z-index: 1000;
+        }
+        
+        .footer {
+            position: fixed;
+            bottom: 10px;
+            left: 60px;
+            font-size: 16px;
+            color: #666;
+            z-index: 1000;
+        }
+        
+        .reveal table {
+            margin: 20px 0;
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 1.1em;
+        }
+        
+        .reveal table th,
+        .reveal table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        
+        .reveal table th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        
+        .reveal .progress {
+            color: var(--gwu-blue);
+        }
+        
+        .reveal .controls {
+            color: var(--gwu-blue);
+        }
+        
+        .reveal .slide-menu-button {
+            color: var(--gwu-blue);
+        }
+        
+        code {
+            background-color: #f5f5f5;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 1em;
+        }
+        
+        /* Fix for image display */
+        .reveal img {
+            max-height: 500px;
+            margin: 15px 0;
+        }
+        
+        /* Dark mode specific styles */
+        .dark-mode h1, .dark-mode h2 {
+            color: var(--gwu-gold) !important;
+        }
+        
+        .dark-mode h3, .dark-mode h4 {
+            color: #ccc !important;
+        }
+        
+        .dark-mode strong {
+            color: var(--gwu-gold) !important;
+        }
+        
+        .dark-mode ul li::marker {
+            color: var(--gwu-gold) !important;
+        }
+        
+        /* Make slide contents fit better */
+        .reveal .slides section {
+            height: 100%;
+            padding: 20px 30px;
+            overflow-y: auto !important;
+        }
+        
+        /* Emphasis styling for explanations */
+        .reveal em {
+            color: #444;
+            font-style: normal;
+            font-size: 0.9em;
+        }
+        
+        /* Hide UI elements when printing */
+        @media print {
+            .controls, .progress, .slide-number, #theme-toggle-container, #pdf-button-container {
+                display: none !important;
+            }
+            
+            .reveal .slides section {
+                height: auto !important;
+                min-height: 100vh !important;
+                display: block !important;
+                padding: 20px 30px !important;
+                page-break-after: always !important;
+                page-break-before: avoid !important;
+                page-break-inside: avoid !important;
+            }
+            
+            /* Fix for alternating blank pages */
+            .reveal .slides section:after {
+                content: none !important;
+            }
+
+            body {
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+            
+            h1, h2, h3, h4, p, ul, ol, dl, pre, table, figure {
+                page-break-inside: avoid !important;
+            }
+            
+            .reveal img {
+                max-height: 70vh !important;
+                page-break-inside: avoid !important;
+            }
+            
+            * {
+                color-adjust: exact !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            
+            /* Ensure no blank pages between slides */
+            @page {
+                size: landscape;
+                margin: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+            <img id="logo" class="logo" src="../../images/gw_monogram_2c.png" alt="GWU Logo">
+            <section data-markdown="slides.md" 
+                     data-separator="^---$" 
+                     data-separator-vertical="^--$"
+                     data-separator-notes="^Note:"
+                     data-charset="utf-8">
+            </section>
+        </div>
+    </div>
+    
+    <div class="footer">GWU ECE 6125: Parallel Computer Architecture &bull; Dr. Armin Mehrabian &bull; Spring 2025</div>
+    
+    <!-- PDF Download Button -->
+    <div style="position: fixed; top: 20px; right: 230px; z-index: 1000;" id="pdf-button-container">
+        <a href="#" id="print-pdf" style="background: var(--gwu-blue); color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer; text-decoration: none; display: inline-block; font-size: 12px;">
+            Download PDF
+        </a>
+    </div>
+    
+    <!-- Reveal.js Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/reveal.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/plugin/markdown/markdown.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/plugin/highlight/highlight.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/plugin/math/math.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/plugin/notes/notes.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/plugin/zoom/zoom.js"></script>
+    
+    <div style="position: fixed; top: 20px; right: 120px; z-index: 1000;" id="theme-toggle-container">
+        <button id="theme-toggle" style="background: #fff; color: #004065; border: 1px solid #ddd; padding: 5px 10px; border-radius: 3px; cursor: pointer; font-size: 12px;">
+            Dark Mode
+        </button>
+    </div>
+    
+    <script>
+        // Initialize Reveal.js with simpler configuration
+        Reveal.initialize({
+            plugins: [RevealMarkdown, RevealHighlight, RevealMath, RevealNotes, RevealZoom],
+            hash: true,
+            mouseWheel: false,
+            slideNumber: 'c/t',
+            pdfMaxPagesPerSlide: 1,
+            autoAnimateDuration: 0.5,
+            autoAnimateEasing: 'ease',
+            transition: 'slide',
+            transitionSpeed: 'fast',
+            backgroundTransition: 'fade',
+            controls: true,
+            progress: true,
+            center: false,
+            help: true,
+            overview: true,
+            touch: true,
+            hideInactiveCursor: true,
+            margin: 0.05
+        });
+        
+        // Setup theme toggle functionality
+        const themeToggleButton = document.getElementById('theme-toggle');
+        const bodyElement = document.body;
+        const logoImage = document.getElementById('logo');
+        
+        // Function to toggle theme
+        function toggleTheme() {
+            if (bodyElement.classList.contains('dark-mode')) {
+                // Switch to light mode
+                document.querySelector('link#theme').href = 'https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/theme/white.min.css';
+                bodyElement.classList.remove('dark-mode');
+                themeToggleButton.textContent = 'Dark Mode';
+                themeToggleButton.style.background = '#fff';
+                themeToggleButton.style.color = '#004065';
+                logoImage.src = '../../images/gw_monogram_2c.png';
+            } else {
+                // Switch to dark mode
+                document.querySelector('link#theme').href = 'https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/theme/black.min.css';
+                bodyElement.classList.add('dark-mode');
+                themeToggleButton.textContent = 'Light Mode';
+                themeToggleButton.style.background = '#333';
+                themeToggleButton.style.color = '#FFD200';
+                logoImage.src = '../../images/gw_monogram_2c_rev.png';
+            }
+        }
+        
+        // Add event listener to button
+        themeToggleButton.addEventListener('click', toggleTheme);
+        
+        // PDF Download Button
+        document.getElementById('print-pdf').addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Create a print URL that includes the print-pdf query parameter
+            let currentURL = window.location.href;
+            // Remove existing query parameters
+            currentURL = currentURL.split('?')[0];
+            // Add print-pdf parameter
+            let printURL = currentURL + '?print-pdf';
+            
+            // Open in new window and trigger print dialog
+            let printWindow = window.open(printURL, '_blank');
+            
+            // Print instructions
+            printWindow.addEventListener('load', function() {
+                // Add a message at the top of the page
+                const infoBox = document.createElement('div');
+                infoBox.innerHTML = `
+                    <div style="position: fixed; top: 0; left: 0; width: 100%; background-color: #004065; color: white; padding: 20px; z-index: 9999; text-align: center;">
+                        <h2>Print Instructions</h2>
+                        <p>1. Press Ctrl+P (or Cmd+P on Mac) to open the print dialog</p>
+                        <p>2. Set orientation to <strong>Landscape</strong></p>
+                        <p>3. Set margins to <strong>None</strong></p>
+                        <p>4. Enable <strong>Background graphics</strong></p>
+                        <p>5. Disable <strong>Headers and footers</strong></p>
+                        <p>6. Click Print or Save as PDF</p>
+                        <button style="background: #FFD200; color: #004065; border: none; padding: 10px 20px; margin-top: 10px; cursor: pointer;" onclick="this.parentElement.style.display='none';">
+                            Hide This Message
+                        </button>
+                    </div>
+                `;
+                printWindow.document.body.appendChild(infoBox);
+                
+                // Automatically print
+                // printWindow.print();
+            });
+        });
+    </script>
+</body>
+</html> 

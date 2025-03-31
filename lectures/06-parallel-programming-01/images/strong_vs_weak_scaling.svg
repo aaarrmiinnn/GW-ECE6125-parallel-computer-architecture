@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="800" height="500" viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    text {
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+    }
+    .title {
+      font-size: 18px;
+      font-weight: bold;
+    }
+    .subtitle {
+      font-size: 16px;
+      font-weight: bold;
+    }
+    .axis-label {
+      font-size: 12px;
+      text-anchor: middle;
+    }
+    .axis-title {
+      font-size: 14px;
+      font-weight: bold;
+    }
+    .legend-text {
+      font-size: 12px;
+    }
+    .grid-line {
+      stroke: #e0e0e0;
+      stroke-width: 1;
+    }
+    .data-point {
+      stroke-width: 2;
+      fill: white;
+    }
+  </style>
+  
+  <!-- Title -->
+  <text x="400" y="30" class="title" text-anchor="middle">Strong vs. Weak Scaling Comparison</text>
+  
+  <!-- Top graphs: Performance vs. Processors -->
+  <text x="200" y="60" class="subtitle" text-anchor="middle">Strong Scaling</text>
+  <text x="600" y="60" class="subtitle" text-anchor="middle">Weak Scaling</text>
+  
+  <!-- Strong scaling chart -->
+  <rect x="50" y="80" width="300" height="200" fill="#f9f9f9" stroke="#ccc"/>
+  
+  <!-- Grid lines -->
+  <line x1="50" y1="140" x2="350" y2="140" class="grid-line"/>
+  <line x1="50" y1="200" x2="350" y2="200" class="grid-line"/>
+  <line x1="50" y1="260" x2="350" y2="260" class="grid-line"/>
+  <line x1="110" y1="80" x2="110" y2="280" class="grid-line"/>
+  <line x1="170" y1="80" x2="170" y2="280" class="grid-line"/>
+  <line x1="230" y1="80" x2="230" y2="280" class="grid-line"/>
+  <line x1="290" y1="80" x2="290" y2="280" class="grid-line"/>
+  
+  <!-- Axes -->
+  <line x1="50" y1="280" x2="350" y2="280" stroke="#333" stroke-width="2"/>
+  <line x1="50" y1="80" x2="50" y2="280" stroke="#333" stroke-width="2"/>
+  
+  <!-- Axes labels -->
+  <text x="200" y="300" class="axis-title" text-anchor="middle">Number of Processors</text>
+  <text x="30" y="180" class="axis-title" text-anchor="middle" transform="rotate(-90, 30, 180)">Speedup</text>
+  
+  <text x="50" y="295" class="axis-label">1</text>
+  <text x="110" y="295" class="axis-label">2</text>
+  <text x="170" y="295" class="axis-label">4</text>
+  <text x="230" y="295" class="axis-label">8</text>
+  <text x="290" y="295" class="axis-label">16</text>
+  <text x="350" y="295" class="axis-label">32</text>
+  
+  <text x="40" y="280" class="axis-label" text-anchor="end">1</text>
+  <text x="40" y="220" class="axis-label" text-anchor="end">8</text>
+  <text x="40" y="160" class="axis-label" text-anchor="end">16</text>
+  <text x="40" y="100" class="axis-label" text-anchor="end">24</text>
+  <text x="40" y="80" class="axis-label" text-anchor="end">32</text>
+  
+  <!-- Lines (curves) -->
+  <!-- Ideal scaling -->
+  <polyline points="50,280 110,220 170,160 230,100 290,80 350,80" fill="none" stroke="#4472C4" stroke-width="2"/>
+  <circle cx="50" cy="280" r="4" class="data-point" stroke="#4472C4"/>
+  <circle cx="110" cy="220" r="4" class="data-point" stroke="#4472C4"/>
+  <circle cx="170" cy="160" r="4" class="data-point" stroke="#4472C4"/>
+  <circle cx="230" cy="100" r="4" class="data-point" stroke="#4472C4"/>
+  <circle cx="290" cy="80" r="4" class="data-point" stroke="#4472C4"/>
+  <circle cx="350" cy="80" r="4" class="data-point" stroke="#4472C4"/>
+  
+  <!-- Realistic scaling -->
+  <polyline points="50,280 110,230 170,190 230,160 290,145 350,140" fill="none" stroke="#ED7D31" stroke-width="2"/>
+  <circle cx="50" cy="280" r="4" class="data-point" stroke="#ED7D31"/>
+  <circle cx="110" cy="230" r="4" class="data-point" stroke="#ED7D31"/>
+  <circle cx="170" cy="190" r="4" class="data-point" stroke="#ED7D31"/>
+  <circle cx="230" cy="160" r="4" class="data-point" stroke="#ED7D31"/>
+  <circle cx="290" cy="145" r="4" class="data-point" stroke="#ED7D31"/>
+  <circle cx="350" cy="140" r="4" class="data-point" stroke="#ED7D31"/>
+  
+  <!-- Weak scaling chart -->
+  <rect x="450" y="80" width="300" height="200" fill="#f9f9f9" stroke="#ccc"/>
+  
+  <!-- Grid lines -->
+  <line x1="450" y1="140" x2="750" y2="140" class="grid-line"/>
+  <line x1="450" y1="200" x2="750" y2="200" class="grid-line"/>
+  <line x1="450" y1="260" x2="750" y2="260" class="grid-line"/>
+  <line x1="510" y1="80" x2="510" y2="280" class="grid-line"/>
+  <line x1="570" y1="80" x2="570" y2="280" class="grid-line"/>
+  <line x1="630" y1="80" x2="630" y2="280" class="grid-line"/>
+  <line x1="690" y1="80" x2="690" y2="280" class="grid-line"/>
+  
+  <!-- Axes -->
+  <line x1="450" y1="280" x2="750" y2="280" stroke="#333" stroke-width="2"/>
+  <line x1="450" y1="80" x2="450" y2="280" stroke="#333" stroke-width="2"/>
+  
+  <!-- Axes labels -->
+  <text x="600" y="300" class="axis-title" text-anchor="middle">Number of Processors</text>
+  <text x="430" y="180" class="axis-title" text-anchor="middle" transform="rotate(-90, 430, 180)">Efficiency</text>
+  
+  <text x="450" y="295" class="axis-label">1</text>
+  <text x="510" y="295" class="axis-label">2</text>
+  <text x="570" y="295" class="axis-label">4</text>
+  <text x="630" y="295" class="axis-label">8</text>
+  <text x="690" y="295" class="axis-label">16</text>
+  <text x="750" y="295" class="axis-label">32</text>
+  
+  <text x="440" y="280" class="axis-label" text-anchor="end">0.0</text>
+  <text x="440" y="240" class="axis-label" text-anchor="end">0.25</text>
+  <text x="440" y="200" class="axis-label" text-anchor="end">0.5</text>
+  <text x="440" y="160" class="axis-label" text-anchor="end">0.75</text>
+  <text x="440" y="120" class="axis-label" text-anchor="end">0.9</text>
+  <text x="440" y="80" class="axis-label" text-anchor="end">1.0</text>
+  
+  <!-- Lines (curves) -->
+  <!-- Ideal efficiency -->
+  <polyline points="450,80 510,80 570,80 630,80 690,80 750,80" fill="none" stroke="#4472C4" stroke-width="2"/>
+  <circle cx="450" cy="80" r="4" class="data-point" stroke="#4472C4"/>
+  <circle cx="510" cy="80" r="4" class="data-point" stroke="#4472C4"/>
+  <circle cx="570" cy="80" r="4" class="data-point" stroke="#4472C4"/>
+  <circle cx="630" cy="80" r="4" class="data-point" stroke="#4472C4"/>
+  <circle cx="690" cy="80" r="4" class="data-point" stroke="#4472C4"/>
+  <circle cx="750" cy="80" r="4" class="data-point" stroke="#4472C4"/>
+  
+  <!-- Realistic efficiency -->
+  <polyline points="450,80 510,85 570,95 630,110 690,130 750,150" fill="none" stroke="#ED7D31" stroke-width="2"/>
+  <circle cx="450" cy="80" r="4" class="data-point" stroke="#ED7D31"/>
+  <circle cx="510" cy="85" r="4" class="data-point" stroke="#ED7D31"/>
+  <circle cx="570" cy="95" r="4" class="data-point" stroke="#ED7D31"/>
+  <circle cx="630" cy="110" r="4" class="data-point" stroke="#ED7D31"/>
+  <circle cx="690" cy="130" r="4" class="data-point" stroke="#ED7D31"/>
+  <circle cx="750" cy="150" r="4" class="data-point" stroke="#ED7D31"/>
+  
+  <!-- Legend -->
+  <rect x="300" y="35" width="15" height="3" fill="#4472C4" stroke="none"/>
+  <text x="320" y="40" class="legend-text">Ideal</text>
+  <rect x="370" y="35" width="15" height="3" fill="#ED7D31" stroke="none"/>
+  <text x="390" y="40" class="legend-text">Realistic</text>
+  
+  <!-- Diagrams -->
+  <text x="200" y="335" class="subtitle" text-anchor="middle">Problem Size Fixed</text>
+  <text x="600" y="335" class="subtitle" text-anchor="middle">Problem Size Increases</text>
+  
+  <!-- Strong Scaling Visualization -->
+  <rect x="50" y="350" width="300" height="120" fill="#f9f9f9" stroke="#ccc"/>
+  
+  <!-- Initial Problem Size -->
+  <rect x="75" y="370" width="250" height="30" fill="#ddd" stroke="#333"/>
+  <text x="200" y="390" text-anchor="middle">Problem</text>
+  
+  <!-- Distribution -->
+  <line x1="200" y1="405" x2="200" y2="415" stroke="#333" stroke-width="1"/>
+  <text x="200" y="425" text-anchor="middle">↓ Split into smaller pieces</text>
+  
+  <!-- Processors -->
+  <rect x="75" y="435" width="60" height="20" fill="#4472C4" stroke="white"/>
+  <rect x="139" y="435" width="60" height="20" fill="#4472C4" stroke="white"/>
+  <rect x="203" y="435" width="60" height="20" fill="#4472C4" stroke="white"/>
+  <rect x="267" y="435" width="60" height="20" fill="#4472C4" stroke="white"/>
+  <text x="104" y="450" text-anchor="middle" font-size="12">P0</text>
+  <text x="168" y="450" text-anchor="middle" font-size="12">P1</text>
+  <text x="232" y="450" text-anchor="middle" font-size="12">P2</text>
+  <text x="296" y="450" text-anchor="middle" font-size="12">P3</text>
+  
+  <!-- Weak Scaling Visualization -->
+  <rect x="450" y="350" width="300" height="120" fill="#f9f9f9" stroke="#ccc"/>
+  
+  <!-- Problem Size -->
+  <rect x="460" y="370" width="60" height="30" fill="#ddd" stroke="#333"/>
+  <rect x="524" y="370" width="60" height="30" fill="#ddd" stroke="#333"/>
+  <rect x="588" y="370" width="60" height="30" fill="#ddd" stroke="#333"/>
+  <rect x="652" y="370" width="60" height="30" fill="#ddd" stroke="#333"/>
+  <text x="490" y="390" text-anchor="middle" font-size="10">Problem 1</text>
+  <text x="554" y="390" text-anchor="middle" font-size="10">Problem 2</text>
+  <text x="618" y="390" text-anchor="middle" font-size="10">Problem 3</text>
+  <text x="682" y="390" text-anchor="middle" font-size="10">Problem 4</text>
+  
+  <!-- Distribution -->
+  <line x1="490" y1="405" x2="490" y2="415" stroke="#333" stroke-width="1"/>
+  <line x1="554" y1="405" x2="554" y2="415" stroke="#333" stroke-width="1"/>
+  <line x1="618" y1="405" x2="618" y2="415" stroke="#333" stroke-width="1"/>
+  <line x1="682" y1="405" x2="682" y2="415" stroke="#333" stroke-width="1"/>
+  <text x="600" y="425" text-anchor="middle">↓ Same size problem per processor</text>
+  
+  <!-- Processors -->
+  <rect x="460" y="435" width="60" height="20" fill="#4472C4" stroke="white"/>
+  <rect x="524" y="435" width="60" height="20" fill="#4472C4" stroke="white"/>
+  <rect x="588" y="435" width="60" height="20" fill="#4472C4" stroke="white"/>
+  <rect x="652" y="435" width="60" height="20" fill="#4472C4" stroke="white"/>
+  <text x="490" y="450" text-anchor="middle" font-size="12">P0</text>
+  <text x="554" y="450" text-anchor="middle" font-size="12">P1</text>
+  <text x="618" y="450" text-anchor="middle" font-size="12">P2</text>
+  <text x="682" y="450" text-anchor="middle" font-size="12">P3</text>
+  
+  <!-- Key differences text -->
+  <text x="400" y="480" text-anchor="middle" font-size="12" font-style="italic">Strong scaling: Same problem solved faster</text>
+  <text x="400" y="495" text-anchor="middle" font-size="12" font-style="italic">Weak scaling: Larger problem solved in same time</text>
+</svg> 
