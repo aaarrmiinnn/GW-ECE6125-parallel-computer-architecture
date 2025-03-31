@@ -621,6 +621,7 @@ if (rank == 0) {
   - Load balancing (pivot selection)
   - Cutoff to serial algorithm for small arrays
 
+![Parallel Sorting](images/parallel-sorting-algorithms.svg)
 ---
 
 ## Combining Patterns for Complex Applications
