@@ -615,7 +615,6 @@ if (rank == 0) {
   - Divide array (serial or parallel)
   - Sort subarrays in parallel
   - Merge results (parallel merge possible)
-
 - **Considerations**:
   - Communication overhead
   - Load balancing (pivot selection)
