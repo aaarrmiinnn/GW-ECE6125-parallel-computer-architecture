@@ -934,6 +934,56 @@ if (rank == 0) {
 - **Limitations**: Complex memory model, vendor-specific
 
 ---
+## CUDA Kernel Launch: `vectorAdd<<<...>>>`
+
+### 🚀 Launch Syntax
+
+```cpp
+vectorAdd<<<(N+255)/256, 256>>>(A, B, C, N);
+```
+
+- `<<<numBlocks, threadsPerBlock>>>` → **Execution configuration**
+- Tells GPU how many threads to run and how to group them
+
+---
+
+### 🧮 Execution Breakdown
+
+```cpp
+int i = blockIdx.x * blockDim.x + threadIdx.x;
+```
+
+- `blockIdx.x`: ID of the current block
+- `blockDim.x`: number of threads per block
+- `threadIdx.x`: ID of the thread within its block
+
+→ Computes **global index `i`** for each thread
+
+---
+
+### 📦 Example: `N = 1000`
+
+```cpp
+// Launch enough threads to cover all N elements
+vectorAdd<<<(1000 + 255)/256, 256>>>(A, B, C, 1000);
+```
+
+- `numBlocks = 4` → 4 blocks
+- `threadsPerBlock = 256`
+- `Total threads = 4 × 256 = 1024`
+- Threads with `i >= 1000` are skipped using:
+  ```cpp
+  if (i < n) C[i] = A[i] + B[i];
+  ```
+
+---
+
+### Summary
+
+- Each GPU thread computes one element of the result
+- Threads are grouped into blocks for scheduling
+- This pattern is common in **data-parallel GPU kernels**
+
 
 ## Big Data Parallelism with Apache Spark
 
