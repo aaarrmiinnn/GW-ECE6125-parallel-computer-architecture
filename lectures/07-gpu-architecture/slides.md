@@ -284,7 +284,111 @@ Threads are organized in a hierarchical structure:
   - Can be arranged in 1D, 2D, or 3D
   - Blocks execute independently
 
+--- 
+# GPU Warps: Basic Concepts
+
+## What Are Warps?
+- A **warp** is a fundamental execution unit of 32 threads (on NVIDIA GPUs)
+  - This is the smallest unit of threads that are scheduled together
+  - AMD GPUs use "wavefronts" with 64 threads, but the concept is identical
+- All threads in a warp execute the **same instruction simultaneously**
+  - When one thread executes an add, all 32 threads execute that same add
+  - Each thread operates on its own data (SIMD parallelism)
+- Warps are the unit of scheduling on Streaming Multiprocessors (SMs)
+  - GPUs don't schedule individual threads; they schedule entire warps
+  - Each SM can have multiple active warps at any given time
+
+## Warp Execution
+- If one thread in a warp stalls, the entire warp stalls
+  - All 32 threads must wait for the slowest thread
+  - This is why thread divergence is so costly
+- Hardware maintains a "thread mask" that tracks which threads are active
+  - Allows masked execution for branches and predication
+  - Inactive threads don't commit results during predicated instructions
+
 ---
+
+# GPU Warps: Why They Exist
+
+## Hardware Efficiency
+- **Instruction Processing Efficiency**: One instruction fetch/decode serves 32 threads
+  - Greatly reduces hardware complexity and power consumption
+  - Single instruction decoder can feed many execution units
+- **SIMT Implementation**: Enables Single Instruction, Multiple Thread execution
+  - Combines flexibility of threads with efficiency of SIMD
+  - Allows for control flow (if/else, loops) unlike pure SIMD
+- **Control Overhead Reduction**: Control logic is amortized across many threads
+  - PC (program counter), instruction decode, etc., shared across 32 threads
+  - Much more efficient than having independent control logic per thread
+
+## Execution Benefits
+- **Context Switching**: Zero-overhead switching between warps when one stalls
+  - When a warp hits a long-latency operation (e.g., memory load), SM switches to another warp
+  - No register saving/restoring like CPU thread switching
+  - Masks memory latency with computation from other warps
+- **Resource Sharing**: Threads in a warp can share resources without explicit synchronization
+  - Threads in same warp are always at same point in execution
+  - Simplifies execution model and hardware design
+
+---
+
+# GPU Warps: Performance Implications
+
+![Image](https://doimages.nyc3.cdn.digitaloceanspaces.com/010AI-ML/content/images/2024/08/image-7.png)
+
+*Source: [https://doimages.nyc3.cdn.digitaloceanspaces.com/010AI-ML/content/images/2024/08/image-7.png](https://doimages.nyc3.cdn.digitaloceanspaces.com/010AI-ML/content/images/2024/08/image-7.png)*
+
+---
+![Warp Scheduling and Latency Hiding](https://doimages.nyc3.cdn.digitaloceanspaces.com/010AI-ML/content/images/2024/08/image-13.png)
+
+
+- **Warp Scheduling**: Warp scheduler selects warps for execution based on their readiness, aiming to maximize GPU utilization.
+- **Latency Hiding**: Hide instruction latency by switching between warps, ensuring that the GPU cores remain active while some warps wait for data.
+- **Efficient Execution**: Important to have multiple active warps to effectively hide latencies and maintain high throughput in GPU computations. 
+
+*Source: [https://doimages.nyc3.cdn.digitaloceanspaces.com/010AI-ML/content/images/2024/08/image-13.png](https://doimages.nyc3.cdn.digitaloceanspaces.com/010AI-ML/content/images/2024/08/image-13.png)*
+
+---
+
+## Thread Divergence Impact
+- **Thread Divergence Penalty**: Conditional branches within a warp cause serialization
+  - When threads take different paths (e.g., if/else), both paths must be executed
+  - Performance drops proportionally to the number of different paths
+  ```cpp
+  // Example of divergent code (BAD):
+  if (threadIdx.x % 2 == 0) {   // Even vs odd threads diverge
+      result = doExpensiveCalculation();
+  } else {
+      result = doAnotherExpensiveCalculation();
+  }
+  // Both calculations execute sequentially, wasting 50% efficiency
+  ```
+---
+
+## Memory Access Patterns
+- **Memory Coalescing Benefit**: Aligned memory access patterns maximize throughput
+  - When threads in a warp access adjacent memory, requests combine into fewer transactions
+  - Accessing 32 consecutive float values can be as fast as accessing a single value
+  - Non-coalesced access can reduce bandwidth by up to 32x
+  ```cpp
+  // Coalesced (GOOD):            // Non-coalesced (BAD):
+  int idx = threadIdx.x;          int idx = threadIdx.x * 32;
+  float val = data[blockIdx.x *   float val = data[threadIdx.x]; 
+                blockDim.x + idx];
+  ```
+---
+
+## Execution Optimization
+- **Warp-Level Synchronization**: Threads within a warp are implicitly synchronized
+  - No need for explicit barriers for intra-warp communication
+  - Enables warp-level primitives like `__shfl()` for fast data exchange
+- **Occupancy Considerations**: Higher number of active warps hides latency better
+  - More warps = more opportunities to hide memory latency
+  - But limited by register and shared memory usage
+  - Finding the optimal balance is key to high performance
+
+---
+
 # CUDA Thread Mapping: 3D Indexing
 
 ## Comprehensive Indexing System
@@ -612,6 +716,8 @@ __global__ void conv1d_naive(float *d_input, float *d_weight, float *d_bias, flo
 | Warp Stalls | Barriers and memory dependencies | 22 cycles between issued instructions | Reduce synchronization, optimize memory access |
 | Low Occupancy | Too many resources per thread block | 8/12 active warps per scheduler | Adjust block size and resource usage |
 
+---
+
 ## Key Optimization Strategies
 1. **Eliminate strided global memory loads**:
    - Reorganize thread indexing for coalesced access
@@ -913,4 +1019,5 @@ __global__ void persistentKernel(int* queue, int* counter, int total)
 - Programming Massively Parallel Processors (Kirk & Hwu)
 
 ---
+
 
