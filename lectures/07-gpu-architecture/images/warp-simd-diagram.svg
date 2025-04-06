@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect x="0" y="0" width="800" height="600" fill="#f8f8f8"/>
+  
+  <!-- Title -->
+  <text x="400" y="40" font-family="Arial" font-size="24" font-weight="bold" text-anchor="middle" fill="#333">Warp of Threads Issuing into SIMD Lanes</text>
+  
+  <!-- Warp Scheduler -->
+  <rect x="100" y="100" width="200" height="80" rx="10" ry="10" fill="#76b900" fill-opacity="0.2" stroke="#76b900" stroke-width="2"/>
+  <text x="200" y="120" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle" fill="#333">Warp Scheduler</text>
+  <text x="200" y="145" font-family="Arial" font-size="12" text-anchor="middle" fill="#333">Selects next warp to execute</text>
+  <text x="200" y="165" font-family="Arial" font-size="12" text-anchor="middle" fill="#333">(32 threads per warp)</text>
+  
+  <!-- Instruction -->
+  <rect x="350" y="110" width="150" height="60" rx="5" ry="5" fill="#1a73e8" fill-opacity="0.2" stroke="#1a73e8" stroke-width="2"/>
+  <text x="425" y="145" font-family="Arial" font-size="14" font-weight="bold" text-anchor="middle" fill="#333">Instruction</text>
+  
+  <!-- Arrow from Warp Scheduler to Instruction -->
+  <line x1="300" y1="140" x2="350" y2="140" stroke="#333" stroke-width="2" marker-end="url(#arrow)"/>
+  
+  <!-- Thread Group (Warp) -->
+  <rect x="50" y="220" width="700" height="100" rx="10" ry="10" fill="#76b900" fill-opacity="0.1" stroke="#76b900" stroke-width="2"/>
+  <text x="400" y="245" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle" fill="#333">Warp (32 Threads)</text>
+  
+  <!-- Threads in the Warp -->
+  <g id="warp-threads">
+    <!-- First row of threads -->
+    <rect x="80" y="260" width="30" height="30" rx="5" ry="5" fill="#4285f4" fill-opacity="0.7" stroke="#333" stroke-width="1"/>
+    <text x="95" y="278" font-family="Arial" font-size="12" text-anchor="middle" fill="white">T0</text>
+    
+    <rect x="120" y="260" width="30" height="30" rx="5" ry="5" fill="#4285f4" fill-opacity="0.7" stroke="#333" stroke-width="1"/>
+    <text x="135" y="278" font-family="Arial" font-size="12" text-anchor="middle" fill="white">T1</text>
+    
+    <rect x="160" y="260" width="30" height="30" rx="5" ry="5" fill="#4285f4" fill-opacity="0.7" stroke="#333" stroke-width="1"/>
+    <text x="175" y="278" font-family="Arial" font-size="12" text-anchor="middle" fill="white">T2</text>
+    
+    <rect x="200" y="260" width="30" height="30" rx="5" ry="5" fill="#4285f4" fill-opacity="0.7" stroke="#333" stroke-width="1"/>
+    <text x="215" y="278" font-family="Arial" font-size="12" text-anchor="middle" fill="white">T3</text>
+    
+    <rect x="240" y="260" width="30" height="30" rx="5" ry="5" fill="#4285f4" fill-opacity="0.7" stroke="#333" stroke-width="1"/>
+    <text x="255" y="278" font-family="Arial" font-size="12" text-anchor="middle" fill="white">T4</text>
+    
+    <rect x="280" y="260" width="30" height="30" rx="5" ry="5" fill="#4285f4" fill-opacity="0.7" stroke="#333" stroke-width="1"/>
+    <text x="295" y="278" font-family="Arial" font-size="12" text-anchor="middle" fill="white">T5</text>
+    
+    <rect x="320" y="260" width="30" height="30" rx="5" ry="5" fill="#4285f4" fill-opacity="0.7" stroke="#333" stroke-width="1"/>
+    <text x="335" y="278" font-family="Arial" font-size="12" text-anchor="middle" fill="white">T6</text>
+    
+    <rect x="360" y="260" width="30" height="30" rx="5" ry="5" fill="#4285f4" fill-opacity="0.7" stroke="#333" stroke-width="1"/>
+    <text x="375" y="278" font-family="Arial" font-size="12" text-anchor="middle" fill="white">T7</text>
+    
+    <rect x="400" y="260" width="30" height="30" rx="5" ry="5" fill="#4285f4" fill-opacity="0.7" stroke="#333" stroke-width="1"/>
+    <text x="415" y="278" font-family="Arial" font-size="12" text-anchor="middle" fill="white">...</text>
+    
+    <rect x="440" y="260" width="30" height="30" rx="5" ry="5" fill="#4285f4" fill-opacity="0.7" stroke="#333" stroke-width="1"/>
+    <text x="455" y="278" font-family="Arial" font-size="12" text-anchor="middle" fill="white">...</text>
+    
+    <rect x="480" y="260" width="30" height="30" rx="5" ry="5" fill="#4285f4" fill-opacity="0.7" stroke="#333" stroke-width="1"/>
+    <text x="495" y="278" font-family="Arial" font-size="12" text-anchor="middle" fill="white">...</text>
+    
+    <rect x="520" y="260" width="30" height="30" rx="5" ry="5" fill="#4285f4" fill-opacity="0.7" stroke="#333" stroke-width="1"/>
+    <text x="535" y="278" font-family="Arial" font-size="12" text-anchor="middle" fill="white">...</text>
+    
+    <rect x="560" y="260" width="30" height="30" rx="5" ry="5" fill="#4285f4" fill-opacity="0.7" stroke="#333" stroke-width="1"/>
+    <text x="575" y="278" font-family="Arial" font-size="12" text-anchor="middle" fill="white">...</text>
+    
+    <rect x="600" y="260" width="30" height="30" rx="5" ry="5" fill="#4285f4" fill-opacity="0.7" stroke="#333" stroke-width="1"/>
+    <text x="615" y="278" font-family="Arial" font-size="12" text-anchor="middle" fill="white">...</text>
+    
+    <rect x="640" y="260" width="30" height="30" rx="5" ry="5" fill="#4285f4" fill-opacity="0.7" stroke="#333" stroke-width="1"/>
+    <text x="655" y="278" font-family="Arial" font-size="12" text-anchor="middle" fill="white">T31</text>
+  </g>
+  
+  <!-- Arrow from Instruction to Warp -->
+  <line x1="425" y1="170" x2="425" y2="220" stroke="#333" stroke-width="2" marker-end="url(#arrow)"/>
+  
+  <!-- SIMD Execution Units Section -->
+  <rect x="50" y="360" width="700" height="200" rx="10" ry="10" fill="#ea4335" fill-opacity="0.1" stroke="#ea4335" stroke-width="2"/>
+  <text x="400" y="385" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle" fill="#333">SIMD Execution Units</text>
+  
+  <!-- SIMD Lanes -->
+  <g id="simd-lanes">
+    <rect x="80" y="410" width="30" height="120" rx="5" ry="5" fill="#ea4335" fill-opacity="0.4" stroke="#333" stroke-width="1"/>
+    <text x="95" y="470" font-family="Arial" font-size="12" text-anchor="middle" fill="#333" transform="rotate(-90, 95, 470)">SIMD Lane 0</text>
+    
+    <rect x="120" y="410" width="30" height="120" rx="5" ry="5" fill="#ea4335" fill-opacity="0.4" stroke="#333" stroke-width="1"/>
+    <text x="135" y="470" font-family="Arial" font-size="12" text-anchor="middle" fill="#333" transform="rotate(-90, 135, 470)">SIMD Lane 1</text>
+    
+    <rect x="160" y="410" width="30" height="120" rx="5" ry="5" fill="#ea4335" fill-opacity="0.4" stroke="#333" stroke-width="1"/>
+    <text x="175" y="470" font-family="Arial" font-size="12" text-anchor="middle" fill="#333" transform="rotate(-90, 175, 470)">SIMD Lane 2</text>
+    
+    <rect x="200" y="410" width="30" height="120" rx="5" ry="5" fill="#ea4335" fill-opacity="0.4" stroke="#333" stroke-width="1"/>
+    <text x="215" y="470" font-family="Arial" font-size="12" text-anchor="middle" fill="#333" transform="rotate(-90, 215, 470)">SIMD Lane 3</text>
+    
+    <rect x="240" y="410" width="30" height="120" rx="5" ry="5" fill="#ea4335" fill-opacity="0.4" stroke="#333" stroke-width="1"/>
+    <text x="255" y="470" font-family="Arial" font-size="12" text-anchor="middle" fill="#333" transform="rotate(-90, 255, 470)">SIMD Lane 4</text>
+    
+    <rect x="280" y="410" width="30" height="120" rx="5" ry="5" fill="#ea4335" fill-opacity="0.4" stroke="#333" stroke-width="1"/>
+    <text x="295" y="470" font-family="Arial" font-size="12" text-anchor="middle" fill="#333" transform="rotate(-90, 295, 470)">SIMD Lane 5</text>
+    
+    <rect x="320" y="410" width="30" height="120" rx="5" ry="5" fill="#ea4335" fill-opacity="0.4" stroke="#333" stroke-width="1"/>
+    <text x="335" y="470" font-family="Arial" font-size="12" text-anchor="middle" fill="#333" transform="rotate(-90, 335, 470)">SIMD Lane 6</text>
+    
+    <rect x="360" y="410" width="30" height="120" rx="5" ry="5" fill="#ea4335" fill-opacity="0.4" stroke="#333" stroke-width="1"/>
+    <text x="375" y="470" font-family="Arial" font-size="12" text-anchor="middle" fill="#333" transform="rotate(-90, 375, 470)">SIMD Lane 7</text>
+    
+    <rect x="400" y="410" width="30" height="120" rx="5" ry="5" fill="#ea4335" fill-opacity="0.4" stroke="#333" stroke-width="1"/>
+    <text x="415" y="470" font-family="Arial" font-size="12" text-anchor="middle" fill="#333" transform="rotate(-90, 415, 470)">...</text>
+    
+    <rect x="440" y="410" width="30" height="120" rx="5" ry="5" fill="#ea4335" fill-opacity="0.4" stroke="#333" stroke-width="1"/>
+    <text x="455" y="470" font-family="Arial" font-size="12" text-anchor="middle" fill="#333" transform="rotate(-90, 455, 470)">...</text>
+    
+    <rect x="480" y="410" width="30" height="120" rx="5" ry="5" fill="#ea4335" fill-opacity="0.4" stroke="#333" stroke-width="1"/>
+    <text x="495" y="470" font-family="Arial" font-size="12" text-anchor="middle" fill="#333" transform="rotate(-90, 495, 470)">...</text>
+    
+    <rect x="520" y="410" width="30" height="120" rx="5" ry="5" fill="#ea4335" fill-opacity="0.4" stroke="#333" stroke-width="1"/>
+    <text x="535" y="470" font-family="Arial" font-size="12" text-anchor="middle" fill="#333" transform="rotate(-90, 535, 470)">...</text>
+    
+    <rect x="560" y="410" width="30" height="120" rx="5" ry="5" fill="#ea4335" fill-opacity="0.4" stroke="#333" stroke-width="1"/>
+    <text x="575" y="470" font-family="Arial" font-size="12" text-anchor="middle" fill="#333" transform="rotate(-90, 575, 470)">...</text>
+    
+    <rect x="600" y="410" width="30" height="120" rx="5" ry="5" fill="#ea4335" fill-opacity="0.4" stroke="#333" stroke-width="1"/>
+    <text x="615" y="470" font-family="Arial" font-size="12" text-anchor="middle" fill="#333" transform="rotate(-90, 615, 470)">...</text>
+    
+    <rect x="640" y="410" width="30" height="120" rx="5" ry="5" fill="#ea4335" fill-opacity="0.4" stroke="#333" stroke-width="1"/>
+    <text x="655" y="470" font-family="Arial" font-size="12" text-anchor="middle" fill="#333" transform="rotate(-90, 655, 470)">SIMD Lane 31</text>
+  </g>
+  
+  <!-- Arrows connecting threads to SIMD lanes -->
+  <line x1="95" y1="290" x2="95" y2="410" stroke="#333" stroke-width="1" stroke-dasharray="5,2" marker-end="url(#arrow)"/>
+  <line x1="135" y1="290" x2="135" y2="410" stroke="#333" stroke-width="1" stroke-dasharray="5,2" marker-end="url(#arrow)"/>
+  <line x1="175" y1="290" x2="175" y2="410" stroke="#333" stroke-width="1" stroke-dasharray="5,2" marker-end="url(#arrow)"/>
+  <line x1="215" y1="290" x2="215" y2="410" stroke="#333" stroke-width="1" stroke-dasharray="5,2" marker-end="url(#arrow)"/>
+  <line x1="255" y1="290" x2="255" y2="410" stroke="#333" stroke-width="1" stroke-dasharray="5,2" marker-end="url(#arrow)"/>
+  <line x1="295" y1="290" x2="295" y2="410" stroke="#333" stroke-width="1" stroke-dasharray="5,2" marker-end="url(#arrow)"/>
+  <line x1="335" y1="290" x2="335" y2="410" stroke="#333" stroke-width="1" stroke-dasharray="5,2" marker-end="url(#arrow)"/>
+  <line x1="375" y1="290" x2="375" y2="410" stroke="#333" stroke-width="1" stroke-dasharray="5,2" marker-end="url(#arrow)"/>
+  <line x1="415" y1="290" x2="415" y2="410" stroke="#333" stroke-width="1" stroke-dasharray="5,2" marker-end="url(#arrow)"/>
+  <line x1="455" y1="290" x2="455" y2="410" stroke="#333" stroke-width="1" stroke-dasharray="5,2" marker-end="url(#arrow)"/>
+  <line x1="495" y1="290" x2="495" y2="410" stroke="#333" stroke-width="1" stroke-dasharray="5,2" marker-end="url(#arrow)"/>
+  <line x1="535" y1="290" x2="535" y2="410" stroke="#333" stroke-width="1" stroke-dasharray="5,2" marker-end="url(#arrow)"/>
+  <line x1="575" y1="290" x2="575" y2="410" stroke="#333" stroke-width="1" stroke-dasharray="5,2" marker-end="url(#arrow)"/>
+  <line x1="615" y1="290" x2="615" y2="410" stroke="#333" stroke-width="1" stroke-dasharray="5,2" marker-end="url(#arrow)"/>
+  <line x1="655" y1="290" x2="655" y2="410" stroke="#333" stroke-width="1" stroke-dasharray="5,2" marker-end="url(#arrow)"/>
+  
+  <!-- Notes -->
+  <text x="400" y="550" font-family="Arial" font-size="14" font-style="italic" text-anchor="middle" fill="#333">SIMT Execution Model: Same Instruction, Multiple Threads</text>
+  <text x="400" y="570" font-family="Arial" font-size="12" text-anchor="middle" fill="#555">Each thread in a warp executes the same instruction on different data</text>
+  
+  <!-- Definitions -->
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#333"/>
+    </marker>
+  </defs>
+</svg>

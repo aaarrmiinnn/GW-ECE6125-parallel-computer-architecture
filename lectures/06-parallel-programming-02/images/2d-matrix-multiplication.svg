@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 700">
+  <!-- Background -->
+  <rect width="800" height="700" fill="#f8f9fa" rx="10" ry="10"/>
+  
+  <!-- Title -->
+  <text x="400" y="40" font-family="Arial, sans-serif" font-size="24" font-weight="bold" text-anchor="middle" fill="#333">4x4 Matrix Multiplication: 2D Decomposition</text>
+  
+  <!-- Matrices Section -->
+  <text x="200" y="90" font-family="Arial, sans-serif" font-size="18" text-anchor="middle" fill="#333">Original Matrices</text>
+  
+  <!-- Matrix A Container -->
+  <rect x="50" y="110" width="300" height="300" fill="#f0f0f0" stroke="#333" stroke-width="2" rx="10" ry="10"/>
+  <text x="200" y="130" font-family="Arial, sans-serif" font-size="16" text-anchor="middle" fill="#333">Matrix A</text>
+  <text x="100" y="160" font-family="Arial, sans-serif" font-size="16">1  2  3  4</text>
+  <text x="100" y="190" font-family="Arial, sans-serif" font-size="16">5  6  7  8</text>
+  <text x="100" y="220" font-family="Arial, sans-serif" font-size="16">9 10 11 12</text>
+  <text x="100" y="250" font-family="Arial, sans-serif" font-size="16">13 14 15 16</text>
+  
+  <!-- Matrix B Container -->
+  <rect x="450" y="110" width="300" height="300" fill="#f0f0f0" stroke="#333" stroke-width="2" rx="10" ry="10"/>
+  <text x="600" y="130" font-family="Arial, sans-serif" font-size="16" text-anchor="middle" fill="#333">Matrix B</text>
+  <text x="500" y="160" font-family="Arial, sans-serif" font-size="16">16 15 14 13</text>
+  <text x="500" y="190" font-family="Arial, sans-serif" font-size="16">12 11 10  9</text>
+  <text x="500" y="220" font-family="Arial, sans-serif" font-size="16"> 8  7  6  5</text>
+  <text x="500" y="250" font-family="Arial, sans-serif" font-size="16"> 4  3  2  1</text>
+  
+  <!-- 2D Process Grid Section -->
+  <text x="400" y="380" font-family="Arial, sans-serif" font-size="18" text-anchor="middle" fill="#333">2D Decomposition: Process Grid</text>
+  
+  <!-- Process Grid Container -->
+  <rect x="50" y="400" width="700" height="220" fill="#f5f5f5" stroke="#333" stroke-width="2" rx="10" ry="10"/>
+  
+  <!-- 2x2 Process Grid -->
+  <rect x="60" y="410" width="330" height="100" fill="#4285f4" opacity="0.1" stroke="#4285f4" stroke-width="2" rx="10" ry="10"/>
+  <text x="225" y="430" font-family="Arial, sans-serif" font-size="16" text-anchor="middle" fill="#333">Process (0,0)</text>
+  <text x="100" y="460" font-family="Arial, sans-serif" font-size="14">Submatrix A: 1 2 | 5 6</text>
+  <text x="100" y="480" font-family="Arial, sans-serif" font-size="14">Submatrix B: 16 15 | 12 11</text>
+  
+  <rect x="410" y="410" width="330" height="100" fill="#ea4335" opacity="0.1" stroke="#ea4335" stroke-width="2" rx="10" ry="10"/>
+  <text x="575" y="430" font-family="Arial, sans-serif" font-size="16" text-anchor="middle" fill="#333">Process (0,1)</text>
+  <text x="450" y="460" font-family="Arial, sans-serif" font-size="14">Submatrix A: 3 4 | 7 8</text>
+  <text x="450" y="480" font-family="Arial, sans-serif" font-size="14">Submatrix B: 14 13 | 10 9</text>
+  
+  <rect x="60" y="520" width="330" height="100" fill="#34a853" opacity="0.1" stroke="#34a853" stroke-width="2" rx="10" ry="10"/>
+  <text x="225" y="540" font-family="Arial, sans-serif" font-size="16" text-anchor="middle" fill="#333">Process (1,0)</text>
+  <text x="100" y="570" font-family="Arial, sans-serif" font-size="14">Submatrix A: 9 10 | 13 14</text>
+  <text x="100" y="590" font-family="Arial, sans-serif" font-size="14">Submatrix B: 8 7 | 4 3</text>
+  
+  <rect x="410" y="520" width="330" height="100" fill="#fbbc05" opacity="0.1" stroke="#fbbc05" stroke-width="2" rx="10" ry="10"/>
+  <text x="575" y="540" font-family="Arial, sans-serif" font-size="16" text-anchor="middle" fill="#333">Process (1,1)</text>
+  <text x="450" y="570" font-family="Arial, sans-serif" font-size="14">Submatrix A: 11 12 | 15 16</text>
+  <text x="450" y="590" font-family="Arial, sans-serif" font-size="14">Submatrix B: 6 5 | 2 1</text>
+  
+  <!-- Communication Arrows -->
+  <g stroke="#333" stroke-width="2" marker-end="url(#arrowhead)">
+    <path d="M225 510 L225 520"/>
+    <path d="M575 510 L575 520"/>
+    <path d="M380 460 L410 460"/>
+    <path d="M380 570 L410 570"/>
+  </g>
+  <text x="400" y="490" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" fill="#333">Inter-Process Communication</text>
+  
+  <!-- Result Calculations -->
+  <text x="400" y="630" font-family="Arial, sans-serif" font-size="18" text-anchor="middle" fill="#333">Partial Result Calculations</text>
+  
+  <!-- Calculation Details -->
+  <rect x="50" y="650" width="700" height="40" fill="#f0f0f0" stroke="#333" stroke-width="1" rx="10" ry="10"/>
+  <text x="100" y="675" font-family="Arial, sans-serif" font-size="14">Process (0,0): (1×16 + 2×12) = 16 + 24 = 40</text>
+  <text x="450" y="675" font-family="Arial, sans-serif" font-size="14">Process (0,1): (3×14 + 4×10) = 42 + 40 = 82</text>
+  
+  <!-- Arrow marker definition -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#333"/>
+    </marker>
+  </defs>
+</svg>

@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+  <!-- Background -->
+  <rect width="800" height="600" fill="#f8f9fa" rx="10" ry="10"/>
+  
+  <!-- Title -->
+  <text x="400" y="40" font-family="Arial, sans-serif" font-size="24" font-weight="bold" text-anchor="middle" fill="#333">3x3 Matrix Multiplication: 1D Decomposition</text>
+  
+  <!-- Matrices Section -->
+  <text x="200" y="90" font-family="Arial, sans-serif" font-size="18" text-anchor="middle" fill="#333">Original Matrices</text>
+  
+  <!-- Matrix A Container -->
+  <rect x="50" y="110" width="300" height="150" fill="#f0f0f0" stroke="#333" stroke-width="2" rx="10" ry="10"/>
+  <text x="200" y="130" font-family="Arial, sans-serif" font-size="16" text-anchor="middle" fill="#333">Matrix A</text>
+  <text x="100" y="160" font-family="Arial, sans-serif" font-size="16">1 2 3</text>
+  <text x="100" y="190" font-family="Arial, sans-serif" font-size="16">4 5 6</text>
+  <text x="100" y="220" font-family="Arial, sans-serif" font-size="16">7 8 9</text>
+  
+  <!-- Matrix B Container -->
+  <rect x="450" y="110" width="300" height="150" fill="#f0f0f0" stroke="#333" stroke-width="2" rx="10" ry="10"/>
+  <text x="600" y="130" font-family="Arial, sans-serif" font-size="16" text-anchor="middle" fill="#333">Matrix B</text>
+  <text x="500" y="160" font-family="Arial, sans-serif" font-size="16">9 8 7</text>
+  <text x="500" y="190" font-family="Arial, sans-serif" font-size="16">6 5 4</text>
+  <text x="500" y="220" font-family="Arial, sans-serif" font-size="16">3 2 1</text>
+  
+  <!-- Processes Section -->
+  <text x="400" y="280" font-family="Arial, sans-serif" font-size="18" text-anchor="middle" fill="#333">1D Decomposition: Processes</text>
+  
+  <!-- Process 1 Container -->
+  <rect x="50" y="300" width="300" height="120" fill="#4285f4" opacity="0.1" stroke="#4285f4" stroke-width="2" rx="10" ry="10"/>
+  <text x="200" y="320" font-family="Arial, sans-serif" font-size="16" text-anchor="middle" fill="#333">Process 1 (First 2 Rows)</text>
+  <text x="100" y="350" font-family="Arial, sans-serif" font-size="16">1 2 3</text>
+  <text x="100" y="380" font-family="Arial, sans-serif" font-size="16">4 5 6</text>
+  
+  <!-- Process 2 Container -->
+  <rect x="450" y="300" width="300" height="80" fill="#ea4335" opacity="0.1" stroke="#ea4335" stroke-width="2" rx="10" ry="10"/>
+  <text x="600" y="320" font-family="Arial, sans-serif" font-size="16" text-anchor="middle" fill="#333">Process 2 (Last Row)</text>
+  <text x="500" y="350" font-family="Arial, sans-serif" font-size="16">7 8 9</text>
+  
+  <!-- Broadcast Arrows -->
+  <g stroke="#333" stroke-width="2" marker-end="url(#arrowhead)">
+    <path d="M400 260 L200 300"/>
+    <path d="M400 260 L600 300"/>
+  </g>
+  <text x="400" y="260" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" fill="#333">Broadcast Matrix B</text>
+  
+  <!-- Result Calculations -->
+  <text x="400" y="430" font-family="Arial, sans-serif" font-size="18" text-anchor="middle" fill="#333">Result Calculations</text>
+  
+  <!-- Result Container -->
+  <rect x="250" y="450" width="300" height="120" fill="#f0f0f0" stroke="#333" stroke-width="2" rx="10" ry="10"/>
+  
+  <!-- Calculation Details -->
+  <text x="270" y="480" font-family="Arial, sans-serif" font-size="14">Process 1 Calculations:</text>
+  <text x="270" y="500" font-family="Arial, sans-serif" font-size="14">(1×9 + 2×6 + 3×3) = 30</text>
+  <text x="270" y="520" font-family="Arial, sans-serif" font-size="14">(4×9 + 5×6 + 6×3) = 84</text>
+  
+  <text x="270" y="540" font-family="Arial, sans-serif" font-size="14">Process 2 Calculation:</text>
+  <text x="270" y="560" font-family="Arial, sans-serif" font-size="14">(7×9 + 8×6 + 9×3) = 138</text>
+  
+  <!-- Arrow marker definition -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#333"/>
+    </marker>
+  </defs>
+</svg>

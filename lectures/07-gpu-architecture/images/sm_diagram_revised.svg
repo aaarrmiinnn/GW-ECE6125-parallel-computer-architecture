@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background and outer container -->
+  <rect x="50" y="30" width="700" height="540" rx="15" ry="15" fill="#e6e6e6" stroke="#333" stroke-width="3"/>
+  <text x="400" y="70" font-family="Arial" font-size="24" font-weight="bold" text-anchor="middle">Streaming Multiprocessor (SM)</text>
+  
+  <!-- Main data flow path -->
+  <path d="M400 120 L400 520" stroke="#0066cc" stroke-width="6" stroke-dasharray="5,5" fill="none"/>
+  <path d="M200 270 L600 270" stroke="#0066cc" stroke-width="6" stroke-dasharray="5,5" fill="none"/>
+  <path d="M200 420 L600 420" stroke="#0066cc" stroke-width="6" stroke-dasharray="5,5" fill="none"/>
+  
+  <!-- Top section: Warp Schedulers -->
+  <rect x="250" y="120" width="300" height="100" rx="10" ry="10" fill="#99ccff" stroke="#333" stroke-width="2"/>
+  <text x="400" y="145" font-family="Arial" font-size="18" font-weight="bold" text-anchor="middle">Warp Schedulers</text>
+  <text x="400" y="170" font-family="Arial" font-size="12" text-anchor="middle">• Hardware logic to select which warps execute</text>
+  <text x="400" y="190" font-family="Arial" font-size="12" text-anchor="middle">• 2-4 schedulers per SM, multiple instructions per cycle</text>
+  <text x="400" y="210" font-family="Arial" font-size="12" text-anchor="middle">• Manages thread execution flow</text>
+  
+  <!-- Left section: ALUs -->
+  <rect x="100" y="300" width="200" height="100" rx="10" ry="10" fill="#ff9999" stroke="#333" stroke-width="2"/>
+  <text x="200" y="325" font-family="Arial" font-size="18" font-weight="bold" text-anchor="middle">ALUs (CUDA Cores)</text>
+  <text x="200" y="350" font-family="Arial" font-size="12" text-anchor="middle">• Integer and floating-point units</text>
+  <text x="200" y="370" font-family="Arial" font-size="12" text-anchor="middle">• Different ratios in architectures</text>
+  <text x="200" y="390" font-family="Arial" font-size="12" text-anchor="middle">• 32-128 ALUs per SM</text>
+  
+  <!-- Right section: Load/Store Units -->
+  <rect x="500" y="300" width="200" height="100" rx="10" ry="10" fill="#99cc99" stroke="#333" stroke-width="2"/>
+  <text x="600" y="325" font-family="Arial" font-size="18" font-weight="bold" text-anchor="middle">Load/Store Units</text>
+  <text x="600" y="350" font-family="Arial" font-size="12" text-anchor="middle">• Handle memory access operations</text>
+  <text x="600" y="370" font-family="Arial" font-size="12" text-anchor="middle">• Process memory requests (coalescing)</text>
+  <text x="600" y="390" font-family="Arial" font-size="12" text-anchor="middle">• Interact with cache hierarchy</text>
+  
+  <!-- Bottom left: Register File -->
+  <rect x="100" y="450" width="200" height="100" rx="10" ry="10" fill="#ffff99" stroke="#333" stroke-width="2"/>
+  <text x="200" y="475" font-family="Arial" font-size="18" font-weight="bold" text-anchor="middle">Register File</text>
+  <text x="200" y="500" font-family="Arial" font-size="12" text-anchor="middle">• Very large (64K+ per SM)</text>
+  <text x="200" y="520" font-family="Arial" font-size="12" text-anchor="middle">• Divided among active threads</text>
+  <text x="200" y="540" font-family="Arial" font-size="12" text-anchor="middle">• Access time ~1 cycle</text>
+  
+  <!-- Bottom middle: Shared Memory / L1 Cache -->
+  <rect x="320" y="450" width="160" height="100" rx="10" ry="10" fill="#cc99ff" stroke="#333" stroke-width="2"/>
+  <text x="400" y="475" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle">Shared Memory / L1</text>
+  <text x="400" y="500" font-family="Arial" font-size="12" text-anchor="middle">• Configurable split</text>
+  <text x="400" y="520" font-family="Arial" font-size="12" text-anchor="middle">• Programmer-managed</text>
+  <text x="400" y="540" font-family="Arial" font-size="12" text-anchor="middle">• Critical for performance</text>
+  
+  <!-- Bottom right: Instruction Buffers -->
+  <rect x="500" y="450" width="200" height="100" rx="10" ry="10" fill="#ffcc99" stroke="#333" stroke-width="2"/>
+  <text x="600" y="475" font-family="Arial" font-size="18" font-weight="bold" text-anchor="middle">Instruction Buffers</text>
+  <text x="600" y="500" font-family="Arial" font-size="12" text-anchor="middle">• Cached instructions from warps</text>
+  <text x="600" y="520" font-family="Arial" font-size="12" text-anchor="middle">• Enables rapid context switching</text>
+  <text x="600" y="540" font-family="Arial" font-size="12" text-anchor="middle">• Improves scheduler efficiency</text>
+  
+  <!-- Arrows for data flow -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#333"/>
+    </marker>
+  </defs>
+  
+  <!-- Connections from Warp Scheduler to components -->
+  <path d="M400 220 L400 270" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <path d="M300 220 C250 230, 200 250, 200 300" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <path d="M500 220 C550 230, 600 250, 600 300" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Connections from ALUs -->
+  <path d="M200 400 L200 450" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <path d="M270 400 C350 420, 350 430, 350 450" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Connections from Load/Store Units -->
+  <path d="M600 400 L600 450" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <path d="M530 400 C450 420, 450 430, 450 450" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Bidirectional arrows between components -->
+  <line x1="300" y1="350" x2="500" y2="350" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <line x1="500" y1="370" x2="300" y2="370" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <line x1="300" y1="500" x2="320" y2="500" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <line x1="320" y1="520" x2="300" y2="520" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <line x1="480" y1="500" x2="500" y2="500" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <line x1="500" y1="520" x2="480" y2="520" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+</svg>
