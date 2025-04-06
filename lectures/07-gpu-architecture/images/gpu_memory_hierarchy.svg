@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="900" height="600" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <style>
+            .title { font-size: 24px; font-weight: bold; font-family: Arial; }
+            .subtitle { font-size: 18px; font-weight: bold; font-family: Arial; }
+            .label { font-size: 14px; font-family: Arial; }
+            .small-text { font-size: 12px; font-family: Arial; }
+            .registers { fill: #4a90e2; }
+            .shared { fill: #50c878; }
+            .l1-cache { fill: #f5a623; }
+            .l2-cache { fill: #bd10e0; }
+            .global { fill: #9013fe; }
+            .arrow { stroke: #000; stroke-width: 2; }
+        </style>
+    </defs>
+
+    <!-- Title -->
+    <text x="450" y="40" class="title" text-anchor="middle">GPU Memory Hierarchy</text>
+
+    <!-- Memory Pyramid -->
+    <g transform="translate(200,100)">
+        <!-- Registers -->
+        <g transform="translate(200,0)">
+            <rect width="100" height="50" class="registers" opacity="0.8"/>
+            <text x="50" y="30" class="label" text-anchor="middle" fill="white">Registers</text>
+        </g>
+
+        <!-- Shared Memory -->
+        <g transform="translate(150,70)">
+            <rect width="200" height="60" class="shared" opacity="0.8"/>
+            <text x="100" y="35" class="label" text-anchor="middle" fill="white">Shared Memory</text>
+        </g>
+
+        <!-- L1 Cache -->
+        <g transform="translate(100,150)">
+            <rect width="300" height="70" class="l1-cache" opacity="0.8"/>
+            <text x="150" y="40" class="label" text-anchor="middle" fill="white">L1 Cache</text>
+        </g>
+
+        <!-- L2 Cache -->
+        <g transform="translate(50,240)">
+            <rect width="400" height="80" class="l2-cache" opacity="0.8"/>
+            <text x="200" y="45" class="label" text-anchor="middle" fill="white">L2 Cache</text>
+        </g>
+
+        <!-- Global Memory -->
+        <g transform="translate(0,340)">
+            <rect width="500" height="100" class="global" opacity="0.8"/>
+            <text x="250" y="55" class="label" text-anchor="middle" fill="white">Global Memory (DRAM)</text>
+        </g>
+    </g>
+
+    <!-- Characteristics -->
+    <g transform="translate(750,100)">
+        <text x="0" y="30" class="subtitle">Memory Characteristics</text>
+        
+        <!-- Registers -->
+        <g transform="translate(0,60)">
+            <text x="0" y="0" class="label" fill="#4a90e2">Registers:</text>
+            <text x="0" y="20" class="small-text">• Fastest access</text>
+            <text x="0" y="35" class="small-text">• Per-thread private</text>
+            <text x="0" y="50" class="small-text">• Limited quantity</text>
+        </g>
+
+        <!-- Shared Memory -->
+        <g transform="translate(0,130)">
+            <text x="0" y="0" class="label" fill="#50c878">Shared Memory:</text>
+            <text x="0" y="20" class="small-text">• Block-level scope</text>
+            <text x="0" y="35" class="small-text">• Low latency</text>
+            <text x="0" y="50" class="small-text">• Programmable cache</text>
+        </g>
+
+        <!-- L1 Cache -->
+        <g transform="translate(0,200)">
+            <text x="0" y="0" class="label" fill="#f5a623">L1 Cache:</text>
+            <text x="0" y="20" class="small-text">• Per-SM cache</text>
+            <text x="0" y="35" class="small-text">• Automatic caching</text>
+            <text x="0" y="50" class="small-text">• Hardware managed</text>
+        </g>
+
+        <!-- L2 Cache -->
+        <g transform="translate(0,270)">
+            <text x="0" y="0" class="label" fill="#bd10e0">L2 Cache:</text>
+            <text x="0" y="20" class="small-text">• Shared by all SMs</text>
+            <text x="0" y="35" class="small-text">• Larger capacity</text>
+            <text x="0" y="50" class="small-text">• Higher latency</text>
+        </g>
+
+        <!-- Global Memory -->
+        <g transform="translate(0,340)">
+            <text x="0" y="0" class="label" fill="#9013fe">Global Memory:</text>
+            <text x="0" y="20" class="small-text">• Accessible by all threads</text>
+            <text x="0" y="35" class="small-text">• Highest latency</text>
+            <text x="0" y="50" class="small-text">• Largest capacity</text>
+            <text x="0" y="65" class="small-text">• Host accessible</text>
+        </g>
+    </g>
+
+    <!-- Access Time Scale -->
+    <g transform="translate(200,500)">
+        <text x="0" y="0" class="subtitle">Relative Access Times</text>
+        <line x1="0" y1="30" x2="500" y2="30" stroke="#000" stroke-width="2"/>
+        <text x="0" y="50" class="small-text">1 cycle</text>
+        <text x="125" y="50" class="small-text">~30 cycles</text>
+        <text x="250" y="50" class="small-text">~100 cycles</text>
+        <text x="375" y="50" class="small-text">~200 cycles</text>
+        <text x="500" y="50" class="small-text">400-800 cycles</text>
+    </g>
+</svg> 

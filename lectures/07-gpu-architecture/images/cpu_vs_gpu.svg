@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="900" height="500" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <style>
+            .title { font-size: 20px; font-weight: bold; font-family: Arial; }
+            .label { font-size: 14px; font-family: Arial; }
+            .small-text { font-size: 12px; font-family: Arial; }
+            .cpu-color { fill: #4a90e2; }
+            .gpu-color { fill: #50c878; }
+            .memory { fill: #f5a623; }
+            .cache { fill: #bd10e0; }
+            .control { fill: #9013fe; }
+        </style>
+    </defs>
+
+    <!-- Title -->
+    <text x="450" y="30" class="title" text-anchor="middle">CPU vs GPU Architecture</text>
+
+    <!-- CPU Section -->
+    <g transform="translate(100,80)">
+        <text x="150" y="30" class="title" text-anchor="middle">CPU</text>
+        
+        <!-- CPU Cores -->
+        <rect x="50" y="50" width="60" height="60" class="cpu-color" opacity="0.8"/>
+        <rect x="130" y="50" width="60" height="60" class="cpu-color" opacity="0.8"/>
+        <rect x="210" y="50" width="60" height="60" class="cpu-color" opacity="0.8"/>
+        
+        <!-- CPU Labels -->
+        <text x="80" y="85" class="small-text" text-anchor="middle">Core 1</text>
+        <text x="160" y="85" class="small-text" text-anchor="middle">Core 2</text>
+        <text x="240" y="85" class="small-text" text-anchor="middle">Core 3</text>
+        
+        <!-- CPU Cache -->
+        <rect x="50" y="130" width="220" height="30" class="cache" opacity="0.8"/>
+        <text x="160" y="150" class="small-text" text-anchor="middle">Large Cache</text>
+        
+        <!-- CPU Control -->
+        <rect x="50" y="170" width="220" height="30" class="control" opacity="0.8"/>
+        <text x="160" y="190" class="small-text" text-anchor="middle">Sophisticated Control</text>
+    </g>
+
+    <!-- GPU Section -->
+    <g transform="translate(450,80)">
+        <text x="150" y="30" class="title" text-anchor="middle">GPU</text>
+        
+        <!-- GPU Cores (many small cores) -->
+        <g id="sm-unit">
+            <rect width="30" height="30" class="gpu-color" opacity="0.8"/>
+            <rect y="40" width="30" height="30" class="gpu-color" opacity="0.8"/>
+        </g>
+        
+        <!-- Replicate SM units -->
+        <use href="#sm-unit" x="50" y="50"/>
+        <use href="#sm-unit" x="90" y="50"/>
+        <use href="#sm-unit" x="130" y="50"/>
+        <use href="#sm-unit" x="170" y="50"/>
+        <use href="#sm-unit" x="210" y="50"/>
+        <use href="#sm-unit" x="250" y="50"/>
+        
+        <!-- GPU Cache -->
+        <rect x="50" y="130" width="230" height="20" class="cache" opacity="0.8"/>
+        <text x="165" y="144" class="small-text" text-anchor="middle">Smaller Cache</text>
+        
+        <!-- GPU Control -->
+        <rect x="50" y="160" width="230" height="20" class="control" opacity="0.8"/>
+        <text x="165" y="174" class="small-text" text-anchor="middle">Simple Control</text>
+        
+        <!-- GPU Memory -->
+        <rect x="50" y="190" width="230" height="20" class="memory" opacity="0.8"/>
+        <text x="165" y="204" class="small-text" text-anchor="middle">High Bandwidth Memory</text>
+    </g>
+
+    <!-- Key Characteristics -->
+    <g transform="translate(100,350)">
+        <text x="150" y="0" class="label" text-anchor="middle">CPU Characteristics:</text>
+        <text x="150" y="20" class="small-text" text-anchor="middle">• Optimized for sequential processing</text>
+        <text x="150" y="40" class="small-text" text-anchor="middle">• Large cache memory</text>
+        <text x="150" y="60" class="small-text" text-anchor="middle">• Complex control logic</text>
+        <text x="150" y="80" class="small-text" text-anchor="middle">• Branch prediction</text>
+    </g>
+
+    <g transform="translate(500,350)">
+        <text x="150" y="0" class="label" text-anchor="middle">GPU Characteristics:</text>
+        <text x="150" y="20" class="small-text" text-anchor="middle">• Massive parallel processing</text>
+        <text x="150" y="40" class="small-text" text-anchor="middle">• High throughput</text>
+        <text x="150" y="60" class="small-text" text-anchor="middle">• Simple control per core</text>
+        <text x="150" y="80" class="small-text" text-anchor="middle">• High memory bandwidth</text>
+    </g>
+</svg> 

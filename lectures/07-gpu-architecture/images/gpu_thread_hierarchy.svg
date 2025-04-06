@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="900" height="600" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <style>
+            .title { font-size: 24px; font-weight: bold; font-family: Arial; }
+            .subtitle { font-size: 18px; font-weight: bold; font-family: Arial; }
+            .label { font-size: 14px; font-family: Arial; }
+            .small-text { font-size: 12px; font-family: Arial; }
+            .grid { fill: #4a90e2; }
+            .block { fill: #50c878; }
+            .warp { fill: #f5a623; }
+            .thread { fill: #bd10e0; }
+        </style>
+    </defs>
+
+    <!-- Title -->
+    <text x="450" y="40" class="title" text-anchor="middle">GPU Thread Hierarchy</text>
+
+    <!-- Grid Level -->
+    <g transform="translate(50,80)">
+        <rect width="800" height="400" class="grid" opacity="0.1" stroke="#4a90e2" stroke-width="2"/>
+        <text x="400" y="-10" class="subtitle" text-anchor="middle">Grid</text>
+
+        <!-- Blocks -->
+        <g transform="translate(20,20)">
+            <!-- First row of blocks -->
+            <g class="block-row">
+                <rect width="230" height="170" class="block" opacity="0.2" stroke="#50c878" stroke-width="2"/>
+                <rect x="250" width="230" height="170" class="block" opacity="0.2" stroke="#50c878" stroke-width="2"/>
+                <rect x="500" width="230" height="170" class="block" opacity="0.2" stroke="#50c878" stroke-width="2"/>
+            </g>
+            <!-- Second row of blocks -->
+            <g transform="translate(0,190)">
+                <rect width="230" height="170" class="block" opacity="0.2" stroke="#50c878" stroke-width="2"/>
+                <rect x="250" width="230" height="170" class="block" opacity="0.2" stroke="#50c878" stroke-width="2"/>
+                <rect x="500" width="230" height="170" class="block" opacity="0.2" stroke="#50c878" stroke-width="2"/>
+            </g>
+        </g>
+    </g>
+
+    <!-- Zoom into one block -->
+    <g transform="translate(50,500)">
+        <text x="0" y="20" class="subtitle">Block Detail:</text>
+        <rect x="100" y="0" width="200" height="80" class="block" opacity="0.2" stroke="#50c878" stroke-width="2"/>
+        
+        <!-- Warps within block -->
+        <g transform="translate(110,10)">
+            <rect width="85" height="25" class="warp" opacity="0.3" stroke="#f5a623" stroke-width="1"/>
+            <rect x="95" width="85" height="25" class="warp" opacity="0.3" stroke="#f5a623" stroke-width="1"/>
+            <rect y="35" width="85" height="25" class="warp" opacity="0.3" stroke="#f5a623" stroke-width="1"/>
+            <rect x="95" y="35" width="85" height="25" class="warp" opacity="0.3" stroke="#f5a623" stroke-width="1"/>
+            <text x="42" y="17" class="small-text" text-anchor="middle">Warp 0</text>
+            <text x="137" y="17" class="small-text" text-anchor="middle">Warp 1</text>
+            <text x="42" y="52" class="small-text" text-anchor="middle">Warp 2</text>
+            <text x="137" y="52" class="small-text" text-anchor="middle">Warp 3</text>
+        </g>
+    </g>
+
+    <!-- Zoom into one warp -->
+    <g transform="translate(400,500)">
+        <text x="0" y="20" class="subtitle">Warp Detail:</text>
+        <rect x="100" y="0" width="200" height="80" class="warp" opacity="0.3" stroke="#f5a623" stroke-width="2"/>
+        
+        <!-- Threads within warp -->
+        <g transform="translate(110,10)">
+            <g id="thread-row">
+                <rect width="15" height="15" class="thread" opacity="0.4"/>
+                <rect x="20" width="15" height="15" class="thread" opacity="0.4"/>
+                <rect x="40" width="15" height="15" class="thread" opacity="0.4"/>
+                <rect x="60" width="15" height="15" class="thread" opacity="0.4"/>
+                <rect x="80" width="15" height="15" class="thread" opacity="0.4"/>
+                <rect x="100" width="15" height="15" class="thread" opacity="0.4"/>
+                <rect x="120" width="15" height="15" class="thread" opacity="0.4"/>
+                <rect x="140" width="15" height="15" class="thread" opacity="0.4"/>
+            </g>
+            <use href="#thread-row" y="20"/>
+            <use href="#thread-row" y="40"/>
+            <text x="80" y="65" class="small-text" text-anchor="middle">32 Threads per Warp</text>
+        </g>
+    </g>
+
+    <!-- Labels -->
+    <g transform="translate(700,500)">
+        <text x="0" y="20" class="subtitle">Hierarchy:</text>
+        <text x="0" y="45" class="label">Grid → Blocks → Warps → Threads</text>
+        <text x="0" y="65" class="small-text">• Multiple blocks form a grid</text>
+        <text x="0" y="80" class="small-text">• Multiple warps form a block</text>
+        <text x="0" y="95" class="small-text">• 32 threads form a warp</text>
+    </g>
+</svg> 
