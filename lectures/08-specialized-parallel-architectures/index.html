@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Add base tag for GitHub Pages compatibility -->
+    <base id="baseTag" href="">
+    <title>GPU Architecture & Programming - GWU</title>
+    
+    <!-- Reveal.js -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/reveal.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/theme/white.min.css" id="theme">
+    
+    <!-- Plugins CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/plugin/highlight/monokai.css">
+    
+    <!-- PDF Export -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/css/print/pdf.css" media="print">
+    
+    <!-- Custom script to handle GitHub Pages base URL -->
+    <script>
+        // Set the base href dynamically for GitHub Pages compatibility
+        (function() {
+            var path = window.location.pathname;
+            var isGitHubPages = path.indexOf('github.io') !== -1;
+            
+            if (isGitHubPages) {
+                var repoName = path.split('/')[1]; 
+                document.getElementById('baseTag').href = '/' + repoName + '/';
+            }
+        })();
+    </script>
+    
+    <!-- Dark Mode Toggle Script -->
+    <script>
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            var theme = document.body.classList.contains('dark-mode') ? 'black' : 'white';
+            document.getElementById('theme').href = `https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/theme/${theme}.min.css`;
+        }
+    </script>
+    
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --gwu-blue: #004065;
+            --gwu-gold: #FFD200;
+        }
+        
+        .reveal {
+            font-size: 1.35em;
+        }
+        
+        .reveal h1 {
+            font-size: 2.6em;
+            color: var(--gwu-blue);
+            padding-right: 100px;
+        }
+        
+        .reveal h2 {
+            font-size: 2.0em;
+            color: var(--gwu-blue);
+            padding-right: 100px;
+        }
+        
+        .reveal h3 {
+            font-size: 1.7em;
+            color: #333;
+            padding-right: 100px;
+        }
+        
+        .reveal h4 {
+            font-size: 1.4em;
+            color: #333;
+            padding-right: 100px;
+        }
+        
+        .reveal p, .reveal li {
+            font-size: 1.25em;
+            line-height: 1.4;
+        }
+        
+        .reveal li li {
+            font-size: 0.95em;
+        }
+        
+        .reveal strong {
+            color: var(--gwu-blue);
+        }
+        
+        .reveal ul li::marker {
+            color: var(--gwu-gold);
+        }
+        
+        .reveal ul {
+            list-style-type: disc;
+        }
+        
+        .reveal .slides {
+            text-align: left;
+        }
+        
+        .reveal .slide-number {
+            font-size: 20px;
+            background-color: rgba(0, 0, 0, 0.3);
+            padding: 5px 10px;
+            border-radius: 8px;
+            right: auto;
+            bottom: 18px;
+            left: 18px;
+        }
+        
+        .logo {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 90px;
+            z-index: 1000;
+        }
+        
+        .footer {
+            position: fixed;
+            bottom: 10px;
+            right: 20px;
+            font-size: 16px;
+            color: #666;
+            z-index: 1000;
+        }
+        
+        .reveal table {
+            margin: 20px 0;
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 1.1em;
+        }
+        
+        .reveal table th,
+        .reveal table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        
+        .reveal table th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        
+        .reveal .progress {
+            color: var(--gwu-blue);
+        }
+        
+        .reveal .controls {
+            color: var(--gwu-blue);
+        }
+        
+        .reveal .slide-menu-button {
+            color: var(--gwu-blue);
+        }
+        
+        /* Code block styling for better readability */
+        .reveal pre {
+            font-size: 1.2em;
+            line-height: 1.4;
+            max-height: 500px;
+            overflow-y: auto;
+            padding: 0.8em;
+            margin: 0.5em 0;
+            background-color: #1e1e1e; /* Dark background for code blocks */
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            border-radius: 5px;
+        }
+        
+        .reveal pre code {
+            font-size: 1.1em;
+            font-weight: 500;
+            padding: 0;
+            background-color: transparent;
+            color: #d4d4d4; /* Light gray text for code */
+        }
+        
+        /* Syntax highlighting for code */
+        .reveal pre code .hljs-keyword {
+            color: #569cd6; /* Blue for keywords */
+        }
+        
+        .reveal pre code .hljs-string {
+            color: #ce9178; /* Orange for strings */
+        }
+        
+        .reveal pre code .hljs-number {
+            color: #b5cea8; /* Light green for numbers */
+        }
+        
+        /* Comments in code should be more visible */
+        .reveal pre code .hljs-comment {
+            color: #6a9955; /* Green for comments */
+            font-style: italic;
+        }
+        
+        .reveal pre code .hljs-function {
+            color: #dcdcaa; /* Yellow for functions */
+        }
+        
+        /* Inline code styling */
+        code {
+            background-color: #2d2d2d;
+            color: #d4d4d4;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 1em;
+        }
+        
+        .reveal img {
+            max-height: 500px;
+            margin: 15px 0;
+        }
+        
+        /* Dark mode styles */
+        body.dark-mode {
+            background-color: #111;
+            color: #eee;
+        }
+        
+        .dark-mode .reveal h1, .dark-mode .reveal h2 {
+            color: var(--gwu-gold) !important;
+        }
+        
+        .dark-mode .reveal h3, .dark-mode .reveal h4 {
+            color: #ccc !important;
+        }
+        
+        .dark-mode .reveal strong {
+            color: var(--gwu-gold) !important;
+        }
+        
+        .dark-mode .reveal ul li::marker {
+            color: var(--gwu-gold) !important;
+        }
+        
+        .dark-mode code {
+            background-color: #1a1a1a; /* Slightly darker background in dark mode */
+            color: #e0e0e0; /* Slightly brighter text in dark mode */
+        }
+        
+        .dark-mode .reveal pre {
+            background-color: #1a1a1a;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+        }
+        
+        .dark-mode .footer {
+            color: #999;
+        }
+        
+        .dark-mode .reveal table th {
+            background-color: #333;
+            color: #eee;
+        }
+        
+        .dark-mode .reveal table td {
+            border-color: #444;
+            color: #eee;
+        }
+        
+        .reveal .slides section {
+            height: 100%;
+            padding: 20px 30px;
+            overflow-y: auto !important;
+        }
+        
+        .reveal em {
+            color: #444;
+            font-style: normal;
+            font-size: 0.9em;
+        }
+        
+        @media print {
+            .logo, .footer, .controls, .progress, .slide-menu-button, .slide-number {
+                display: none !important;
+            }
+        }
+        
+        /* Two-column layout */
+        .columns {
+            display: flex;
+            justify-content: space-between;
+            gap: 2em;
+        }
+        
+        .column {
+            flex: 1;
+        }
+    </style>
+</head>
+<body>
+    <!-- GW Logo -->
+    <img src="../../images/gw_monogram_2c.png" alt="GW Logo" class="logo">
+    
+    <!-- Dark Mode Toggle Button -->
+    <button onclick="toggleDarkMode()" style="position: fixed; top: 20px; right: 120px; z-index: 1000; padding: 8px 16px; background: var(--gwu-blue); color: white; border: none; border-radius: 4px; cursor: pointer;">
+        Dark Mode
+    </button>
+    
+    <!-- Download PDF Button -->
+    <button onclick="window.print()" style="position: fixed; top: 20px; right: 220px; z-index: 1000; padding: 8px 16px; background: var(--gwu-blue); color: white; border: none; border-radius: 4px; cursor: pointer;">
+        Download PDF
+    </button>
+
+    <div class="reveal">
+        <div class="slides">
+            <section data-markdown="slides.md"
+                     data-separator="^---"
+                     data-separator-vertical="^--"
+                     data-separator-notes="^Note:"
+                     data-charset="utf-8">
+            </section>
+        </div>
+    </div>
+
+    <div class="footer">GWU ECE 6125 - Armin Mehrabian - Spring 2025</div>
+
+    <!-- Reveal.js Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/reveal.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/plugin/markdown/markdown.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/plugin/highlight/highlight.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/plugin/notes/notes.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/plugin/math/math.min.js"></script>
+    
+    <script>
+        Reveal.initialize({
+            hash: true,
+            slideNumber: true,
+            navigationMode: 'linear',
+            transition: 'slide',
+            plugins: [
+                RevealMarkdown,
+                RevealHighlight,
+                RevealNotes,
+                RevealMath.KaTeX
+            ]
+        });
+    </script>
+</body>
+</html> 

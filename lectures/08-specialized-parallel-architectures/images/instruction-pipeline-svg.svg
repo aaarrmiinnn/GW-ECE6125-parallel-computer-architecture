@@ -1,0 +1,94 @@
+<svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background styling -->
+  <defs>
+    <linearGradient id="bg-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#f8f9fa" />
+      <stop offset="100%" stop-color="#e9ecef" />
+    </linearGradient>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#bg-gradient)" rx="10" ry="10" />
+
+  <!-- Main pipeline flow -->
+  <path d="M 100,200 H 700" stroke="#adb5bd" stroke-width="4" stroke-dasharray="5,5" />
+  
+  <!-- Stage boxes -->
+  <g>
+    <!-- Read instruction -->
+    <rect x="100" y="120" width="160" height="60" rx="10" ry="10" fill="#4361ee" opacity="0.9" />
+    <text x="180" y="145" text-anchor="middle" fill="white" font-family="Arial" font-weight="bold" font-size="14">READ</text>
+    <text x="180" y="165" text-anchor="middle" fill="white" font-family="Arial" font-size="12">INSTRUCTION</text>
+    
+    <!-- Decode instruction -->
+    <rect x="320" y="120" width="160" height="60" rx="10" ry="10" fill="#3a0ca3" opacity="0.9" />
+    <text x="400" y="145" text-anchor="middle" fill="white" font-family="Arial" font-weight="bold" font-size="14">DECODE</text>
+    <text x="400" y="165" text-anchor="middle" fill="white" font-family="Arial" font-size="12">INSTRUCTION</text>
+    
+    <!-- Pipeline complexities -->
+    <rect x="540" y="120" width="160" height="60" rx="10" ry="10" fill="#7209b7" opacity="0.9" />
+    <text x="620" y="145" text-anchor="middle" fill="white" font-family="Arial" font-weight="bold" font-size="14">PIPELINE</text>
+    <text x="620" y="165" text-anchor="middle" fill="white" font-family="Arial" font-size="12">COMPLEXITIES</text>
+  </g>
+  
+  <!-- Sub-activities -->
+  <g>
+    <!-- Read instruction sub-activities -->
+    <rect x="90" y="220" width="70" height="40" rx="5" ry="5" fill="#4895ef" opacity="0.8" />
+    <text x="125" y="245" text-anchor="middle" fill="white" font-family="Arial" font-size="10">Address</text>
+    
+    <rect x="170" y="220" width="70" height="40" rx="5" ry="5" fill="#4895ef" opacity="0.8" />
+    <text x="205" y="245" text-anchor="middle" fill="white" font-family="Arial" font-size="10">ICache</text>
+    
+    <rect x="130" y="270" width="70" height="40" rx="5" ry="5" fill="#4895ef" opacity="0.8" />
+    <text x="165" y="295" text-anchor="middle" fill="white" font-family="Arial" font-size="10">Access</text>
+    
+    <!-- Decode instruction sub-activities -->
+    <rect x="310" y="220" width="70" height="40" rx="5" ry="5" fill="#560bad" opacity="0.8" />
+    <text x="345" y="245" text-anchor="middle" fill="white" font-family="Arial" font-size="10">Op→μOps</text>
+    
+    <rect x="390" y="220" width="70" height="40" rx="5" ry="5" fill="#560bad" opacity="0.8" />
+    <text x="425" y="245" text-anchor="middle" fill="white" font-family="Arial" font-size="10">μOp Cache</text>
+    
+    <!-- Pipeline complexities sub-activities -->
+    <rect x="510" y="220" width="70" height="40" rx="5" ry="5" fill="#b5179e" opacity="0.8" />
+    <text x="545" y="245" text-anchor="middle" fill="white" font-family="Arial" font-size="10">Hazards</text>
+    
+    <rect x="590" y="220" width="70" height="40" rx="5" ry="5" fill="#b5179e" opacity="0.8" />
+    <text x="625" y="245" text-anchor="middle" fill="white" font-family="Arial" font-size="10">Resources</text>
+    
+    <rect x="530" y="270" width="70" height="40" rx="5" ry="5" fill="#b5179e" opacity="0.8" />
+    <text x="565" y="295" text-anchor="middle" fill="white" font-family="Arial" font-size="10">Registers</text>
+    
+    <rect x="610" y="270" width="70" height="40" rx="5" ry="5" fill="#b5179e" opacity="0.8" />
+    <text x="645" y="295" text-anchor="middle" fill="white" font-family="Arial" font-size="10">Data Move</text>
+  </g>
+  
+  <!-- Connecting lines -->
+  <g stroke="#6c757d" stroke-width="1.5">
+    <!-- Read instruction connections -->
+    <line x1="125" y1="220" x2="167" y2="180" />
+    <line x1="205" y1="220" x2="193" y2="180" />
+    <line x1="165" y1="270" x2="180" y2="180" />
+    
+    <!-- Decode instruction connections -->
+    <line x1="345" y1="220" x2="387" y2="180" />
+    <line x1="425" y1="220" x2="413" y2="180" />
+    
+    <!-- Pipeline complexities connections -->
+    <line x1="545" y1="220" x2="607" y2="180" />
+    <line x1="625" y1="220" x2="633" y2="180" />
+    <line x1="565" y1="270" x2="613" y2="180" />
+    <line x1="645" y1="270" x2="627" y2="180" />
+  </g>
+  
+  <!-- Flow arrows -->
+  <g>
+    <polygon points="280,150 290,145 290,155" fill="#495057" />
+    <line x1="260" y1="150" x2="290" y2="150" stroke="#495057" stroke-width="2" />
+    
+    <polygon points="500,150 510,145 510,155" fill="#495057" />
+    <line x1="480" y1="150" x2="510" y2="150" stroke="#495057" stroke-width="2" />
+  </g>
+  
+  <!-- Title -->
+  <text x="400" y="50" text-anchor="middle" font-family="Arial" font-weight="bold" font-size="20" fill="#212529">Instruction Execution Pipeline</text>
+</svg>
