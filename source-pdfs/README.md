@@ -4,6 +4,7 @@ Place PDF lecture slides here that need to be converted to the Reveal.js format.
 
 ## PDFs to Convert
 
+- [ ] Lecture 01 - (add title)
 - [ ] Lecture 02 - (add title)
 - [ ] Lecture 03 - (add title)
 - [ ] Lecture 04 - (add title)
