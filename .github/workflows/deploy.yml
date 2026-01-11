@@ -2,7 +2,7 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - main
+      - spring-2026
 jobs:
   deploy:
     runs-on: ubuntu-latest
