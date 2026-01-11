@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="800" height="500" xmlns="http://www.w3.org/2000/svg">
+  <!-- Title -->
+  <text x="400" y="30" text-anchor="middle" font-family="Arial" font-size="20" font-weight="bold">Parallel Programming Models Comparison</text>
+  
+  <!-- Table headers -->
+  <rect x="50" y="60" width="150" height="40" fill="#004065" rx="5" ry="5"/>
+  <rect x="200" y="60" width="140" height="40" fill="#004065" rx="5" ry="5"/>
+  <rect x="340" y="60" width="120" height="40" fill="#004065" rx="5" ry="5"/>
+  <rect x="460" y="60" width="190" height="40" fill="#004065" rx="5" ry="5"/>
+  <rect x="650" y="60" width="100" height="40" fill="#004065" rx="5" ry="5"/>
+  
+  <text x="125" y="85" text-anchor="middle" font-family="Arial" font-size="14" fill="white" font-weight="bold">Model</text>
+  <text x="270" y="85" text-anchor="middle" font-family="Arial" font-size="14" fill="white" font-weight="bold">Memory Model</text>
+  <text x="400" y="85" text-anchor="middle" font-family="Arial" font-size="14" fill="white" font-weight="bold">Use Case</text>
+  <text x="555" y="85" text-anchor="middle" font-family="Arial" font-size="14" fill="white" font-weight="bold">Pros/Cons</text>
+  <text x="700" y="85" text-anchor="middle" font-family="Arial" font-size="14" fill="white" font-weight="bold">Scalability</text>
+  
+  <!-- OpenMP row -->
+  <rect x="50" y="100" width="150" height="70" fill="#F0F0F0" rx="5" ry="5" stroke="#CCCCCC"/>
+  <rect x="200" y="100" width="140" height="70" fill="#F0F0F0" rx="5" ry="5" stroke="#CCCCCC"/>
+  <rect x="340" y="100" width="120" height="70" fill="#F0F0F0" rx="5" ry="5" stroke="#CCCCCC"/>
+  <rect x="460" y="100" width="190" height="70" fill="#F0F0F0" rx="5" ry="5" stroke="#CCCCCC"/>
+  <rect x="650" y="100" width="100" height="70" fill="#F0F0F0" rx="5" ry="5" stroke="#CCCCCC"/>
+  
+  <text x="125" y="125" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold" fill="#004065">OpenMP</text>
+  <text x="125" y="145" text-anchor="middle" font-family="Arial" font-size="12">#pragma based</text>
+  <text x="125" y="160" text-anchor="middle" font-family="Arial" font-size="12">Fork-Join model</text>
+  
+  <text x="270" y="125" text-anchor="middle" font-family="Arial" font-size="14" fill="#333333">Shared Memory</text>
+  <text x="270" y="145" text-anchor="middle" font-family="Arial" font-size="12">(Single node)</text>
+  
+  <text x="400" y="125" text-anchor="middle" font-family="Arial" font-size="12">Multi-core CPUs</text>
+  <text x="400" y="145" text-anchor="middle" font-family="Arial" font-size="12">Parallel loops</text>
+  <text x="400" y="160" text-anchor="middle" font-family="Arial" font-size="12">Sections</text>
+  
+  <text x="465" y="120" text-anchor="start" font-family="Arial" font-size="12" fill="#006600">+ Easy to implement</text>
+  <text x="465" y="135" text-anchor="start" font-family="Arial" font-size="12" fill="#006600">+ Incremental parallelization</text>
+  <text x="465" y="150" text-anchor="start" font-family="Arial" font-size="12" fill="#990000">- Limited to single node</text>
+  <text x="465" y="165" text-anchor="start" font-family="Arial" font-size="12" fill="#990000">- Race conditions possible</text>
+  
+  <rect x="665" y="115" width="70" height="40" fill="#99CC99" rx="15" ry="15"/>
+  <text x="700" y="140" text-anchor="middle" font-family="Arial" font-size="14" fill="#333333">Medium</text>
+  
+  <!-- MPI row -->
+  <rect x="50" y="170" width="150" height="70" fill="#F8F8F8" rx="5" ry="5" stroke="#CCCCCC"/>
+  <rect x="200" y="170" width="140" height="70" fill="#F8F8F8" rx="5" ry="5" stroke="#CCCCCC"/>
+  <rect x="340" y="170" width="120" height="70" fill="#F8F8F8" rx="5" ry="5" stroke="#CCCCCC"/>
+  <rect x="460" y="170" width="190" height="70" fill="#F8F8F8" rx="5" ry="5" stroke="#CCCCCC"/>
+  <rect x="650" y="170" width="100" height="70" fill="#F8F8F8" rx="5" ry="5" stroke="#CCCCCC"/>
+  
+  <text x="125" y="195" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold" fill="#004065">MPI</text>
+  <text x="125" y="215" text-anchor="middle" font-family="Arial" font-size="12">Message Passing</text>
+  <text x="125" y="230" text-anchor="middle" font-family="Arial" font-size="12">Interface</text>
+  
+  <text x="270" y="195" text-anchor="middle" font-family="Arial" font-size="14" fill="#333333">Distributed Memory</text>
+  <text x="270" y="215" text-anchor="middle" font-family="Arial" font-size="12">(Explicit communication)</text>
+  
+  <text x="400" y="195" text-anchor="middle" font-family="Arial" font-size="12">HPC Clusters</text>
+  <text x="400" y="215" text-anchor="middle" font-family="Arial" font-size="12">Multi-node jobs</text>
+  <text x="400" y="230" text-anchor="middle" font-family="Arial" font-size="12">Supercomputers</text>
+  
+  <text x="465" y="190" text-anchor="start" font-family="Arial" font-size="12" fill="#006600">+ Highly scalable</text>
+  <text x="465" y="205" text-anchor="start" font-family="Arial" font-size="12" fill="#006600">+ Platform independent</text>
+  <text x="465" y="220" text-anchor="start" font-family="Arial" font-size="12" fill="#990000">- Complex to program</text>
+  <text x="465" y="235" text-anchor="start" font-family="Arial" font-size="12" fill="#990000">- Explicit data distribution</text>
+  
+  <rect x="665" y="185" width="70" height="40" fill="#66AA66" rx="15" ry="15"/>
+  <text x="700" y="210" text-anchor="middle" font-family="Arial" font-size="14" fill="#333333">High</text>
+  
+  <!-- CUDA row -->
+  <rect x="50" y="240" width="150" height="70" fill="#F0F0F0" rx="5" ry="5" stroke="#CCCCCC"/>
+  <rect x="200" y="240" width="140" height="70" fill="#F0F0F0" rx="5" ry="5" stroke="#CCCCCC"/>
+  <rect x="340" y="240" width="120" height="70" fill="#F0F0F0" rx="5" ry="5" stroke="#CCCCCC"/>
+  <rect x="460" y="240" width="190" height="70" fill="#F0F0F0" rx="5" ry="5" stroke="#CCCCCC"/>
+  <rect x="650" y="240" width="100" height="70" fill="#F0F0F0" rx="5" ry="5" stroke="#CCCCCC"/>
+  
+  <text x="125" y="265" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold" fill="#004065">CUDA / OpenCL</text>
+  <text x="125" y="285" text-anchor="middle" font-family="Arial" font-size="12">GPU Programming</text>
+  <text x="125" y="300" text-anchor="middle" font-family="Arial" font-size="12">SIMD model</text>
+  
+  <text x="270" y="265" text-anchor="middle" font-family="Arial" font-size="14" fill="#333333">Hierarchical Memory</text>
+  <text x="270" y="285" text-anchor="middle" font-family="Arial" font-size="12">(Host + Device)</text>
+  
+  <text x="400" y="265" text-anchor="middle" font-family="Arial" font-size="12">Highly parallel</text>
+  <text x="400" y="285" text-anchor="middle" font-family="Arial" font-size="12">computations</text>
+  <text x="400" y="300" text-anchor="middle" font-family="Arial" font-size="12">ML, Simulations</text>
+  
+  <text x="465" y="260" text-anchor="start" font-family="Arial" font-size="12" fill="#006600">+ Massive parallelism</text>
+  <text x="465" y="275" text-anchor="start" font-family="Arial" font-size="12" fill="#006600">+ Energy efficient</text>
+  <text x="465" y="290" text-anchor="start" font-family="Arial" font-size="12" fill="#990000">- Complex memory model</text>
+  <text x="465" y="305" text-anchor="start" font-family="Arial" font-size="12" fill="#990000">- Limited task parallelism</text>
+  
+  <rect x="665" y="255" width="70" height="40" fill="#66AA66" rx="15" ry="15"/>
+  <text x="700" y="280" text-anchor="middle" font-family="Arial" font-size="14" fill="#333333">High</text>
+  
+  <!-- Spark row -->
+  <rect x="50" y="310" width="150" height="70" fill="#F8F8F8" rx="5" ry="5" stroke="#CCCCCC"/>
+  <rect x="200" y="310" width="140" height="70" fill="#F8F8F8" rx="5" ry="5" stroke="#CCCCCC"/>
+  <rect x="340" y="310" width="120" height="70" fill="#F8F8F8" rx="5" ry="5" stroke="#CCCCCC"/>
+  <rect x="460" y="310" width="190" height="70" fill="#F8F8F8" rx="5" ry="5" stroke="#CCCCCC"/>
+  <rect x="650" y="310" width="100" height="70" fill="#F8F8F8" rx="5" ry="5" stroke="#CCCCCC"/>
+  
+  <text x="125" y="335" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold" fill="#004065">Apache Spark</text>
+  <text x="125" y="355" text-anchor="middle" font-family="Arial" font-size="12">RDD-based</text>
+  <text x="125" y="370" text-anchor="middle" font-family="Arial" font-size="12">Map-Reduce model</text>
+  
+  <text x="270" y="335" text-anchor="middle" font-family="Arial" font-size="14" fill="#333333">Distributed Memory</text>
+  <text x="270" y="355" text-anchor="middle" font-family="Arial" font-size="12">(High-level abstraction)</text>
+  
+  <text x="400" y="335" text-anchor="middle" font-family="Arial" font-size="12">Big Data</text>
+  <text x="400" y="355" text-anchor="middle" font-family="Arial" font-size="12">ML/Analytics</text>
+  <text x="400" y="370" text-anchor="middle" font-family="Arial" font-size="12">Data Pipelines</text>
+  
+  <text x="465" y="330" text-anchor="start" font-family="Arial" font-size="12" fill="#006600">+ High-level abstractions</text>
+  <text x="465" y="345" text-anchor="start" font-family="Arial" font-size="12" fill="#006600">+ Fault tolerance</text>
+  <text x="465" y="360" text-anchor="start" font-family="Arial" font-size="12" fill="#990000">- JVM overhead</text>
+  <text x="465" y="375" text-anchor="start" font-family="Arial" font-size="12" fill="#990000">- Not for fine-grained tasks</text>
+  
+  <rect x="665" y="325" width="70" height="40" fill="#66AA66" rx="15" ry="15"/>
+  <text x="700" y="350" text-anchor="middle" font-family="Arial" font-size="14" fill="#333333">High</text>
+  
+  <!-- PGAS row -->
+  <rect x="50" y="380" width="150" height="70" fill="#F0F0F0" rx="5" ry="5" stroke="#CCCCCC"/>
+  <rect x="200" y="380" width="140" height="70" fill="#F0F0F0" rx="5" ry="5" stroke="#CCCCCC"/>
+  <rect x="340" y="380" width="120" height="70" fill="#F0F0F0" rx="5" ry="5" stroke="#CCCCCC"/>
+  <rect x="460" y="380" width="190" height="70" fill="#F0F0F0" rx="5" ry="5" stroke="#CCCCCC"/>
+  <rect x="650" y="380" width="100" height="70" fill="#F0F0F0" rx="5" ry="5" stroke="#CCCCCC"/>
+  
+  <text x="125" y="405" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold" fill="#004065">PGAS</text>
+  <text x="125" y="425" text-anchor="middle" font-family="Arial" font-size="12">Chapel, X10, UPC</text>
+  <text x="125" y="440" text-anchor="middle" font-family="Arial" font-size="12">Global address space</text>
+  
+  <text x="270" y="405" text-anchor="middle" font-family="Arial" font-size="14" fill="#333333">Partitioned Global</text>
+  <text x="270" y="425" text-anchor="middle" font-family="Arial" font-size="12">Address Space</text>
+  
+  <text x="400" y="405" text-anchor="middle" font-family="Arial" font-size="12">HPC applications</text>
+  <text x="400" y="425" text-anchor="middle" font-family="Arial" font-size="12">Scientific codes</text>
+  <text x="400" y="440" text-anchor="middle" font-family="Arial" font-size="12">Sparse problems</text>
+  
+  <text x="465" y="400" text-anchor="start" font-family="Arial" font-size="12" fill="#006600">+ Simpler than MPI</text>
+  <text x="465" y="415" text-anchor="start" font-family="Arial" font-size="12" fill="#006600">+ Locality awareness</text>
+  <text x="465" y="430" text-anchor="start" font-family="Arial" font-size="12" fill="#990000">- Limited adoption</text>
+  <text x="465" y="445" text-anchor="start" font-family="Arial" font-size="12" fill="#990000">- Performance tuning</text>
+  
+  <rect x="665" y="395" width="70" height="40" fill="#66AA66" rx="15" ry="15"/>
+  <text x="700" y="420" text-anchor="middle" font-family="Arial" font-size="14" fill="#333333">High</text>
+  
+  <!-- Code Examples -->
+  <rect x="50" y="460" width="700" height="30" fill="#004065" rx="5" ry="5"/>
+  <text x="400" y="480" text-anchor="middle" font-family="Arial" font-size="14" fill="white" font-weight="bold">Programming Model Selection Guidelines</text>
+  
+  <text x="120" y="500" text-anchor="middle" font-family="Arial" font-size="12" font-weight="bold">Single Node:</text>
+  <text x="230" y="500" text-anchor="start" font-family="Arial" font-size="12">→ OpenMP</text>
+  
+  <text x="320" y="500" text-anchor="middle" font-family="Arial" font-size="12" font-weight="bold">Multi-Node:</text>
+  <text x="420" y="500" text-anchor="start" font-family="Arial" font-size="12">→ MPI, Hybrid MPI+OpenMP</text>
+  
+  <text x="570" y="500" text-anchor="middle" font-family="Arial" font-size="12" font-weight="bold">Accelerators:</text>
+  <text x="670" y="500" text-anchor="start" font-family="Arial" font-size="12">→ CUDA/OpenCL</text>
+  
+</svg> 

@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background gradient -->
+  <defs>
+    <linearGradient id="bg-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#f8f9fa;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#e9ecef;stop-opacity:1" />
+    </linearGradient>
+    <!-- Arrow marker definition -->
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#1D3557" />
+    </marker>
+  </defs>
+  <rect width="800" height="400" fill="url(#bg-gradient)" rx="10" ry="10" />
+  
+  <!-- Title -->
+  <text x="400" y="40" font-family="Arial, sans-serif" font-size="24" font-weight="bold" text-anchor="middle" fill="#333">Rasterization: Converting Primitives to Fragments</text>
+  
+  <!-- Left Side: Geometric Primitives -->
+  <g transform="translate(180, 210)">
+    <!-- Geometric primitives label -->
+    <text x="0" y="-110" font-family="Arial, sans-serif" font-size="18" font-weight="bold" text-anchor="middle" fill="#1D3557">Geometric Primitives</text>
+    
+    <!-- Triangle primitive -->
+    <g transform="translate(0, -40)">
+      <polygon points="0,-50 50,30 -50,30" fill="#A8DADC" fill-opacity="0.7" stroke="#1D3557" stroke-width="2" />
+      
+      <!-- Vertices as dots -->
+      <circle cx="0" cy="-50" r="5" fill="#E63946" />
+      <circle cx="50" cy="30" r="5" fill="#E63946" />
+      <circle cx="-50" cy="30" r="5" fill="#E63946" />
+      
+      <!-- Vertex labels -->
+      <text x="0" y="-60" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="#333">V0</text>
+      <text x="60" y="40" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="#333">V1</text>
+      <text x="-60" y="40" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="#333">V2</text>
+    </g>
+    
+    <!-- Labels for edges and faces -->
+    <text x="0" y="40" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" fill="#333">Triangle Primitive</text>
+    <text x="0" y="60" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="#666">(Vertices, Edges)</text>
+  </g>
+  
+  <!-- Middle: Rasterization Process -->
+  <g transform="translate(400, 210)">
+    <!-- Rasterizer box -->
+    <rect x="-80" y="-80" width="160" height="160" rx="10" ry="10" fill="#F1FAEE" stroke="#A8DADC" stroke-width="2" />
+    
+    <!-- Rasterizer title -->
+    <text x="0" y="-50" font-family="Arial, sans-serif" font-size="18" font-weight="bold" text-anchor="middle" fill="#1D3557">Rasterizer</text>
+    
+    <!-- Process steps -->
+    <g transform="translate(0, -20)">
+      <rect x="-70" y="-15" width="140" height="30" rx="5" ry="5" fill="#E0F2F1" stroke="#66B2B2" stroke-width="1.5" />
+      <text x="0" y="5" font-family="Arial, sans-serif" font-size="12" font-weight="bold" text-anchor="middle" fill="#333">Triangle Setup</text>
+    </g>
+    
+    <g transform="translate(0, 20)">
+      <rect x="-70" y="-15" width="140" height="30" rx="5" ry="5" fill="#E0F2F1" stroke="#66B2B2" stroke-width="1.5" />
+      <text x="0" y="5" font-family="Arial, sans-serif" font-size="12" font-weight="bold" text-anchor="middle" fill="#333">Triangle Traversal</text>
+    </g>
+    
+    <g transform="translate(0, 60)">
+      <rect x="-70" y="-15" width="140" height="30" rx="5" ry="5" fill="#E0F2F1" stroke="#66B2B2" stroke-width="1.5" />
+      <text x="0" y="5" font-family="Arial, sans-serif" font-size="12" font-weight="bold" text-anchor="middle" fill="#333">Pixel Coverage Test</text>
+    </g>
+    
+    <!-- Arrows connecting steps -->
+    <line x1="0" y1="-5" x2="0" y2="5" stroke="#1D3557" stroke-width="2" marker-end="url(#arrow)" />
+    <line x1="0" y1="35" x2="0" y2="45" stroke="#1D3557" stroke-width="2" marker-end="url(#arrow)" />
+  </g>
+  
+  <!-- Right Side: Fragments/Pixels -->
+  <g transform="translate(620, 210)">
+    <!-- Fragments label -->
+    <text x="0" y="-110" font-family="Arial, sans-serif" font-size="18" font-weight="bold" text-anchor="middle" fill="#1D3557">Fragments</text>
+    
+    <!-- Pixel grid -->
+    <g>
+      <!-- Visible grid with pixels -->
+      <rect x="-80" y="-80" width="160" height="160" fill="none" stroke="#666" stroke-width="1" />
+      
+      <!-- Grid lines -->
+      <g stroke="#ccc" stroke-width="0.5">
+        <!-- Vertical lines -->
+        <line x1="-80" y1="-80" x2="-80" y2="80" />
+        <line x1="-60" y1="-80" x2="-60" y2="80" />
+        <line x1="-40" y1="-80" x2="-40" y2="80" />
+        <line x1="-20" y1="-80" x2="-20" y2="80" />
+        <line x1="0" y1="-80" x2="0" y2="80" />
+        <line x1="20" y1="-80" x2="20" y2="80" />
+        <line x1="40" y1="-80" x2="40" y2="80" />
+        <line x1="60" y1="-80" x2="60" y2="80" />
+        <line x1="80" y1="-80" x2="80" y2="80" />
+        
+        <!-- Horizontal lines -->
+        <line x1="-80" y1="-80" x2="80" y2="-80" />
+        <line x1="-80" y1="-60" x2="80" y2="-60" />
+        <line x1="-80" y1="-40" x2="80" y2="-40" />
+        <line x1="-80" y1="-20" x2="80" y2="-20" />
+        <line x1="-80" y1="0" x2="80" y2="0" />
+        <line x1="-80" y1="20" x2="80" y2="20" />
+        <line x1="-80" y1="40" x2="80" y2="40" />
+        <line x1="-80" y1="60" x2="80" y2="60" />
+        <line x1="-80" y1="80" x2="80" y2="80" />
+      </g>
+      
+      <!-- Triangle outline for reference -->
+      <path d="M0,-60 L40,40 L-40,40 Z" fill="none" stroke="#1D3557" stroke-width="1.5" stroke-dasharray="5,3" />
+      
+      <!-- Filled pixels/fragments (rasterized triangle) -->
+      <g fill="#A8DADC" fill-opacity="0.7">
+        <!-- Center line -->
+        <rect x="-20" y="-40" width="20" height="20" />
+        <rect x="0" y="-40" width="20" height="20" />
+        
+        <!-- Middle rows -->
+        <rect x="-40" y="-20" width="20" height="20" />
+        <rect x="-20" y="-20" width="20" height="20" />
+        <rect x="0" y="-20" width="20" height="20" />
+        <rect x="20" y="-20" width="20" height="20" />
+        
+        <rect x="-40" y="0" width="20" height="20" />
+        <rect x="-20" y="0" width="20" height="20" />
+        <rect x="0" y="0" width="20" height="20" />
+        <rect x="20" y="0" width="20" height="20" />
+        
+        <!-- Bottom row -->
+        <rect x="-40" y="20" width="20" height="20" />
+        <rect x="-20" y="20" width="20" height="20" />
+        <rect x="0" y="20" width="20" height="20" />
+        <rect x="20" y="20" width="20" height="20" />
+      </g>
+      
+      <!-- Partially covered pixels (pixel coverage test) -->
+      <g fill="#A8DADC" fill-opacity="0.4">
+        <rect x="-40" y="-40" width="20" height="20" />
+        <rect x="20" y="-40" width="20" height="20" />
+        <rect x="-60" y="0" width="20" height="20" />
+        <rect x="40" y="0" width="20" height="20" />
+        <rect x="-60" y="20" width="20" height="20" />
+        <rect x="40" y="20" width="20" height="20" />
+      </g>
+      
+      <!-- Fragment data indicators (small dots in center of each fragment) -->
+      <g fill="#E63946">
+        <!-- Center line -->
+        <circle cx="-10" cy="-30" r="3" />
+        <circle cx="10" cy="-30" r="3" />
+        
+        <!-- Middle rows -->
+        <circle cx="-30" cy="-10" r="3" />
+        <circle cx="-10" cy="-10" r="3" />
+        <circle cx="10" cy="-10" r="3" />
+        <circle cx="30" cy="-10" r="3" />
+        
+        <circle cx="-30" cy="10" r="3" />
+        <circle cx="-10" cy="10" r="3" />
+        <circle cx="10" cy="10" r="3" />
+        <circle cx="30" cy="10" r="3" />
+        
+        <!-- Bottom row -->
+        <circle cx="-30" cy="30" r="3" />
+        <circle cx="-10" cy="30" r="3" />
+        <circle cx="10" cy="30" r="3" />
+        <circle cx="30" cy="30" r="3" />
+      </g>
+    </g>
+    
+    <!-- Label for pixel grid -->
+    <text x="0" y="100" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" fill="#333">Fragment Grid</text>
+    <text x="0" y="120" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="#666">(Pixel Coverage)</text>
+  </g>
+  
+  <!-- Connecting arrows -->
+  <g stroke="#1D3557" stroke-width="2" marker-end="url(#arrow)">
+    <line x1="240" y1="210" x2="280" y2="210" />
+    <line x1="520" y1="210" x2="560" y2="210" />
+  </g>
+  
+  <!-- Legend -->
+  <g transform="translate(400, 350)">
+    <!-- Full fragment -->
+    <rect x="-180" y="0" width="15" height="15" fill="#A8DADC" fill-opacity="0.7" />
+    <text x="-160" y="12" font-family="Arial, sans-serif" font-size="12" fill="#333">Full Fragment Coverage</text>
+    
+    <!-- Partial fragment -->
+    <rect x="-25" y="0" width="15" height="15" fill="#A8DADC" fill-opacity="0.4" />
+    <text x="-5" y="12" font-family="Arial, sans-serif" font-size="12" fill="#333">Partial Fragment Coverage</text>
+    
+    <!-- Fragment center -->
+    <circle cx="155" cy="7.5" r="3" fill="#E63946" />
+    <text x="165" y="12" font-family="Arial, sans-serif" font-size="12" fill="#333">Fragment Center</text>
+  </g>
+</svg>

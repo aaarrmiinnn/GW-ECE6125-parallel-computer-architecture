@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background gradient -->
+  <defs>
+    <linearGradient id="bg-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#f8f9fa;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#e9ecef;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Arrow marker definition -->
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#1D3557" />
+    </marker>
+    
+    <!-- Texture pattern -->
+    <pattern id="checkerboard" patternUnits="userSpaceOnUse" width="20" height="20" patternTransform="rotate(0)">
+      <rect width="10" height="10" fill="#f5a742" />
+      <rect x="10" y="0" width="10" height="10" fill="#f5c242" />
+      <rect x="0" y="10" width="10" height="10" fill="#f5c242" />
+      <rect x="10" y="10" width="10" height="10" fill="#f5a742" />
+    </pattern>
+    
+    <!-- Normal map pattern -->
+    <linearGradient id="normal-map" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#7b9fe0;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#5e8dd6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#436fbc;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <rect width="800" height="400" fill="url(#bg-gradient)" rx="10" ry="10" />
+  
+  <!-- Title -->
+  <text x="400" y="40" font-family="Arial, sans-serif" font-size="24" font-weight="bold" text-anchor="middle" fill="#333">Fragment Processing: Determining Final Pixel Colors</text>
+  
+  <!-- Left Side: Input Fragments -->
+  <g transform="translate(160, 200)">
+    <!-- Title -->
+    <text x="0" y="-100" font-family="Arial, sans-serif" font-size="18" font-weight="bold" text-anchor="middle" fill="#1D3557">Input Fragments</text>
+    
+    <!-- Fragments grid -->
+    <g>
+      <!-- Grid outline -->
+      <rect x="-75" y="-75" width="150" height="150" fill="none" stroke="#666" stroke-width="1" />
+      
+      <!-- Grid fragments (uniform color for input) -->
+      <g fill="#A8DADC" fill-opacity="0.7">
+        <!-- Row 1 -->
+        <rect x="-75" y="-75" width="30" height="30" />
+        <rect x="-45" y="-75" width="30" height="30" />
+        <rect x="-15" y="-75" width="30" height="30" />
+        <rect x="15" y="-75" width="30" height="30" />
+        <rect x="45" y="-75" width="30" height="30" />
+        
+        <!-- Row 2 -->
+        <rect x="-75" y="-45" width="30" height="30" />
+        <rect x="-45" y="-45" width="30" height="30" />
+        <rect x="-15" y="-45" width="30" height="30" />
+        <rect x="15" y="-45" width="30" height="30" />
+        <rect x="45" y="-45" width="30" height="30" />
+        
+        <!-- Row 3 -->
+        <rect x="-75" y="-15" width="30" height="30" />
+        <rect x="-45" y="-15" width="30" height="30" />
+        <rect x="-15" y="-15" width="30" height="30" />
+        <rect x="15" y="-15" width="30" height="30" />
+        <rect x="45" y="-15" width="30" height="30" />
+        
+        <!-- Row 4 -->
+        <rect x="-75" y="15" width="30" height="30" />
+        <rect x="-45" y="15" width="30" height="30" />
+        <rect x="-15" y="15" width="30" height="30" />
+        <rect x="15" y="15" width="30" height="30" />
+        <rect x="45" y="15" width="30" height="30" />
+        
+        <!-- Row 5 -->
+        <rect x="-75" y="45" width="30" height="30" />
+        <rect x="-45" y="45" width="30" height="30" />
+        <rect x="-15" y="45" width="30" height="30" />
+        <rect x="15" y="45" width="30" height="30" />
+        <rect x="45" y="45" width="30" height="30" />
+      </g>
+      
+      <!-- Fragment data indicators -->
+      <g fill="#E63946">
+        <circle cx="-60" cy="-60" r="3" />
+        <circle cx="-30" cy="-60" r="3" />
+        <circle cx="0" cy="-60" r="3" />
+        <circle cx="30" cy="-60" r="3" />
+        <circle cx="60" cy="-60" r="3" />
+        
+        <circle cx="-60" cy="-30" r="3" />
+        <circle cx="-30" cy="-30" r="3" />
+        <circle cx="0" cy="-30" r="3" />
+        <circle cx="30" cy="-30" r="3" />
+        <circle cx="60" cy="-30" r="3" />
+        
+        <circle cx="-60" cy="0" r="3" />
+        <circle cx="-30" cy="0" r="3" />
+        <circle cx="0" cy="0" r="3" />
+        <circle cx="30" cy="0" r="3" />
+        <circle cx="60" cy="0" r="3" />
+        
+        <circle cx="-60" cy="30" r="3" />
+        <circle cx="-30" cy="30" r="3" />
+        <circle cx="0" cy="30" r="3" />
+        <circle cx="30" cy="30" r="3" />
+        <circle cx="60" cy="30" r="3" />
+        
+        <circle cx="-60" cy="60" r="3" />
+        <circle cx="-30" cy="60" r="3" />
+        <circle cx="0" cy="60" r="3" />
+        <circle cx="30" cy="60" r="3" />
+        <circle cx="60" cy="60" r="3" />
+      </g>
+    </g>
+    
+    <!-- Label for input fragments -->
+    <text x="0" y="100" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" fill="#333">Fragments from Rasterizer</text>
+    <text x="0" y="120" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="#666">(Position, Depth, Interpolated Attributes)</text>
+  </g>
+  
+  <!-- Middle: Fragment Shader -->
+  <g transform="translate(400, 200)">
+    <!-- Fragment Shader box -->
+    <rect x="-100" y="-120" width="200" height="240" rx="10" ry="10" fill="#F1FAEE" stroke="#A8DADC" stroke-width="2" />
+    
+    <!-- Fragment Shader title -->
+    <text x="0" y="-90" font-family="Arial, sans-serif" font-size="18" font-weight="bold" text-anchor="middle" fill="#1D3557">Fragment Shader</text>
+    
+    <!-- Input Resources -->
+    <g transform="translate(0, -60)">
+      <!-- Texture input -->
+      <g transform="translate(-60, 0)">
+        <rect x="-20" y="-20" width="40" height="40" fill="url(#checkerboard)" stroke="#666" stroke-width="1" />
+        <text x="0" y="35" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="#333">Texture</text>
+      </g>
+      
+      <!-- Normal map input -->
+      <g transform="translate(0, 0)">
+        <rect x="-20" y="-20" width="40" height="40" fill="url(#normal-map)" stroke="#666" stroke-width="1" />
+        <text x="0" y="35" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="#333">Normal Map</text>
+      </g>
+      
+      <!-- Material params -->
+      <g transform="translate(60, 0)">
+        <rect x="-20" y="-20" width="40" height="40" fill="#F8E9A1" stroke="#666" stroke-width="1" />
+        <text x="0" y="35" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="#333">Materials</text>
+      </g>
+    </g>
+    
+    <!-- Shader Processing Steps -->
+    <g>
+      <!-- Texture sampling -->
+      <g transform="translate(0, 10)">
+        <rect x="-80" y="-15" width="160" height="30" rx="5" ry="5" fill="#E0F2F1" stroke="#66B2B2" stroke-width="1.5" />
+        <text x="0" y="5" font-family="Arial, sans-serif" font-size="12" font-weight="bold" text-anchor="middle" fill="#333">Texture Sampling</text>
+      </g>
+      
+      <!-- Lighting calculation -->
+      <g transform="translate(0, 50)">
+        <rect x="-80" y="-15" width="160" height="30" rx="5" ry="5" fill="#E0F2F1" stroke="#66B2B2" stroke-width="1.5" />
+        <text x="0" y="5" font-family="Arial, sans-serif" font-size="12" font-weight="bold" text-anchor="middle" fill="#333">Lighting Calculation</text>
+      </g>
+      
+      <!-- Special effects -->
+      <g transform="translate(0, 90)">
+        <rect x="-80" y="-15" width="160" height="30" rx="5" ry="5" fill="#E0F2F1" stroke="#66B2B2" stroke-width="1.5" />
+        <text x="0" y="5" font-family="Arial, sans-serif" font-size="12" font-weight="bold" text-anchor="middle" fill="#333">Special Effects</text>
+      </g>
+    </g>
+    
+    <!-- Connecting arrows within shader -->
+    <g stroke="#1D3557" stroke-width="2" marker-end="url(#arrow)">
+      <line x1="0" y1="25" x2="0" y2="35" />
+      <line x1="0" y1="65" x2="0" y2="75" />
+    </g>
+  </g>
+  
+  <!-- Right Side: Output Colored Fragments -->
+  <g transform="translate(640, 200)">
+    <!-- Title -->
+    <text x="0" y="-100" font-family="Arial, sans-serif" font-size="18" font-weight="bold" text-anchor="middle" fill="#1D3557">Processed Fragments</text>
+    
+    <!-- Colorful output fragments grid -->
+    <g>
+      <!-- Grid outline -->
+      <rect x="-75" y="-75" width="150" height="150" fill="none" stroke="#666" stroke-width="1" />
+      
+      <!-- Gradient for shaded appearance -->
+      <defs>
+        <radialGradient id="shade-gradient" cx="0.5" cy="0.5" r="0.7" fx="0.3" fy="0.3">
+          <stop offset="0%" style="stop-color:#FFA07A;stop-opacity:1" />
+          <stop offset="100%" style="stop-color:#8B4513;stop-opacity:1" />
+        </radialGradient>
+      </defs>
+      
+      <!-- Grid fragments with coloring and shading -->
+      <g>
+        <!-- Row 1 (texture + lighting) -->
+        <rect x="-75" y="-75" width="30" height="30" fill="#d6a157" />
+        <rect x="-45" y="-75" width="30" height="30" fill="#d6a157" />
+        <rect x="-15" y="-75" width="30" height="30" fill="#dda861" />
+        <rect x="15" y="-75" width="30" height="30" fill="#e0ad67" />
+        <rect x="45" y="-75" width="30" height="30" fill="#e0ad67" />
+        
+        <!-- Row 2 (with highlight) -->
+        <rect x="-75" y="-45" width="30" height="30" fill="#d8a35a" />
+        <rect x="-45" y="-45" width="30" height="30" fill="#e5b16b" />
+        <rect x="-15" y="-45" width="30" height="30" fill="#f5ca85" />
+        <rect x="15" y="-45" width="30" height="30" fill="#f5ca85" />
+        <rect x="45" y="-45" width="30" height="30" fill="#e5b16b" />
+        
+        <!-- Row 3 (with specular highlight) -->
+        <rect x="-75" y="-15" width="30" height="30" fill="#d8a35a" />
+        <rect x="-45" y="-15" width="30" height="30" fill="#e5b16b" />
+        <rect x="-15" y="-15" width="30" height="30" fill="#f8d8a0" />
+        <rect x="15" y="-15" width="30" height="30" fill="#f8d8a0" />
+        <rect x="45" y="-15" width="30" height="30" fill="#e5b16b" />
+        
+        <!-- Row 4 (shadow area) -->
+        <rect x="-75" y="15" width="30" height="30" fill="#d8a35a" />
+        <rect x="-45" y="15" width="30" height="30" fill="#e5b16b" />
+        <rect x="-15" y="15" width="30" height="30" fill="#e5b16b" />
+        <rect x="15" y="15" width="30" height="30" fill="#d8a35a" />
+        <rect x="45" y="15" width="30" height="30" fill="#c89952" />
+        
+        <!-- Row 5 (darker shadow) -->
+        <rect x="-75" y="45" width="30" height="30" fill="#c89952" />
+        <rect x="-45" y="45" width="30" height="30" fill="#c89952" />
+        <rect x="-15" y="45" width="30" height="30" fill="#ba8e4b" />
+        <rect x="15" y="45" width="30" height="30" fill="#ba8e4b" />
+        <rect x="45" y="45" width="30" height="30" fill="#ba8e4b" />
+      </g>
+      
+      <!-- Fragment data visualization (small glares to indicate specular highlight) -->
+      <g fill="white" fill-opacity="0.7">
+        <circle cx="-15" cy="-15" r="5" />
+        <circle cx="15" cy="-15" r="5" />
+      </g>
+    </g>
+    
+    <!-- Label for output fragments -->
+    <text x="0" y="100" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" fill="#333">Shaded Fragments</text>
+    <text x="0" y="120" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="#666">(Color, Depth, Additional Attributes)</text>
+  </g>
+  
+  <!-- Connecting arrows between sections -->
+  <g stroke="#1D3557" stroke-width="2" marker-end="url(#arrow)">
+    <line x1="230" y1="200" x2="260" y2="200" />
+    <line x1="540" y1="200" x2="570" y2="200" />
+  </g>
+  
+  <!-- Legend -->
+  <g transform="translate(400, 350)">
+    <!-- Input fragment -->
+    <rect x="-160" y="0" width="15" height="15" fill="#A8DADC" fill-opacity="0.7" />
+    <text x="-140" y="12" font-family="Arial, sans-serif" font-size="12" fill="#333">Input Fragment</text>
+    
+    <!-- Textured fragment -->
+    <rect x="-50" y="0" width="15" height="15" fill="#d6a157" />
+    <text x="-30" y="12" font-family="Arial, sans-serif" font-size="12" fill="#333">Base Color</text>
+    
+    <!-- Fragment with lighting -->
+    <rect x="50" y="0" width="15" height="15" fill="#f8d8a0" />
+    <text x="70" y="12" font-family="Arial, sans-serif" font-size="12" fill="#333">Lit Fragment</text>
+    
+    <!-- Fragment with shadow -->
+    <rect x="150" y="0" width="15" height="15" fill="#ba8e4b" />
+    <text x="170" y="12" font-family="Arial, sans-serif" font-size="12" fill="#333">Shadowed Fragment</text>
+  </g>
+</svg>

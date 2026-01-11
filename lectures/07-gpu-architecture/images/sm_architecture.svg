@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="800" height="400" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <!-- Gradients -->
+        <linearGradient id="smGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" style="stop-color:#2ecc71;stop-opacity:0.8"/>
+            <stop offset="100%" style="stop-color:#27ae60;stop-opacity:0.9"/>
+        </linearGradient>
+        <linearGradient id="coreGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" style="stop-color:#3498db;stop-opacity:0.8"/>
+            <stop offset="100%" style="stop-color:#2980b9;stop-opacity:0.9"/>
+        </linearGradient>
+        <linearGradient id="memGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" style="stop-color:#e74c3c;stop-opacity:0.8"/>
+            <stop offset="100%" style="stop-color:#c0392b;stop-opacity:0.9"/>
+        </linearGradient>
+    </defs>
+
+    <!-- Title -->
+    <text x="400" y="40" text-anchor="middle" font-family="Arial" font-size="24" fill="#333">
+        Streaming Multiprocessor (SM) Architecture
+    </text>
+
+    <!-- Main SM Container -->
+    <rect x="50" y="70" width="700" height="300" rx="10" fill="#f8f9fa" stroke="#2c3e50"/>
+    <text x="400" y="90" text-anchor="middle" font-family="Arial" font-size="16" fill="#333">
+        Streaming Multiprocessor
+    </text>
+
+    <!-- CUDA Cores Section -->
+    <g transform="translate(70,120)">
+        <rect width="200" height="200" rx="5" fill="url(#coreGradient)" stroke="#2c3e50"/>
+        <text x="100" y="30" text-anchor="middle" font-family="Arial" font-size="14" fill="white">CUDA Cores</text>
+        
+        <!-- Individual Cores -->
+        <g transform="translate(20,50)">
+            <rect width="30" height="30" rx="2" fill="white" stroke="#2c3e50"/>
+            <text x="15" y="20" text-anchor="middle" font-family="Arial" font-size="10">Core</text>
+        </g>
+        <g transform="translate(60,50)">
+            <rect width="30" height="30" rx="2" fill="white" stroke="#2c3e50"/>
+            <text x="15" y="20" text-anchor="middle" font-family="Arial" font-size="10">Core</text>
+        </g>
+        <g transform="translate(100,50)">
+            <rect width="30" height="30" rx="2" fill="white" stroke="#2c3e50"/>
+            <text x="15" y="20" text-anchor="middle" font-family="Arial" font-size="10">Core</text>
+        </g>
+        <g transform="translate(140,50)">
+            <rect width="30" height="30" rx="2" fill="white" stroke="#2c3e50"/>
+            <text x="15" y="20" text-anchor="middle" font-family="Arial" font-size="10">Core</text>
+        </g>
+
+        <!-- More Cores (Second Row) -->
+        <g transform="translate(20,90)">
+            <rect width="30" height="30" rx="2" fill="white" stroke="#2c3e50"/>
+            <text x="15" y="20" text-anchor="middle" font-family="Arial" font-size="10">Core</text>
+        </g>
+        <g transform="translate(60,90)">
+            <rect width="30" height="30" rx="2" fill="white" stroke="#2c3e50"/>
+            <text x="15" y="20" text-anchor="middle" font-family="Arial" font-size="10">Core</text>
+        </g>
+        <g transform="translate(100,90)">
+            <rect width="30" height="30" rx="2" fill="white" stroke="#2c3e50"/>
+            <text x="15" y="20" text-anchor="middle" font-family="Arial" font-size="10">Core</text>
+        </g>
+        <g transform="translate(140,90)">
+            <rect width="30" height="30" rx="2" fill="white" stroke="#2c3e50"/>
+            <text x="15" y="20" text-anchor="middle" font-family="Arial" font-size="10">Core</text>
+        </g>
+    </g>
+
+    <!-- Shared Memory -->
+    <g transform="translate(300,120)">
+        <rect width="200" height="90" rx="5" fill="url(#memGradient)" stroke="#2c3e50"/>
+        <text x="100" y="30" text-anchor="middle" font-family="Arial" font-size="14" fill="white">Shared Memory</text>
+        <text x="100" y="50" text-anchor="middle" font-family="Arial" font-size="12" fill="white">Fast On-Chip Memory</text>
+        <text x="100" y="70" text-anchor="middle" font-family="Arial" font-size="12" fill="white">Shared by Thread Block</text>
+    </g>
+
+    <!-- Register File -->
+    <g transform="translate(300,230)">
+        <rect width="200" height="90" rx="5" fill="url(#memGradient)" stroke="#2c3e50"/>
+        <text x="100" y="30" text-anchor="middle" font-family="Arial" font-size="14" fill="white">Register File</text>
+        <text x="100" y="50" text-anchor="middle" font-family="Arial" font-size="12" fill="white">Per-Thread Registers</text>
+        <text x="100" y="70" text-anchor="middle" font-family="Arial" font-size="12" fill="white">Fast Local Storage</text>
+    </g>
+
+    <!-- Control Units -->
+    <g transform="translate(530,120)">
+        <rect width="200" height="200" rx="5" fill="url(#smGradient)" stroke="#2c3e50"/>
+        <text x="100" y="30" text-anchor="middle" font-family="Arial" font-size="14" fill="white">Control Units</text>
+        
+        <!-- Warp Scheduler -->
+        <g transform="translate(20,50)">
+            <rect width="160" height="40" rx="5" fill="white" stroke="#2c3e50"/>
+            <text x="80" y="25" text-anchor="middle" font-family="Arial" font-size="12">Warp Scheduler</text>
+        </g>
+
+        <!-- Instruction Cache -->
+        <g transform="translate(20,100)">
+            <rect width="160" height="40" rx="5" fill="white" stroke="#2c3e50"/>
+            <text x="80" y="25" text-anchor="middle" font-family="Arial" font-size="12">Instruction Cache</text>
+        </g>
+
+        <!-- Dispatch Unit -->
+        <g transform="translate(20,150)">
+            <rect width="160" height="40" rx="5" fill="white" stroke="#2c3e50"/>
+            <text x="80" y="25" text-anchor="middle" font-family="Arial" font-size="12">Dispatch Unit</text>
+        </g>
+    </g>
+</svg> 

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 800 650" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect x="0" y="0" width="800" height="650" fill="#f8f8f8"/>
+  
+  <!-- Title -->
+  <text x="400" y="40" font-family="Arial" font-size="24" font-weight="bold" text-anchor="middle" fill="#333">CUDA Execution Hierarchy: Grid → Block → Threads</text>
+  
+  <!-- Grid Level -->
+  <rect x="100" y="80" width="600" height="120" rx="10" ry="10" fill="#76b900" fill-opacity="0.1" stroke="#76b900" stroke-width="3"/>
+  <text x="400" y="105" font-family="Arial" font-size="18" font-weight="bold" text-anchor="middle" fill="#333">Grid</text>
+  <text x="400" y="130" font-family="Arial" font-size="14" text-anchor="middle" fill="#555">(Entire Kernel Launch)</text>
+  
+  <!-- Block Level -->
+  <g id="blocks">
+    <rect x="120" y="150" width="90" height="80" rx="5" ry="5" fill="#1a73e8" fill-opacity="0.2" stroke="#1a73e8" stroke-width="2"/>
+    <text x="165" y="175" font-family="Arial" font-size="14" font-weight="bold" text-anchor="middle" fill="#333">Block (0,0)</text>
+    
+    <rect x="230" y="150" width="90" height="80" rx="5" ry="5" fill="#1a73e8" fill-opacity="0.2" stroke="#1a73e8" stroke-width="2"/>
+    <text x="275" y="175" font-family="Arial" font-size="14" font-weight="bold" text-anchor="middle" fill="#333">Block (1,0)</text>
+    
+    <rect x="340" y="150" width="90" height="80" rx="5" ry="5" fill="#1a73e8" fill-opacity="0.2" stroke="#1a73e8" stroke-width="2"/>
+    <text x="385" y="175" font-family="Arial" font-size="14" font-weight="bold" text-anchor="middle" fill="#333">Block (2,0)</text>
+    
+    <rect x="450" y="150" width="90" height="80" rx="5" ry="5" fill="#1a73e8" fill-opacity="0.2" stroke="#1a73e8" stroke-width="2"/>
+    <text x="495" y="175" font-family="Arial" font-size="14" font-weight="bold" text-anchor="middle" fill="#333">Block (3,0)</text>
+    
+    <rect x="560" y="150" width="90" height="80" rx="5" ry="5" fill="#1a73e8" fill-opacity="0.2" stroke="#1a73e8" stroke-width="2" fill-opacity="0.1" stroke-opacity="0.5"/>
+    <text x="605" y="175" font-family="Arial" font-size="14" font-weight="bold" text-anchor="middle" fill="#333" fill-opacity="0.5">...</text>
+  </g>
+  
+  <!-- Expanded Block -->
+  <rect x="100" y="250" width="600" height="170" rx="10" ry="10" fill="#1a73e8" fill-opacity="0.1" stroke="#1a73e8" stroke-width="3"/>
+  <text x="400" y="275" font-family="Arial" font-size="18" font-weight="bold" text-anchor="middle" fill="#333">Block (Thread Block)</text>
+  <text x="400" y="300" font-family="Arial" font-size="14" text-anchor="middle" fill="#555">(Can be 1D, 2D, or 3D)</text>
+  
+  <!-- Thread Grid inside Block -->
+  <g id="thread-grid">
+    <rect x="150" y="320" width="500" height="75" rx="5" ry="5" fill="#1a73e8" fill-opacity="0.05" stroke="#1a73e8" stroke-width="1"/>
+    
+    <!-- Thread Row 1 -->
+    <rect x="160" y="330" width="20" height="20" rx="3" ry="3" fill="#ea4335" fill-opacity="0.7" stroke="#333" stroke-width="1"/>
+    <text x="170" y="343" font-family="Arial" font-size="8" text-anchor="middle" fill="white">(0,0)</text>
+    
+    <rect x="190" y="330" width="20" height="20" rx="3" ry="3" fill="#ea4335" fill-opacity="0.7" stroke="#333" stroke-width="1"/>
+    <text x="200" y="343" font-family="Arial" font-size="8" text-anchor="middle" fill="white">(1,0)</text>
+    
+    <rect x="220" y="330" width="20" height="20" rx="3" ry="3" fill="#ea4335" fill-opacity="0.7" stroke="#333" stroke-width="1"/>
+    <text x="230" y="343" font-family="Arial" font-size="8" text-anchor="middle" fill="white">(2,0)</text>
+    
+    <rect x="250" y="330" width="20" height="20" rx="3" ry="3" fill="#ea4335" fill-opacity="0.7" stroke="#333" stroke-width="1"/>
+    <text x="260" y="343" font-family="Arial" font-size="8" text-anchor="middle" fill="white">(3,0)</text>
+    
+    <rect x="280" y="330" width="20" height="20" rx="3" ry="3" fill="#ea4335" fill-opacity="0.7" stroke="#333" stroke-width="1"/>
+    <text x="290" y="343" font-family="Arial" font-size="8" text-anchor="middle" fill="white">...</text>
+    
+    <!-- Thread Row 2 -->
+    <rect x="160" y="360" width="20" height="20" rx="3" ry="3" fill="#ea4335" fill-opacity="0.7" stroke="#333" stroke-width="1"/>
+    <text x="170" y="373" font-family="Arial" font-size="8" text-anchor="middle" fill="white">(0,1)</text>
+    
+    <rect x="190" y="360" width="20" height="20" rx="3" ry="3" fill="#ea4335" fill-opacity="0.7" stroke="#333" stroke-width="1"/>
+    <text x="200" y="373" font-family="Arial" font-size="8" text-anchor="middle" fill="white">(1,1)</text>
+    
+    <rect x="220" y="360" width="20" height="20" rx="3" ry="3" fill="#ea4335" fill-opacity="0.7" stroke="#333" stroke-width="1"/>
+    <text x="230" y="373" font-family="Arial" font-size="8" text-anchor="middle" fill="white">(2,1)</text>
+    
+    <rect x="250" y="360" width="20" height="20" rx="3" ry="3" fill="#ea4335" fill-opacity="0.7" stroke="#333" stroke-width="1"/>
+    <text x="260" y="373" font-family="Arial" font-size="8" text-anchor="middle" fill="white">(3,1)</text>
+    
+    <rect x="280" y="360" width="20" height="20" rx="3" ry="3" fill="#ea4335" fill-opacity="0.7" stroke="#333" stroke-width="1"/>
+    <text x="290" y="373" font-family="Arial" font-size="8" text-anchor="middle" fill="white">...</text>
+    
+    <!-- More thread rows indicated -->
+    <text x="170" y="390" font-family="Arial" font-size="14" font-style="italic" text-anchor="start" fill="#555">...</text>
+    
+    <!-- Thread Block Dimensions -->
+    <text x="350" y="345" font-family="Arial" font-size="14" text-anchor="start" fill="#333">Thread Block Size: blockDim.x × blockDim.y</text>
+    <text x="350" y="370" font-family="Arial" font-size="14" text-anchor="start" fill="#333">Typical sizes: 128, 256, or 512 threads total</text>
+  </g>
+  
+  <!-- Expanded Thread -->
+  <rect x="100" y="460" width="600" height="140" rx="10" ry="10" fill="#ea4335" fill-opacity="0.1" stroke="#ea4335" stroke-width="3"/>
+  <text x="400" y="485" font-family="Arial" font-size="18" font-weight="bold" text-anchor="middle" fill="#333">Thread</text>
+  <text x="400" y="510" font-family="Arial" font-size="14" text-anchor="middle" fill="#555">(Smallest Execution Unit)</text>
+  
+  <!-- Thread Components -->
+  <g id="thread-components">
+    <rect x="150" y="525" width="180" height="60" rx="5" ry="5" fill="#ea4335" fill-opacity="0.2" stroke="#ea4335" stroke-width="2"/>
+    <text x="240" y="555" font-family="Arial" font-size="14" font-weight="bold" text-anchor="middle" fill="#333">Program Counter</text>
+    
+    <rect x="370" y="525" width="180" height="60" rx="5" ry="5" fill="#ea4335" fill-opacity="0.2" stroke="#ea4335" stroke-width="2"/>
+    <text x="460" y="555" font-family="Arial" font-size="14" font-weight="bold" text-anchor="middle" fill="#333">Registers</text>
+  </g>
+  
+  <!-- Connection Lines -->
+  <line x1="400" y1="200" x2="400" y2="250" stroke="#333" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="400" y1="420" x2="400" y2="460" stroke="#333" stroke-width="2" marker-end="url(#arrow)"/>
+  
+  <!-- Annotations -->
+  <text x="60" y="140" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle" fill="#333">1</text>
+  <circle cx="60" cy="140" r="15" fill="none" stroke="#333" stroke-width="2"/>
+  
+  <text x="60" y="335" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle" fill="#333">2</text>
+  <circle cx="60" cy="335" r="15" fill="none" stroke="#333" stroke-width="2"/>
+  
+  <text x="60" y="530" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle" fill="#333">3</text>
+  <circle cx="60" cy="530" r="15" fill="none" stroke="#333" stroke-width="2"/>
+  
+  <!-- Identification Information -->
+  <g id="id-info">
+    <rect x="580" y="355" width="140" height="100" rx="5" ry="5" fill="#f8f8f8" stroke="#333" stroke-width="1" stroke-dasharray="5,2"/>
+    <text x="650" y="375" font-family="Arial" font-size="12" font-weight="bold" text-anchor="middle" fill="#333">Thread ID</text>
+    <text x="600" y="395" font-family="Arial" font-size="10" text-anchor="start" fill="#333">threadIdx.x, threadIdx.y</text>
+    <text x="650" y="420" font-family="Arial" font-size="12" font-weight="bold" text-anchor="middle" fill="#333">Block ID</text>
+    <text x="600" y="440" font-family="Arial" font-size="10" text-anchor="start" fill="#333">blockIdx.x, blockIdx.y</text>
+  </g>
+  
+  <!-- Definitions -->
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#333"/>
+    </marker>
+  </defs>
+</svg>

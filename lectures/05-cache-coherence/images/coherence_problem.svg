@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="1200" height="900" xmlns="http://www.w3.org/2000/svg">
+  <!-- Cache Coherence Problem Illustration -->
+  
+  <!-- Background -->
+  <rect x="0" y="0" width="1200" height="900" fill="#f9f9f9"/>
+  
+  <!-- Title -->
+  <rect x="250" y="40" width="700" height="70" rx="15" ry="15" fill="#f0f8ff" stroke="#0066cc" stroke-width="3" opacity="0.9"/>
+  <text x="600" y="85" font-family="Arial" font-size="36" text-anchor="middle" font-weight="bold">The Cache Coherence Problem</text>
+  
+  <!-- Arrow definition -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#000"/>
+    </marker>
+  </defs>
+  
+  <!-- Memory -->
+  <rect x="450" y="700" width="300" height="100" rx="15" ry="15" fill="#e6e6e6" stroke="#666666" stroke-width="3"/>
+  <text x="600" y="750" font-family="Arial" font-size="28" text-anchor="middle" font-weight="bold">Main Memory</text>
+  <text x="600" y="780" font-family="Arial" font-size="20" text-anchor="middle">X = 0</text>
+  
+  <!-- Time divider lines -->
+  <line x1="50" y1="200" x2="1150" y2="200" stroke="#cccccc" stroke-width="1" stroke-dasharray="5,5"/>
+  <line x1="50" y1="350" x2="1150" y2="350" stroke="#cccccc" stroke-width="1" stroke-dasharray="5,5"/>
+  <line x1="50" y1="500" x2="1150" y2="500" stroke="#cccccc" stroke-width="1" stroke-dasharray="5,5"/>
+  <line x1="50" y1="650" x2="1150" y2="650" stroke="#cccccc" stroke-width="1" stroke-dasharray="5,5"/>
+  
+  <!-- Time labels -->
+  <text x="100" y="190" font-family="Arial" font-size="20" text-anchor="middle" font-weight="bold">T1</text>
+  <text x="100" y="340" font-family="Arial" font-size="20" text-anchor="middle" font-weight="bold">T2</text>
+  <text x="100" y="490" font-family="Arial" font-size="20" text-anchor="middle" font-weight="bold">T3</text>
+  <text x="100" y="640" font-family="Arial" font-size="20" text-anchor="middle" font-weight="bold">T4</text>
+  
+  <!-- Processor 1 -->
+  <rect x="200" y="160" width="250" height="450" rx="15" ry="15" fill="#e6f7ff" stroke="#0066cc" stroke-width="3"/>
+  <text x="325" y="190" font-family="Arial" font-size="24" text-anchor="middle" font-weight="bold">Processor 1</text>
+  
+  <!-- Processor 1's Cache -->
+  <rect x="225" y="210" width="200" height="80" fill="#ffffff" stroke="#0066cc" stroke-width="2"/>
+  <text x="325" y="240" font-family="Arial" font-size="22" text-anchor="middle">Cache P1</text>
+  <text x="325" y="270" font-family="Arial" font-size="18" text-anchor="middle">X = 0</text>
+  
+  <!-- P1's Actions -->
+  <rect x="225" y="310" width="200" height="50" rx="10" ry="10" fill="#d9eeff" stroke="#0066cc" stroke-width="2"/>
+  <text x="325" y="340" font-family="Arial" font-size="18" text-anchor="middle">Read X → 0</text>
+  
+  <rect x="225" y="380" width="200" height="50" rx="10" ry="10" fill="#d9eeff" stroke="#0066cc" stroke-width="2"/>
+  <text x="325" y="410" font-family="Arial" font-size="18" text-anchor="middle">Write X = 1</text>
+  
+  <rect x="225" y="450" width="200" height="50" rx="10" ry="10" fill="#d9eeff" stroke="#0066cc" stroke-width="2"/>
+  <text x="325" y="480" font-family="Arial" font-size="18" text-anchor="middle">Cache: X = 1</text>
+  
+  <rect x="225" y="520" width="200" height="50" rx="10" ry="10" fill="#d9eeff" stroke="#0066cc" stroke-width="2"/>
+  <text x="325" y="550" font-family="Arial" font-size="18" text-anchor="middle">Read X → 1</text>
+  
+  <!-- Processor 2 -->
+  <rect x="750" y="160" width="250" height="450" rx="15" ry="15" fill="#fff2e6" stroke="#ff6600" stroke-width="3"/>
+  <text x="875" y="190" font-family="Arial" font-size="24" text-anchor="middle" font-weight="bold">Processor 2</text>
+  
+  <!-- Processor 2's Cache -->
+  <rect x="775" y="210" width="200" height="80" fill="#ffffff" stroke="#ff6600" stroke-width="2"/>
+  <text x="875" y="240" font-family="Arial" font-size="22" text-anchor="middle">Cache P2</text>
+  <text x="875" y="270" font-family="Arial" font-size="18" text-anchor="middle">X = 0</text>
+  
+  <!-- P2's Actions -->
+  <rect x="775" y="310" width="200" height="50" rx="10" ry="10" fill="#ffe0cc" stroke="#ff6600" stroke-width="2"/>
+  <text x="875" y="340" font-family="Arial" font-size="18" text-anchor="middle">Read X → 0</text>
+  
+  <rect x="775" y="380" width="200" height="50" rx="10" ry="10" fill="#ffe0cc" stroke="#ff6600" stroke-width="2"/>
+  <text x="875" y="410" font-family="Arial" font-size="18" text-anchor="middle">Cache: X = 0</text>
+  
+  <rect x="775" y="450" width="200" height="50" rx="10" ry="10" fill="#ffe0cc" stroke="#ff6600" stroke-width="2"/>
+  <text x="875" y="480" font-family="Arial" font-size="18" text-anchor="middle">Cache: X = 0</text>
+  
+  <rect x="775" y="520" width="200" height="50" rx="10" ry="10" fill="#ffe0cc" stroke="#ff6600" stroke-width="2"/>
+  <text x="875" y="550" font-family="Arial" font-size="18" text-anchor="middle">Read X → 0 ❌</text>
+  
+  <!-- Memory updates -->
+  <rect x="450" y="380" width="300" height="50" rx="10" ry="10" fill="#f0f0f0" stroke="#666666" stroke-width="2"/>
+  <text x="600" y="410" font-family="Arial" font-size="18" text-anchor="middle" font-style="italic">Memory: X = 0 (not yet updated)</text>
+  
+  <rect x="450" y="580" width="300" height="50" rx="10" ry="10" fill="#f0f0f0" stroke="#666666" stroke-width="2"/>
+  <text x="600" y="610" font-family="Arial" font-size="18" text-anchor="middle" font-style="italic">Memory: X = 0 (write-back pending)</text>
+  
+  <!-- Arrows for data flow -->
+  <path d="M325 290 L325 310" fill="none" stroke="#0066cc" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <path d="M325 360 L325 380" fill="none" stroke="#0066cc" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <path d="M325 430 L325 450" fill="none" stroke="#0066cc" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <path d="M325 500 L325 520" fill="none" stroke="#0066cc" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <path d="M875 290 L875 310" fill="none" stroke="#ff6600" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <path d="M875 360 L875 380" fill="none" stroke="#ff6600" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <path d="M875 430 L875 450" fill="none" stroke="#ff6600" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <path d="M875 500 L875 520" fill="none" stroke="#ff6600" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <path d="M325 210 C325 150, 600 150, 600 210" fill="none" stroke="#666666" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <path d="M875 210 C875 150, 600 150, 600 210" fill="none" stroke="#666666" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Problem highlight -->
+  <circle cx="875" cy="550" r="30" fill="none" stroke="#cc0000" stroke-width="3" stroke-dasharray="5,3"/>
+  <line x1="845" y1="550" x2="905" y2="550" stroke="#cc0000" stroke-width="3"/>
+  
+  <!-- Explanation -->
+  <rect x="150" y="630" width="900" height="50" rx="15" ry="15" fill="#ffcccc" stroke="#cc0000" stroke-width="3"/>
+  <text x="600" y="660" font-family="Arial" font-size="22" text-anchor="middle" font-weight="bold" fill="#cc0000">Coherence Problem: P2 reads stale value (0) when it should see P1's update (1)</text>
+  
+  <!-- Solution -->
+  <rect x="200" y="820" width="800" height="60" rx="15" ry="15" fill="#e6ffe6" stroke="#009900" stroke-width="3"/>
+  <text x="600" y="850" font-family="Arial" font-size="22" text-anchor="middle">Solution: Cache coherence protocols ensure all processors have a consistent view of memory</text>
+  <text x="600" y="875" font-family="Arial" font-size="18" text-anchor="middle" font-style="italic">Without coherence: P2 would read stale value 0 instead of updated value 1</text>
+</svg> 

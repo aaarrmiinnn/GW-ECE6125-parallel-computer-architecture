@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="800" height="400" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <!-- Arrow Marker -->
+        <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+            <polygon points="0 0, 10 3.5, 0 7" fill="#333"/>
+        </marker>
+        <!-- Gradients -->
+        <linearGradient id="fixedGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" style="stop-color:#e74c3c;stop-opacity:0.8"/>
+            <stop offset="100%" style="stop-color:#c0392b;stop-opacity:0.9"/>
+        </linearGradient>
+        <linearGradient id="progGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" style="stop-color:#3498db;stop-opacity:0.8"/>
+            <stop offset="100%" style="stop-color:#2980b9;stop-opacity:0.9"/>
+        </linearGradient>
+    </defs>
+
+    <!-- Title -->
+    <text x="400" y="40" text-anchor="middle" font-family="Arial" font-size="24" fill="#333">
+        Modern Graphics Pipeline
+    </text>
+
+    <!-- Legend -->
+    <g transform="translate(600,20)">
+        <rect x="0" y="0" width="20" height="20" fill="url(#fixedGradient)"/>
+        <text x="30" y="15" font-family="Arial" font-size="12">Fixed Function</text>
+        <rect x="0" y="30" width="20" height="20" fill="url(#progGradient)"/>
+        <text x="30" y="45" font-family="Arial" font-size="12">Programmable</text>
+    </g>
+
+    <!-- Pipeline Stages -->
+    <g transform="translate(50,100)">
+        <!-- Input Assembler (Fixed) -->
+        <rect x="0" y="0" width="100" height="60" rx="10" fill="url(#fixedGradient)" stroke="#2c3e50"/>
+        <text x="50" y="25" text-anchor="middle" font-family="Arial" font-size="12" fill="white">Input</text>
+        <text x="50" y="45" text-anchor="middle" font-family="Arial" font-size="12" fill="white">Assembler</text>
+
+        <!-- Arrow 1 -->
+        <line x1="100" y1="30" x2="150" y2="30" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+        <!-- Vertex Shader (Programmable) -->
+        <rect x="160" y="0" width="100" height="60" rx="10" fill="url(#progGradient)" stroke="#2c3e50"/>
+        <text x="210" y="25" text-anchor="middle" font-family="Arial" font-size="12" fill="white">Vertex</text>
+        <text x="210" y="45" text-anchor="middle" font-family="Arial" font-size="12" fill="white">Shader</text>
+
+        <!-- Arrow 2 -->
+        <line x1="260" y1="30" x2="310" y2="30" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+        <!-- Tessellation (Programmable) -->
+        <rect x="320" y="0" width="100" height="60" rx="10" fill="url(#progGradient)" stroke="#2c3e50"/>
+        <text x="370" y="35" text-anchor="middle" font-family="Arial" font-size="12" fill="white">Tessellation</text>
+
+        <!-- Arrow 3 -->
+        <line x1="420" y1="30" x2="470" y2="30" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+        <!-- Geometry Shader (Programmable) -->
+        <rect x="480" y="0" width="100" height="60" rx="10" fill="url(#progGradient)" stroke="#2c3e50"/>
+        <text x="530" y="25" text-anchor="middle" font-family="Arial" font-size="12" fill="white">Geometry</text>
+        <text x="530" y="45" text-anchor="middle" font-family="Arial" font-size="12" fill="white">Shader</text>
+
+        <!-- Arrow 4 -->
+        <line x1="580" y1="30" x2="630" y2="30" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+        <!-- Rasterizer (Fixed) -->
+        <rect x="640" y="0" width="100" height="60" rx="10" fill="url(#fixedGradient)" stroke="#2c3e50"/>
+        <text x="690" y="35" text-anchor="middle" font-family="Arial" font-size="12" fill="white">Rasterizer</text>
+
+        <!-- Arrow 5 -->
+        <line x1="690" y1="60" x2="690" y2="110" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+        <!-- Pixel Shader (Programmable) -->
+        <rect x="640" y="120" width="100" height="60" rx="10" fill="url(#progGradient)" stroke="#2c3e50"/>
+        <text x="690" y="145" text-anchor="middle" font-family="Arial" font-size="12" fill="white">Pixel</text>
+        <text x="690" y="165" text-anchor="middle" font-family="Arial" font-size="12" fill="white">Shader</text>
+
+        <!-- Arrow 6 -->
+        <line x1="640" y1="150" x2="590" y2="150" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+        <!-- Output Merger (Fixed) -->
+        <rect x="480" y="120" width="100" height="60" rx="10" fill="url(#fixedGradient)" stroke="#2c3e50"/>
+        <text x="530" y="145" text-anchor="middle" font-family="Arial" font-size="12" fill="white">Output</text>
+        <text x="530" y="165" text-anchor="middle" font-family="Arial" font-size="12" fill="white">Merger</text>
+    </g>
+
+    <!-- Stage Descriptions -->
+    <g transform="translate(50,250)" font-family="Arial" font-size="11" fill="#666">
+        <text x="50" y="0">Vertex Data</text>
+        <text x="50" y="15">Input</text>
+
+        <text x="210" y="0">Vertex</text>
+        <text x="210" y="15">Transform</text>
+
+        <text x="370" y="0">Subdivision</text>
+        <text x="370" y="15">Control</text>
+
+        <text x="530" y="0">Primitive</text>
+        <text x="530" y="15">Generation</text>
+
+        <text x="690" y="0">Triangle</text>
+        <text x="690" y="15">Setup</text>
+
+        <text x="690" y="80">Fragment</text>
+        <text x="690" y="95">Processing</text>
+
+        <text x="530" y="80">Blending &amp;</text>
+        <text x="530" y="95">Z-Testing</text>
+    </g>
+</svg> 

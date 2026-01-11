@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="800" height="300" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <!-- Arrow Marker -->
+        <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+            <polygon points="0 0, 10 3.5, 0 7" fill="#333"/>
+        </marker>
+        <!-- Gradient for boxes -->
+        <linearGradient id="boxGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" style="stop-color:#4a90e2;stop-opacity:0.8"/>
+            <stop offset="100%" style="stop-color:#357abd;stop-opacity:0.9"/>
+        </linearGradient>
+    </defs>
+
+    <!-- Title -->
+    <text x="400" y="40" text-anchor="middle" font-family="Arial" font-size="24" fill="#333">
+        Early GPU Fixed-Function Pipeline
+    </text>
+
+    <!-- Pipeline Stages -->
+    <g transform="translate(50,80)">
+        <!-- Vertex Processing -->
+        <rect x="0" y="0" width="120" height="80" rx="10" fill="url(#boxGradient)" stroke="#2c3e50"/>
+        <text x="60" y="35" text-anchor="middle" font-family="Arial" font-size="14" fill="white">Vertex</text>
+        <text x="60" y="55" text-anchor="middle" font-family="Arial" font-size="14" fill="white">Processing</text>
+
+        <!-- Arrow 1 -->
+        <line x1="120" y1="40" x2="190" y2="40" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+        <!-- Rasterization -->
+        <rect x="200" y="0" width="120" height="80" rx="10" fill="url(#boxGradient)" stroke="#2c3e50"/>
+        <text x="260" y="45" text-anchor="middle" font-family="Arial" font-size="14" fill="white">Rasterization</text>
+
+        <!-- Arrow 2 -->
+        <line x1="320" y1="40" x2="390" y2="40" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+        <!-- Fragment Processing -->
+        <rect x="400" y="0" width="120" height="80" rx="10" fill="url(#boxGradient)" stroke="#2c3e50"/>
+        <text x="460" y="35" text-anchor="middle" font-family="Arial" font-size="14" fill="white">Fragment</text>
+        <text x="460" y="55" text-anchor="middle" font-family="Arial" font-size="14" fill="white">Processing</text>
+
+        <!-- Arrow 3 -->
+        <line x1="520" y1="40" x2="590" y2="40" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+        <!-- Output Merger -->
+        <rect x="600" y="0" width="120" height="80" rx="10" fill="url(#boxGradient)" stroke="#2c3e50"/>
+        <text x="660" y="35" text-anchor="middle" font-family="Arial" font-size="14" fill="white">Output</text>
+        <text x="660" y="55" text-anchor="middle" font-family="Arial" font-size="14" fill="white">Merger</text>
+    </g>
+
+    <!-- Stage Descriptions -->
+    <g transform="translate(50,200)">
+        <text x="60" y="0" text-anchor="middle" font-family="Arial" font-size="12" fill="#666">
+            Transform &amp;
+        </text>
+        <text x="60" y="15" text-anchor="middle" font-family="Arial" font-size="12" fill="#666">
+            Lighting
+        </text>
+
+        <text x="260" y="0" text-anchor="middle" font-family="Arial" font-size="12" fill="#666">
+            Triangle
+        </text>
+        <text x="260" y="15" text-anchor="middle" font-family="Arial" font-size="12" fill="#666">
+            Setup
+        </text>
+
+        <text x="460" y="0" text-anchor="middle" font-family="Arial" font-size="12" fill="#666">
+            Texturing &amp;
+        </text>
+        <text x="460" y="15" text-anchor="middle" font-family="Arial" font-size="12" fill="#666">
+            Coloring
+        </text>
+
+        <text x="660" y="0" text-anchor="middle" font-family="Arial" font-size="12" fill="#666">
+            Blending &amp;
+        </text>
+        <text x="660" y="15" text-anchor="middle" font-family="Arial" font-size="12" fill="#666">
+            Z-Buffer
+        </text>
+    </g>
+</svg> 
