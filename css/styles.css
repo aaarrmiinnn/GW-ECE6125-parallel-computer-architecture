@@ -145,6 +145,25 @@ section {
     background-color: #00304d; /* Darker blue on hover - updated to match new primary color */
 }
 
+.lecture-card.coming-soon {
+    opacity: 0.7;
+    border: 2px dashed #ccc;
+}
+
+.lecture-card.coming-soon .lecture-number {
+    background-color: #999;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 0.3rem 0.8rem;
+    background-color: #f0f0f0;
+    color: #666;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    margin-top: auto;
+}
+
 footer {
     text-align: center;
     margin-top: 3rem;
