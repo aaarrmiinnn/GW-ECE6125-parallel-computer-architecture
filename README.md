@@ -8,6 +8,14 @@ Access all lecture materials at:
 
 ### https://aaarrmiinnn.github.io/GW-ECE6125-parallel-computer-architecture/
 
+## Grading
+
+| Component | Weight |
+|-----------|--------|
+| Weekly Quizzes | 30% |
+| Midterm Exam | 30% |
+| Final Exam | 40% |
+
 ## Features
 
 - Interactive slides viewable on any device
