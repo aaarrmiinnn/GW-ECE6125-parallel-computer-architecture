@@ -150,8 +150,8 @@ A simple and memorable way to classify computer architectures based on:
 **Examples:**
 - **Classical:** Cray-1, early vector processors
 - **Modern:**
-  - GPUs (NVIDIA CUDA cores, AMD Radeon)
-  - CPU SIMD Extensions: Intel AVX, ARM NEON
+  - GPUs (NVIDIA Hopper/Blackwell, AMD Instinct MI300)
+  - CPU SIMD Extensions: Intel AVX-512/AVX10, ARM SVE/SVE2, ARM NEON
 
 **Use Case:** Matrix multiplication, image processing, machine learning
 
@@ -191,9 +191,9 @@ A simple and memorable way to classify computer architectures based on:
 **Examples:**
 - **Classical:** IBM SP-2, Beowulf clusters
 - **Modern:**
-  - Multi-core Processors: Intel Core i9, AMD Ryzen
+  - Multi-core Processors: Intel Core i9, AMD Ryzen/EPYC
   - Distributed Systems: AWS clusters, Google TPU pods
-  - Supercomputers: Fugaku, Summit
+  - Supercomputers: El Capitan, Frontier, Aurora (exascale systems)
 
 **Use Case:** High-performance computing (HPC), distributed databases, real-time applications
 
@@ -206,7 +206,7 @@ A simple and memorable way to classify computer architectures based on:
 | Category | Definition | Classical Example | Modern Example | Use Case |
 |----------|-----------|------------------|----------------|----------|
 | **SISD** | Single instruction, single data | Intel 8086, ENIAC | Single-core CPUs | Basic sequential tasks |
-| **SIMD** | Single instruction, multiple data | Cray-1 | GPUs, AVX, TPUs | Vector operations, ML |
+| **SIMD** | Single instruction, multiple data | Cray-1 | GPUs (Hopper/Blackwell), AVX-512, TPU v6/v7 | Vector operations, ML |
 | **MISD** | Multiple instructions, single data | Fault-tolerant systems | Control systems | Error detection |
 | **MIMD** | Multiple instructions, multiple data | IBM SP-2 | Multi-core CPUs, cloud | HPC, distributed systems |
 
@@ -221,8 +221,9 @@ A simple and memorable way to classify computer architectures based on:
 - **MISD-like:** When different processors perform distinct instructions on same data stream
 
 **Modern Examples:**
-- **TPUs (Tensor Processing Units):** Google's TPUs use systolic arrays for matrix multiplications
+- **TPUs (Tensor Processing Units):** Google's TPU v6 (Trillium) uses 256×256 systolic arrays for matrix multiplications, delivering ~918 peak BF16 TFLOPS
 - **FPGAs:** Often implement systolic arrays for signal processing or AI inference
+- **AI Accelerators:** NVIDIA Tensor Cores, AMD Matrix Cores use similar concepts
 
 ![Systolic Array](images/systolic-array.svg)
 
@@ -370,7 +371,7 @@ ADD R3, R4, R5     // Depends on branch outcome
 ```
 
 **Resolution Techniques:**
-- **Branch Prediction:** Predict outcome (~90-95% accuracy in modern CPUs)
+- **Branch Prediction:** Modern TAGE predictors achieve 97-98% accuracy; misprediction rates below 2-3%
 - **Speculative Execution:** Execute predicted path, discard if wrong
 - **Pipeline Flush:** Clear incorrect instructions on misprediction
 
@@ -379,7 +380,7 @@ ADD R3, R4, R5     // Depends on branch outcome
 ## Operational Models for Parallel Computers
 
 **Basic Categories (Historical Perspective):**
-- **SIMD:** Now integrated into modern processors (GPUs, Intel AVX, ARM NEON)
+- **SIMD:** Now integrated into modern processors (GPUs, Intel AVX-512, ARM SVE2)
 - **MIMD:** Basis for multi-core CPUs and distributed systems
 - **Vector Processors:** Concepts live on in SIMD extensions
 - **Clusters:** Modern clusters are heterogeneous (CPUs + GPUs + accelerators)
@@ -393,7 +394,7 @@ ADD R3, R4, R5     // Depends on branch outcome
 **Key Features:**
 - Architecture designed for **data parallelism**
 - **Historical (1980s):** Connection Machine, Thinking Machines CM-2
-- **Modern:** Integrated into CPUs (AVX), GPUs (NVIDIA SIMT)
+- **Modern:** Integrated into CPUs (AVX-512, ARM SVE2), GPUs (NVIDIA SIMT), AI accelerators
 
 **Technical Features:**
 - **Instruction Broadcast:** Microinstructions broadcast to all PEs
@@ -435,7 +436,7 @@ To compute the average of a matrix element with its four neighbors:
 - **Synchronization:** Handled in software (OS or application-level)
 - Can emulate SIMD using **SPMD** (Single Program, Multiple Data)
 
-**Examples:** IBM BlueGene, SGI Altix, Cray XC50, Fugaku
+**Examples:** HPE Cray EX (Frontier, Aurora), Eviden BullSequana (JUPITER), Fugaku
 
 ![MIMD Operational Model](images/mimd-operational.svg)
 
@@ -528,7 +529,7 @@ Multi-level hierarchical memory organization for large-scale systems.
 
 **Cluster Organization:**
 - Processors grouped into clusters
-- Connected via Cluster Interconnection Network (CIN): NUMAlink, InfiniBand, Ethernet
+- Connected via Cluster Interconnection Network (CIN): HPE Slingshot, InfiniBand NDR/XDR, NVLink, CXL
 
 ---
 
@@ -556,9 +557,9 @@ A **special case of NUMA** where all local memories are structured as caches.
 **No Remote Memory Access (NORMA):**
 - Processors cannot directly access memory of other nodes
 - Communication via **Message-Passing Interface (MPI)**
-- High-speed interconnects: InfiniBand, Cray Aries
+- High-speed interconnects: HPE Slingshot, InfiniBand NDR/XDR, NVIDIA NVLink
 
-**Examples:** IBM Blue Gene, Fugaku
+**Examples:** El Capitan, Frontier, Aurora, JUPITER, Fugaku
 
 ---
 
