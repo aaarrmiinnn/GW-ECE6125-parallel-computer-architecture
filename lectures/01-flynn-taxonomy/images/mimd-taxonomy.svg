@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 400">
+  <!-- Background -->
+  <rect width="700" height="400" fill="#f8f9fa"/>
+
+  <!-- Title -->
+  <text x="350" y="30" text-anchor="middle" font-family="Arial" font-size="18" font-weight="bold" fill="#004065">Taxonomy of MIMD Architectures</text>
+
+  <!-- Root: MIMD -->
+  <rect x="310" y="50" width="80" height="35" rx="5" fill="#c2185b"/>
+  <text x="350" y="73" text-anchor="middle" font-family="Arial" font-size="12" font-weight="bold" fill="white">MIMD</text>
+
+  <!-- Level 1 branches -->
+  <line x1="350" y1="85" x2="350" y2="100" stroke="#004065" stroke-width="2"/>
+  <line x1="200" y1="100" x2="500" y2="100" stroke="#004065" stroke-width="2"/>
+  <line x1="200" y1="100" x2="200" y2="115" stroke="#004065" stroke-width="2"/>
+  <line x1="500" y1="100" x2="500" y2="115" stroke="#004065" stroke-width="2"/>
+
+  <!-- Multiprocessors -->
+  <rect x="120" y="115" width="160" height="35" rx="5" fill="#1976d2"/>
+  <text x="200" y="138" text-anchor="middle" font-family="Arial" font-size="11" font-weight="bold" fill="white">Multiprocessors (MPs)</text>
+  <text x="200" y="165" text-anchor="middle" font-family="Arial" font-size="9" fill="#666">Shared Address Spaces</text>
+
+  <!-- Multicomputers -->
+  <rect x="420" y="115" width="160" height="35" rx="5" fill="#7b1fa2"/>
+  <text x="500" y="138" text-anchor="middle" font-family="Arial" font-size="11" font-weight="bold" fill="white">Multicomputers</text>
+  <text x="500" y="165" text-anchor="middle" font-family="Arial" font-size="9" fill="#666">Multiple Address Spaces</text>
+
+  <!-- Level 2 branches from Multiprocessors -->
+  <line x1="200" y1="150" x2="200" y2="180" stroke="#004065" stroke-width="2"/>
+  <line x1="100" y1="180" x2="300" y2="180" stroke="#004065" stroke-width="2"/>
+  <line x1="100" y1="180" x2="100" y2="195" stroke="#004065" stroke-width="2"/>
+  <line x1="300" y1="180" x2="300" y2="195" stroke="#004065" stroke-width="2"/>
+
+  <!-- Central Memory MPs -->
+  <rect x="30" y="195" width="140" height="40" rx="5" fill="#e3f2fd" stroke="#1976d2" stroke-width="2"/>
+  <text x="100" y="213" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold" fill="#1976d2">Central Memory</text>
+  <text x="100" y="227" text-anchor="middle" font-family="Arial" font-size="9" fill="#333">(Non-Scalable)</text>
+
+  <!-- Distributed MPs -->
+  <rect x="230" y="195" width="140" height="40" rx="5" fill="#e3f2fd" stroke="#1976d2" stroke-width="2"/>
+  <text x="300" y="213" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold" fill="#1976d2">Distributed MPs</text>
+  <text x="300" y="227" text-anchor="middle" font-family="Arial" font-size="9" fill="#333">(Scalable)</text>
+
+  <!-- Level 3 from Central Memory -->
+  <line x1="100" y1="235" x2="100" y2="260" stroke="#004065" stroke-width="1"/>
+
+  <!-- UMA/SMP -->
+  <rect x="35" y="260" width="130" height="55" rx="5" fill="#fff3e0" stroke="#ef6c00" stroke-width="1"/>
+  <text x="100" y="280" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold" fill="#ef6c00">UMA/SMP</text>
+  <text x="100" y="295" text-anchor="middle" font-family="Arial" font-size="8" fill="#333">Uniform Memory Access</text>
+  <text x="100" y="308" text-anchor="middle" font-family="Arial" font-size="7" fill="#666">e.g., SGI Power Challenge</text>
+
+  <!-- Level 3 from Distributed MPs -->
+  <line x1="300" y1="235" x2="300" y2="255" stroke="#004065" stroke-width="1"/>
+  <line x1="220" y1="255" x2="380" y2="255" stroke="#004065" stroke-width="1"/>
+  <line x1="220" y1="255" x2="220" y2="265" stroke="#004065" stroke-width="1"/>
+  <line x1="380" y1="255" x2="380" y2="265" stroke="#004065" stroke-width="1"/>
+
+  <!-- NUMA/DSM -->
+  <rect x="175" y="265" width="90" height="55" rx="5" fill="#e8f5e9" stroke="#2e7d32" stroke-width="1"/>
+  <text x="220" y="285" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold" fill="#2e7d32">NUMA</text>
+  <text x="220" y="300" text-anchor="middle" font-family="Arial" font-size="8" fill="#333">Non-Uniform</text>
+  <text x="220" y="312" text-anchor="middle" font-family="Arial" font-size="7" fill="#666">AMD EPYC, Intel Xeon</text>
+
+  <!-- COMA -->
+  <rect x="335" y="265" width="90" height="55" rx="5" fill="#fce4ec" stroke="#c2185b" stroke-width="1"/>
+  <text x="380" y="285" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold" fill="#c2185b">COMA</text>
+  <text x="380" y="300" text-anchor="middle" font-family="Arial" font-size="8" fill="#333">Cache-Only</text>
+  <text x="380" y="312" text-anchor="middle" font-family="Arial" font-size="7" fill="#666">e.g., KSR</text>
+
+  <!-- NORMA from Multicomputers -->
+  <line x1="500" y1="150" x2="500" y2="195" stroke="#004065" stroke-width="2"/>
+
+  <!-- NORMA/Clusters -->
+  <rect x="430" y="195" width="140" height="60" rx="5" fill="#f3e5f5" stroke="#7b1fa2" stroke-width="2"/>
+  <text x="500" y="218" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold" fill="#7b1fa2">NORMA</text>
+  <text x="500" y="233" text-anchor="middle" font-family="Arial" font-size="8" fill="#333">No Remote Memory Access</text>
+  <text x="500" y="248" text-anchor="middle" font-family="Arial" font-size="7" fill="#666">MPPs, Clusters</text>
+
+  <!-- Examples under NORMA -->
+  <rect x="440" y="270" width="120" height="40" rx="3" fill="#ede7f6"/>
+  <text x="500" y="288" text-anchor="middle" font-family="Arial" font-size="8" fill="#333">IBM Blue Gene</text>
+  <text x="500" y="302" text-anchor="middle" font-family="Arial" font-size="8" fill="#333">Fugaku, Beowulf</text>
+
+  <!-- Legend -->
+  <rect x="520" y="340" width="160" height="50" rx="5" fill="#fff9c4" stroke="#f9a825" stroke-width="1"/>
+  <text x="600" y="360" text-anchor="middle" font-family="Arial" font-size="9" font-weight="bold" fill="#004065">Key Distinction:</text>
+  <text x="600" y="375" text-anchor="middle" font-family="Arial" font-size="8" fill="#333">Shared vs Distributed Memory</text>
+</svg>
