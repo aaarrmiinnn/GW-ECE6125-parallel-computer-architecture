@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 280">
+  <defs>
+    <marker id="arrow1" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#004065"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="500" height="280" fill="#f8f9fa"/>
+
+  <!-- Title -->
+  <text x="250" y="30" text-anchor="middle" font-family="Arial" font-size="18" font-weight="bold" fill="#004065">SISD Architecture</text>
+
+  <!-- Instruction Stream -->
+  <rect x="30" y="100" width="80" height="40" rx="5" fill="#81c784"/>
+  <text x="70" y="125" text-anchor="middle" font-family="Arial" font-size="11" fill="white">IS</text>
+  <text x="70" y="160" text-anchor="middle" font-family="Arial" font-size="9" fill="#666">Instruction</text>
+  <text x="70" y="172" text-anchor="middle" font-family="Arial" font-size="9" fill="#666">Stream</text>
+
+  <!-- Arrow to CU -->
+  <line x1="110" y1="120" x2="150" y2="120" stroke="#004065" stroke-width="2" marker-end="url(#arrow1)"/>
+
+  <!-- Processor Box -->
+  <rect x="150" y="60" width="200" height="160" rx="10" fill="#e3f2fd" stroke="#004065" stroke-width="2"/>
+  <text x="250" y="85" text-anchor="middle" font-family="Arial" font-size="12" font-weight="bold" fill="#004065">Processor</text>
+
+  <!-- Control Unit -->
+  <rect x="170" y="95" width="70" height="50" rx="5" fill="#004065"/>
+  <text x="205" y="125" text-anchor="middle" font-family="Arial" font-size="11" fill="white">CU</text>
+
+  <!-- Arrow CU to PE -->
+  <line x1="240" y1="120" x2="260" y2="120" stroke="#004065" stroke-width="2" marker-end="url(#arrow1)"/>
+  <text x="250" y="110" text-anchor="middle" font-family="Arial" font-size="8" fill="#666">uIS</text>
+
+  <!-- Processing Element -->
+  <rect x="260" y="95" width="70" height="50" rx="5" fill="#FFD200"/>
+  <text x="295" y="125" text-anchor="middle" font-family="Arial" font-size="11" fill="#004065">PE</text>
+
+  <!-- Arrow to Memory -->
+  <line x1="350" y1="120" x2="390" y2="120" stroke="#004065" stroke-width="2" marker-end="url(#arrow1)"/>
+
+  <!-- Memory -->
+  <rect x="390" y="80" width="80" height="80" rx="5" fill="#64b5f6"/>
+  <text x="430" y="125" text-anchor="middle" font-family="Arial" font-size="11" fill="white">M</text>
+  <text x="430" y="180" text-anchor="middle" font-family="Arial" font-size="9" fill="#666">Memory</text>
+
+  <!-- Data Stream -->
+  <rect x="210" y="160" width="80" height="40" rx="5" fill="#ef9a9a"/>
+  <text x="250" y="185" text-anchor="middle" font-family="Arial" font-size="11" fill="#333">DS</text>
+  <text x="250" y="220" text-anchor="middle" font-family="Arial" font-size="9" fill="#666">Data Stream</text>
+
+  <!-- Legend -->
+  <text x="250" y="255" text-anchor="middle" font-family="Arial" font-size="10" fill="#666">CU = Control Unit | PE = Processing Element | M = Memory</text>
+</svg>

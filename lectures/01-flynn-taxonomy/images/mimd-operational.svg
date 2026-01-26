@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 650 400">
+  <defs>
+    <marker id="arrow7" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#004065"/>
+    </marker>
+    <marker id="arrow7b" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#7b1fa2"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="650" height="400" fill="#f8f9fa"/>
+
+  <!-- Title -->
+  <text x="325" y="30" text-anchor="middle" font-family="Arial" font-size="18" font-weight="bold" fill="#c2185b">MIMD Operational Model</text>
+
+  <!-- Processor 1 -->
+  <rect x="30" y="60" width="180" height="120" rx="8" fill="#fce4ec" stroke="#c2185b" stroke-width="2"/>
+  <text x="120" y="85" text-anchor="middle" font-family="Arial" font-size="11" font-weight="bold" fill="#c2185b">Processor 1</text>
+
+  <rect x="45" y="100" width="45" height="35" rx="3" fill="#004065"/>
+  <text x="67" y="122" text-anchor="middle" font-family="Arial" font-size="9" fill="white">CU</text>
+
+  <rect x="100" y="100" width="45" height="35" rx="3" fill="#FFD200"/>
+  <text x="122" y="122" text-anchor="middle" font-family="Arial" font-size="9" fill="#004065">PE</text>
+
+  <rect x="155" y="100" width="45" height="35" rx="3" fill="#90caf9"/>
+  <text x="177" y="122" text-anchor="middle" font-family="Arial" font-size="9" fill="#004065">LM</text>
+
+  <text x="120" y="160" text-anchor="middle" font-family="Arial" font-size="9" fill="#666">IS1, DS1</text>
+
+  <!-- Processor 2 -->
+  <rect x="30" y="200" width="180" height="120" rx="8" fill="#fce4ec" stroke="#c2185b" stroke-width="2"/>
+  <text x="120" y="225" text-anchor="middle" font-family="Arial" font-size="11" font-weight="bold" fill="#c2185b">Processor 2</text>
+
+  <rect x="45" y="240" width="45" height="35" rx="3" fill="#004065"/>
+  <text x="67" y="262" text-anchor="middle" font-family="Arial" font-size="9" fill="white">CU</text>
+
+  <rect x="100" y="240" width="45" height="35" rx="3" fill="#FFD200"/>
+  <text x="122" y="262" text-anchor="middle" font-family="Arial" font-size="9" fill="#004065">PE</text>
+
+  <rect x="155" y="240" width="45" height="35" rx="3" fill="#90caf9"/>
+  <text x="177" y="262" text-anchor="middle" font-family="Arial" font-size="9" fill="#004065">LM</text>
+
+  <text x="120" y="300" text-anchor="middle" font-family="Arial" font-size="9" fill="#666">IS2, DS2</text>
+
+  <!-- Processor N indicator -->
+  <text x="120" y="350" text-anchor="middle" font-family="Arial" font-size="14" fill="#666">...</text>
+  <text x="120" y="375" text-anchor="middle" font-family="Arial" font-size="10" fill="#666">Processor N</text>
+
+  <!-- Interconnection Network -->
+  <rect x="250" y="100" width="150" height="220" rx="10" fill="#e1bee7" stroke="#7b1fa2" stroke-width="2"/>
+  <text x="325" y="130" text-anchor="middle" font-family="Arial" font-size="12" font-weight="bold" fill="#7b1fa2">Interconnection</text>
+  <text x="325" y="148" text-anchor="middle" font-family="Arial" font-size="12" font-weight="bold" fill="#7b1fa2">Network</text>
+
+  <!-- Network pattern -->
+  <line x1="270" y1="180" x2="380" y2="180" stroke="#7b1fa2" stroke-width="1"/>
+  <line x1="270" y1="210" x2="380" y2="210" stroke="#7b1fa2" stroke-width="1"/>
+  <line x1="270" y1="240" x2="380" y2="240" stroke="#7b1fa2" stroke-width="1"/>
+  <line x1="270" y1="270" x2="380" y2="270" stroke="#7b1fa2" stroke-width="1"/>
+  <line x1="290" y1="165" x2="290" y2="300" stroke="#7b1fa2" stroke-width="1"/>
+  <line x1="325" y1="165" x2="325" y2="300" stroke="#7b1fa2" stroke-width="1"/>
+  <line x1="360" y1="165" x2="360" y2="300" stroke="#7b1fa2" stroke-width="1"/>
+
+  <!-- Connections to network -->
+  <line x1="210" y1="130" x2="250" y2="180" stroke="#7b1fa2" stroke-width="2" marker-end="url(#arrow7b)"/>
+  <line x1="210" y1="270" x2="250" y2="240" stroke="#7b1fa2" stroke-width="2" marker-end="url(#arrow7b)"/>
+
+  <!-- Shared Memory -->
+  <rect x="440" y="130" width="170" height="160" rx="8" fill="#bbdefb" stroke="#1976d2" stroke-width="2"/>
+  <text x="525" y="160" text-anchor="middle" font-family="Arial" font-size="12" font-weight="bold" fill="#1976d2">Shared Memory</text>
+
+  <rect x="460" y="180" width="130" height="40" rx="3" fill="#64b5f6"/>
+  <text x="525" y="205" text-anchor="middle" font-family="Arial" font-size="10" fill="white">Shared Data</text>
+
+  <rect x="460" y="235" width="130" height="40" rx="3" fill="#81c784"/>
+  <text x="525" y="260" text-anchor="middle" font-family="Arial" font-size="10" fill="white">Communication</text>
+
+  <!-- Connection to shared memory -->
+  <line x1="400" y1="210" x2="440" y2="210" stroke="#1976d2" stroke-width="2" marker-end="url(#arrow7)"/>
+
+  <!-- Key features -->
+  <rect x="440" y="310" width="170" height="70" rx="5" fill="#fff9c4" stroke="#f9a825" stroke-width="1"/>
+  <text x="525" y="332" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold" fill="#004065">Key Features:</text>
+  <text x="525" y="350" text-anchor="middle" font-family="Arial" font-size="9" fill="#333">- Asynchronous operation</text>
+  <text x="525" y="365" text-anchor="middle" font-family="Arial" font-size="9" fill="#333">- Software synchronization</text>
+
+  <!-- Legend -->
+  <text x="325" y="390" text-anchor="middle" font-family="Arial" font-size="9" fill="#666">CU=Control Unit | PE=Processing Element | LM=Local Memory</text>
+</svg>

@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 550 350">
+  <defs>
+    <marker id="arrow5" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#004065"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="550" height="350" fill="#f8f9fa"/>
+
+  <!-- Title -->
+  <text x="275" y="30" text-anchor="middle" font-family="Arial" font-size="18" font-weight="bold" fill="#004065">Systolic Array</text>
+  <text x="275" y="50" text-anchor="middle" font-family="Arial" font-size="12" fill="#666">Data flows rhythmically through processor grid</text>
+
+  <!-- Grid of PEs -->
+  <!-- Row 1 -->
+  <rect x="120" y="80" width="60" height="60" rx="5" fill="#e3f2fd" stroke="#004065" stroke-width="2"/>
+  <text x="150" y="115" text-anchor="middle" font-family="Arial" font-size="11" fill="#004065">PE</text>
+
+  <rect x="200" y="80" width="60" height="60" rx="5" fill="#e3f2fd" stroke="#004065" stroke-width="2"/>
+  <text x="230" y="115" text-anchor="middle" font-family="Arial" font-size="11" fill="#004065">PE</text>
+
+  <rect x="280" y="80" width="60" height="60" rx="5" fill="#e3f2fd" stroke="#004065" stroke-width="2"/>
+  <text x="310" y="115" text-anchor="middle" font-family="Arial" font-size="11" fill="#004065">PE</text>
+
+  <!-- Row 2 -->
+  <rect x="120" y="160" width="60" height="60" rx="5" fill="#e3f2fd" stroke="#004065" stroke-width="2"/>
+  <text x="150" y="195" text-anchor="middle" font-family="Arial" font-size="11" fill="#004065">PE</text>
+
+  <rect x="200" y="160" width="60" height="60" rx="5" fill="#e3f2fd" stroke="#004065" stroke-width="2"/>
+  <text x="230" y="195" text-anchor="middle" font-family="Arial" font-size="11" fill="#004065">PE</text>
+
+  <rect x="280" y="160" width="60" height="60" rx="5" fill="#e3f2fd" stroke="#004065" stroke-width="2"/>
+  <text x="310" y="195" text-anchor="middle" font-family="Arial" font-size="11" fill="#004065">PE</text>
+
+  <!-- Row 3 -->
+  <rect x="120" y="240" width="60" height="60" rx="5" fill="#e3f2fd" stroke="#004065" stroke-width="2"/>
+  <text x="150" y="275" text-anchor="middle" font-family="Arial" font-size="11" fill="#004065">PE</text>
+
+  <rect x="200" y="240" width="60" height="60" rx="5" fill="#e3f2fd" stroke="#004065" stroke-width="2"/>
+  <text x="230" y="275" text-anchor="middle" font-family="Arial" font-size="11" fill="#004065">PE</text>
+
+  <rect x="280" y="240" width="60" height="60" rx="5" fill="#e3f2fd" stroke="#004065" stroke-width="2"/>
+  <text x="310" y="275" text-anchor="middle" font-family="Arial" font-size="11" fill="#004065">PE</text>
+
+  <!-- Horizontal arrows (data flow) -->
+  <line x1="60" y1="110" x2="115" y2="110" stroke="#2e7d32" stroke-width="2" marker-end="url(#arrow5)"/>
+  <line x1="180" y1="110" x2="195" y2="110" stroke="#2e7d32" stroke-width="2" marker-end="url(#arrow5)"/>
+  <line x1="260" y1="110" x2="275" y2="110" stroke="#2e7d32" stroke-width="2" marker-end="url(#arrow5)"/>
+  <line x1="340" y1="110" x2="370" y2="110" stroke="#2e7d32" stroke-width="2" marker-end="url(#arrow5)"/>
+
+  <line x1="60" y1="190" x2="115" y2="190" stroke="#2e7d32" stroke-width="2" marker-end="url(#arrow5)"/>
+  <line x1="180" y1="190" x2="195" y2="190" stroke="#2e7d32" stroke-width="2" marker-end="url(#arrow5)"/>
+  <line x1="260" y1="190" x2="275" y2="190" stroke="#2e7d32" stroke-width="2" marker-end="url(#arrow5)"/>
+  <line x1="340" y1="190" x2="370" y2="190" stroke="#2e7d32" stroke-width="2" marker-end="url(#arrow5)"/>
+
+  <line x1="60" y1="270" x2="115" y2="270" stroke="#2e7d32" stroke-width="2" marker-end="url(#arrow5)"/>
+  <line x1="180" y1="270" x2="195" y2="270" stroke="#2e7d32" stroke-width="2" marker-end="url(#arrow5)"/>
+  <line x1="260" y1="270" x2="275" y2="270" stroke="#2e7d32" stroke-width="2" marker-end="url(#arrow5)"/>
+  <line x1="340" y1="270" x2="370" y2="270" stroke="#2e7d32" stroke-width="2" marker-end="url(#arrow5)"/>
+
+  <!-- Vertical arrows (data flow) -->
+  <line x1="150" y1="60" x2="150" y2="75" stroke="#c2185b" stroke-width="2" marker-end="url(#arrow5)"/>
+  <line x1="150" y1="140" x2="150" y2="155" stroke="#c2185b" stroke-width="2" marker-end="url(#arrow5)"/>
+  <line x1="150" y1="220" x2="150" y2="235" stroke="#c2185b" stroke-width="2" marker-end="url(#arrow5)"/>
+  <line x1="150" y1="300" x2="150" y2="325" stroke="#c2185b" stroke-width="2" marker-end="url(#arrow5)"/>
+
+  <line x1="230" y1="60" x2="230" y2="75" stroke="#c2185b" stroke-width="2" marker-end="url(#arrow5)"/>
+  <line x1="230" y1="140" x2="230" y2="155" stroke="#c2185b" stroke-width="2" marker-end="url(#arrow5)"/>
+  <line x1="230" y1="220" x2="230" y2="235" stroke="#c2185b" stroke-width="2" marker-end="url(#arrow5)"/>
+  <line x1="230" y1="300" x2="230" y2="325" stroke="#c2185b" stroke-width="2" marker-end="url(#arrow5)"/>
+
+  <line x1="310" y1="60" x2="310" y2="75" stroke="#c2185b" stroke-width="2" marker-end="url(#arrow5)"/>
+  <line x1="310" y1="140" x2="310" y2="155" stroke="#c2185b" stroke-width="2" marker-end="url(#arrow5)"/>
+  <line x1="310" y1="220" x2="310" y2="235" stroke="#c2185b" stroke-width="2" marker-end="url(#arrow5)"/>
+  <line x1="310" y1="300" x2="310" y2="325" stroke="#c2185b" stroke-width="2" marker-end="url(#arrow5)"/>
+
+  <!-- Input labels -->
+  <text x="40" y="115" font-family="Arial" font-size="10" fill="#2e7d32">Row A</text>
+  <text x="40" y="195" font-family="Arial" font-size="10" fill="#2e7d32">Row B</text>
+  <text x="40" y="275" font-family="Arial" font-size="10" fill="#2e7d32">Row C</text>
+
+  <text x="150" y="55" text-anchor="middle" font-family="Arial" font-size="10" fill="#c2185b">Col 1</text>
+  <text x="230" y="55" text-anchor="middle" font-family="Arial" font-size="10" fill="#c2185b">Col 2</text>
+  <text x="310" y="55" text-anchor="middle" font-family="Arial" font-size="10" fill="#c2185b">Col 3</text>
+
+  <!-- Key features box -->
+  <rect x="390" y="80" width="150" height="140" rx="5" fill="#fff9c4" stroke="#f9a825" stroke-width="1"/>
+  <text x="465" y="105" text-anchor="middle" font-family="Arial" font-size="11" font-weight="bold" fill="#004065">Key Features:</text>
+  <text x="400" y="125" font-family="Arial" font-size="9" fill="#333">- Regular grid structure</text>
+  <text x="400" y="142" font-family="Arial" font-size="9" fill="#333">- Rhythmic data flow</text>
+  <text x="400" y="159" font-family="Arial" font-size="9" fill="#333">- Local communication</text>
+  <text x="400" y="176" font-family="Arial" font-size="9" fill="#333">- Highly parallel</text>
+  <text x="400" y="200" font-family="Arial" font-size="9" font-weight="bold" fill="#004065">Used in:</text>
+  <text x="400" y="215" font-family="Arial" font-size="9" fill="#333">Google TPUs, FPGAs</text>
+
+  <!-- Legend -->
+  <rect x="390" y="240" width="15" height="15" fill="#2e7d32"/>
+  <text x="410" y="252" font-family="Arial" font-size="9" fill="#333">Matrix row input</text>
+  <rect x="390" y="265" width="15" height="15" fill="#c2185b"/>
+  <text x="410" y="277" font-family="Arial" font-size="9" fill="#333">Matrix column input</text>
+</svg>

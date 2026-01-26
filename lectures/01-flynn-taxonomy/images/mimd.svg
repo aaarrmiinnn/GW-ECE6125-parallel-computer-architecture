@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2004/2000/svg" viewBox="0 0 600 380">
+  <defs>
+    <marker id="arrow4" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#004065"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="600" height="380" fill="#f8f9fa"/>
+
+  <!-- Title -->
+  <text x="300" y="30" text-anchor="middle" font-family="Arial" font-size="18" font-weight="bold" fill="#c2185b">MIMD Architecture</text>
+
+  <!-- Processor 1 -->
+  <rect x="50" y="60" width="170" height="100" rx="8" fill="#fce4ec" stroke="#c2185b" stroke-width="2"/>
+  <text x="135" y="82" text-anchor="middle" font-family="Arial" font-size="11" font-weight="bold" fill="#c2185b">Processor 1</text>
+  <rect x="65" y="95" width="55" height="45" rx="3" fill="#004065"/>
+  <text x="92" y="122" text-anchor="middle" font-family="Arial" font-size="10" fill="white">CU1</text>
+  <rect x="130" y="95" width="55" height="45" rx="3" fill="#FFD200"/>
+  <text x="157" y="122" text-anchor="middle" font-family="Arial" font-size="10" fill="#004065">PE1</text>
+  <text x="30" y="110" font-family="Arial" font-size="9" fill="#666">IS1</text>
+
+  <!-- Processor 2 -->
+  <rect x="50" y="190" width="170" height="100" rx="8" fill="#fce4ec" stroke="#c2185b" stroke-width="2"/>
+  <text x="135" y="212" text-anchor="middle" font-family="Arial" font-size="11" font-weight="bold" fill="#c2185b">Processor 2</text>
+  <rect x="65" y="225" width="55" height="45" rx="3" fill="#004065"/>
+  <text x="92" y="252" text-anchor="middle" font-family="Arial" font-size="10" fill="white">CU2</text>
+  <rect x="130" y="225" width="55" height="45" rx="3" fill="#FFD200"/>
+  <text x="157" y="252" text-anchor="middle" font-family="Arial" font-size="10" fill="#004065">PE2</text>
+  <text x="30" y="240" font-family="Arial" font-size="9" fill="#666">IS2</text>
+
+  <!-- Processor N -->
+  <rect x="50" y="320" width="170" height="50" rx="8" fill="#fce4ec" stroke="#c2185b" stroke-width="2" stroke-dasharray="5,3"/>
+  <text x="135" y="350" text-anchor="middle" font-family="Arial" font-size="11" fill="#c2185b">Processor N...</text>
+
+  <!-- Dots -->
+  <text x="135" y="305" text-anchor="middle" font-family="Arial" font-size="18" fill="#666">...</text>
+
+  <!-- Interconnection Network -->
+  <rect x="260" y="100" width="150" height="180" rx="10" fill="#e1bee7" stroke="#7b1fa2" stroke-width="2"/>
+  <text x="335" y="130" text-anchor="middle" font-family="Arial" font-size="11" font-weight="bold" fill="#7b1fa2">Interconnection</text>
+  <text x="335" y="148" text-anchor="middle" font-family="Arial" font-size="11" font-weight="bold" fill="#7b1fa2">Network</text>
+
+  <!-- Network grid lines -->
+  <line x1="280" y1="170" x2="390" y2="170" stroke="#7b1fa2" stroke-width="1"/>
+  <line x1="280" y1="200" x2="390" y2="200" stroke="#7b1fa2" stroke-width="1"/>
+  <line x1="280" y1="230" x2="390" y2="230" stroke="#7b1fa2" stroke-width="1"/>
+  <line x1="300" y1="160" x2="300" y2="260" stroke="#7b1fa2" stroke-width="1"/>
+  <line x1="335" y1="160" x2="335" y2="260" stroke="#7b1fa2" stroke-width="1"/>
+  <line x1="370" y1="160" x2="370" y2="260" stroke="#7b1fa2" stroke-width="1"/>
+
+  <!-- Connections to network -->
+  <line x1="220" y1="120" x2="260" y2="170" stroke="#004065" stroke-width="2" marker-end="url(#arrow4)"/>
+  <line x1="220" y1="250" x2="260" y2="230" stroke="#004065" stroke-width="2" marker-end="url(#arrow4)"/>
+
+  <!-- Shared Memory -->
+  <rect x="450" y="120" width="120" height="140" rx="8" fill="#bbdefb" stroke="#1976d2" stroke-width="2"/>
+  <text x="510" y="150" text-anchor="middle" font-family="Arial" font-size="12" font-weight="bold" fill="#1976d2">Shared</text>
+  <text x="510" y="168" text-anchor="middle" font-family="Arial" font-size="12" font-weight="bold" fill="#1976d2">Memory</text>
+  <rect x="465" y="180" width="90" height="30" rx="3" fill="#64b5f6"/>
+  <text x="510" y="200" text-anchor="middle" font-family="Arial" font-size="9" fill="white">Data</text>
+  <rect x="465" y="220" width="90" height="30" rx="3" fill="#81c784"/>
+  <text x="510" y="240" text-anchor="middle" font-family="Arial" font-size="9" fill="white">Instructions</text>
+
+  <!-- Connection to memory -->
+  <line x1="410" y1="190" x2="450" y2="190" stroke="#004065" stroke-width="2" marker-end="url(#arrow4)"/>
+
+  <!-- Data Streams -->
+  <rect x="230" y="60" width="40" height="25" rx="3" fill="#ef9a9a"/>
+  <text x="250" y="77" text-anchor="middle" font-family="Arial" font-size="8" fill="#333">DS1</text>
+
+  <rect x="230" y="295" width="40" height="25" rx="3" fill="#ef9a9a"/>
+  <text x="250" y="312" text-anchor="middle" font-family="Arial" font-size="8" fill="#333">DS2</text>
+
+  <!-- Key point -->
+  <rect x="450" y="290" width="120" height="60" rx="5" fill="#fff9c4" stroke="#f9a825" stroke-width="1"/>
+  <text x="510" y="310" text-anchor="middle" font-family="Arial" font-size="9" font-weight="bold" fill="#004065">Key Point:</text>
+  <text x="510" y="325" text-anchor="middle" font-family="Arial" font-size="8" fill="#333">Independent processors</text>
+  <text x="510" y="338" text-anchor="middle" font-family="Arial" font-size="8" fill="#333">with own IS and DS</text>
+</svg>
