@@ -1,6 +1,6 @@
 # Parallel Computer Architecture
 ## Lecture 1: Flynn's Taxonomy & Parallelism Intuition
-### GWU ECE 6125 | Dr. Armin Mehrabian | Spring 2026
+### GWU ECE 6125 | Armin Mehrabian | Spring 2026
 
 ---
 
