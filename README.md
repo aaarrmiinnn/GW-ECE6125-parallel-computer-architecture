@@ -20,15 +20,15 @@ Access all lecture materials at:
 | 6 | Feb 16-20 | *Presidents' Day - No Class* |
 | 7 | Feb 23-27 | Research at GW: Photonic Neuromorphic Computing |
 | 8 | Mar 2-6 | Cache Coherence |
-| — | Mar 9-14 | **Spring Break - No Classes** |
-| 9 | Mar 16-20 | **Midterm Exam** |
-| 10 | Mar 23-27 | Parallel Programming Part 1 |
-| 11 | Mar 30-Apr 3 | Parallel Programming Part 2 |
-| 12 | Apr 6-10 | GPU Architecture |
-| 13 | Apr 13-17 | Specialized Parallel Architectures |
-| 14 | Apr 20-24 | Review & Special Topics |
-| 15 | Apr 27 | Last Day of Classes |
-| — | May 2-8 | **Final Exam Period** |
+| 9 | Mar 9-14 | **Spring Break - No Classes** |
+| 10 | Mar 16-20 | **Midterm Exam** |
+| 11 | Mar 23-27 | Parallel Programming Part 1 |
+| 12 | Mar 30-Apr 3 | Parallel Programming Part 2 |
+| 13 | Apr 6-10 | GPU Architecture |
+| 14 | Apr 13-17 | Specialized Parallel Architectures |
+| 15 | Apr 20-24 | Review & Special Topics |
+| 16 | Apr 27 | Last Day of Classes |
+| 17 | May 2-8 | **Final Exam Period** |
 
 ## Grading
 
