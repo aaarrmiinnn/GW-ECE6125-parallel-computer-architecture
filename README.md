@@ -8,6 +8,21 @@ Access all lecture materials at:
 
 ### https://aaarrmiinnn.github.io/GW-ECE6125-parallel-computer-architecture/
 
+## Syllabus
+
+| Week | Topic |
+|------|-------|
+| 1 | Flynn's Taxonomy |
+| 2 | Parallel Intuitions |
+| 3 | Interconnect Networks 1 |
+| 4 | Interconnect Networks 2 |
+| 5 | Research at GW: Photonic Neuromorphic Computing |
+| 6 | Cache Coherence |
+| 7 | Parallel Programming Part 1 |
+| 8 | Parallel Programming Part 2 |
+| 9 | GPU Architecture |
+| 10 | Specialized Parallel Architectures |
+
 ## Grading
 
 | Component | Weight |
