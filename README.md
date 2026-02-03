@@ -13,20 +13,20 @@ Access all lecture materials at:
 | Week | Dates | Topic |
 |------|-------|-------|
 | 1 | Jan 12-16 | Flynn's Taxonomy |
-| 2 | Jan 19-23 | Parallel Intuitions *(MLK Day - No class Mon Jan 19)* |
-| 3 | Jan 26-30 | Interconnect Networks 1 |
-| 4 | Feb 2-6 | Interconnect Networks 2 |
-| 5 | Feb 9-13 | Research at GW: Photonic Neuromorphic Computing |
-| 6 | Feb 16-20 | Cache Coherence *(Presidents' Day - No class Mon Feb 16)* |
-| 7 | Feb 23-27 | **Midterm Exam** |
-| 8 | Mar 2-6 | Parallel Programming Part 1 |
+| 2 | Jan 19-23 | *MLK Day - No Class* |
+| 3 | Jan 26-30 | Parallel Intuitions |
+| 4 | Feb 2-6 | Interconnect Networks 1 |
+| 5 | Feb 9-13 | Interconnect Networks 2 |
+| 6 | Feb 16-20 | *Presidents' Day - No Class* |
+| 7 | Feb 23-27 | Research at GW: Photonic Neuromorphic Computing |
+| 8 | Mar 2-6 | Cache Coherence |
 | — | Mar 9-14 | **Spring Break - No Classes** |
-| 9 | Mar 16-20 | Parallel Programming Part 2 |
-| 10 | Mar 23-27 | GPU Architecture |
-| 11 | Mar 30-Apr 3 | Specialized Parallel Architectures |
-| 12 | Apr 6-10 | Review & Special Topics |
-| 13 | Apr 13-17 | Review & Special Topics |
-| 14 | Apr 20-24 | Course Review |
+| 9 | Mar 16-20 | **Midterm Exam** |
+| 10 | Mar 23-27 | Parallel Programming Part 1 |
+| 11 | Mar 30-Apr 3 | Parallel Programming Part 2 |
+| 12 | Apr 6-10 | GPU Architecture |
+| 13 | Apr 13-17 | Specialized Parallel Architectures |
+| 14 | Apr 20-24 | Review & Special Topics |
 | 15 | Apr 27 | Last Day of Classes |
 | — | May 2-8 | **Final Exam Period** |
 
