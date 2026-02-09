@@ -419,13 +419,7 @@ The example shows **prefix sum** or **parallel scan**, a common operation in par
 
 **Definition:** All nodes are connected to a single shared communication link.
 
-```
-Processor ── Processor ── Processor ── Processor
-                    │
-              [Shared Bus]
-```
-
-![Bus Network](images/image12.png)
+![Bus Interconnect](images/bus-interconnect.svg)
 
 ---
 
