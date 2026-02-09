@@ -233,29 +233,23 @@ Controls **when messages or portions of them traverse the network**
 
 ---
 
-## What Characterizes a Network?
+## Direct vs Indirect Networks
 
-**1. Direct (Fixed) Networks**
-- Endpoints (nodes) are part of the network itself
-- Every node acts as both an **endpoint** and a **router/switch**
-- Example: Mesh, Torus, Hypercube
+![Direct vs Indirect Networks](images/direct-vs-indirect-networks.svg)
 
-**Characteristics:**
+---
+
+## Direct vs Indirect: Key Differences
+
+**Direct Networks** (Mesh, Torus, Hypercube)
+- Every node is also a router — participates in forwarding traffic
 - Fixed topology with predictable routes
-- Scales well with local communication patterns
-- Lower latency for nearby nodes but may require more hops for distant nodes
+- Great for **local communication** (nearby nodes)
 
-**2. Indirect (Dynamic) Networks**
-- Endpoints connect only to a subset of dedicated switches
-- Hosts do not participate in routing; switches handle all traffic
-- Example: Fat-tree, Clos network, Butterfly
-
-**Characteristics:**
-- More flexible routing paths, allowing for adaptive routing strategies
-- Can handle higher bisection bandwidth efficiently
-- Often used in large-scale HPC and datacenter networks
-
-![Direct vs Indirect Networks](images/image2.png)
+**Indirect Networks** (Fat Tree, Clos, Butterfly)
+- Nodes only compute — dedicated switches handle all routing
+- More flexible paths, often multiple routes between nodes
+- Great for **all-to-all communication** (any node to any node)
 
 ---
 
