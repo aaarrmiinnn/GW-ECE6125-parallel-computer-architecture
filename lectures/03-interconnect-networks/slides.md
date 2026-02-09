@@ -466,17 +466,9 @@ The fundamental trade-off: **more connections reduce diameter but increase cost*
 
 ---
 
-## Buffered vs. Bufferless Xbars
+## Buffered vs. Bufferless Crossbars
 
-**Bufferless Crossbar:**
-- A crossbar switch without internal buffering.
-- Packets are directly forwarded to outputs based on arbitration decisions.
-
-**Buffered Crossbar:**
-- A crossbar switch with internal buffers at each crosspoint.
-- Packets are temporarily stored when contention occurs.
-
-![Buffered vs Bufferless](images/image11.png)
+![Buffered vs Bufferless](images/buffered-vs-bufferless.svg)
 
 ---
 

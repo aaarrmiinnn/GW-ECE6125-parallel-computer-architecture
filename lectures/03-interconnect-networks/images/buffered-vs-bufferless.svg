@@ -1,0 +1,120 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 420">
+  <rect width="900" height="420" fill="#f8f9fa"/>
+
+  <text x="450" y="25" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#004065">Buffered vs Bufferless Crossbars</text>
+
+  <!-- BUFFERLESS (Left) -->
+  <text x="225" y="55" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#1976d2">Bufferless Crossbar</text>
+  <text x="225" y="72" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#666">No storage at crosspoints</text>
+
+  <rect x="50" y="85" width="350" height="180" rx="10" fill="#e3f2fd" stroke="#1976d2" stroke-width="2"/>
+
+  <!-- Input labels -->
+  <text x="70" y="130" font-family="Arial, sans-serif" font-size="10" fill="#1976d2">In 0</text>
+  <text x="70" y="180" font-family="Arial, sans-serif" font-size="10" fill="#1976d2">In 1</text>
+  <text x="70" y="230" font-family="Arial, sans-serif" font-size="10" fill="#1976d2">In 2</text>
+
+  <!-- Output labels -->
+  <text x="160" y="260" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#1976d2">Out 0</text>
+  <text x="225" y="260" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#1976d2">Out 1</text>
+  <text x="290" y="260" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#1976d2">Out 2</text>
+
+  <!-- Grid lines -->
+  <line x1="100" y1="125" x2="350" y2="125" stroke="#90caf9" stroke-width="2"/>
+  <line x1="100" y1="175" x2="350" y2="175" stroke="#90caf9" stroke-width="2"/>
+  <line x1="100" y1="225" x2="350" y2="225" stroke="#90caf9" stroke-width="2"/>
+
+  <line x1="160" y1="100" x2="160" y2="245" stroke="#90caf9" stroke-width="2"/>
+  <line x1="225" y1="100" x2="225" y2="245" stroke="#90caf9" stroke-width="2"/>
+  <line x1="290" y1="100" x2="290" y2="245" stroke="#90caf9" stroke-width="2"/>
+
+  <!-- Simple crosspoints (just switches, no buffers) -->
+  <circle cx="160" cy="125" r="8" fill="#bbdefb" stroke="#1976d2" stroke-width="1"/>
+  <circle cx="225" cy="125" r="8" fill="#4caf50" stroke="#2e7d32" stroke-width="2"/>
+  <circle cx="290" cy="125" r="8" fill="#bbdefb" stroke="#1976d2" stroke-width="1"/>
+
+  <circle cx="160" cy="175" r="8" fill="#bbdefb" stroke="#1976d2" stroke-width="1"/>
+  <circle cx="225" cy="175" r="8" fill="#bbdefb" stroke="#1976d2" stroke-width="1"/>
+  <circle cx="290" cy="175" r="8" fill="#4caf50" stroke="#2e7d32" stroke-width="2"/>
+
+  <circle cx="160" cy="225" r="8" fill="#4caf50" stroke="#2e7d32" stroke-width="2"/>
+  <circle cx="225" cy="225" r="8" fill="#bbdefb" stroke="#1976d2" stroke-width="1"/>
+  <circle cx="290" cy="225" r="8" fill="#bbdefb" stroke="#1976d2" stroke-width="1"/>
+
+  <!-- Contention scenario -->
+  <rect x="330" y="115" width="55" height="22" fill="#ffcdd2" stroke="#c62828" stroke-width="1" rx="3"/>
+  <text x="357" y="130" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#c62828">DROP!</text>
+
+  <!-- BUFFERED (Right) -->
+  <text x="675" y="55" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#388e3c">Buffered Crossbar</text>
+  <text x="675" y="72" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#666">Buffer at each crosspoint</text>
+
+  <rect x="500" y="85" width="350" height="180" rx="10" fill="#e8f5e9" stroke="#388e3c" stroke-width="2"/>
+
+  <!-- Input labels -->
+  <text x="520" y="130" font-family="Arial, sans-serif" font-size="10" fill="#388e3c">In 0</text>
+  <text x="520" y="180" font-family="Arial, sans-serif" font-size="10" fill="#388e3c">In 1</text>
+  <text x="520" y="230" font-family="Arial, sans-serif" font-size="10" fill="#388e3c">In 2</text>
+
+  <!-- Output labels -->
+  <text x="610" y="260" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#388e3c">Out 0</text>
+  <text x="675" y="260" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#388e3c">Out 1</text>
+  <text x="740" y="260" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#388e3c">Out 2</text>
+
+  <!-- Grid lines -->
+  <line x1="550" y1="125" x2="800" y2="125" stroke="#a5d6a7" stroke-width="2"/>
+  <line x1="550" y1="175" x2="800" y2="175" stroke="#a5d6a7" stroke-width="2"/>
+  <line x1="550" y1="225" x2="800" y2="225" stroke="#a5d6a7" stroke-width="2"/>
+
+  <line x1="610" y1="100" x2="610" y2="245" stroke="#a5d6a7" stroke-width="2"/>
+  <line x1="675" y1="100" x2="675" y2="245" stroke="#a5d6a7" stroke-width="2"/>
+  <line x1="740" y1="100" x2="740" y2="245" stroke="#a5d6a7" stroke-width="2"/>
+
+  <!-- Buffered crosspoints (rectangles with small queues) -->
+  <rect x="598" y="113" width="24" height="24" fill="#c8e6c9" stroke="#388e3c" stroke-width="1" rx="2"/>
+  <rect x="663" y="113" width="24" height="24" fill="#81c784" stroke="#2e7d32" stroke-width="2" rx="2"/>
+  <rect x="728" y="113" width="24" height="24" fill="#c8e6c9" stroke="#388e3c" stroke-width="1" rx="2"/>
+
+  <rect x="598" y="163" width="24" height="24" fill="#c8e6c9" stroke="#388e3c" stroke-width="1" rx="2"/>
+  <rect x="663" y="163" width="24" height="24" fill="#c8e6c9" stroke="#388e3c" stroke-width="1" rx="2"/>
+  <rect x="728" y="163" width="24" height="24" fill="#81c784" stroke="#2e7d32" stroke-width="2" rx="2"/>
+
+  <rect x="598" y="213" width="24" height="24" fill="#81c784" stroke="#2e7d32" stroke-width="2" rx="2"/>
+  <rect x="663" y="213" width="24" height="24" fill="#c8e6c9" stroke="#388e3c" stroke-width="1" rx="2"/>
+  <rect x="728" y="213" width="24" height="24" fill="#c8e6c9" stroke="#388e3c" stroke-width="1" rx="2"/>
+
+  <!-- Buffered - extra packet waiting -->
+  <rect x="780" y="115" width="55" height="22" fill="#c8e6c9" stroke="#388e3c" stroke-width="1" rx="3"/>
+  <text x="807" y="130" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#2e7d32">Queued</text>
+
+  <!-- Comparison Table -->
+  <rect x="50" y="285" width="800" height="125" rx="5" fill="white" stroke="#666" stroke-width="1"/>
+
+  <rect x="50" y="285" width="800" height="25" fill="#e0e0e0"/>
+  <line x1="200" y1="285" x2="200" y2="410" stroke="#666" stroke-width="1"/>
+  <line x1="500" y1="285" x2="500" y2="410" stroke="#666" stroke-width="1"/>
+  <line x1="50" y1="310" x2="850" y2="310" stroke="#666" stroke-width="1"/>
+
+  <text x="125" y="302" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#333">Aspect</text>
+  <text x="350" y="302" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#1976d2">Bufferless</text>
+  <text x="675" y="302" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#388e3c">Buffered</text>
+
+  <line x1="50" y1="335" x2="850" y2="335" stroke="#eee" stroke-width="1"/>
+  <text x="125" y="328" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#333">Hardware Cost</text>
+  <text x="350" y="328" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#4caf50">Lower (no buffers)</text>
+  <text x="675" y="328" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#c62828">Higher (N squared buffers)</text>
+
+  <line x1="50" y1="360" x2="850" y2="360" stroke="#eee" stroke-width="1"/>
+  <text x="125" y="353" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#333">Contention</text>
+  <text x="350" y="353" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#c62828">Drops packets or complex arbitration</text>
+  <text x="675" y="353" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#4caf50">Absorbs bursts in buffers</text>
+
+  <line x1="50" y1="385" x2="850" y2="385" stroke="#eee" stroke-width="1"/>
+  <text x="125" y="378" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#333">Latency</text>
+  <text x="350" y="378" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#4caf50">Lower (no buffering delay)</text>
+  <text x="675" y="378" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#c62828">Higher (queuing delay possible)</text>
+
+  <text x="125" y="403" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#333">Best For</text>
+  <text x="350" y="403" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#333">Low-traffic, predictable patterns</text>
+  <text x="675" y="403" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#333">High-traffic, bursty patterns</text>
+</svg>
