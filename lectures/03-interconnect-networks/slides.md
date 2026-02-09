@@ -229,6 +229,8 @@ Controls **when messages or portions of them traverse the network**
 - Packet is split into small **flits** that move in a pipeline-like fashion
 - Reduces buffer requirements and improves latency
 
+![Store-and-Forward vs Wormhole Routing](images/store-forward-vs-wormhole.svg)
+
 ---
 
 ## What Characterizes a Network?
