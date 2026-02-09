@@ -343,6 +343,8 @@ The example shows **prefix sum** or **parallel scan**, a common operation in par
 - Average number of hops between all node pairs
 - Impacts the **average communication delay**
 
+![Network Metrics Visual](images/network-metrics-visual.svg)
+
 ---
 
 ## Interconnect Networks: Performance and Cost Metrics
