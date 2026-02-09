@@ -180,17 +180,11 @@ Determines **how data in a message moves through the network**
 
 ## What Characterizes a Network?
 
-**Flow Control Mechanism (When?)**
+**3. Flow Control Mechanism (When?)**
 
 Controls **when messages or portions of them traverse the network**
 
-**Manages traffic contention:**
-- Stalling packets
-- Buffering packets
-- Rerouting (if supported)
-- Dropping packets (*usually unacceptable*)
-
-**Flow Control Unit (Flit):** Minimum transferable unit over a link (can be as small as a phit or as large as a packet)
+![Flow Control](images/flow-control.svg)
 
 ---
 
