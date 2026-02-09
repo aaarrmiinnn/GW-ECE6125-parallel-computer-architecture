@@ -1,0 +1,136 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 400">
+  <defs>
+    <marker id="pkt-arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#1976d2"/>
+    </marker>
+  </defs>
+
+  <rect width="900" height="400" fill="#f8f9fa"/>
+
+  <!-- CIRCUIT SWITCHING (Left) -->
+  <text x="225" y="25" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#c62828">Circuit Switching</text>
+  <text x="225" y="42" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#666">Reserved path before transmission</text>
+
+  <rect x="25" y="55" width="400" height="160" rx="8" fill="#ffebee" stroke="#c62828" stroke-width="2"/>
+
+  <!-- Nodes -->
+  <circle cx="70" cy="135" r="20" fill="#ef9a9a" stroke="#c62828" stroke-width="2"/>
+  <text x="70" y="140" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#b71c1c">A</text>
+
+  <circle cx="170" cy="90" r="15" fill="#ffcdd2" stroke="#c62828" stroke-width="1"/>
+  <text x="170" y="94" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#c62828">S1</text>
+
+  <circle cx="170" cy="180" r="15" fill="#ffcdd2" stroke="#c62828" stroke-width="1"/>
+  <text x="170" y="184" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#c62828">S2</text>
+
+  <circle cx="280" cy="90" r="15" fill="#ffcdd2" stroke="#c62828" stroke-width="1"/>
+  <text x="280" y="94" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#c62828">S3</text>
+
+  <circle cx="280" cy="180" r="15" fill="#ffcdd2" stroke="#c62828" stroke-width="1"/>
+  <text x="280" y="184" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#c62828">S4</text>
+
+  <circle cx="380" cy="135" r="20" fill="#ef9a9a" stroke="#c62828" stroke-width="2"/>
+  <text x="380" y="140" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#b71c1c">B</text>
+
+  <!-- All possible links (gray) -->
+  <line x1="90" y1="125" x2="155" y2="95" stroke="#ddd" stroke-width="2"/>
+  <line x1="90" y1="145" x2="155" y2="175" stroke="#ddd" stroke-width="2"/>
+  <line x1="185" y1="90" x2="265" y2="90" stroke="#ddd" stroke-width="2"/>
+  <line x1="185" y1="180" x2="265" y2="180" stroke="#ddd" stroke-width="2"/>
+  <line x1="170" y1="105" x2="170" y2="165" stroke="#ddd" stroke-width="2"/>
+  <line x1="280" y1="105" x2="280" y2="165" stroke="#ddd" stroke-width="2"/>
+  <line x1="295" y1="95" x2="360" y2="125" stroke="#ddd" stroke-width="2"/>
+  <line x1="295" y1="175" x2="360" y2="145" stroke="#ddd" stroke-width="2"/>
+
+  <!-- Reserved path (thick red) -->
+  <line x1="90" y1="125" x2="155" y2="95" stroke="#c62828" stroke-width="5"/>
+  <line x1="185" y1="90" x2="265" y2="90" stroke="#c62828" stroke-width="5"/>
+  <line x1="295" y1="95" x2="360" y2="125" stroke="#c62828" stroke-width="5"/>
+
+  <text x="225" y="70" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#c62828">RESERVED PATH</text>
+
+  <!-- PACKET SWITCHING (Right) -->
+  <text x="675" y="25" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#1976d2">Packet Switching</text>
+  <text x="675" y="42" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#666">Packets routed independently</text>
+
+  <rect x="475" y="55" width="400" height="160" rx="8" fill="#e3f2fd" stroke="#1976d2" stroke-width="2"/>
+
+  <!-- Nodes -->
+  <circle cx="520" cy="135" r="20" fill="#90caf9" stroke="#1976d2" stroke-width="2"/>
+  <text x="520" y="140" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#0d47a1">A</text>
+
+  <circle cx="620" cy="90" r="15" fill="#bbdefb" stroke="#1976d2" stroke-width="1"/>
+  <text x="620" y="94" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#1976d2">S1</text>
+
+  <circle cx="620" cy="180" r="15" fill="#bbdefb" stroke="#1976d2" stroke-width="1"/>
+  <text x="620" y="184" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#1976d2">S2</text>
+
+  <circle cx="730" cy="90" r="15" fill="#bbdefb" stroke="#1976d2" stroke-width="1"/>
+  <text x="730" y="94" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#1976d2">S3</text>
+
+  <circle cx="730" cy="180" r="15" fill="#bbdefb" stroke="#1976d2" stroke-width="1"/>
+  <text x="730" y="184" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#1976d2">S4</text>
+
+  <circle cx="830" cy="135" r="20" fill="#90caf9" stroke="#1976d2" stroke-width="2"/>
+  <text x="830" y="140" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#0d47a1">B</text>
+
+  <!-- All links available (blue) -->
+  <line x1="540" y1="125" x2="605" y2="95" stroke="#90caf9" stroke-width="2"/>
+  <line x1="540" y1="145" x2="605" y2="175" stroke="#90caf9" stroke-width="2"/>
+  <line x1="635" y1="90" x2="715" y2="90" stroke="#90caf9" stroke-width="2"/>
+  <line x1="635" y1="180" x2="715" y2="180" stroke="#90caf9" stroke-width="2"/>
+  <line x1="620" y1="105" x2="620" y2="165" stroke="#90caf9" stroke-width="2"/>
+  <line x1="730" y1="105" x2="730" y2="165" stroke="#90caf9" stroke-width="2"/>
+  <line x1="745" y1="95" x2="810" y2="125" stroke="#90caf9" stroke-width="2"/>
+  <line x1="745" y1="175" x2="810" y2="145" stroke="#90caf9" stroke-width="2"/>
+
+  <!-- Packet 1 path (green) -->
+  <rect x="555" y="105" width="20" height="12" fill="#4caf50" stroke="#2e7d32" stroke-width="1"/>
+  <text x="565" y="114" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="white">P1</text>
+
+  <!-- Packet 2 path (orange) -->
+  <rect x="650" y="170" width="20" height="12" fill="#ff9800" stroke="#e65100" stroke-width="1"/>
+  <text x="660" y="179" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="white">P2</text>
+
+  <!-- Packet 3 path (purple) -->
+  <rect x="770" y="100" width="20" height="12" fill="#9c27b0" stroke="#6a1b9a" stroke-width="1"/>
+  <text x="780" y="109" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="white">P3</text>
+
+  <text x="675" y="70" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#1976d2">PACKETS TAKE DIFFERENT ROUTES</text>
+
+  <!-- Comparison Table -->
+  <rect x="50" y="235" width="800" height="150" rx="5" fill="white" stroke="#666" stroke-width="1"/>
+
+  <!-- Table Header -->
+  <rect x="50" y="235" width="800" height="30" fill="#e0e0e0"/>
+  <line x1="300" y1="235" x2="300" y2="385" stroke="#666" stroke-width="1"/>
+  <line x1="600" y1="235" x2="600" y2="385" stroke="#666" stroke-width="1"/>
+  <line x1="50" y1="265" x2="850" y2="265" stroke="#666" stroke-width="1"/>
+
+  <text x="175" y="255" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#333">Aspect</text>
+  <text x="450" y="255" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#c62828">Circuit Switching</text>
+  <text x="725" y="255" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#1976d2">Packet Switching</text>
+
+  <!-- Row 1 -->
+  <line x1="50" y1="295" x2="850" y2="295" stroke="#eee" stroke-width="1"/>
+  <text x="175" y="285" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#333">Setup</text>
+  <text x="450" y="285" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#333">Path reserved before data flows</text>
+  <text x="725" y="285" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#333">No setup - packets sent immediately</text>
+
+  <!-- Row 2 -->
+  <line x1="50" y1="325" x2="850" y2="325" stroke="#eee" stroke-width="1"/>
+  <text x="175" y="315" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#333">Resource Usage</text>
+  <text x="450" y="315" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#333">Dedicated (may be idle)</text>
+  <text x="725" y="315" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#333">Shared (higher utilization)</text>
+
+  <!-- Row 3 -->
+  <line x1="50" y1="355" x2="850" y2="355" stroke="#eee" stroke-width="1"/>
+  <text x="175" y="345" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#333">Best For</text>
+  <text x="450" y="345" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#333">Large, continuous transfers</text>
+  <text x="725" y="345" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#333">Bursty, variable traffic</text>
+
+  <!-- Row 4 -->
+  <text x="175" y="375" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#333">Latency</text>
+  <text x="450" y="375" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#333">Setup delay, then guaranteed</text>
+  <text x="725" y="375" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#333">Variable (depends on congestion)</text>
+</svg>

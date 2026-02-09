@@ -174,6 +174,8 @@ Determines **how data in a message moves through the network**
 - Utilizes network resources more efficiently
 - *Analogy: Traveling in individual cars*
 
+![Circuit vs Packet Switching](images/circuit-vs-packet-switching.svg)
+
 ---
 
 ## What Characterizes a Network?
