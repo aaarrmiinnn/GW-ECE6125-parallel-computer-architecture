@@ -97,14 +97,28 @@ The **Network Interface Controller (NIC)**, also called the **Host Interface**, 
 
 ---
 
-## Basic Definitions in Interconnect Networks
+## Basic Definitions: Protocol Layers
 
 **Key Networking Concepts:**
 
 - **Network Composition:** Links & switches enable routing from source to destination
-- **Physical Layer Protocol:** Converts digital symbols into signals for transmission
-- **Link-Level Protocol:** Segments streams into packets/messages for switch interpretation
-- **Node-Level Protocol:** Embeds remote communication commands within packets
+- **Physical Layer Protocol:** Converts digital symbols into electrical/optical signals for transmission
+- **Link-Level Protocol:** Segments data streams into packets/messages; adds headers for switch interpretation
+- **Node-Level Protocol:** Embeds remote communication commands (read, write, etc.) within packets
+
+---
+
+## Protocol Layers: Example
+
+**Scenario:** Node A wants to read memory address 0x1000 from Node B
+
+| Layer | At Source (Node A) | At Destination (Node B) |
+|-------|-------------------|------------------------|
+| **Node-Level** | Creates command: "READ 0x1000" | Interprets command, executes read |
+| **Link-Level** | Adds header [Dest=B, Src=A], splits into flits | Reassembles flits, strips header |
+| **Physical** | Converts bits → electrical signals | Receives signals → converts to bits |
+
+![Protocol Layers Example](images/protocol-layers-example.svg)
 
 ---
 
