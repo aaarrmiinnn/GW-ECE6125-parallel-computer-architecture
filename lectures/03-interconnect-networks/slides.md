@@ -158,19 +158,6 @@ Defines the **physical interconnection structure** of the network graph
 
 ---
 
-## Topology: Street Analogy
-
-Think of network topology like city planning:
-
-| Network Type | Street Analogy | Characteristics |
-|--------------|---------------|-----------------|
-| **Direct Network** | City grid - every intersection has a house | Nodes are both endpoints AND routers. Good for local traffic. |
-| **Indirect Network** | Highway system - houses use on-ramps | Dedicated switches (interchanges) handle routing. Good for long distances. |
-
-![Topology Street Analogy](images/topology-street-analogy.svg)
-
----
-
 ## What Characterizes a Network?
 
 **2. Switching Strategy (How?)**
