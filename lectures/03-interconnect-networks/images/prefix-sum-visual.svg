@@ -1,0 +1,154 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 420">
+  <rect width="850" height="420" fill="#f8f9fa"/>
+
+  <text x="425" y="25" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#004065">Prefix Sum: Sequential vs Parallel</text>
+
+  <!-- Input Array -->
+  <text x="425" y="55" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#666">Given array: [1, 2, 3, 4] - compute running totals</text>
+
+  <!-- SEQUENTIAL (Left Side) -->
+  <text x="200" y="85" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#c62828">Sequential: 3 Steps</text>
+
+  <!-- Step 0 - Initial values -->
+  <rect x="50" y="100" width="50" height="35" fill="#e3f2fd" stroke="#1976d2" stroke-width="2"/>
+  <text x="75" y="123" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#1976d2">1</text>
+
+  <rect x="110" y="100" width="50" height="35" fill="#e3f2fd" stroke="#1976d2" stroke-width="2"/>
+  <text x="135" y="123" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#1976d2">2</text>
+
+  <rect x="170" y="100" width="50" height="35" fill="#e3f2fd" stroke="#1976d2" stroke-width="2"/>
+  <text x="195" y="123" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#1976d2">3</text>
+
+  <rect x="230" y="100" width="50" height="35" fill="#e3f2fd" stroke="#1976d2" stroke-width="2"/>
+  <text x="255" y="123" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#1976d2">4</text>
+
+  <text x="320" y="123" font-family="Arial, sans-serif" font-size="10" fill="#666">Input</text>
+
+  <!-- Step 1 -->
+  <text x="30" y="170" font-family="Arial, sans-serif" font-size="10" fill="#c62828">Step 1:</text>
+  <rect x="50" y="155" width="50" height="35" fill="#c8e6c9" stroke="#388e3c" stroke-width="2"/>
+  <text x="75" y="178" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#388e3c">1</text>
+
+  <rect x="110" y="155" width="50" height="35" fill="#fff3e0" stroke="#e65100" stroke-width="2"/>
+  <text x="135" y="178" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#e65100">3</text>
+  <text x="135" y="203" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#e65100">1+2</text>
+
+  <rect x="170" y="155" width="50" height="35" fill="#e3f2fd" stroke="#1976d2" stroke-width="2"/>
+  <text x="195" y="178" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#1976d2">3</text>
+
+  <rect x="230" y="155" width="50" height="35" fill="#e3f2fd" stroke="#1976d2" stroke-width="2"/>
+  <text x="255" y="178" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#1976d2">4</text>
+
+  <!-- Step 2 -->
+  <text x="30" y="235" font-family="Arial, sans-serif" font-size="10" fill="#c62828">Step 2:</text>
+  <rect x="50" y="220" width="50" height="35" fill="#c8e6c9" stroke="#388e3c" stroke-width="2"/>
+  <text x="75" y="243" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#388e3c">1</text>
+
+  <rect x="110" y="220" width="50" height="35" fill="#c8e6c9" stroke="#388e3c" stroke-width="2"/>
+  <text x="135" y="243" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#388e3c">3</text>
+
+  <rect x="170" y="220" width="50" height="35" fill="#fff3e0" stroke="#e65100" stroke-width="2"/>
+  <text x="195" y="243" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#e65100">6</text>
+  <text x="195" y="268" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#e65100">3+3</text>
+
+  <rect x="230" y="220" width="50" height="35" fill="#e3f2fd" stroke="#1976d2" stroke-width="2"/>
+  <text x="255" y="243" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#1976d2">4</text>
+
+  <!-- Step 3 -->
+  <text x="30" y="300" font-family="Arial, sans-serif" font-size="10" fill="#c62828">Step 3:</text>
+  <rect x="50" y="285" width="50" height="35" fill="#c8e6c9" stroke="#388e3c" stroke-width="2"/>
+  <text x="75" y="308" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#388e3c">1</text>
+
+  <rect x="110" y="285" width="50" height="35" fill="#c8e6c9" stroke="#388e3c" stroke-width="2"/>
+  <text x="135" y="308" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#388e3c">3</text>
+
+  <rect x="170" y="285" width="50" height="35" fill="#c8e6c9" stroke="#388e3c" stroke-width="2"/>
+  <text x="195" y="308" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#388e3c">6</text>
+
+  <rect x="230" y="285" width="50" height="35" fill="#fff3e0" stroke="#e65100" stroke-width="2"/>
+  <text x="255" y="308" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#e65100">10</text>
+  <text x="255" y="333" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#e65100">6+4</text>
+
+  <text x="320" y="308" font-family="Arial, sans-serif" font-size="10" fill="#388e3c">Done!</text>
+
+  <!-- Divider -->
+  <line x1="400" y1="90" x2="400" y2="340" stroke="#ccc" stroke-width="2" stroke-dasharray="5,5"/>
+
+  <!-- PARALLEL (Right Side) -->
+  <text x="625" y="85" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#1976d2">Parallel: 2 Steps</text>
+
+  <!-- Step 0 - Initial with processors -->
+  <rect x="450" y="100" width="50" height="35" fill="#e3f2fd" stroke="#1976d2" stroke-width="2"/>
+  <text x="475" y="123" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#1976d2">1</text>
+  <text x="475" y="95" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#666">P0</text>
+
+  <rect x="530" y="100" width="50" height="35" fill="#e3f2fd" stroke="#1976d2" stroke-width="2"/>
+  <text x="555" y="123" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#1976d2">2</text>
+  <text x="555" y="95" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#666">P1</text>
+
+  <rect x="610" y="100" width="50" height="35" fill="#e3f2fd" stroke="#1976d2" stroke-width="2"/>
+  <text x="635" y="123" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#1976d2">3</text>
+  <text x="635" y="95" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#666">P2</text>
+
+  <rect x="690" y="100" width="50" height="35" fill="#e3f2fd" stroke="#1976d2" stroke-width="2"/>
+  <text x="715" y="123" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#1976d2">4</text>
+  <text x="715" y="95" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#666">P3</text>
+
+  <text x="780" y="123" font-family="Arial, sans-serif" font-size="10" fill="#666">Input</text>
+
+  <!-- Step 1 - Parallel adds -->
+  <text x="420" y="190" font-family="Arial, sans-serif" font-size="10" fill="#1976d2">Step 1:</text>
+
+  <!-- Communication arrows for step 1 -->
+  <path d="M 475 135 Q 475 155, 515 155 Q 555 155, 555 175" stroke="#9c27b0" stroke-width="2" fill="none" marker-end="url(#purple-arrow)"/>
+  <path d="M 635 135 Q 635 155, 675 155 Q 715 155, 715 175" stroke="#9c27b0" stroke-width="2" fill="none"/>
+  <defs>
+    <marker id="purple-arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#9c27b0"/>
+    </marker>
+  </defs>
+
+  <rect x="450" y="175" width="50" height="35" fill="#c8e6c9" stroke="#388e3c" stroke-width="2"/>
+  <text x="475" y="198" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#388e3c">1</text>
+
+  <rect x="530" y="175" width="50" height="35" fill="#fff3e0" stroke="#e65100" stroke-width="2"/>
+  <text x="555" y="198" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#e65100">3</text>
+  <text x="555" y="223" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#e65100">1+2</text>
+
+  <rect x="610" y="175" width="50" height="35" fill="#e3f2fd" stroke="#1976d2" stroke-width="2"/>
+  <text x="635" y="198" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#1976d2">3</text>
+
+  <rect x="690" y="175" width="50" height="35" fill="#fff3e0" stroke="#e65100" stroke-width="2"/>
+  <text x="715" y="198" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#e65100">7</text>
+  <text x="715" y="223" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#e65100">3+4</text>
+
+  <text x="780" y="198" font-family="Arial, sans-serif" font-size="9" fill="#9c27b0">Parallel!</text>
+
+  <!-- Step 2 - More parallel adds -->
+  <text x="420" y="280" font-family="Arial, sans-serif" font-size="10" fill="#1976d2">Step 2:</text>
+
+  <!-- Communication arrows for step 2 -->
+  <path d="M 555 210 Q 555 240, 595 240 Q 635 240, 635 260" stroke="#9c27b0" stroke-width="2" fill="none"/>
+  <path d="M 555 210 Q 555 240, 635 240 Q 715 240, 715 260" stroke="#9c27b0" stroke-width="2" fill="none"/>
+
+  <rect x="450" y="265" width="50" height="35" fill="#c8e6c9" stroke="#388e3c" stroke-width="2"/>
+  <text x="475" y="288" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#388e3c">1</text>
+
+  <rect x="530" y="265" width="50" height="35" fill="#c8e6c9" stroke="#388e3c" stroke-width="2"/>
+  <text x="555" y="288" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#388e3c">3</text>
+
+  <rect x="610" y="265" width="50" height="35" fill="#fff3e0" stroke="#e65100" stroke-width="2"/>
+  <text x="635" y="288" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#e65100">6</text>
+  <text x="635" y="313" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#e65100">3+3</text>
+
+  <rect x="690" y="265" width="50" height="35" fill="#fff3e0" stroke="#e65100" stroke-width="2"/>
+  <text x="715" y="288" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#e65100">10</text>
+  <text x="715" y="313" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#e65100">3+7</text>
+
+  <text x="780" y="288" font-family="Arial, sans-serif" font-size="10" fill="#388e3c">Done!</text>
+
+  <!-- Summary Box -->
+  <rect x="100" y="355" width="650" height="55" rx="8" fill="#e8eaf6" stroke="#3f51b5" stroke-width="2"/>
+  <text x="425" y="375" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#3f51b5">Key Insight: Interconnect Network Enables Parallel Communication</text>
+  <text x="425" y="395" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#333">Sequential: N-1 steps (one add at a time) | Parallel: log2(N) steps (multiple adds simultaneously)</text>
+</svg>

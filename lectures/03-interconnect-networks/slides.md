@@ -283,46 +283,32 @@ Controls **when messages or portions of them traverse the network**
 
 ---
 
-## Using an Appropriate Interconnection Network (IN), It Can Work Fast!
+## Why Interconnects Matter: Prefix Sum Example
 
-**Example: Prefix Sum or Parallel Scan**
+**Prefix Sum** (Running Total): Given [1, 2, 3, 4], compute [1, 3, 6, 10]
 
-The example shows **prefix sum** or **parallel scan**, a common operation in parallel computing.
+| Approach | Steps for N=4 | Steps for N=1000 |
+|----------|---------------|------------------|
+| **Sequential** | 3 steps | 999 steps |
+| **Parallel** | 2 steps | 10 steps |
 
-**What is Prefix Sum?**
-- **Goal:** Compute cumulative sums across an array of values.
-- For an array A = [a₀, a₁, a₂, ..., aₙ₋₁], compute:
-  - S[i] = a₀ + a₁ + ... + aᵢ for i = 0, 1, 2, ..., n-1
-- Example: If A = [1, 2, 3, 4], the prefix sum is: S = [1, 3, 6, 10]
+**The catch:** Parallel requires processors to communicate!
 
-**Why Parallel Processing?**
-- Computing prefix sums sequentially takes O(n) time.
-- By **parallelizing**, the computation can be done in O(log₂(n)) steps using n processors.
-
-![Prefix Sum](images/image10.png)
+![Prefix Sum Visual](images/prefix-sum-visual.svg)
 
 ---
 
-## Using an Appropriate Interconnection Network (IN), It Can Work Fast!
+## Why Interconnects Matter: The Network Connection
 
-**Example: Prefix Sum or Parallel Scan**
+**Without a good interconnect network:**
+- Processors cannot share intermediate results
+- Parallel algorithm becomes sequential
 
-**Operation:** Compute cumulative sums efficiently in parallel
+**With the right interconnect:**
+- Multiple processors communicate simultaneously
+- O(log N) speedup becomes possible
 
-**Setup:** N nodes, n = log₂(N) steps
-
-**Compute:**
-- y₀ = x₀
-- y₁ = x₀ + x₁
-- y₂ = x₀ + x₁ + x₂ ...
-
-**Connection Requirements:**
-- PE₀ must communicate with PE₁, PE₂, and PE₄
-- PE₁ communicates with PE₀, PE₂, PE₃, and PE₅
-
-**Interconnection Advantage:**
-- The network supports the required communication efficiently, matching the needs of the operation.
-- Parallel communication enables significant speedups.
+**This is why interconnect design matters for parallel computing!**
 
 ![Prefix Sum Network](images/image10.png)
 
