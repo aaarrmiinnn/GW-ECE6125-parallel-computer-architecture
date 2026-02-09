@@ -40,21 +40,39 @@
 
 ---
 
-## Basic Definitions in Interconnect Networks
+## Basic Definitions: Network Interface Controller (NIC)
 
-**Network Interface Controller (NIC) / Host Interface**
+The **Network Interface Controller (NIC)**, also called the **Host Interface**, is the gateway between a compute node and the interconnect network.
 
-- Connects a computer node to the network
-- Manages bidirectional traffic between host and network
+**Primary Responsibilities:**
+- Connects a computer node (CPU, memory) to the network fabric
+- Manages **bidirectional traffic** — data flows both to and from the network
+- Offloads communication tasks from the CPU, improving overall system efficiency
 
-**Key functions:**
-- **Arbitration:** Decides access to shared network resources
-- **Buffering:** Temporarily stores incoming/outgoing data
-- **Routing:** Determines packet paths
+![NIC Architecture](images/nic-architecture.svg)
 
 ---
 
-## Basic Definitions in Interconnect Networks
+## NIC Key Functions
+
+**1. Arbitration**
+- Decides **when** and **which** data gets access to shared network resources
+- Prevents collisions when multiple requests compete for the same output port
+- Uses policies like round-robin, priority-based, or age-based scheduling
+
+**2. Buffering**
+- Temporarily stores incoming/outgoing data in queues
+- Absorbs **burst traffic** to prevent data loss during congestion
+- Enables **rate matching** between fast CPUs and slower network links
+
+**3. Routing**
+- Determines the **path** packets take through the network
+- May perform simple table lookups or complex adaptive routing decisions
+- In some designs, routing is handled by switches instead of the NIC
+
+---
+
+## Basic Definitions: Links / Channels / Cables
 
 **Links / Channels / Cables**
 
