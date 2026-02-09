@@ -1,0 +1,132 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 500">
+  <rect width="900" height="500" fill="#f8f9fa"/>
+
+  <!-- STORE-AND-FORWARD (Top) -->
+  <text x="450" y="25" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#004065">Store-and-Forward vs Wormhole Routing</text>
+
+  <text x="450" y="60" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#c62828">Store-and-Forward Routing</text>
+  <text x="450" y="78" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#666">Entire packet stored at each hop before forwarding</text>
+
+  <rect x="30" y="90" width="840" height="150" rx="8" fill="#ffebee" stroke="#c62828" stroke-width="2"/>
+
+  <!-- Timeline labels -->
+  <text x="50" y="115" font-family="Arial, sans-serif" font-size="11" fill="#333">Time</text>
+  <line x1="80" y1="112" x2="850" y2="112" stroke="#999" stroke-width="1"/>
+  <text x="100" y="115" font-family="Arial, sans-serif" font-size="9" fill="#666">t0</text>
+  <text x="250" y="115" font-family="Arial, sans-serif" font-size="9" fill="#666">t1</text>
+  <text x="400" y="115" font-family="Arial, sans-serif" font-size="9" fill="#666">t2</text>
+  <text x="550" y="115" font-family="Arial, sans-serif" font-size="9" fill="#666">t3</text>
+  <text x="700" y="115" font-family="Arial, sans-serif" font-size="9" fill="#666">t4</text>
+
+  <!-- Switches -->
+  <text x="50" y="145" font-family="Arial, sans-serif" font-size="10" fill="#333">Src</text>
+  <text x="50" y="175" font-family="Arial, sans-serif" font-size="10" fill="#333">SW1</text>
+  <text x="50" y="205" font-family="Arial, sans-serif" font-size="10" fill="#333">SW2</text>
+  <text x="50" y="235" font-family="Arial, sans-serif" font-size="10" fill="#333">Dst</text>
+
+  <!-- Packet at Source (t0-t1) -->
+  <rect x="100" y="130" width="140" height="20" fill="#ef5350" stroke="#c62828" stroke-width="1" rx="3"/>
+  <text x="170" y="144" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">Full Packet</text>
+
+  <!-- Packet at SW1 (t1-t2) -->
+  <rect x="250" y="160" width="140" height="20" fill="#ef5350" stroke="#c62828" stroke-width="1" rx="3"/>
+  <text x="320" y="174" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">Full Packet</text>
+
+  <!-- Packet at SW2 (t2-t3) -->
+  <rect x="400" y="190" width="140" height="20" fill="#ef5350" stroke="#c62828" stroke-width="1" rx="3"/>
+  <text x="470" y="204" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">Full Packet</text>
+
+  <!-- Packet at Dst (t3-t4) -->
+  <rect x="550" y="220" width="140" height="20" fill="#ef5350" stroke="#c62828" stroke-width="1" rx="3"/>
+  <text x="620" y="234" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">Full Packet</text>
+
+  <!-- Latency indicator -->
+  <line x1="100" y1="130" x2="100" y2="250" stroke="#c62828" stroke-width="1" stroke-dasharray="3,3"/>
+  <line x1="690" y1="130" x2="690" y2="250" stroke="#c62828" stroke-width="1" stroke-dasharray="3,3"/>
+  <line x1="100" y1="248" x2="690" y2="248" stroke="#c62828" stroke-width="2"/>
+  <text x="395" y="245" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#c62828">Total Latency = H x (packet transmission time)</text>
+
+  <!-- WORMHOLE (Bottom) -->
+  <text x="450" y="275" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#1976d2">Wormhole Routing</text>
+  <text x="450" y="293" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#666">Flits pipeline through switches without waiting for full packet</text>
+
+  <rect x="30" y="305" width="840" height="170" rx="8" fill="#e3f2fd" stroke="#1976d2" stroke-width="2"/>
+
+  <!-- Timeline labels -->
+  <text x="50" y="330" font-family="Arial, sans-serif" font-size="11" fill="#333">Time</text>
+  <line x1="80" y1="327" x2="850" y2="327" stroke="#999" stroke-width="1"/>
+  <text x="100" y="330" font-family="Arial, sans-serif" font-size="9" fill="#666">t0</text>
+  <text x="150" y="330" font-family="Arial, sans-serif" font-size="9" fill="#666">t1</text>
+  <text x="200" y="330" font-family="Arial, sans-serif" font-size="9" fill="#666">t2</text>
+  <text x="250" y="330" font-family="Arial, sans-serif" font-size="9" fill="#666">t3</text>
+  <text x="300" y="330" font-family="Arial, sans-serif" font-size="9" fill="#666">t4</text>
+  <text x="350" y="330" font-family="Arial, sans-serif" font-size="9" fill="#666">t5</text>
+  <text x="400" y="330" font-family="Arial, sans-serif" font-size="9" fill="#666">t6</text>
+
+  <!-- Switches -->
+  <text x="50" y="360" font-family="Arial, sans-serif" font-size="10" fill="#333">Src</text>
+  <text x="50" y="395" font-family="Arial, sans-serif" font-size="10" fill="#333">SW1</text>
+  <text x="50" y="430" font-family="Arial, sans-serif" font-size="10" fill="#333">SW2</text>
+  <text x="50" y="465" font-family="Arial, sans-serif" font-size="10" fill="#333">Dst</text>
+
+  <!-- Flits at Source - pipelining out -->
+  <rect x="100" y="345" width="30" height="20" fill="#1565c0" stroke="#0d47a1" stroke-width="1" rx="2"/>
+  <text x="115" y="359" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">H</text>
+  <rect x="135" y="345" width="30" height="20" fill="#42a5f5" stroke="#1976d2" stroke-width="1" rx="2"/>
+  <text x="150" y="359" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">B1</text>
+  <rect x="170" y="345" width="30" height="20" fill="#64b5f6" stroke="#1976d2" stroke-width="1" rx="2"/>
+  <text x="185" y="359" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">B2</text>
+  <rect x="205" y="345" width="30" height="20" fill="#90caf9" stroke="#1976d2" stroke-width="1" rx="2"/>
+  <text x="220" y="359" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">T</text>
+
+  <!-- Flits at SW1 - pipelining -->
+  <rect x="150" y="380" width="30" height="20" fill="#1565c0" stroke="#0d47a1" stroke-width="1" rx="2"/>
+  <text x="165" y="394" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">H</text>
+  <rect x="185" y="380" width="30" height="20" fill="#42a5f5" stroke="#1976d2" stroke-width="1" rx="2"/>
+  <text x="200" y="394" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">B1</text>
+  <rect x="220" y="380" width="30" height="20" fill="#64b5f6" stroke="#1976d2" stroke-width="1" rx="2"/>
+  <text x="235" y="394" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">B2</text>
+  <rect x="255" y="380" width="30" height="20" fill="#90caf9" stroke="#1976d2" stroke-width="1" rx="2"/>
+  <text x="270" y="394" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">T</text>
+
+  <!-- Flits at SW2 - pipelining -->
+  <rect x="200" y="415" width="30" height="20" fill="#1565c0" stroke="#0d47a1" stroke-width="1" rx="2"/>
+  <text x="215" y="429" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">H</text>
+  <rect x="235" y="415" width="30" height="20" fill="#42a5f5" stroke="#1976d2" stroke-width="1" rx="2"/>
+  <text x="250" y="429" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">B1</text>
+  <rect x="270" y="415" width="30" height="20" fill="#64b5f6" stroke="#1976d2" stroke-width="1" rx="2"/>
+  <text x="285" y="429" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">B2</text>
+  <rect x="305" y="415" width="30" height="20" fill="#90caf9" stroke="#1976d2" stroke-width="1" rx="2"/>
+  <text x="320" y="429" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">T</text>
+
+  <!-- Flits at Dst - pipelining -->
+  <rect x="250" y="450" width="30" height="20" fill="#1565c0" stroke="#0d47a1" stroke-width="1" rx="2"/>
+  <text x="265" y="464" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">H</text>
+  <rect x="285" y="450" width="30" height="20" fill="#42a5f5" stroke="#1976d2" stroke-width="1" rx="2"/>
+  <text x="300" y="464" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">B1</text>
+  <rect x="320" y="450" width="30" height="20" fill="#64b5f6" stroke="#1976d2" stroke-width="1" rx="2"/>
+  <text x="335" y="464" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">B2</text>
+  <rect x="355" y="450" width="30" height="20" fill="#90caf9" stroke="#1976d2" stroke-width="1" rx="2"/>
+  <text x="370" y="464" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">T</text>
+
+  <!-- Latency indicator for wormhole -->
+  <line x1="100" y1="345" x2="100" y2="478" stroke="#1976d2" stroke-width="1" stroke-dasharray="3,3"/>
+  <line x1="385" y1="345" x2="385" y2="478" stroke="#1976d2" stroke-width="1" stroke-dasharray="3,3"/>
+  <line x1="100" y1="476" x2="385" y2="476" stroke="#1976d2" stroke-width="2"/>
+  <text x="242" y="488" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#1976d2">Total Latency = H + (packet length - 1) Much shorter!</text>
+
+  <!-- Legend -->
+  <rect x="500" y="350" width="340" height="115" rx="5" fill="white" stroke="#666" stroke-width="1"/>
+  <text x="670" y="370" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#333">Legend</text>
+
+  <rect x="520" y="385" width="25" height="15" fill="#1565c0" stroke="#0d47a1" stroke-width="1" rx="2"/>
+  <text x="555" y="396" font-family="Arial, sans-serif" font-size="10" fill="#333">H = Header flit (routing info)</text>
+
+  <rect x="520" y="405" width="25" height="15" fill="#42a5f5" stroke="#1976d2" stroke-width="1" rx="2"/>
+  <text x="555" y="416" font-family="Arial, sans-serif" font-size="10" fill="#333">B = Body flit (payload data)</text>
+
+  <rect x="520" y="425" width="25" height="15" fill="#90caf9" stroke="#1976d2" stroke-width="1" rx="2"/>
+  <text x="555" y="436" font-family="Arial, sans-serif" font-size="10" fill="#333">T = Tail flit (end marker)</text>
+
+  <text x="520" y="455" font-family="Arial, sans-serif" font-size="9" fill="#666">H = Number of hops</text>
+</svg>
