@@ -468,7 +468,7 @@ The example shows **prefix sum** or **parallel scan**, a common operation in par
 
 **Key Feature:** Enables concurrent transfers to non-conflicting destinations.
 
-![Crossbar Network](images/image14.png)
+![Crossbar Interconnect](images/crossbar-interconnect.svg)
 
 ---
 
