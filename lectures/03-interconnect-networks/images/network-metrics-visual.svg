@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 450">
+  <rect width="900" height="450" fill="#f8f9fa"/>
+
+  <text x="450" y="25" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#004065">Network Performance and Cost Metrics Visualized</text>
+
+  <!-- Network Diagram (Center) showing a 4-node mesh -->
+  <rect x="300" y="50" width="300" height="200" rx="10" fill="#e8f5e9" stroke="#388e3c" stroke-width="2"/>
+  <text x="450" y="70" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#388e3c">4-Node Mesh Example</text>
+
+  <!-- Nodes -->
+  <circle cx="370" cy="110" r="20" fill="#81c784" stroke="#388e3c" stroke-width="2"/>
+  <text x="370" y="115" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#1b5e20">0</text>
+
+  <circle cx="530" cy="110" r="20" fill="#81c784" stroke="#388e3c" stroke-width="2"/>
+  <text x="530" y="115" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#1b5e20">1</text>
+
+  <circle cx="370" cy="200" r="20" fill="#81c784" stroke="#388e3c" stroke-width="2"/>
+  <text x="370" y="205" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#1b5e20">2</text>
+
+  <circle cx="530" cy="200" r="20" fill="#81c784" stroke="#388e3c" stroke-width="2"/>
+  <text x="530" y="205" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#1b5e20">3</text>
+
+  <!-- Links -->
+  <line x1="390" y1="110" x2="510" y2="110" stroke="#388e3c" stroke-width="3"/>
+  <line x1="390" y1="200" x2="510" y2="200" stroke="#388e3c" stroke-width="3"/>
+  <line x1="370" y1="130" x2="370" y2="180" stroke="#388e3c" stroke-width="3"/>
+  <line x1="530" y1="130" x2="530" y2="180" stroke="#388e3c" stroke-width="3"/>
+
+  <!-- Diameter illustration (dashed path from 0 to 3) -->
+  <path d="M 390 110 L 510 110 L 530 130" stroke="#c62828" stroke-width="2" stroke-dasharray="5,3" fill="none"/>
+  <path d="M 530 130 L 530 180" stroke="#c62828" stroke-width="2" stroke-dasharray="5,3" fill="none"/>
+  <text x="450" y="95" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#c62828">Diameter = 2 hops (0 to 3)</text>
+
+  <!-- Node Degree illustration -->
+  <text x="340" y="140" text-anchor="end" font-family="Arial, sans-serif" font-size="9" fill="#1565c0">Degree = 2</text>
+
+  <!-- PERFORMANCE METRICS (Left) -->
+  <rect x="30" y="270" width="260" height="170" rx="8" fill="#e3f2fd" stroke="#1976d2" stroke-width="2"/>
+  <text x="160" y="295" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#1976d2">Performance Metrics</text>
+
+  <text x="45" y="320" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#0d47a1">Distance:</text>
+  <text x="45" y="333" font-family="Arial, sans-serif" font-size="10" fill="#333">Hops between two nodes</text>
+
+  <text x="45" y="355" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#0d47a1">Diameter:</text>
+  <text x="45" y="368" font-family="Arial, sans-serif" font-size="10" fill="#333">Max distance (worst-case latency)</text>
+
+  <text x="45" y="390" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#0d47a1">Bisection BW:</text>
+  <text x="45" y="403" font-family="Arial, sans-serif" font-size="10" fill="#333">BW between network halves</text>
+
+  <text x="45" y="425" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#0d47a1">Latency:</text>
+  <text x="45" y="438" font-family="Arial, sans-serif" font-size="10" fill="#333">Time for first bit to arrive</text>
+
+  <!-- COST METRICS (Right) -->
+  <rect x="610" y="270" width="260" height="170" rx="8" fill="#fff3e0" stroke="#e65100" stroke-width="2"/>
+  <text x="740" y="295" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#e65100">Cost Metrics</text>
+
+  <text x="625" y="320" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#bf360c">Node Degree:</text>
+  <text x="625" y="333" font-family="Arial, sans-serif" font-size="10" fill="#333">Ports per node (wiring cost)</text>
+
+  <text x="625" y="355" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#bf360c">Connectivity:</text>
+  <text x="625" y="368" font-family="Arial, sans-serif" font-size="10" fill="#333">Min parallel paths (fault tolerance)</text>
+
+  <text x="625" y="390" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#bf360c">Symmetry:</text>
+  <text x="625" y="403" font-family="Arial, sans-serif" font-size="10" fill="#333">Uniform paths simplify routing</text>
+
+  <text x="625" y="425" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#bf360c">Scalability:</text>
+  <text x="625" y="438" font-family="Arial, sans-serif" font-size="10" fill="#333">How cost grows with N nodes</text>
+
+  <!-- Bisection illustration -->
+  <rect x="320" y="265" width="260" height="175" rx="8" fill="#fce4ec" stroke="#c2185b" stroke-width="2"/>
+  <text x="450" y="285" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#c2185b">Bisection Bandwidth</text>
+
+  <!-- Mini mesh for bisection -->
+  <circle cx="380" cy="330" r="12" fill="#f48fb1" stroke="#c2185b" stroke-width="1"/>
+  <text x="380" y="334" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#880e4f">0</text>
+
+  <circle cx="450" cy="330" r="12" fill="#f48fb1" stroke="#c2185b" stroke-width="1"/>
+  <text x="450" y="334" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#880e4f">1</text>
+
+  <circle cx="520" cy="330" r="12" fill="#f48fb1" stroke="#c2185b" stroke-width="1"/>
+  <text x="520" y="334" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#880e4f">2</text>
+
+  <circle cx="380" cy="390" r="12" fill="#f48fb1" stroke="#c2185b" stroke-width="1"/>
+  <text x="380" y="394" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#880e4f">3</text>
+
+  <circle cx="450" cy="390" r="12" fill="#f48fb1" stroke="#c2185b" stroke-width="1"/>
+  <text x="450" y="394" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#880e4f">4</text>
+
+  <circle cx="520" cy="390" r="12" fill="#f48fb1" stroke="#c2185b" stroke-width="1"/>
+  <text x="520" y="394" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#880e4f">5</text>
+
+  <!-- Links -->
+  <line x1="392" y1="330" x2="438" y2="330" stroke="#c2185b" stroke-width="2"/>
+  <line x1="462" y1="330" x2="508" y2="330" stroke="#c2185b" stroke-width="2"/>
+  <line x1="392" y1="390" x2="438" y2="390" stroke="#c2185b" stroke-width="2"/>
+  <line x1="462" y1="390" x2="508" y2="390" stroke="#c2185b" stroke-width="2"/>
+  <line x1="380" y1="342" x2="380" y2="378" stroke="#c2185b" stroke-width="2"/>
+  <line x1="450" y1="342" x2="450" y2="378" stroke="#c2185b" stroke-width="2"/>
+  <line x1="520" y1="342" x2="520" y2="378" stroke="#c2185b" stroke-width="2"/>
+
+  <!-- Bisection cut line -->
+  <line x1="415" y1="310" x2="415" y2="415" stroke="#c2185b" stroke-width="3" stroke-dasharray="8,4"/>
+  <text x="330" y="360" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#880e4f" transform="rotate(-90 330 360)">CUT</text>
+
+  <text x="450" y="425" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#880e4f">Bisection BW = 3 links crossing the cut</text>
+
+  <!-- Formulas at bottom -->
+  <text x="160" y="258" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#666">b = w x f (Bandwidth = width x frequency)</text>
+  <text x="740" y="258" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#666">Higher degree = more flexibility but more cost</text>
+</svg>
