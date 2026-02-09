@@ -1,0 +1,114 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 450">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#004065"/>
+    </marker>
+    <marker id="arrow-green" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#2e7d32"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="850" height="450" fill="#f8f9fa"/>
+
+  <!-- Title -->
+  <text x="425" y="30" text-anchor="middle" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="#004065">Network Switch Architecture</text>
+
+  <!-- Main Switch Box -->
+  <rect x="250" y="60" width="350" height="330" rx="15" fill="#fff8e1" stroke="#f57c00" stroke-width="3"/>
+  <text x="425" y="95" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#e65100">Switch</text>
+
+  <!-- Crossbar/Switching Fabric in center -->
+  <rect x="350" y="150" width="150" height="140" rx="10" fill="#ffe0b2" stroke="#e65100" stroke-width="2"/>
+  <text x="425" y="210" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#e65100">Switching</text>
+  <text x="425" y="230" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#e65100">Fabric</text>
+  <text x="425" y="255" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#666">(Crossbar)</text>
+
+  <!-- INPUT PORTS (Left side) -->
+  <!-- Input Port 0 -->
+  <rect x="270" y="120" width="70" height="55" rx="5" fill="#e3f2fd" stroke="#1976d2" stroke-width="2"/>
+  <text x="305" y="140" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#1976d2">Input 0</text>
+  <rect x="278" y="148" width="54" height="18" rx="3" fill="#bbdefb" stroke="#1976d2" stroke-width="1"/>
+  <text x="305" y="161" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#333">RX + Buffer</text>
+
+  <!-- Input Port 1 -->
+  <rect x="270" y="190" width="70" height="55" rx="5" fill="#e3f2fd" stroke="#1976d2" stroke-width="2"/>
+  <text x="305" y="210" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#1976d2">Input 1</text>
+  <rect x="278" y="218" width="54" height="18" rx="3" fill="#bbdefb" stroke="#1976d2" stroke-width="1"/>
+  <text x="305" y="231" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#333">RX + Buffer</text>
+
+  <!-- Input Port 2 -->
+  <rect x="270" y="260" width="70" height="55" rx="5" fill="#e3f2fd" stroke="#1976d2" stroke-width="2"/>
+  <text x="305" y="280" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#1976d2">Input 2</text>
+  <rect x="278" y="288" width="54" height="18" rx="3" fill="#bbdefb" stroke="#1976d2" stroke-width="1"/>
+  <text x="305" y="301" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#333">RX + Buffer</text>
+
+  <!-- Input Port 3 -->
+  <rect x="270" y="330" width="70" height="55" rx="5" fill="#e3f2fd" stroke="#1976d2" stroke-width="2"/>
+  <text x="305" y="350" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#1976d2">Input 3</text>
+  <rect x="278" y="358" width="54" height="18" rx="3" fill="#bbdefb" stroke="#1976d2" stroke-width="1"/>
+  <text x="305" y="371" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#333">RX + Buffer</text>
+
+  <!-- OUTPUT PORTS (Right side) -->
+  <!-- Output Port 0 -->
+  <rect x="510" y="120" width="70" height="55" rx="5" fill="#e8f5e9" stroke="#388e3c" stroke-width="2"/>
+  <text x="545" y="140" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#388e3c">Output 0</text>
+  <rect x="518" y="148" width="54" height="18" rx="3" fill="#c8e6c9" stroke="#388e3c" stroke-width="1"/>
+  <text x="545" y="161" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#333">TX</text>
+
+  <!-- Output Port 1 -->
+  <rect x="510" y="190" width="70" height="55" rx="5" fill="#e8f5e9" stroke="#388e3c" stroke-width="2"/>
+  <text x="545" y="210" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#388e3c">Output 1</text>
+  <rect x="518" y="218" width="54" height="18" rx="3" fill="#c8e6c9" stroke="#388e3c" stroke-width="1"/>
+  <text x="545" y="231" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#333">TX</text>
+
+  <!-- Output Port 2 -->
+  <rect x="510" y="260" width="70" height="55" rx="5" fill="#e8f5e9" stroke="#388e3c" stroke-width="2"/>
+  <text x="545" y="280" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#388e3c">Output 2</text>
+  <rect x="518" y="288" width="54" height="18" rx="3" fill="#c8e6c9" stroke="#388e3c" stroke-width="1"/>
+  <text x="545" y="301" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#333">TX</text>
+
+  <!-- Output Port 3 -->
+  <rect x="510" y="330" width="70" height="55" rx="5" fill="#e8f5e9" stroke="#388e3c" stroke-width="2"/>
+  <text x="545" y="350" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#388e3c">Output 3</text>
+  <rect x="518" y="358" width="54" height="18" rx="3" fill="#c8e6c9" stroke="#388e3c" stroke-width="1"/>
+  <text x="545" y="371" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#333">TX</text>
+
+  <!-- Internal connections (Input to Crossbar) -->
+  <line x1="340" y1="147" x2="350" y2="170" stroke="#1976d2" stroke-width="1.5"/>
+  <line x1="340" y1="217" x2="350" y2="200" stroke="#1976d2" stroke-width="1.5"/>
+  <line x1="340" y1="287" x2="350" y2="240" stroke="#1976d2" stroke-width="1.5"/>
+  <line x1="340" y1="357" x2="350" y2="270" stroke="#1976d2" stroke-width="1.5"/>
+
+  <!-- Internal connections (Crossbar to Output) -->
+  <line x1="500" y1="170" x2="510" y2="147" stroke="#388e3c" stroke-width="1.5"/>
+  <line x1="500" y1="200" x2="510" y2="217" stroke="#388e3c" stroke-width="1.5"/>
+  <line x1="500" y1="240" x2="510" y2="287" stroke="#388e3c" stroke-width="1.5"/>
+  <line x1="500" y1="270" x2="510" y2="357" stroke="#388e3c" stroke-width="1.5"/>
+
+  <!-- External Input Links (left) -->
+  <line x1="50" y1="147" x2="270" y2="147" stroke="#004065" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="50" y1="217" x2="270" y2="217" stroke="#004065" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="50" y1="287" x2="270" y2="287" stroke="#004065" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="50" y1="357" x2="270" y2="357" stroke="#004065" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- External Output Links (right) -->
+  <line x1="580" y1="147" x2="800" y2="147" stroke="#2e7d32" stroke-width="2" marker-end="url(#arrow-green)"/>
+  <line x1="580" y1="217" x2="800" y2="217" stroke="#2e7d32" stroke-width="2" marker-end="url(#arrow-green)"/>
+  <line x1="580" y1="287" x2="800" y2="287" stroke="#2e7d32" stroke-width="2" marker-end="url(#arrow-green)"/>
+  <line x1="580" y1="357" x2="800" y2="357" stroke="#2e7d32" stroke-width="2" marker-end="url(#arrow-green)"/>
+
+  <!-- Labels -->
+  <text x="30" y="250" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#004065" transform="rotate(-90, 30, 250)">Input Links</text>
+  <text x="820" y="250" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#2e7d32" transform="rotate(90, 820, 250)">Output Links</text>
+
+  <!-- Legend -->
+  <rect x="270" y="405" width="15" height="15" fill="#bbdefb" stroke="#1976d2" stroke-width="1"/>
+  <text x="290" y="417" font-family="Arial, sans-serif" font-size="11" fill="#333">RX = Receiver</text>
+
+  <rect x="400" y="405" width="15" height="15" fill="#c8e6c9" stroke="#388e3c" stroke-width="1"/>
+  <text x="420" y="417" font-family="Arial, sans-serif" font-size="11" fill="#333">TX = Transmitter</text>
+
+  <rect x="530" y="405" width="15" height="15" fill="#ffe0b2" stroke="#e65100" stroke-width="1"/>
+  <text x="550" y="417" font-family="Arial, sans-serif" font-size="11" fill="#333">Switching Fabric</text>
+</svg>

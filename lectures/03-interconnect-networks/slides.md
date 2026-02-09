@@ -84,14 +84,16 @@ The **Network Interface Controller (NIC)**, also called the **Host Interface**, 
 
 ---
 
-## Basic Definitions in Interconnect Networks
+## Basic Definitions: Switches
 
-**Switches**
+**Switches** are the traffic directors of the network — they receive packets and forward them toward their destination.
 
-- Connect a fixed number of input and output channels/links
-- Each **input port** has a **receiver & input buffer**
-- Each **output port** has a **transmitter**
-- Forward data through the network by **steering packets/messages**
+- Connect a fixed number of **input** and **output** channels/links
+- Each **input port** has a **receiver (RX)** and **input buffer** to hold incoming data
+- Each **output port** has a **transmitter (TX)** to send data out
+- The **switching fabric** (often a crossbar) steers packets from any input to any output
+
+![Switch Architecture](images/switch-architecture.svg)
 
 ---
 
