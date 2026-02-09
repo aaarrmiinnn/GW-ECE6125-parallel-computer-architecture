@@ -371,19 +371,21 @@ Controls **when messages or portions of them traverse the network**
 
 ## Increasing Node Degree and Connectivity
 
-**Ring:**
-- Nodes connected in a circular fashion. Each node is directly connected to its two neighbors.
+The fundamental trade-off: **more connections reduce diameter but increase cost**
 
-**Chordal Ring:**
-- An enhanced ring network where additional shortcuts (chords) are added between non-adjacent nodes to reduce the diameter.
+![Ring Topologies](images/ring-topologies.svg)
 
-**Barrel Shifter:**
-- A ring topology with specific direct connections enabling bit-wise circular shifting. Each node connects to multiple others.
+---
 
-**Completely Connected Network:**
-- Every node is directly connected to every other node. Maximum connectivity ensures minimal communication latency but increases cost.
+## Ring Topology Variations
 
-![Network Topologies](images/image7.png)
+**Ring:** Degree=2, simplest but highest diameter (N/2 hops worst case)
+
+**Chordal Ring:** Add "shortcut" chords to reduce diameter while keeping degree moderate
+
+**Barrel Shifter:** Connections at powers of 2 (1, 2, 4, 8...) for efficient shifting operations
+
+**Fully Connected:** Degree=N-1, diameter=1, but O(N²) wires — impractical for large N
 
 ---
 
