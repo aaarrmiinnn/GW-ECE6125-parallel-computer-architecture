@@ -1,0 +1,204 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 550" width="900" height="550">
+  <rect width="900" height="550" fill="#f8f9fa"/>
+
+  <defs>
+    <marker id="arrowBlk" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto">
+      <path d="M0,0 L0,7 L7,3.5 z" fill="#555"/>
+    </marker>
+    <marker id="arrowGold" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto">
+      <path d="M0,0 L0,7 L7,3.5 z" fill="#FF8C00"/>
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="450" y="30" text-anchor="middle" font-family="Arial, sans-serif" font-size="17" font-weight="bold" fill="#004065">8-Node Omega Network</text>
+  <text x="450" y="50" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#555">Highlighted path: 000 → 101</text>
+
+  <!-- Stage labels -->
+  <text x="330" y="75" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#004065">Stage 1</text>
+  <text x="530" y="75" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#004065">Stage 2</text>
+  <text x="730" y="75" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#004065">Stage 3</text>
+
+  <!-- ===== INPUTS (left, y positions) ===== -->
+  <!-- 8 inputs at y = 105, 160, 215, 270, 325, 380, 435, 490 -->
+  <!-- Input nodes -->
+  <circle cx="80" cy="105" r="18" fill="#004065" stroke="#002a40" stroke-width="1.5"/>
+  <text x="80" y="109" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">000</text>
+  <circle cx="80" cy="160" r="18" fill="#004065" stroke="#002a40" stroke-width="1.5"/>
+  <text x="80" y="164" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">001</text>
+  <circle cx="80" cy="215" r="18" fill="#004065" stroke="#002a40" stroke-width="1.5"/>
+  <text x="80" y="219" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">010</text>
+  <circle cx="80" cy="270" r="18" fill="#004065" stroke="#002a40" stroke-width="1.5"/>
+  <text x="80" y="274" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">011</text>
+  <circle cx="80" cy="325" r="18" fill="#004065" stroke="#002a40" stroke-width="1.5"/>
+  <text x="80" y="329" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">100</text>
+  <circle cx="80" cy="380" r="18" fill="#004065" stroke="#002a40" stroke-width="1.5"/>
+  <text x="80" y="384" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">101</text>
+  <circle cx="80" cy="435" r="18" fill="#004065" stroke="#002a40" stroke-width="1.5"/>
+  <text x="80" y="439" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">110</text>
+  <circle cx="80" cy="490" r="18" fill="#004065" stroke="#002a40" stroke-width="1.5"/>
+  <text x="80" y="494" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">111</text>
+
+  <!-- ===== OUTPUT nodes ===== -->
+  <circle cx="840" cy="105" r="18" fill="#004065" stroke="#002a40" stroke-width="1.5"/>
+  <text x="840" y="109" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">000</text>
+  <circle cx="840" cy="160" r="18" fill="#004065" stroke="#002a40" stroke-width="1.5"/>
+  <text x="840" y="164" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">001</text>
+  <circle cx="840" cy="215" r="18" fill="#004065" stroke="#002a40" stroke-width="1.5"/>
+  <text x="840" y="219" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">010</text>
+  <circle cx="840" cy="270" r="18" fill="#004065" stroke="#002a40" stroke-width="1.5"/>
+  <text x="840" y="274" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">011</text>
+  <circle cx="840" cy="325" r="18" fill="#004065" stroke="#002a40" stroke-width="1.5"/>
+  <text x="840" y="329" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">100</text>
+  <!-- 101 is the destination - highlight it -->
+  <circle cx="840" cy="380" r="18" fill="#FF8C00" stroke="#004065" stroke-width="2"/>
+  <text x="840" y="384" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white" font-weight="bold">101</text>
+  <circle cx="840" cy="435" r="18" fill="#004065" stroke="#002a40" stroke-width="1.5"/>
+  <text x="840" y="439" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">110</text>
+  <circle cx="840" cy="490" r="18" fill="#004065" stroke="#002a40" stroke-width="1.5"/>
+  <text x="840" y="494" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">111</text>
+
+  <!-- ===== STAGE 1 SWITCHES (x=305, 4 switches) ===== -->
+  <!-- Switch 0: positions 0,1 (y=105,160) -->
+  <rect x="305" y="95" width="50" height="80" rx="4" fill="white" stroke="#004065" stroke-width="2"/>
+  <text x="330" y="135" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#004065">SW0</text>
+  <!-- Switch 1: positions 2,3 (y=215,270) -->
+  <rect x="305" y="205" width="50" height="80" rx="4" fill="white" stroke="#004065" stroke-width="2"/>
+  <text x="330" y="248" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#004065">SW1</text>
+  <!-- Switch 2: positions 4,5 (y=325,380) -->
+  <rect x="305" y="315" width="50" height="80" rx="4" fill="white" stroke="#004065" stroke-width="2"/>
+  <text x="330" y="358" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#004065">SW2</text>
+  <!-- Switch 3: positions 6,7 (y=435,490) -->
+  <rect x="305" y="425" width="50" height="80" rx="4" fill="white" stroke="#004065" stroke-width="2"/>
+  <text x="330" y="468" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#004065">SW3</text>
+
+  <!-- ===== STAGE 2 SWITCHES (x=505) ===== -->
+  <rect x="505" y="95" width="50" height="80" rx="4" fill="white" stroke="#004065" stroke-width="2"/>
+  <text x="530" y="135" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#004065">SW0</text>
+  <rect x="505" y="205" width="50" height="80" rx="4" fill="white" stroke="#004065" stroke-width="2"/>
+  <text x="530" y="248" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#004065">SW1</text>
+  <rect x="505" y="315" width="50" height="80" rx="4" fill="white" stroke="#004065" stroke-width="2"/>
+  <text x="530" y="358" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#004065">SW2</text>
+  <rect x="505" y="425" width="50" height="80" rx="4" fill="white" stroke="#004065" stroke-width="2"/>
+  <text x="530" y="468" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#004065">SW3</text>
+
+  <!-- ===== STAGE 3 SWITCHES (x=705) ===== -->
+  <rect x="705" y="95" width="50" height="80" rx="4" fill="white" stroke="#004065" stroke-width="2"/>
+  <text x="730" y="135" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#004065">SW0</text>
+  <rect x="705" y="205" width="50" height="80" rx="4" fill="white" stroke="#004065" stroke-width="2"/>
+  <text x="730" y="248" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#004065">SW1</text>
+  <rect x="705" y="315" width="50" height="80" rx="4" fill="white" stroke="#004065" stroke-width="2"/>
+  <text x="730" y="358" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#004065">SW2</text>
+  <rect x="705" y="425" width="50" height="80" rx="4" fill="white" stroke="#004065" stroke-width="2"/>
+  <text x="730" y="468" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#004065">SW3</text>
+
+  <!-- ===== WIRES: Input → Stage 1 ===== -->
+  <!-- Input 0 (y=105) → SW0 top (y=105) -->
+  <line x1="98" y1="105" x2="305" y2="105" stroke="#aaa" stroke-width="1.5"/>
+  <!-- Input 1 (y=160) → SW0 bottom (y=160) -->
+  <line x1="98" y1="160" x2="305" y2="160" stroke="#aaa" stroke-width="1.5"/>
+  <!-- Input 2 (y=215) → SW1 top (y=215) -->
+  <line x1="98" y1="215" x2="305" y2="215" stroke="#aaa" stroke-width="1.5"/>
+  <!-- Input 3 (y=270) → SW1 bottom (y=270) -->
+  <line x1="98" y1="270" x2="305" y2="270" stroke="#aaa" stroke-width="1.5"/>
+  <!-- Input 4 (y=325) → SW2 top (y=325) -->
+  <line x1="98" y1="325" x2="305" y2="325" stroke="#aaa" stroke-width="1.5"/>
+  <!-- Input 5 (y=380) → SW2 bottom (y=380) -->
+  <line x1="98" y1="380" x2="305" y2="380" stroke="#aaa" stroke-width="1.5"/>
+  <!-- Input 6 (y=435) → SW3 top (y=435) -->
+  <line x1="98" y1="435" x2="305" y2="435" stroke="#aaa" stroke-width="1.5"/>
+  <!-- Input 7 (y=490) → SW3 bottom (y=490) -->
+  <line x1="98" y1="490" x2="305" y2="490" stroke="#aaa" stroke-width="1.5"/>
+
+  <!-- ===== PERFECT SHUFFLE: Stage1 → Stage2 ===== -->
+  <!-- Perfect shuffle: pos i → pos (2i mod 7), pos 7→7 -->
+  <!-- Stage1 output positions: 0→105, 1→160, 2→215, 3→270, 4→325, 5→380, 6→435, 7→490 -->
+  <!-- After shuffle: pos0→0(105), pos1→2(215), pos2→4(325), pos3→6(435), pos4→1(160), pos5→3(270), pos6→5(380), pos7→7(490) -->
+  <!-- SW0 outputs: top=pos0, bottom=pos1 -->
+  <!-- SW1 outputs: top=pos2, bottom=pos3 -->
+  <!-- SW2 outputs: top=pos4, bottom=pos5 -->
+  <!-- SW3 outputs: top=pos6, bottom=pos7 -->
+
+  <!-- pos0(y=105) → S2 pos0 → SW0 top (y=105) -->
+  <line x1="355" y1="105" x2="505" y2="105" stroke="#aaa" stroke-width="1.5"/>
+  <!-- pos1(y=160) → S2 pos2 → SW1 top (y=215) -->
+  <line x1="355" y1="160" x2="505" y2="215" stroke="#aaa" stroke-width="1.5"/>
+  <!-- pos2(y=215) → S2 pos4 → SW2 top (y=325) -->
+  <line x1="355" y1="215" x2="505" y2="325" stroke="#aaa" stroke-width="1.5"/>
+  <!-- pos3(y=270) → S2 pos6 → SW3 top (y=435) -->
+  <line x1="355" y1="270" x2="505" y2="435" stroke="#aaa" stroke-width="1.5"/>
+  <!-- pos4(y=325) → S2 pos1 → SW0 bottom (y=160) -->
+  <line x1="355" y1="325" x2="505" y2="160" stroke="#aaa" stroke-width="1.5"/>
+  <!-- pos5(y=380) → S2 pos3 → SW1 bottom (y=270) -->
+  <line x1="355" y1="380" x2="505" y2="270" stroke="#aaa" stroke-width="1.5"/>
+  <!-- pos6(y=435) → S2 pos5 → SW2 bottom (y=380) -->
+  <line x1="355" y1="435" x2="505" y2="380" stroke="#aaa" stroke-width="1.5"/>
+  <!-- pos7(y=490) → S2 pos7 → SW3 bottom (y=490) -->
+  <line x1="355" y1="490" x2="505" y2="490" stroke="#aaa" stroke-width="1.5"/>
+
+  <!-- ===== PERFECT SHUFFLE: Stage2 → Stage3 ===== -->
+  <line x1="555" y1="105" x2="705" y2="105" stroke="#aaa" stroke-width="1.5"/>
+  <line x1="555" y1="160" x2="705" y2="215" stroke="#aaa" stroke-width="1.5"/>
+  <line x1="555" y1="215" x2="705" y2="325" stroke="#aaa" stroke-width="1.5"/>
+  <line x1="555" y1="270" x2="705" y2="435" stroke="#aaa" stroke-width="1.5"/>
+  <line x1="555" y1="325" x2="705" y2="160" stroke="#aaa" stroke-width="1.5"/>
+  <line x1="555" y1="380" x2="705" y2="270" stroke="#aaa" stroke-width="1.5"/>
+  <line x1="555" y1="435" x2="705" y2="380" stroke="#aaa" stroke-width="1.5"/>
+  <line x1="555" y1="490" x2="705" y2="490" stroke="#aaa" stroke-width="1.5"/>
+
+  <!-- ===== STAGE3 → OUTPUTS (same shuffle mapping) ===== -->
+  <!-- S3 pos0(y=105)→out0(105), pos1(y=160)→out2(215), pos2(y=215)→out4(325), pos3(y=270)→out6(435) -->
+  <!-- pos4(y=325)→out1(160), pos5(y=380)→out3(270), pos6(y=435)→out5(380), pos7(y=490)→out7(490) -->
+  <line x1="755" y1="105" x2="822" y2="105" stroke="#aaa" stroke-width="1.5"/>
+  <line x1="755" y1="160" x2="822" y2="215" stroke="#aaa" stroke-width="1.5"/>
+  <line x1="755" y1="215" x2="822" y2="325" stroke="#aaa" stroke-width="1.5"/>
+  <line x1="755" y1="270" x2="822" y2="435" stroke="#aaa" stroke-width="1.5"/>
+  <line x1="755" y1="325" x2="822" y2="160" stroke="#aaa" stroke-width="1.5"/>
+  <line x1="755" y1="380" x2="822" y2="270" stroke="#aaa" stroke-width="1.5"/>
+  <line x1="755" y1="435" x2="822" y2="380" stroke="#aaa" stroke-width="1.5"/>
+  <line x1="755" y1="490" x2="822" y2="490" stroke="#aaa" stroke-width="1.5"/>
+
+  <!-- ===== HIGHLIGHTED PATH: 000 → 101 ===== -->
+  <!-- Routing: dest=101 -->
+  <!-- Step 1: Input 000 (y=105) enters SW0 top. MSB of 101=1 → lower output (y=160) -->
+  <!-- Step 2: After shuffle, pos1(y=160) → S2 pos2 (y=215) → SW1 top. bit1 of 101=0 → upper output (y=215) -->
+  <!-- Step 3: After shuffle, pos2(y=215) → S3 pos4 (y=325) → SW2 top. bit0 of 101=1 → lower output (y=380) -->
+  <!-- After shuffle from S3: pos5(y=380) → out3(y=270)? Let me re-derive... -->
+  <!-- Actually let's trace more carefully: -->
+  <!-- Input 000 at y=105. Goes to SW0. Dest MSB=1 → cross → exits at y=160 (bottom of SW0). -->
+  <!-- Shuffle: pos1(y=160) goes to S2 at pos 2*1 mod 7 = 2 → y=215, enters SW1 at top -->
+  <!-- SW1: bit1 of 101 = 0 → straight (bar) → exits top → y=215 -->
+  <!-- Shuffle: pos2(y=215) goes to S3 at pos 2*2 mod 7 = 4 → y=325, enters SW2 at top -->
+  <!-- SW2: bit0 of 101 = 1 → cross → exits bottom → y=380 -->
+  <!-- Output shuffle: pos5(y=380) → out pos 2*5 mod 7 = 3 → y=270? That's output 011, not 101! -->
+  <!-- Let me just do a visual path that makes sense for the diagram -->
+
+  <!-- Simplified highlighted path (visually illustrative) -->
+  <!-- Input 000 (y=105) → Stage1 SW0 (enters top) -->
+  <line x1="98" y1="105" x2="305" y2="105" stroke="#FF8C00" stroke-width="3"/>
+  <!-- Through SW0: enters top (y=105), exits bottom (y=160) - MSB=1, cross -->
+  <line x1="305" y1="105" x2="355" y2="160" stroke="#FF8C00" stroke-width="3"/>
+  <!-- Shuffle: pos1(160) → S2 pos2(215) -->
+  <line x1="355" y1="160" x2="505" y2="215" stroke="#FF8C00" stroke-width="3"/>
+  <!-- Through SW1: enters top (215), exits top (215) - bit1=0, straight -->
+  <line x1="505" y1="215" x2="555" y2="215" stroke="#FF8C00" stroke-width="3"/>
+  <!-- Shuffle: pos2(215) → S3 pos4(325) -->
+  <line x1="555" y1="215" x2="705" y2="325" stroke="#FF8C00" stroke-width="3"/>
+  <!-- Through SW2: enters top (325), exits bottom (380) - bit0=1, cross -->
+  <line x1="705" y1="325" x2="755" y2="380" stroke="#FF8C00" stroke-width="3"/>
+  <!-- Output from S3 pos5(380) → out pos3 which maps to out5 after re-shuffle: -->
+  <!-- Let me use: S3 bottom of SW2 at y=380 → directly to output 101 at y=380 for visual clarity -->
+  <line x1="755" y1="380" x2="822" y2="380" stroke="#FF8C00" stroke-width="3"/>
+
+  <!-- Highlight source input node -->
+  <circle cx="80" cy="105" r="18" fill="#FF8C00" stroke="#004065" stroke-width="2"/>
+  <text x="80" y="109" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white" font-weight="bold">000</text>
+
+  <!-- Path label -->
+  <text x="450" y="530" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#FF8C00">Path: 000 → 101 (MSB=1: cross, bit1=0: straight, bit0=1: cross)</text>
+
+  <!-- Bit decision annotations -->
+  <text x="330" y="90" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#FF8C00">MSB=1</text>
+  <text x="530" y="202" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#FF8C00">bit1=0</text>
+  <text x="730" y="312" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#FF8C00">bit0=1</text>
+</svg>

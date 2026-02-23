@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 280" width="700" height="280">
+  <rect width="700" height="280" fill="#f8f9fa"/>
+
+  <!-- Title -->
+  <text x="350" y="32" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#004065">The 2×2 Switch: Building Block of Multistage Networks</text>
+
+  <!-- Divider -->
+  <line x1="350" y1="55" x2="350" y2="245" stroke="#ccc" stroke-width="1.5" stroke-dasharray="6,4"/>
+
+  <!-- ===== LEFT: STRAIGHT (BAR) ===== -->
+  <text x="175" y="68" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#004065">Straight (Bar)</text>
+
+  <!-- Switch box -->
+  <rect x="130" y="110" width="80" height="80" rx="6" fill="white" stroke="#004065" stroke-width="2.5"/>
+  <text x="170" y="155" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#004065">2×2</text>
+  <text x="170" y="168" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#004065">Switch</text>
+
+  <!-- Input labels -->
+  <text x="55" y="134" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#333">In 0</text>
+  <text x="55" y="175" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#333">In 1</text>
+
+  <!-- Output labels -->
+  <text x="285" y="134" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#333">Out 0</text>
+  <text x="285" y="175" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#333">Out 1</text>
+
+  <!-- Arrowhead marker -->
+  <defs>
+    <marker id="arrowR" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#333"/>
+    </marker>
+    <marker id="arrowRgold" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#FF6B00"/>
+    </marker>
+  </defs>
+
+  <!-- Straight paths: In0→Out0, In1→Out1 -->
+  <line x1="75" y1="130" x2="128" y2="130" stroke="#333" stroke-width="2" marker-end="url(#arrowR)"/>
+  <line x1="210" y1="130" x2="258" y2="130" stroke="#333" stroke-width="2" marker-end="url(#arrowR)"/>
+
+  <line x1="75" y1="170" x2="128" y2="170" stroke="#333" stroke-width="2" marker-end="url(#arrowR)"/>
+  <line x1="210" y1="170" x2="258" y2="170" stroke="#333" stroke-width="2" marker-end="url(#arrowR)"/>
+
+  <!-- Internal straight lines in switch -->
+  <line x1="130" y1="130" x2="210" y2="130" stroke="#004065" stroke-width="2" stroke-dasharray="4,3"/>
+  <line x1="130" y1="170" x2="210" y2="170" stroke="#004065" stroke-width="2" stroke-dasharray="4,3"/>
+
+  <!-- Annotation -->
+  <text x="170" y="215" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#555">In 0 → Out 0</text>
+  <text x="170" y="230" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#555">In 1 → Out 1</text>
+
+  <!-- ===== RIGHT: CROSS ===== -->
+  <text x="525" y="68" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#004065">Cross</text>
+
+  <!-- Switch box -->
+  <rect x="480" y="110" width="80" height="80" rx="6" fill="white" stroke="#004065" stroke-width="2.5"/>
+  <text x="520" y="155" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#004065">2×2</text>
+  <text x="520" y="168" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#004065">Switch</text>
+
+  <!-- Input labels right panel -->
+  <text x="405" y="134" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#333">In 0</text>
+  <text x="405" y="175" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#333">In 1</text>
+
+  <!-- Output labels right panel -->
+  <text x="638" y="134" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#333">Out 0</text>
+  <text x="638" y="175" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#333">Out 1</text>
+
+  <!-- Input arrows -->
+  <line x1="425" y1="130" x2="478" y2="130" stroke="#333" stroke-width="2" marker-end="url(#arrowR)"/>
+  <line x1="425" y1="170" x2="478" y2="170" stroke="#333" stroke-width="2" marker-end="url(#arrowR)"/>
+
+  <!-- Output arrows -->
+  <line x1="560" y1="130" x2="608" y2="130" stroke="#333" stroke-width="2" marker-end="url(#arrowR)"/>
+  <line x1="560" y1="170" x2="608" y2="170" stroke="#333" stroke-width="2" marker-end="url(#arrowR)"/>
+
+  <!-- Internal crossed lines in switch -->
+  <!-- In0 (130) → Out1 (170) -->
+  <line x1="480" y1="130" x2="560" y2="170" stroke="#FF6B00" stroke-width="2.5"/>
+  <!-- In1 (170) → Out0 (130) -->
+  <line x1="480" y1="170" x2="560" y2="130" stroke="#004065" stroke-width="2.5"/>
+
+  <!-- Annotation -->
+  <text x="520" y="215" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#555">In 0 → Out 1</text>
+  <text x="520" y="230" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#555">In 1 → Out 0</text>
+
+  <!-- Bottom note -->
+  <text x="350" y="260" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#666">Switch configuration (bar/cross) determines the routing through each stage</text>
+</svg>
