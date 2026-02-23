@@ -1,0 +1,140 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 500" width="900" height="500">
+  <rect width="900" height="500" fill="#f8f9fa"/>
+
+  <defs>
+    <marker id="h4Arr" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M0,0 L0,8 L8,4 z" fill="#CC8800"/>
+    </marker>
+    <marker id="h4ArrB" markerWidth="8" markerHeight="8" refX="1.5" refY="4" orient="auto">
+      <path d="M8,0 L8,8 L0,4 z" fill="#CC8800"/>
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="450" y="28" text-anchor="middle" font-family="Arial, sans-serif" font-size="17" font-weight="bold" fill="#004065">4D Hypercube: 16 Nodes, Degree 4</text>
+  <text x="450" y="48" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#666">Two 3D cubes connected by 4th-dimension links (dashed gold)</text>
+
+  <!-- Left cube label -->
+  <text x="180" y="75" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#004065">Prefix: 0 (nodes 0000-0111)</text>
+  <!-- Right cube label -->
+  <text x="680" y="75" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#5A7090">Prefix: 1 (nodes 1000-1111)</text>
+
+  <!-- ===== LEFT 3D CUBE (0xxx) ===== -->
+  <!-- Front face: 0000(90,390), 0001(210,390), 0011(210,270), 0010(90,270) -->
+  <!-- Back face shifted +55x,-60y: 0100(145,330), 0101(265,330), 0111(265,210), 0110(145,210) -->
+
+  <!-- Back face edges (0100-0111) -->
+  <line x1="145" y1="330" x2="265" y2="330" stroke="#88AACC" stroke-width="1.5"/>
+  <line x1="265" y1="330" x2="265" y2="210" stroke="#88AACC" stroke-width="1.5"/>
+  <line x1="265" y1="210" x2="145" y2="210" stroke="#88AACC" stroke-width="1.5"/>
+  <line x1="145" y1="210" x2="145" y2="330" stroke="#88AACC" stroke-width="1.5"/>
+
+  <!-- Depth edges -->
+  <line x1="90" y1="390" x2="145" y2="330" stroke="#99BBDD" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <line x1="210" y1="390" x2="265" y2="330" stroke="#99BBDD" stroke-width="1.5"/>
+  <line x1="210" y1="270" x2="265" y2="210" stroke="#99BBDD" stroke-width="1.5"/>
+  <line x1="90" y1="270" x2="145" y2="210" stroke="#99BBDD" stroke-width="1.5" stroke-dasharray="5,3"/>
+
+  <!-- Front face edges -->
+  <line x1="90" y1="390" x2="210" y2="390" stroke="#004065" stroke-width="2.5"/>
+  <line x1="210" y1="390" x2="210" y2="270" stroke="#004065" stroke-width="2.5"/>
+  <line x1="210" y1="270" x2="90" y2="270" stroke="#004065" stroke-width="2.5"/>
+  <line x1="90" y1="270" x2="90" y2="390" stroke="#004065" stroke-width="2.5"/>
+
+  <!-- Back face nodes -->
+  <circle cx="145" cy="330" r="24" fill="#6699CC" stroke="#004065" stroke-width="2"/>
+  <text x="145" y="326" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" font-weight="bold" fill="white">0100</text>
+  <circle cx="265" cy="330" r="24" fill="#6699CC" stroke="#004065" stroke-width="2"/>
+  <text x="265" y="326" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" font-weight="bold" fill="white">0101</text>
+  <circle cx="265" cy="210" r="24" fill="#6699CC" stroke="#004065" stroke-width="2"/>
+  <text x="265" y="206" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" font-weight="bold" fill="white">0111</text>
+  <circle cx="145" cy="210" r="24" fill="#6699CC" stroke="#004065" stroke-width="2"/>
+  <text x="145" y="206" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" font-weight="bold" fill="white">0110</text>
+
+  <!-- Front face nodes -->
+  <circle cx="90" cy="390" r="24" fill="#6699CC" stroke="#004065" stroke-width="2.5"/>
+  <text x="90" y="394" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="white">0000</text>
+  <circle cx="210" cy="390" r="24" fill="#6699CC" stroke="#004065" stroke-width="2.5"/>
+  <text x="210" y="394" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="white">0001</text>
+  <circle cx="210" cy="270" r="24" fill="#6699CC" stroke="#004065" stroke-width="2.5"/>
+  <text x="210" y="274" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="white">0011</text>
+  <circle cx="90" cy="270" r="24" fill="#6699CC" stroke="#004065" stroke-width="2.5"/>
+  <text x="90" y="274" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="white">0010</text>
+
+  <!-- Left cube prefix label -->
+  <text x="40" y="300" font-family="Arial, sans-serif" font-size="11" fill="#004065" font-weight="bold" transform="rotate(-90,40,300)">Prefix: 0</text>
+
+  <!-- ===== RIGHT 3D CUBE (1xxx) ===== -->
+  <!-- Same structure, shifted right by 440 -->
+  <!-- Front face: 1000(580,390), 1001(700,390), 1011(700,270), 1010(580,270) -->
+  <!-- Back face: 1100(635,330), 1101(755,330), 1111(755,210), 1110(635,210) -->
+
+  <!-- Back face edges -->
+  <line x1="635" y1="330" x2="755" y2="330" stroke="#8899BB" stroke-width="1.5"/>
+  <line x1="755" y1="330" x2="755" y2="210" stroke="#8899BB" stroke-width="1.5"/>
+  <line x1="755" y1="210" x2="635" y2="210" stroke="#8899BB" stroke-width="1.5"/>
+  <line x1="635" y1="210" x2="635" y2="330" stroke="#8899BB" stroke-width="1.5"/>
+
+  <!-- Depth edges -->
+  <line x1="580" y1="390" x2="635" y2="330" stroke="#99AACC" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <line x1="700" y1="390" x2="755" y2="330" stroke="#99AACC" stroke-width="1.5"/>
+  <line x1="700" y1="270" x2="755" y2="210" stroke="#99AACC" stroke-width="1.5"/>
+  <line x1="580" y1="270" x2="635" y2="210" stroke="#99AACC" stroke-width="1.5" stroke-dasharray="5,3"/>
+
+  <!-- Front face edges -->
+  <line x1="580" y1="390" x2="700" y2="390" stroke="#5A7090" stroke-width="2.5"/>
+  <line x1="700" y1="390" x2="700" y2="270" stroke="#5A7090" stroke-width="2.5"/>
+  <line x1="700" y1="270" x2="580" y2="270" stroke="#5A7090" stroke-width="2.5"/>
+  <line x1="580" y1="270" x2="580" y2="390" stroke="#5A7090" stroke-width="2.5"/>
+
+  <!-- Back face nodes right cube -->
+  <circle cx="635" cy="330" r="24" fill="#7799BB" stroke="#5A7090" stroke-width="2"/>
+  <text x="635" y="326" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" font-weight="bold" fill="white">1100</text>
+  <circle cx="755" cy="330" r="24" fill="#7799BB" stroke="#5A7090" stroke-width="2"/>
+  <text x="755" y="326" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" font-weight="bold" fill="white">1101</text>
+  <circle cx="755" cy="210" r="24" fill="#7799BB" stroke="#5A7090" stroke-width="2"/>
+  <text x="755" y="206" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" font-weight="bold" fill="white">1111</text>
+  <circle cx="635" cy="210" r="24" fill="#7799BB" stroke="#5A7090" stroke-width="2"/>
+  <text x="635" y="206" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" font-weight="bold" fill="white">1110</text>
+
+  <!-- Front face nodes right cube -->
+  <circle cx="580" cy="390" r="24" fill="#7799BB" stroke="#5A7090" stroke-width="2.5"/>
+  <text x="580" y="394" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="white">1000</text>
+  <circle cx="700" cy="390" r="24" fill="#7799BB" stroke="#5A7090" stroke-width="2.5"/>
+  <text x="700" y="394" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="white">1001</text>
+  <circle cx="700" cy="270" r="24" fill="#7799BB" stroke="#5A7090" stroke-width="2.5"/>
+  <text x="700" y="274" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="white">1011</text>
+  <circle cx="580" cy="270" r="24" fill="#7799BB" stroke="#5A7090" stroke-width="2.5"/>
+  <text x="580" y="274" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="white">1010</text>
+
+  <!-- Right cube prefix -->
+  <text x="820" y="300" font-family="Arial, sans-serif" font-size="11" fill="#5A7090" font-weight="bold" transform="rotate(90,820,300)">Prefix: 1</text>
+
+  <!-- ===== 4TH DIMENSION LINKS (gold dashed) ===== -->
+  <!-- 0000(90,390) ↔ 1000(580,390) -->
+  <line x1="114" y1="390" x2="556" y2="390" stroke="#CC8800" stroke-width="2.5" stroke-dasharray="12,6" marker-end="url(#h4Arr)" marker-start="url(#h4ArrB)"/>
+  <!-- 0001(210,390) ↔ 1001(700,390) -->
+  <line x1="234" y1="390" x2="676" y2="390" stroke="#CC8800" stroke-width="2" stroke-dasharray="10,5" marker-end="url(#h4Arr)" marker-start="url(#h4ArrB)"/>
+  <!-- 0011(210,270) ↔ 1011(700,270) -->
+  <line x1="234" y1="270" x2="676" y2="270" stroke="#CC8800" stroke-width="2.5" stroke-dasharray="12,6" marker-end="url(#h4Arr)" marker-start="url(#h4ArrB)"/>
+  <!-- 0010(90,270) ↔ 1010(580,270) -->
+  <line x1="114" y1="270" x2="556" y2="270" stroke="#CC8800" stroke-width="2" stroke-dasharray="10,5" marker-end="url(#h4Arr)" marker-start="url(#h4ArrB)"/>
+  <!-- 0100(145,330) ↔ 1100(635,330) -->
+  <line x1="169" y1="330" x2="611" y2="330" stroke="#CC8800" stroke-width="2" stroke-dasharray="10,5" marker-end="url(#h4Arr)" marker-start="url(#h4ArrB)"/>
+  <!-- 0101(265,330) ↔ 1101(755,330) -->
+  <line x1="289" y1="330" x2="731" y2="330" stroke="#CC8800" stroke-width="2" stroke-dasharray="10,5" marker-end="url(#h4Arr)" marker-start="url(#h4ArrB)"/>
+  <!-- 0111(265,210) ↔ 1111(755,210) -->
+  <line x1="289" y1="210" x2="731" y2="210" stroke="#CC8800" stroke-width="2.5" stroke-dasharray="12,6" marker-end="url(#h4Arr)" marker-start="url(#h4ArrB)"/>
+  <!-- 0110(145,210) ↔ 1110(635,210) -->
+  <line x1="169" y1="210" x2="611" y2="210" stroke="#CC8800" stroke-width="2" stroke-dasharray="10,5" marker-end="url(#h4Arr)" marker-start="url(#h4ArrB)"/>
+
+  <!-- Legend -->
+  <line x1="300" y1="460" x2="340" y2="460" stroke="#004065" stroke-width="2.5"/>
+  <text x="348" y="464" font-family="Arial, sans-serif" font-size="11" fill="#004065">3D edges (within cube)</text>
+  <line x1="520" y1="460" x2="560" y2="460" stroke="#CC8800" stroke-width="2.5" stroke-dasharray="10,5"/>
+  <text x="568" y="464" font-family="Arial, sans-serif" font-size="11" fill="#CC8800">4th dimension connections</text>
+
+  <!-- Bottom annotation -->
+  <rect x="120" y="475" width="660" height="22" rx="4" fill="#E8F4FF" stroke="#004065" stroke-width="1"/>
+  <text x="450" y="491" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#004065" font-weight="bold">Each node has degree 4 (3 within-cube + 1 cross-cube). Diameter = 4 hops. N=2^4=16 nodes.</text>
+</svg>

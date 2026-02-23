@@ -1,0 +1,265 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 480" width="900" height="480">
+  <rect width="900" height="480" fill="#f8f9fa"/>
+
+  <!-- Title -->
+  <text x="450" y="28" text-anchor="middle" font-family="Arial, sans-serif" font-size="17" font-weight="bold" fill="#004065">Benes Network (N=8, 5 Stages)</text>
+
+  <!-- Stage labels -->
+  <text x="185" y="65" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#004065">Stage 1</text>
+  <text x="315" y="65" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#004065">Stage 2</text>
+  <text x="450" y="65" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#004065">Stage 3</text>
+  <text x="585" y="65" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#5A7090">Stage 4</text>
+  <text x="715" y="65" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#5A7090">Stage 5</text>
+
+  <!-- Half labels -->
+  <rect x="120" y="72" width="265" height="22" rx="4" fill="#E8F0FF" stroke="#004065" stroke-width="1"/>
+  <text x="252" y="87" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#004065">Forward Butterfly</text>
+  <rect x="520" y="72" width="260" height="22" rx="4" fill="#EEF5FF" stroke="#5A7090" stroke-width="1"/>
+  <text x="650" y="87" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#5A7090">Reverse Butterfly</text>
+
+  <!-- Center stage divider -->
+  <line x1="450" y1="95" x2="450" y2="435" stroke="#ccc" stroke-width="1.5" stroke-dasharray="5,4"/>
+
+  <!-- Y positions: 0=105, 1=145, 2=185, 3=225, 4=265, 5=305, 6=345, 7=385 -->
+
+  <!-- Input nodes -->
+  <circle cx="55" cy="105" r="15" fill="#004065"/>
+  <text x="55" y="109" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">000</text>
+  <circle cx="55" cy="145" r="15" fill="#004065"/>
+  <text x="55" y="149" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">001</text>
+  <circle cx="55" cy="185" r="15" fill="#004065"/>
+  <text x="55" y="189" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">010</text>
+  <circle cx="55" cy="225" r="15" fill="#004065"/>
+  <text x="55" y="229" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">011</text>
+  <circle cx="55" cy="265" r="15" fill="#004065"/>
+  <text x="55" y="269" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">100</text>
+  <circle cx="55" cy="305" r="15" fill="#004065"/>
+  <text x="55" y="309" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">101</text>
+  <circle cx="55" cy="345" r="15" fill="#004065"/>
+  <text x="55" y="349" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">110</text>
+  <circle cx="55" cy="385" r="15" fill="#004065"/>
+  <text x="55" y="389" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">111</text>
+
+  <!-- Output nodes -->
+  <circle cx="845" cy="105" r="15" fill="#004065"/>
+  <text x="845" y="109" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">000</text>
+  <circle cx="845" cy="145" r="15" fill="#004065"/>
+  <text x="845" y="149" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">001</text>
+  <circle cx="845" cy="185" r="15" fill="#004065"/>
+  <text x="845" y="189" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">010</text>
+  <circle cx="845" cy="225" r="15" fill="#004065"/>
+  <text x="845" y="229" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">011</text>
+  <circle cx="845" cy="265" r="15" fill="#004065"/>
+  <text x="845" y="269" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">100</text>
+  <circle cx="845" cy="305" r="15" fill="#004065"/>
+  <text x="845" y="309" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">101</text>
+  <circle cx="845" cy="345" r="15" fill="#004065"/>
+  <text x="845" y="349" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">110</text>
+  <circle cx="845" cy="385" r="15" fill="#004065"/>
+  <text x="845" y="389" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">111</text>
+
+  <!-- Input → Stage 1 wires -->
+  <line x1="70" y1="105" x2="160" y2="105" stroke="#aaa" stroke-width="1.5"/>
+  <line x1="70" y1="145" x2="160" y2="145" stroke="#aaa" stroke-width="1.5"/>
+  <line x1="70" y1="185" x2="160" y2="185" stroke="#aaa" stroke-width="1.5"/>
+  <line x1="70" y1="225" x2="160" y2="225" stroke="#aaa" stroke-width="1.5"/>
+  <line x1="70" y1="265" x2="160" y2="265" stroke="#aaa" stroke-width="1.5"/>
+  <line x1="70" y1="305" x2="160" y2="305" stroke="#aaa" stroke-width="1.5"/>
+  <line x1="70" y1="345" x2="160" y2="345" stroke="#aaa" stroke-width="1.5"/>
+  <line x1="70" y1="385" x2="160" y2="385" stroke="#aaa" stroke-width="1.5"/>
+
+  <!-- Stage 1 switches (blue, forward butterfly — pairs (0,4),(1,5),(2,6),(3,7)) -->
+  <rect x="160" y="99" width="50" height="16" rx="3" fill="#004065"/>
+  <text x="185" y="111" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">S1a</text>
+  <rect x="160" y="259" width="50" height="16" rx="3" fill="#004065"/>
+  <text x="185" y="271" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">S1a</text>
+
+  <rect x="160" y="139" width="50" height="16" rx="3" fill="#004065"/>
+  <text x="185" y="151" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">S1b</text>
+  <rect x="160" y="299" width="50" height="16" rx="3" fill="#004065"/>
+  <text x="185" y="311" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">S1b</text>
+
+  <rect x="160" y="179" width="50" height="16" rx="3" fill="#004065"/>
+  <text x="185" y="191" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">S1c</text>
+  <rect x="160" y="339" width="50" height="16" rx="3" fill="#004065"/>
+  <text x="185" y="351" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">S1c</text>
+
+  <rect x="160" y="219" width="50" height="16" rx="3" fill="#004065"/>
+  <text x="185" y="231" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">S1d</text>
+  <rect x="160" y="379" width="50" height="16" rx="3" fill="#004065"/>
+  <text x="185" y="391" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">S1d</text>
+
+  <!-- Stage 1 butterfly cross wires (bit 2 differ) -->
+  <line x1="210" y1="105" x2="290" y2="105" stroke="#aaa" stroke-width="1.5"/>
+  <line x1="210" y1="265" x2="290" y2="265" stroke="#aaa" stroke-width="1.5"/>
+  <line x1="210" y1="105" x2="290" y2="265" stroke="#999" stroke-width="1.5"/>
+  <line x1="210" y1="265" x2="290" y2="105" stroke="#999" stroke-width="1.5"/>
+
+  <line x1="210" y1="145" x2="290" y2="145" stroke="#aaa" stroke-width="1.5"/>
+  <line x1="210" y1="305" x2="290" y2="305" stroke="#aaa" stroke-width="1.5"/>
+  <line x1="210" y1="145" x2="290" y2="305" stroke="#999" stroke-width="1.5"/>
+  <line x1="210" y1="305" x2="290" y2="145" stroke="#999" stroke-width="1.5"/>
+
+  <line x1="210" y1="185" x2="290" y2="185" stroke="#aaa" stroke-width="1.5"/>
+  <line x1="210" y1="345" x2="290" y2="345" stroke="#aaa" stroke-width="1.5"/>
+  <line x1="210" y1="185" x2="290" y2="345" stroke="#999" stroke-width="1.5"/>
+  <line x1="210" y1="345" x2="290" y2="185" stroke="#999" stroke-width="1.5"/>
+
+  <line x1="210" y1="225" x2="290" y2="225" stroke="#aaa" stroke-width="1.5"/>
+  <line x1="210" y1="385" x2="290" y2="385" stroke="#aaa" stroke-width="1.5"/>
+  <line x1="210" y1="225" x2="290" y2="385" stroke="#999" stroke-width="1.5"/>
+  <line x1="210" y1="385" x2="290" y2="225" stroke="#999" stroke-width="1.5"/>
+
+  <!-- Stage 2 switches (blue) -->
+  <rect x="290" y="99" width="50" height="16" rx="3" fill="#004065"/>
+  <text x="315" y="111" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">S2a</text>
+  <rect x="290" y="259" width="50" height="16" rx="3" fill="#004065"/>
+  <text x="315" y="271" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">S2a</text>
+  <rect x="290" y="139" width="50" height="16" rx="3" fill="#004065"/>
+  <text x="315" y="151" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">S2b</text>
+  <rect x="290" y="299" width="50" height="16" rx="3" fill="#004065"/>
+  <text x="315" y="311" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">S2b</text>
+  <rect x="290" y="179" width="50" height="16" rx="3" fill="#004065"/>
+  <text x="315" y="191" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">S2c</text>
+  <rect x="290" y="339" width="50" height="16" rx="3" fill="#004065"/>
+  <text x="315" y="351" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">S2c</text>
+  <rect x="290" y="219" width="50" height="16" rx="3" fill="#004065"/>
+  <text x="315" y="231" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">S2d</text>
+  <rect x="290" y="379" width="50" height="16" rx="3" fill="#004065"/>
+  <text x="315" y="391" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">S2d</text>
+
+  <!-- Stage 2→3 wires (bit 1 pattern) -->
+  <line x1="340" y1="105" x2="425" y2="105" stroke="#aaa" stroke-width="1.5"/>
+  <line x1="340" y1="185" x2="425" y2="185" stroke="#aaa" stroke-width="1.5"/>
+  <line x1="340" y1="105" x2="425" y2="185" stroke="#999" stroke-width="1.5"/>
+  <line x1="340" y1="185" x2="425" y2="105" stroke="#999" stroke-width="1.5"/>
+
+  <line x1="340" y1="145" x2="425" y2="145" stroke="#aaa" stroke-width="1.5"/>
+  <line x1="340" y1="225" x2="425" y2="225" stroke="#aaa" stroke-width="1.5"/>
+  <line x1="340" y1="145" x2="425" y2="225" stroke="#999" stroke-width="1.5"/>
+  <line x1="340" y1="225" x2="425" y2="145" stroke="#999" stroke-width="1.5"/>
+
+  <line x1="340" y1="265" x2="425" y2="265" stroke="#aaa" stroke-width="1.5"/>
+  <line x1="340" y1="345" x2="425" y2="345" stroke="#aaa" stroke-width="1.5"/>
+  <line x1="340" y1="265" x2="425" y2="345" stroke="#999" stroke-width="1.5"/>
+  <line x1="340" y1="345" x2="425" y2="265" stroke="#999" stroke-width="1.5"/>
+
+  <line x1="340" y1="305" x2="425" y2="305" stroke="#aaa" stroke-width="1.5"/>
+  <line x1="340" y1="385" x2="425" y2="385" stroke="#aaa" stroke-width="1.5"/>
+  <line x1="340" y1="305" x2="425" y2="385" stroke="#999" stroke-width="1.5"/>
+  <line x1="340" y1="385" x2="425" y2="305" stroke="#999" stroke-width="1.5"/>
+
+  <!-- Stage 3 (middle) switches -->
+  <rect x="425" y="99" width="50" height="16" rx="3" fill="#5577AA"/>
+  <text x="450" y="111" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">S3a</text>
+  <rect x="425" y="139" width="50" height="16" rx="3" fill="#5577AA"/>
+  <text x="450" y="151" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">S3b</text>
+  <rect x="425" y="179" width="50" height="16" rx="3" fill="#5577AA"/>
+  <text x="450" y="191" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">S3c</text>
+  <rect x="425" y="219" width="50" height="16" rx="3" fill="#5577AA"/>
+  <text x="450" y="231" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">S3d</text>
+  <rect x="425" y="259" width="50" height="16" rx="3" fill="#5577AA"/>
+  <text x="450" y="271" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">S3e</text>
+  <rect x="425" y="299" width="50" height="16" rx="3" fill="#5577AA"/>
+  <text x="450" y="311" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">S3f</text>
+  <rect x="425" y="339" width="50" height="16" rx="3" fill="#5577AA"/>
+  <text x="450" y="351" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">S3g</text>
+  <rect x="425" y="379" width="50" height="16" rx="3" fill="#5577AA"/>
+  <text x="450" y="391" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">S3h</text>
+
+  <!-- Stage 3→4 wires (reverse butterfly bit 1 pattern) -->
+  <line x1="475" y1="105" x2="560" y2="105" stroke="#aaa" stroke-width="1.5"/>
+  <line x1="475" y1="185" x2="560" y2="185" stroke="#aaa" stroke-width="1.5"/>
+  <line x1="475" y1="105" x2="560" y2="185" stroke="#bbb" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <line x1="475" y1="185" x2="560" y2="105" stroke="#bbb" stroke-width="1.5" stroke-dasharray="4,3"/>
+
+  <line x1="475" y1="145" x2="560" y2="145" stroke="#aaa" stroke-width="1.5"/>
+  <line x1="475" y1="225" x2="560" y2="225" stroke="#aaa" stroke-width="1.5"/>
+  <line x1="475" y1="145" x2="560" y2="225" stroke="#bbb" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <line x1="475" y1="225" x2="560" y2="145" stroke="#bbb" stroke-width="1.5" stroke-dasharray="4,3"/>
+
+  <line x1="475" y1="265" x2="560" y2="265" stroke="#aaa" stroke-width="1.5"/>
+  <line x1="475" y1="345" x2="560" y2="345" stroke="#aaa" stroke-width="1.5"/>
+  <line x1="475" y1="265" x2="560" y2="345" stroke="#bbb" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <line x1="475" y1="345" x2="560" y2="265" stroke="#bbb" stroke-width="1.5" stroke-dasharray="4,3"/>
+
+  <line x1="475" y1="305" x2="560" y2="305" stroke="#aaa" stroke-width="1.5"/>
+  <line x1="475" y1="385" x2="560" y2="385" stroke="#aaa" stroke-width="1.5"/>
+  <line x1="475" y1="305" x2="560" y2="385" stroke="#bbb" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <line x1="475" y1="385" x2="560" y2="305" stroke="#bbb" stroke-width="1.5" stroke-dasharray="4,3"/>
+
+  <!-- Stage 4 switches (lighter blue) -->
+  <rect x="560" y="99" width="50" height="16" rx="3" fill="#5A7090"/>
+  <text x="585" y="111" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">S4a</text>
+  <rect x="560" y="139" width="50" height="16" rx="3" fill="#5A7090"/>
+  <text x="585" y="151" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">S4b</text>
+  <rect x="560" y="179" width="50" height="16" rx="3" fill="#5A7090"/>
+  <text x="585" y="191" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">S4c</text>
+  <rect x="560" y="219" width="50" height="16" rx="3" fill="#5A7090"/>
+  <text x="585" y="231" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">S4d</text>
+  <rect x="560" y="259" width="50" height="16" rx="3" fill="#5A7090"/>
+  <text x="585" y="271" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">S4e</text>
+  <rect x="560" y="299" width="50" height="16" rx="3" fill="#5A7090"/>
+  <text x="585" y="311" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">S4f</text>
+  <rect x="560" y="339" width="50" height="16" rx="3" fill="#5A7090"/>
+  <text x="585" y="351" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">S4g</text>
+  <rect x="560" y="379" width="50" height="16" rx="3" fill="#5A7090"/>
+  <text x="585" y="391" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">S4h</text>
+
+  <!-- Stage 4→5 wires (reverse butterfly bit 2) -->
+  <line x1="610" y1="105" x2="690" y2="105" stroke="#aaa" stroke-width="1.5"/>
+  <line x1="610" y1="265" x2="690" y2="265" stroke="#aaa" stroke-width="1.5"/>
+  <line x1="610" y1="105" x2="690" y2="265" stroke="#bbb" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <line x1="610" y1="265" x2="690" y2="105" stroke="#bbb" stroke-width="1.5" stroke-dasharray="4,3"/>
+
+  <line x1="610" y1="145" x2="690" y2="145" stroke="#aaa" stroke-width="1.5"/>
+  <line x1="610" y1="305" x2="690" y2="305" stroke="#aaa" stroke-width="1.5"/>
+  <line x1="610" y1="145" x2="690" y2="305" stroke="#bbb" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <line x1="610" y1="305" x2="690" y2="145" stroke="#bbb" stroke-width="1.5" stroke-dasharray="4,3"/>
+
+  <line x1="610" y1="185" x2="690" y2="185" stroke="#aaa" stroke-width="1.5"/>
+  <line x1="610" y1="345" x2="690" y2="345" stroke="#aaa" stroke-width="1.5"/>
+  <line x1="610" y1="185" x2="690" y2="345" stroke="#bbb" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <line x1="610" y1="345" x2="690" y2="185" stroke="#bbb" stroke-width="1.5" stroke-dasharray="4,3"/>
+
+  <line x1="610" y1="225" x2="690" y2="225" stroke="#aaa" stroke-width="1.5"/>
+  <line x1="610" y1="385" x2="690" y2="385" stroke="#aaa" stroke-width="1.5"/>
+  <line x1="610" y1="225" x2="690" y2="385" stroke="#bbb" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <line x1="610" y1="385" x2="690" y2="225" stroke="#bbb" stroke-width="1.5" stroke-dasharray="4,3"/>
+
+  <!-- Stage 5 switches -->
+  <rect x="690" y="99" width="50" height="16" rx="3" fill="#5A7090"/>
+  <text x="715" y="111" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">S5a</text>
+  <rect x="690" y="139" width="50" height="16" rx="3" fill="#5A7090"/>
+  <text x="715" y="151" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">S5b</text>
+  <rect x="690" y="179" width="50" height="16" rx="3" fill="#5A7090"/>
+  <text x="715" y="191" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">S5c</text>
+  <rect x="690" y="219" width="50" height="16" rx="3" fill="#5A7090"/>
+  <text x="715" y="231" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">S5d</text>
+  <rect x="690" y="259" width="50" height="16" rx="3" fill="#5A7090"/>
+  <text x="715" y="271" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">S5e</text>
+  <rect x="690" y="299" width="50" height="16" rx="3" fill="#5A7090"/>
+  <text x="715" y="311" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">S5f</text>
+  <rect x="690" y="339" width="50" height="16" rx="3" fill="#5A7090"/>
+  <text x="715" y="351" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">S5g</text>
+  <rect x="690" y="379" width="50" height="16" rx="3" fill="#5A7090"/>
+  <text x="715" y="391" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="white">S5h</text>
+
+  <!-- Stage 5 → Outputs -->
+  <line x1="740" y1="105" x2="830" y2="105" stroke="#aaa" stroke-width="1.5"/>
+  <line x1="740" y1="145" x2="830" y2="145" stroke="#aaa" stroke-width="1.5"/>
+  <line x1="740" y1="185" x2="830" y2="185" stroke="#aaa" stroke-width="1.5"/>
+  <line x1="740" y1="225" x2="830" y2="225" stroke="#aaa" stroke-width="1.5"/>
+  <line x1="740" y1="265" x2="830" y2="265" stroke="#aaa" stroke-width="1.5"/>
+  <line x1="740" y1="305" x2="830" y2="305" stroke="#aaa" stroke-width="1.5"/>
+  <line x1="740" y1="345" x2="830" y2="345" stroke="#aaa" stroke-width="1.5"/>
+  <line x1="740" y1="385" x2="830" y2="385" stroke="#aaa" stroke-width="1.5"/>
+
+  <!-- Brace showing ~2x cost -->
+  <path d="M 30 95 Q 20 245 30 395" stroke="#FF6B00" stroke-width="2" fill="none"/>
+  <path d="M 870 95 Q 880 245 870 395" stroke="#FF6B00" stroke-width="2" fill="none"/>
+  <text x="450" y="440" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#FF6B00">~2x cost of Omega (5 stages vs 3)</text>
+
+  <!-- Key properties -->
+  <text x="450" y="460" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#1A8C1A">Any permutation without blocking!  (2 log N - 1 = 5 stages)</text>
+</svg>

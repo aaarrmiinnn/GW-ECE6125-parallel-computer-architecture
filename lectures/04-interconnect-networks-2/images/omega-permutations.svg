@@ -1,0 +1,230 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 450" width="900" height="450">
+  <rect width="900" height="450" fill="#f8f9fa"/>
+
+  <defs>
+    <marker id="aRed" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto">
+      <path d="M0,0 L0,7 L7,3.5 z" fill="#CC2222"/>
+    </marker>
+    <marker id="aOrg" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto">
+      <path d="M0,0 L0,7 L7,3.5 z" fill="#FF8800"/>
+    </marker>
+    <marker id="aGrn" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto">
+      <path d="M0,0 L0,7 L7,3.5 z" fill="#1A8C1A"/>
+    </marker>
+    <marker id="aGld" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto">
+      <path d="M0,0 L0,7 L7,3.5 z" fill="#CC8800"/>
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="450" y="28" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#004065">Blocking vs. Non-Blocking Permutations in Omega Networks</text>
+
+  <!-- Panel divider -->
+  <line x1="450" y1="45" x2="450" y2="430" stroke="#ccc" stroke-width="2" stroke-dasharray="6,4"/>
+
+  <!-- ===== LEFT PANEL: BLOCKING ===== -->
+  <text x="225" y="55" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#CC2222">Blocking Permutation</text>
+
+  <!-- Left panel input nodes -->
+  <circle cx="35" cy="110" r="14" fill="#CC2222" stroke="#990000" stroke-width="2"/>
+  <text x="35" y="114" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">000</text>
+  <circle cx="35" cy="150" r="14" fill="#FF8800" stroke="#CC5500" stroke-width="2"/>
+  <text x="35" y="154" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">001</text>
+  <circle cx="35" cy="190" r="14" fill="#004065" stroke="#002a40" stroke-width="1.5"/>
+  <text x="35" y="194" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">010</text>
+  <circle cx="35" cy="230" r="14" fill="#004065" stroke="#002a40" stroke-width="1.5"/>
+  <text x="35" y="234" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">011</text>
+  <circle cx="35" cy="270" r="14" fill="#004065" stroke="#002a40" stroke-width="1.5"/>
+  <text x="35" y="274" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">100</text>
+  <circle cx="35" cy="310" r="14" fill="#004065" stroke="#002a40" stroke-width="1.5"/>
+  <text x="35" y="314" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">101</text>
+  <circle cx="35" cy="350" r="14" fill="#004065" stroke="#002a40" stroke-width="1.5"/>
+  <text x="35" y="354" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">110</text>
+  <circle cx="35" cy="390" r="14" fill="#004065" stroke="#002a40" stroke-width="1.5"/>
+  <text x="35" y="394" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">111</text>
+
+  <!-- Left panel output nodes -->
+  <circle cx="415" cy="110" r="14" fill="#004065" stroke="#002a40" stroke-width="1.5"/>
+  <text x="415" y="114" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">000</text>
+  <circle cx="415" cy="150" r="14" fill="#004065" stroke="#002a40" stroke-width="1.5"/>
+  <text x="415" y="154" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">001</text>
+  <circle cx="415" cy="190" r="14" fill="#004065" stroke="#002a40" stroke-width="1.5"/>
+  <text x="415" y="194" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">010</text>
+  <circle cx="415" cy="230" r="14" fill="#004065" stroke="#002a40" stroke-width="1.5"/>
+  <text x="415" y="234" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">011</text>
+  <circle cx="415" cy="270" r="14" fill="#004065" stroke="#002a40" stroke-width="1.5"/>
+  <text x="415" y="274" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">100</text>
+  <circle cx="415" cy="310" r="14" fill="#CC2222" stroke="#990000" stroke-width="2"/>
+  <text x="415" y="314" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">101</text>
+  <circle cx="415" cy="350" r="14" fill="#004065" stroke="#002a40" stroke-width="1.5"/>
+  <text x="415" y="354" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">110</text>
+  <circle cx="415" cy="390" r="14" fill="#FF8800" stroke="#CC5500" stroke-width="2"/>
+  <text x="415" y="394" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">111</text>
+
+  <!-- Left panel Stage 1 switches -->
+  <!-- SW0 highlighted red (conflict) -->
+  <rect x="105" y="100" width="38" height="70" rx="3" fill="#FFECEC" stroke="#CC2222" stroke-width="2"/>
+  <text x="124" y="132" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#CC2222">SW0</text>
+  <text x="124" y="144" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#CC2222">CONF</text>
+  <!-- SW1 -->
+  <rect x="105" y="183" width="38" height="60" rx="3" fill="white" stroke="#004065" stroke-width="1.5"/>
+  <text x="124" y="215" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#004065">SW1</text>
+  <!-- SW2 -->
+  <rect x="105" y="263" width="38" height="60" rx="3" fill="white" stroke="#004065" stroke-width="1.5"/>
+  <text x="124" y="295" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#004065">SW2</text>
+  <!-- SW3 -->
+  <rect x="105" y="343" width="38" height="60" rx="3" fill="white" stroke="#004065" stroke-width="1.5"/>
+  <text x="124" y="375" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#004065">SW3</text>
+
+  <!-- Left panel Stage 2 switches -->
+  <rect x="205" y="100" width="38" height="70" rx="3" fill="white" stroke="#004065" stroke-width="1.5"/>
+  <text x="224" y="137" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#004065">SW0</text>
+  <rect x="205" y="183" width="38" height="60" rx="3" fill="white" stroke="#004065" stroke-width="1.5"/>
+  <text x="224" y="215" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#004065">SW1</text>
+  <rect x="205" y="263" width="38" height="60" rx="3" fill="white" stroke="#004065" stroke-width="1.5"/>
+  <text x="224" y="295" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#004065">SW2</text>
+  <rect x="205" y="343" width="38" height="60" rx="3" fill="white" stroke="#004065" stroke-width="1.5"/>
+  <text x="224" y="375" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#004065">SW3</text>
+
+  <!-- Left panel Stage 3 switches -->
+  <rect x="305" y="100" width="38" height="70" rx="3" fill="white" stroke="#004065" stroke-width="1.5"/>
+  <text x="324" y="137" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#004065">SW0</text>
+  <rect x="305" y="183" width="38" height="60" rx="3" fill="white" stroke="#004065" stroke-width="1.5"/>
+  <text x="324" y="215" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#004065">SW1</text>
+  <rect x="305" y="263" width="38" height="60" rx="3" fill="white" stroke="#004065" stroke-width="1.5"/>
+  <text x="324" y="295" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#004065">SW2</text>
+  <rect x="305" y="343" width="38" height="60" rx="3" fill="white" stroke="#004065" stroke-width="1.5"/>
+  <text x="324" y="375" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#004065">SW3</text>
+
+  <!-- Gray background wires left -->
+  <line x1="49" y1="190" x2="105" y2="190" stroke="#ddd" stroke-width="1"/>
+  <line x1="49" y1="230" x2="105" y2="230" stroke="#ddd" stroke-width="1"/>
+  <line x1="49" y1="270" x2="105" y2="270" stroke="#ddd" stroke-width="1"/>
+  <line x1="49" y1="310" x2="105" y2="310" stroke="#ddd" stroke-width="1"/>
+  <line x1="49" y1="350" x2="105" y2="350" stroke="#ddd" stroke-width="1"/>
+  <line x1="49" y1="390" x2="105" y2="390" stroke="#ddd" stroke-width="1"/>
+
+  <!-- Path 1 (RED): 000→101 into SW0 top, wants lower output -->
+  <line x1="49" y1="110" x2="105" y2="110" stroke="#CC2222" stroke-width="2.5"/>
+  <line x1="105" y1="110" x2="143" y2="150" stroke="#CC2222" stroke-width="2.5"/>
+
+  <!-- Path 2 (ORANGE): 001→111 into SW0 bottom, ALSO wants lower output -->
+  <line x1="49" y1="150" x2="105" y2="150" stroke="#FF8800" stroke-width="2.5"/>
+  <line x1="105" y1="150" x2="143" y2="150" stroke="#FF8800" stroke-width="2.5" stroke-dasharray="6,3"/>
+
+  <!-- Red X at conflict point -->
+  <circle cx="143" cy="150" r="12" fill="#FF0000" stroke="#880000" stroke-width="1.5"/>
+  <text x="143" y="155" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">X</text>
+
+  <!-- Red X badge label -->
+  <text x="225" y="72" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#CC2222" font-weight="bold">Conflict at Stage 1, SW0</text>
+
+  <!-- ===== RIGHT PANEL: NON-BLOCKING ===== -->
+  <text x="675" y="55" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#1A8C1A">Non-Blocking Permutation</text>
+
+  <!-- Right panel input nodes -->
+  <circle cx="485" cy="110" r="14" fill="#1A8C1A" stroke="#115511" stroke-width="2"/>
+  <text x="485" y="114" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">000</text>
+  <circle cx="485" cy="150" r="14" fill="#004065" stroke="#002a40" stroke-width="1.5"/>
+  <text x="485" y="154" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">001</text>
+  <circle cx="485" cy="190" r="14" fill="#CC8800" stroke="#885500" stroke-width="2"/>
+  <text x="485" y="194" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">010</text>
+  <circle cx="485" cy="230" r="14" fill="#004065" stroke="#002a40" stroke-width="1.5"/>
+  <text x="485" y="234" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">011</text>
+  <circle cx="485" cy="270" r="14" fill="#004065" stroke="#002a40" stroke-width="1.5"/>
+  <text x="485" y="274" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">100</text>
+  <circle cx="485" cy="310" r="14" fill="#004065" stroke="#002a40" stroke-width="1.5"/>
+  <text x="485" y="314" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">101</text>
+  <circle cx="485" cy="350" r="14" fill="#004065" stroke="#002a40" stroke-width="1.5"/>
+  <text x="485" y="354" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">110</text>
+  <circle cx="485" cy="390" r="14" fill="#004065" stroke="#002a40" stroke-width="1.5"/>
+  <text x="485" y="394" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">111</text>
+
+  <!-- Right panel output nodes -->
+  <circle cx="865" cy="110" r="14" fill="#004065" stroke="#002a40" stroke-width="1.5"/>
+  <text x="865" y="114" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">000</text>
+  <circle cx="865" cy="150" r="14" fill="#1A8C1A" stroke="#115511" stroke-width="2"/>
+  <text x="865" y="154" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">001</text>
+  <circle cx="865" cy="190" r="14" fill="#004065" stroke="#002a40" stroke-width="1.5"/>
+  <text x="865" y="194" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">010</text>
+  <circle cx="865" cy="230" r="14" fill="#004065" stroke="#002a40" stroke-width="1.5"/>
+  <text x="865" y="234" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">011</text>
+  <circle cx="865" cy="270" r="14" fill="#004065" stroke="#002a40" stroke-width="1.5"/>
+  <text x="865" y="274" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">100</text>
+  <circle cx="865" cy="310" r="14" fill="#004065" stroke="#002a40" stroke-width="1.5"/>
+  <text x="865" y="314" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">101</text>
+  <circle cx="865" cy="350" r="14" fill="#CC8800" stroke="#885500" stroke-width="2"/>
+  <text x="865" y="354" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">110</text>
+  <circle cx="865" cy="390" r="14" fill="#004065" stroke="#002a40" stroke-width="1.5"/>
+  <text x="865" y="394" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">111</text>
+
+  <!-- Right panel Stage 1 switches -->
+  <rect x="555" y="100" width="38" height="70" rx="3" fill="#F0FFF0" stroke="#1A8C1A" stroke-width="2"/>
+  <text x="574" y="137" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#1A8C1A">SW0</text>
+  <rect x="555" y="183" width="38" height="60" rx="3" fill="#FFF8E0" stroke="#CC8800" stroke-width="2"/>
+  <text x="574" y="215" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#CC8800">SW1</text>
+  <rect x="555" y="263" width="38" height="60" rx="3" fill="white" stroke="#004065" stroke-width="1.5"/>
+  <text x="574" y="295" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#004065">SW2</text>
+  <rect x="555" y="343" width="38" height="60" rx="3" fill="white" stroke="#004065" stroke-width="1.5"/>
+  <text x="574" y="375" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#004065">SW3</text>
+
+  <!-- Right panel Stage 2 switches -->
+  <rect x="655" y="100" width="38" height="70" rx="3" fill="white" stroke="#004065" stroke-width="1.5"/>
+  <text x="674" y="137" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#004065">SW0</text>
+  <rect x="655" y="183" width="38" height="60" rx="3" fill="white" stroke="#004065" stroke-width="1.5"/>
+  <text x="674" y="215" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#004065">SW1</text>
+  <rect x="655" y="263" width="38" height="60" rx="3" fill="white" stroke="#004065" stroke-width="1.5"/>
+  <text x="674" y="295" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#004065">SW2</text>
+  <rect x="655" y="343" width="38" height="60" rx="3" fill="white" stroke="#004065" stroke-width="1.5"/>
+  <text x="674" y="375" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#004065">SW3</text>
+
+  <!-- Right panel Stage 3 switches -->
+  <rect x="755" y="100" width="38" height="70" rx="3" fill="white" stroke="#004065" stroke-width="1.5"/>
+  <text x="774" y="137" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#004065">SW0</text>
+  <rect x="755" y="183" width="38" height="60" rx="3" fill="white" stroke="#004065" stroke-width="1.5"/>
+  <text x="774" y="215" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#004065">SW1</text>
+  <rect x="755" y="263" width="38" height="60" rx="3" fill="white" stroke="#004065" stroke-width="1.5"/>
+  <text x="774" y="295" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#004065">SW2</text>
+  <rect x="755" y="343" width="38" height="60" rx="3" fill="white" stroke="#004065" stroke-width="1.5"/>
+  <text x="774" y="375" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#004065">SW3</text>
+
+  <!-- Gray wires right -->
+  <line x1="499" y1="150" x2="555" y2="150" stroke="#ddd" stroke-width="1"/>
+  <line x1="499" y1="230" x2="555" y2="230" stroke="#ddd" stroke-width="1"/>
+  <line x1="499" y1="270" x2="555" y2="270" stroke="#ddd" stroke-width="1"/>
+  <line x1="499" y1="310" x2="555" y2="310" stroke="#ddd" stroke-width="1"/>
+  <line x1="499" y1="350" x2="555" y2="350" stroke="#ddd" stroke-width="1"/>
+  <line x1="499" y1="390" x2="555" y2="390" stroke="#ddd" stroke-width="1"/>
+
+  <!-- Path A (GREEN): 000→001. dest 001, MSB=0 → SW0, upper output (y=110) stays at top -->
+  <line x1="499" y1="110" x2="555" y2="110" stroke="#1A8C1A" stroke-width="2.5"/>
+  <line x1="555" y1="110" x2="593" y2="110" stroke="#1A8C1A" stroke-width="2.5"/>
+  <!-- continues through stages to output 001 -->
+  <line x1="593" y1="110" x2="655" y2="150" stroke="#1A8C1A" stroke-width="2.5"/>
+  <line x1="655" y1="150" x2="693" y2="150" stroke="#1A8C1A" stroke-width="2.5"/>
+  <line x1="693" y1="150" x2="755" y2="110" stroke="#1A8C1A" stroke-width="2.5"/>
+  <line x1="755" y1="110" x2="793" y2="150" stroke="#1A8C1A" stroke-width="2.5"/>
+  <line x1="793" y1="150" x2="851" y2="150" stroke="#1A8C1A" stroke-width="2.5"/>
+
+  <!-- Path B (GOLD): 010→110. dest 110, MSB=1 → SW1, lower output (y=230) -->
+  <line x1="499" y1="190" x2="555" y2="190" stroke="#CC8800" stroke-width="2.5"/>
+  <line x1="555" y1="190" x2="593" y2="230" stroke="#CC8800" stroke-width="2.5"/>
+  <line x1="593" y1="230" x2="655" y2="390" stroke="#CC8800" stroke-width="2.5"/>
+  <line x1="655" y1="390" x2="693" y2="390" stroke="#CC8800" stroke-width="2.5"/>
+  <line x1="693" y1="390" x2="755" y2="350" stroke="#CC8800" stroke-width="2.5"/>
+  <line x1="755" y1="350" x2="793" y2="350" stroke="#CC8800" stroke-width="2.5"/>
+  <line x1="793" y1="350" x2="851" y2="350" stroke="#CC8800" stroke-width="2.5"/>
+
+  <!-- Green checkmark badge -->
+  <circle cx="574" cy="160" r="10" fill="#1A8C1A"/>
+  <text x="574" y="165" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="white">✓</text>
+  <circle cx="574" cy="243" r="10" fill="#CC8800"/>
+  <text x="574" y="248" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="white">✓</text>
+
+  <!-- Right panel note -->
+  <text x="675" y="72" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#1A8C1A" font-weight="bold">No collision - different switch outputs used</text>
+
+  <!-- Bottom legend -->
+  <text x="225" y="435" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#666">000→101 and 001→111 both need same port</text>
+  <text x="675" y="435" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#666">000→001 uses SW0 top; 010→110 uses SW1 bottom</text>
+</svg>

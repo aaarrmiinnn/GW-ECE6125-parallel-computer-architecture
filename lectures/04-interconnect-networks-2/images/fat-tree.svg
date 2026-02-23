@@ -1,0 +1,191 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 500" width="900" height="500">
+  <rect width="900" height="500" fill="#f8f9fa"/>
+
+  <!-- Title -->
+  <text x="450" y="28" text-anchor="middle" font-family="Arial, sans-serif" font-size="17" font-weight="bold" fill="#004065">Fat Tree Network (k=4, 16 Hosts)</text>
+
+  <!-- Layer labels -->
+  <text x="30" y="90" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#004065">Core</text>
+  <text x="30" y="200" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#006090">Agg</text>
+  <text x="30" y="310" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#0080BB">Edge</text>
+  <text x="30" y="420" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#555">Hosts</text>
+
+  <!-- Pod borders (dotted rectangles) -->
+  <!-- Pod 0: x=115 to 285 -->
+  <rect x="115" y="160" width="170" height="275" rx="8" fill="none" stroke="#004065" stroke-width="1.5" stroke-dasharray="7,4"/>
+  <text x="200" y="178" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#004065">Pod 0</text>
+  <!-- Pod 1: x=305 to 475 -->
+  <rect x="305" y="160" width="170" height="275" rx="8" fill="none" stroke="#004065" stroke-width="1.5" stroke-dasharray="7,4"/>
+  <text x="390" y="178" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#004065">Pod 1</text>
+  <!-- Pod 2: x=495 to 665 -->
+  <rect x="495" y="160" width="170" height="275" rx="8" fill="none" stroke="#004065" stroke-width="1.5" stroke-dasharray="7,4"/>
+  <text x="580" y="178" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#004065">Pod 2</text>
+  <!-- Pod 3: x=685 to 855 -->
+  <rect x="685" y="160" width="170" height="275" rx="8" fill="none" stroke="#004065" stroke-width="1.5" stroke-dasharray="7,4"/>
+  <text x="770" y="178" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#004065">Pod 3</text>
+
+  <!-- ===== CORE SWITCHES (4) ===== -->
+  <!-- Core switch positions: x=200,390,580,770 y=80 -->
+  <rect x="163" y="68" width="74" height="30" rx="5" fill="#004065"/>
+  <text x="200" y="87" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="white">Core 0</text>
+  <rect x="353" y="68" width="74" height="30" rx="5" fill="#004065"/>
+  <text x="390" y="87" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="white">Core 1</text>
+  <rect x="543" y="68" width="74" height="30" rx="5" fill="#004065"/>
+  <text x="580" y="87" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="white">Core 2</text>
+  <rect x="733" y="68" width="74" height="30" rx="5" fill="#004065"/>
+  <text x="770" y="87" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="white">Core 3</text>
+
+  <!-- ===== AGGREGATION SWITCHES (8, 2 per pod) ===== -->
+  <!-- Pod 0 agg: x=155,245 y=190 -->
+  <rect x="132" y="183" width="68" height="28" rx="4" fill="#006090"/>
+  <text x="166" y="201" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">Agg 0-0</text>
+  <rect x="222" y="183" width="68" height="28" rx="4" fill="#006090"/>
+  <text x="256" y="201" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">Agg 0-1</text>
+  <!-- Pod 1 agg -->
+  <rect x="322" y="183" width="68" height="28" rx="4" fill="#006090"/>
+  <text x="356" y="201" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">Agg 1-0</text>
+  <rect x="412" y="183" width="68" height="28" rx="4" fill="#006090"/>
+  <text x="446" y="201" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">Agg 1-1</text>
+  <!-- Pod 2 agg -->
+  <rect x="512" y="183" width="68" height="28" rx="4" fill="#006090"/>
+  <text x="546" y="201" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">Agg 2-0</text>
+  <rect x="602" y="183" width="68" height="28" rx="4" fill="#006090"/>
+  <text x="636" y="201" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">Agg 2-1</text>
+  <!-- Pod 3 agg -->
+  <rect x="702" y="183" width="68" height="28" rx="4" fill="#006090"/>
+  <text x="736" y="201" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">Agg 3-0</text>
+  <rect x="792" y="183" width="68" height="28" rx="4" fill="#006090"/>
+  <text x="826" y="201" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">Agg 3-1</text>
+
+  <!-- ===== EDGE SWITCHES (8, 2 per pod) ===== -->
+  <!-- Pod 0 edge -->
+  <rect x="132" y="290" width="68" height="28" rx="4" fill="#0080BB"/>
+  <text x="166" y="308" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">Edge 0-0</text>
+  <rect x="222" y="290" width="68" height="28" rx="4" fill="#0080BB"/>
+  <text x="256" y="308" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">Edge 0-1</text>
+  <!-- Pod 1 edge -->
+  <rect x="322" y="290" width="68" height="28" rx="4" fill="#0080BB"/>
+  <text x="356" y="308" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">Edge 1-0</text>
+  <rect x="412" y="290" width="68" height="28" rx="4" fill="#0080BB"/>
+  <text x="446" y="308" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">Edge 1-1</text>
+  <!-- Pod 2 edge -->
+  <rect x="512" y="290" width="68" height="28" rx="4" fill="#0080BB"/>
+  <text x="546" y="308" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">Edge 2-0</text>
+  <rect x="602" y="290" width="68" height="28" rx="4" fill="#0080BB"/>
+  <text x="636" y="308" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">Edge 2-1</text>
+  <!-- Pod 3 edge -->
+  <rect x="702" y="290" width="68" height="28" rx="4" fill="#0080BB"/>
+  <text x="736" y="308" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">Edge 3-0</text>
+  <rect x="792" y="290" width="68" height="28" rx="4" fill="#0080BB"/>
+  <text x="826" y="308" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">Edge 3-1</text>
+
+  <!-- ===== HOSTS (16, 4 per pod) ===== -->
+  <!-- Pod 0 hosts -->
+  <rect x="122" y="390" width="45" height="24" rx="3" fill="#888"/>
+  <text x="144" y="406" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">H0</text>
+  <rect x="172" y="390" width="45" height="24" rx="3" fill="#888"/>
+  <text x="194" y="406" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">H1</text>
+  <rect x="222" y="390" width="45" height="24" rx="3" fill="#888"/>
+  <text x="244" y="406" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">H2</text>
+  <rect x="272" y="390" width="45" height="24" rx="3" fill="#888"/>
+  <text x="294" y="406" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">H3</text>
+  <!-- Pod 1 hosts -->
+  <rect x="312" y="390" width="45" height="24" rx="3" fill="#888"/>
+  <text x="334" y="406" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">H4</text>
+  <rect x="362" y="390" width="45" height="24" rx="3" fill="#888"/>
+  <text x="384" y="406" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">H5</text>
+  <rect x="412" y="390" width="45" height="24" rx="3" fill="#888"/>
+  <text x="434" y="406" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">H6</text>
+  <rect x="462" y="390" width="45" height="24" rx="3" fill="#888"/>
+  <text x="484" y="406" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">H7</text>
+  <!-- Pod 2 hosts -->
+  <rect x="502" y="390" width="45" height="24" rx="3" fill="#888"/>
+  <text x="524" y="406" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">H8</text>
+  <rect x="552" y="390" width="45" height="24" rx="3" fill="#888"/>
+  <text x="574" y="406" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">H9</text>
+  <rect x="602" y="390" width="45" height="24" rx="3" fill="#888"/>
+  <text x="624" y="406" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">H10</text>
+  <rect x="652" y="390" width="45" height="24" rx="3" fill="#888"/>
+  <text x="674" y="406" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">H11</text>
+  <!-- Pod 3 hosts -->
+  <rect x="692" y="390" width="45" height="24" rx="3" fill="#888"/>
+  <text x="714" y="406" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">H12</text>
+  <rect x="742" y="390" width="45" height="24" rx="3" fill="#888"/>
+  <text x="764" y="406" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">H13</text>
+  <rect x="792" y="390" width="45" height="24" rx="3" fill="#888"/>
+  <text x="814" y="406" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">H14</text>
+  <rect x="842" y="390" width="45" height="24" rx="3" fill="#888"/>
+  <text x="864" y="406" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">H15</text>
+
+  <!-- ===== CONNECTIONS ===== -->
+  <!-- Core → Aggregation -->
+  <!-- Core 0 (x=200) connects to Agg 0-0(166), Agg 1-0(356), Agg 2-0(546), Agg 3-0(736) -->
+  <line x1="200" y1="98" x2="166" y2="183" stroke="#004065" stroke-width="1.5"/>
+  <line x1="200" y1="98" x2="356" y2="183" stroke="#004065" stroke-width="1.5"/>
+  <line x1="200" y1="98" x2="546" y2="183" stroke="#004065" stroke-width="1.5"/>
+  <line x1="200" y1="98" x2="736" y2="183" stroke="#004065" stroke-width="1.5"/>
+  <!-- Core 1 (x=390) → Agg 0-1(256), Agg 1-1(446), Agg 2-1(636), Agg 3-1(826) -->
+  <line x1="390" y1="98" x2="256" y2="183" stroke="#004065" stroke-width="1.5"/>
+  <line x1="390" y1="98" x2="446" y2="183" stroke="#004065" stroke-width="1.5"/>
+  <line x1="390" y1="98" x2="636" y2="183" stroke="#004065" stroke-width="1.5"/>
+  <line x1="390" y1="98" x2="826" y2="183" stroke="#004065" stroke-width="1.5"/>
+  <!-- Core 2 (x=580) → same pattern alternated -->
+  <line x1="580" y1="98" x2="166" y2="183" stroke="#004065" stroke-width="1.5"/>
+  <line x1="580" y1="98" x2="356" y2="183" stroke="#004065" stroke-width="1.5"/>
+  <line x1="580" y1="98" x2="546" y2="183" stroke="#004065" stroke-width="1.5"/>
+  <line x1="580" y1="98" x2="736" y2="183" stroke="#004065" stroke-width="1.5"/>
+  <!-- Core 3 (x=770) -->
+  <line x1="770" y1="98" x2="256" y2="183" stroke="#004065" stroke-width="1.5"/>
+  <line x1="770" y1="98" x2="446" y2="183" stroke="#004065" stroke-width="1.5"/>
+  <line x1="770" y1="98" x2="636" y2="183" stroke="#004065" stroke-width="1.5"/>
+  <line x1="770" y1="98" x2="826" y2="183" stroke="#004065" stroke-width="1.5"/>
+
+  <!-- Agg → Edge (within same pod) -->
+  <!-- Pod 0: Agg0-0(166)→Edge0-0(166), Agg0-0(166)→Edge0-1(256), Agg0-1(256)→Edge0-0, Agg0-1(256)→Edge0-1 -->
+  <line x1="166" y1="211" x2="166" y2="290" stroke="#006090" stroke-width="1.5"/>
+  <line x1="166" y1="211" x2="256" y2="290" stroke="#006090" stroke-width="1.5"/>
+  <line x1="256" y1="211" x2="166" y2="290" stroke="#006090" stroke-width="1.5"/>
+  <line x1="256" y1="211" x2="256" y2="290" stroke="#006090" stroke-width="1.5"/>
+  <!-- Pod 1 -->
+  <line x1="356" y1="211" x2="356" y2="290" stroke="#006090" stroke-width="1.5"/>
+  <line x1="356" y1="211" x2="446" y2="290" stroke="#006090" stroke-width="1.5"/>
+  <line x1="446" y1="211" x2="356" y2="290" stroke="#006090" stroke-width="1.5"/>
+  <line x1="446" y1="211" x2="446" y2="290" stroke="#006090" stroke-width="1.5"/>
+  <!-- Pod 2 -->
+  <line x1="546" y1="211" x2="546" y2="290" stroke="#006090" stroke-width="1.5"/>
+  <line x1="546" y1="211" x2="636" y2="290" stroke="#006090" stroke-width="1.5"/>
+  <line x1="636" y1="211" x2="546" y2="290" stroke="#006090" stroke-width="1.5"/>
+  <line x1="636" y1="211" x2="636" y2="290" stroke="#006090" stroke-width="1.5"/>
+  <!-- Pod 3 -->
+  <line x1="736" y1="211" x2="736" y2="290" stroke="#006090" stroke-width="1.5"/>
+  <line x1="736" y1="211" x2="826" y2="290" stroke="#006090" stroke-width="1.5"/>
+  <line x1="826" y1="211" x2="736" y2="290" stroke="#006090" stroke-width="1.5"/>
+  <line x1="826" y1="211" x2="826" y2="290" stroke="#006090" stroke-width="1.5"/>
+
+  <!-- Edge → Hosts -->
+  <!-- Pod 0: Edge0-0(166)→H0(144),H1(194); Edge0-1(256)→H2(244),H3(294) -->
+  <line x1="166" y1="318" x2="144" y2="390" stroke="#0080BB" stroke-width="1.5"/>
+  <line x1="166" y1="318" x2="194" y2="390" stroke="#0080BB" stroke-width="1.5"/>
+  <line x1="256" y1="318" x2="244" y2="390" stroke="#0080BB" stroke-width="1.5"/>
+  <line x1="256" y1="318" x2="294" y2="390" stroke="#0080BB" stroke-width="1.5"/>
+  <!-- Pod 1 -->
+  <line x1="356" y1="318" x2="334" y2="390" stroke="#0080BB" stroke-width="1.5"/>
+  <line x1="356" y1="318" x2="384" y2="390" stroke="#0080BB" stroke-width="1.5"/>
+  <line x1="446" y1="318" x2="434" y2="390" stroke="#0080BB" stroke-width="1.5"/>
+  <line x1="446" y1="318" x2="484" y2="390" stroke="#0080BB" stroke-width="1.5"/>
+  <!-- Pod 2 -->
+  <line x1="546" y1="318" x2="524" y2="390" stroke="#0080BB" stroke-width="1.5"/>
+  <line x1="546" y1="318" x2="574" y2="390" stroke="#0080BB" stroke-width="1.5"/>
+  <line x1="636" y1="318" x2="624" y2="390" stroke="#0080BB" stroke-width="1.5"/>
+  <line x1="636" y1="318" x2="674" y2="390" stroke="#0080BB" stroke-width="1.5"/>
+  <!-- Pod 3 -->
+  <line x1="736" y1="318" x2="714" y2="390" stroke="#0080BB" stroke-width="1.5"/>
+  <line x1="736" y1="318" x2="764" y2="390" stroke="#0080BB" stroke-width="1.5"/>
+  <line x1="826" y1="318" x2="814" y2="390" stroke="#0080BB" stroke-width="1.5"/>
+  <line x1="826" y1="318" x2="864" y2="390" stroke="#0080BB" stroke-width="1.5"/>
+
+  <!-- Annotations -->
+  <rect x="100" y="450" width="700" height="38" rx="5" fill="#E8F4FF" stroke="#004065" stroke-width="1"/>
+  <text x="450" y="467" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#004065">Equal uplinks and downlinks at each level — Non-blocking</text>
+  <text x="450" y="482" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#333">Full bisection bandwidth: any permutation of flows can be routed simultaneously</text>
+</svg>

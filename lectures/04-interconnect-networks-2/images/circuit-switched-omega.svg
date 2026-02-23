@@ -1,0 +1,152 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" width="800" height="400">
+  <rect width="800" height="400" fill="#f8f9fa"/>
+
+  <defs>
+    <marker id="aGold" markerWidth="8" markerHeight="8" refX="6" refY="3.5" orient="auto">
+      <path d="M0,0 L0,7 L8,3.5 z" fill="#CC8800"/>
+    </marker>
+    <marker id="aBlk" markerWidth="8" markerHeight="8" refX="6" refY="3.5" orient="auto">
+      <path d="M0,0 L0,7 L8,3.5 z" fill="#555"/>
+    </marker>
+    <marker id="aWide" markerWidth="10" markerHeight="8" refX="8" refY="4" orient="auto">
+      <path d="M0,0 L0,8 L10,4 z" fill="#FFD200"/>
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="400" y="28" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#004065">Circuit-Switched Omega Network</text>
+
+  <!-- Phase labels -->
+  <rect x="30" y="42" width="160" height="26" rx="4" fill="#004065"/>
+  <text x="110" y="60" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">Phase 1: Setup</text>
+  <rect x="210" y="42" width="160" height="26" rx="4" fill="#FFD200"/>
+  <text x="290" y="60" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#004065">Phase 2: Data</text>
+
+  <!-- Stage labels -->
+  <text x="270" y="90" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#004065">Stage 1</text>
+  <text x="440" y="90" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#004065">Stage 2</text>
+  <text x="610" y="90" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#004065">Stage 3</text>
+
+  <!-- Y positions: 110,165,220,275,330,385 → 6 nodes for simplicity (use 8: 105,140,175,210,245,280,315,350) -->
+
+  <!-- Input nodes (8) -->
+  <circle cx="75" cy="105" r="14" fill="#CC8800" stroke="#004065" stroke-width="2"/>
+  <text x="75" y="109" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">SRC</text>
+  <circle cx="75" cy="145" r="14" fill="#004065" stroke="#002a40" stroke-width="1.5"/>
+  <text x="75" y="149" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">001</text>
+  <circle cx="75" cy="185" r="14" fill="#004065" stroke="#002a40" stroke-width="1.5"/>
+  <text x="75" y="189" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">010</text>
+  <circle cx="75" cy="225" r="14" fill="#004065" stroke="#002a40" stroke-width="1.5"/>
+  <text x="75" y="229" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">011</text>
+  <circle cx="75" cy="265" r="14" fill="#004065" stroke="#002a40" stroke-width="1.5"/>
+  <text x="75" y="269" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">100</text>
+  <circle cx="75" cy="305" r="14" fill="#004065" stroke="#002a40" stroke-width="1.5"/>
+  <text x="75" y="309" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">101</text>
+  <circle cx="75" cy="345" r="14" fill="#004065" stroke="#002a40" stroke-width="1.5"/>
+  <text x="75" y="349" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">110</text>
+  <circle cx="75" cy="385" r="14" fill="#004065" stroke="#002a40" stroke-width="1.5"/>
+  <text x="75" y="389" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">111</text>
+
+  <!-- Output nodes (8) -->
+  <circle cx="725" cy="105" r="14" fill="#004065" stroke="#002a40" stroke-width="1.5"/>
+  <text x="725" y="109" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">000</text>
+  <circle cx="725" cy="145" r="14" fill="#004065" stroke="#002a40" stroke-width="1.5"/>
+  <text x="725" y="149" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">001</text>
+  <circle cx="725" cy="185" r="14" fill="#004065" stroke="#002a40" stroke-width="1.5"/>
+  <text x="725" y="189" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">010</text>
+  <circle cx="725" cy="225" r="14" fill="#004065" stroke="#002a40" stroke-width="1.5"/>
+  <text x="725" y="229" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">011</text>
+  <circle cx="725" cy="265" r="14" fill="#004065" stroke="#002a40" stroke-width="1.5"/>
+  <text x="725" y="269" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">100</text>
+  <circle cx="725" cy="305" r="14" fill="#CC8800" stroke="#004065" stroke-width="2"/>
+  <text x="725" y="309" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">DST</text>
+  <circle cx="725" cy="345" r="14" fill="#004065" stroke="#002a40" stroke-width="1.5"/>
+  <text x="725" y="349" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">110</text>
+  <circle cx="725" cy="385" r="14" fill="#004065" stroke="#002a40" stroke-width="1.5"/>
+  <text x="725" y="389" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="white">111</text>
+
+  <!-- Stage 1 switches -->
+  <!-- SW0 highlighted gold (on the path) -->
+  <rect x="245" y="96" width="50" height="62" rx="4" fill="#FFD200" stroke="#CC8800" stroke-width="2.5"/>
+  <text x="270" y="124" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" font-weight="bold" fill="#004065">SW0</text>
+  <text x="270" y="137" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#004065">CONFIG</text>
+
+  <rect x="245" y="177" width="50" height="62" rx="4" fill="white" stroke="#aaa" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <text x="270" y="209" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#aaa">SW1</text>
+  <rect x="245" y="257" width="50" height="62" rx="4" fill="white" stroke="#aaa" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <text x="270" y="289" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#aaa">SW2</text>
+  <rect x="245" y="337" width="50" height="62" rx="4" fill="white" stroke="#aaa" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <text x="270" y="369" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#aaa">SW3</text>
+
+  <!-- Stage 2 switches -->
+  <rect x="415" y="96" width="50" height="62" rx="4" fill="white" stroke="#aaa" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <text x="440" y="129" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#aaa">SW0</text>
+  <!-- SW1 on path -->
+  <rect x="415" y="177" width="50" height="62" rx="4" fill="#FFD200" stroke="#CC8800" stroke-width="2.5"/>
+  <text x="440" y="204" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" font-weight="bold" fill="#004065">SW1</text>
+  <text x="440" y="217" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#004065">CONFIG</text>
+
+  <rect x="415" y="257" width="50" height="62" rx="4" fill="white" stroke="#aaa" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <text x="440" y="290" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#aaa">SW2</text>
+  <rect x="415" y="337" width="50" height="62" rx="4" fill="white" stroke="#aaa" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <text x="440" y="369" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#aaa">SW3</text>
+
+  <!-- Stage 3 switches -->
+  <rect x="585" y="96" width="50" height="62" rx="4" fill="white" stroke="#aaa" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <text x="610" y="129" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#aaa">SW0</text>
+  <rect x="585" y="177" width="50" height="62" rx="4" fill="white" stroke="#aaa" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <text x="610" y="209" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#aaa">SW1</text>
+  <!-- SW2 on path -->
+  <rect x="585" y="257" width="50" height="62" rx="4" fill="#FFD200" stroke="#CC8800" stroke-width="2.5"/>
+  <text x="610" y="284" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" font-weight="bold" fill="#004065">SW2</text>
+  <text x="610" y="297" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#004065">CONFIG</text>
+
+  <rect x="585" y="337" width="50" height="62" rx="4" fill="white" stroke="#aaa" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <text x="610" y="369" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#aaa">SW3</text>
+
+  <!-- Gray background wires -->
+  <line x1="89" y1="145" x2="245" y2="145" stroke="#ddd" stroke-width="1.5"/>
+  <line x1="89" y1="185" x2="245" y2="185" stroke="#ddd" stroke-width="1.5"/>
+  <line x1="89" y1="225" x2="245" y2="225" stroke="#ddd" stroke-width="1.5"/>
+  <line x1="89" y1="265" x2="245" y2="265" stroke="#ddd" stroke-width="1.5"/>
+  <line x1="89" y1="305" x2="245" y2="305" stroke="#ddd" stroke-width="1.5"/>
+  <line x1="89" y1="345" x2="245" y2="345" stroke="#ddd" stroke-width="1.5"/>
+  <line x1="89" y1="385" x2="245" y2="385" stroke="#ddd" stroke-width="1.5"/>
+
+  <!-- Highlighted path: SRC (000, y=105) → through configured switches -->
+  <!-- Phase 1: Setup arrow (dashed gold) -->
+  <line x1="89" y1="105" x2="245" y2="105" stroke="#CC8800" stroke-width="3" stroke-dasharray="8,3"/>
+  <!-- SW0: cross → exits y=145 -->
+  <line x1="245" y1="105" x2="295" y2="145" stroke="#CC8800" stroke-width="3" stroke-dasharray="8,3"/>
+  <!-- shuffle to Stage 2 SW1 top (y=185) -->
+  <line x1="295" y1="145" x2="415" y2="185" stroke="#CC8800" stroke-width="3" stroke-dasharray="8,3"/>
+  <!-- SW1 straight → y=185 -->
+  <line x1="415" y1="185" x2="465" y2="185" stroke="#CC8800" stroke-width="3" stroke-dasharray="8,3"/>
+  <!-- shuffle to Stage 3 SW2 top (y=265) -->
+  <line x1="465" y1="185" x2="585" y2="265" stroke="#CC8800" stroke-width="3" stroke-dasharray="8,3"/>
+  <!-- SW2 cross → y=305 -->
+  <line x1="585" y1="265" x2="635" y2="305" stroke="#CC8800" stroke-width="3" stroke-dasharray="8,3"/>
+  <!-- to output -->
+  <line x1="635" y1="305" x2="711" y2="305" stroke="#CC8800" stroke-width="3" stroke-dasharray="8,3"/>
+
+  <!-- Phase 2: Data wide arrows (solid gold) — drawn on top -->
+  <line x1="89" y1="105" x2="245" y2="105" stroke="#FFD200" stroke-width="6" opacity="0.7"/>
+  <line x1="245" y1="105" x2="295" y2="145" stroke="#FFD200" stroke-width="6" opacity="0.7"/>
+  <line x1="295" y1="145" x2="415" y2="185" stroke="#FFD200" stroke-width="6" opacity="0.7"/>
+  <line x1="415" y1="185" x2="465" y2="185" stroke="#FFD200" stroke-width="6" opacity="0.7"/>
+  <line x1="465" y1="185" x2="585" y2="265" stroke="#FFD200" stroke-width="6" opacity="0.7"/>
+  <line x1="585" y1="265" x2="635" y2="305" stroke="#FFD200" stroke-width="6" opacity="0.7"/>
+  <line x1="635" y1="305" x2="711" y2="305" stroke="#FFD200" stroke-width="6" opacity="0.7" marker-end="url(#aWide)"/>
+
+  <!-- Setup latency annotation -->
+  <text x="75" y="72" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#CC2222">⏱ Setup latency</text>
+  <line x1="75" y1="76" x2="75" y2="91" stroke="#CC2222" stroke-width="1.5" stroke-dasharray="3,2"/>
+
+  <!-- Phase labels in diagram -->
+  <text x="180" y="80" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#CC8800">--- Setup signal ---</text>
+  <text x="180" y="92" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#FFD200">--- Data stream ---</text>
+
+  <!-- Bottom note -->
+  <rect x="100" y="360" width="600" height="28" rx="5" fill="#E8F4FF" stroke="#004065" stroke-width="1"/>
+  <text x="400" y="378" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#004065" font-weight="bold">No buffers needed — path is dedicated for duration of transfer</text>
+</svg>
