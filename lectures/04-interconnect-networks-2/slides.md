@@ -66,8 +66,6 @@ A 2×2 switch has:
 - Self-routing: the destination address *bit* directly controls the switch
 - Easy to cascade into larger networks
 
-> **Professor's note:** This is the genius of multistage networks — extremely simple components (2-bit decision makers) cascade into a powerful fabric capable of routing any of N sources to any of N destinations.
-
 ---
 
 ## The Omega Network
@@ -159,7 +157,7 @@ If two packets share any switch output port → **one must wait.**
 - Both destinations have MSB = **1** → both packets go to the **lower output** of their Stage 1 switch
 - If they happen to be in the *same* Stage 1 switch → they **collide!**
 
-![Omega Blocking](images/omega-blocking.svg)
+![Omega Blocking](images/pptx-omega-blocking.png)
 
 **Mathematical proof:**
 - 12 switches, each with 2 settings → 2¹² = **4,096** reachable permutations
@@ -172,23 +170,13 @@ If two packets share any switch output port → **one must wait.**
 
 Not all permutations cause blocking. Some can be routed without conflict:
 
-**Blocking Permutation** — two packets compete for same switch output:
+**Blocking Permutation** π₂ — conflicts at switches F, G, H:
 
-| Source → Destination |
-|---------------------|
-| 000 → **1**01 (MSB=1, lower port) |
-| 010 → **1**11 (MSB=1, lower port — SAME SWITCH, CONFLICT!) |
+![Blocking Routing Table](images/pptx-blocking-table.png)
 
-**Non-Blocking Permutation** — packets use different ports at every stage:
+**Non-Blocking Permutation** π₁ — all paths conflict-free:
 
-| Source → Destination |
-|---------------------|
-| 000 → **0**01 (MSB=0, upper port) |
-| 010 → **1**10 (MSB=1, lower port — different switch!) |
-
-![Omega Permutations](images/omega-permutations.svg)
-
-> **Practical impact:** Omega networks work well under random traffic, but suffer under certain structured patterns (e.g., bit-reversal permutation — a common parallel computing operation!)
+![Non-Blocking Omega Diagram](images/pptx-omega-nonblocking.png)
 
 ---
 
@@ -200,7 +188,7 @@ Not all permutations cause blocking. Some can be routed without conflict:
 2. **Data phase:** once path is established, data flows without any per-switch decisions
 3. **Teardown:** release all switch reservations
 
-![Circuit-Switched Omega](images/circuit-switched-omega.svg)
+![Circuit-Switched Omega](images/pptx-circuit-switched-omega.png)
 
 **Advantages:**
 - No buffering required once circuit is set up
@@ -222,7 +210,7 @@ Not all permutations cause blocking. Some can be routed without conflict:
 - Packets **hop** from switch to switch, waiting at buffers if needed
 - No pre-configuration; packets can be in-flight simultaneously
 
-![Packet-Switched Omega](images/packet-switched-omega.svg)
+![Packet-Switched Omega](images/pptx-packet-switched-omega.png)
 
 **Advantages:**
 - No setup latency — packets immediately enter the network
@@ -251,7 +239,7 @@ Not all permutations cause blocking. Some can be routed without conflict:
 - **Topology** defines *which* connections exist (the hardware)
 - **Switching** defines *how* data moves through those connections (the protocol)
 
-> Think of it like roads (topology) vs. traffic rules (switching). The same road network can be used by both scheduled convoys (circuit) or individual drivers with GPS (packet).
+The same road network can be used by both scheduled convoys (circuit) or individual drivers with GPS (packet).
 
 ---
 
@@ -267,7 +255,7 @@ Not all permutations cause blocking. Some can be routed without conflict:
 - *Any* permutation can be realized...
 - ...but may require re-configuring existing connections
 
-![Butterfly Network](images/butterfly-network.svg)
+![Butterfly Network](images/pptx-butterfly-network.png)
 
 **Critical problem: Tree Saturation**
 - Switches at higher stages carry traffic for exponentially more pairs
@@ -352,8 +340,6 @@ At each level, the number of uplinks = number of downlinks → **no bottleneck a
 
 This is the **Clos non-blocking condition**: m ≥ n where m = uplinks, n = inputs per switch per stage
 
-> **Professor's note:** This is why virtually every HPC cluster built in the last 15 years uses a fat tree. It solves the fundamental problems of bus (contention), crossbar (cost), and butterfly (tree saturation) simultaneously.
-
 ---
 
 ## Ring Interconnects
@@ -433,7 +419,7 @@ As N grows, the ring becomes a bottleneck:
 - **Global ring** connecting one node from each local ring ("bridge nodes")
 - Bridge nodes forward traffic between local and global ring
 
-![Hierarchical Rings](images/hierarchical-rings.svg)
+![Hierarchical Rings](images/pptx-hierarchical-rings.png)
 
 **Latency analysis for N = k² nodes:**
 - Within a local ring: at most k/2 hops
@@ -471,14 +457,11 @@ Hierarchical rings give us:
 
 **Intel's 12th-gen Alder Lake uses a ring bus** — proving rings remain viable in 2022
 
-The ring connects:
-- **P-cores** (performance cores)
-- **E-cores** (efficiency cores)
-- **Shared L3 cache banks**
-- **Memory controller**
-- **I/O hubs**
+![Intel Alder Lake Die Shot](images/intel-alder-lake.jpg)
 
-> Source: Intel (Alder Lake Microarchitecture, 2021)
+The ring connects P-cores, E-cores, shared L3 cache banks, memory controller, and I/O hubs.
+
+*Source: Intel via Andreas Schilling / @aschilling, Oct 2021*
 
 **Why still a ring?** For ~20-30 nodes, a ring provides:
 - Predictable latency
@@ -500,7 +483,7 @@ The mesh only makes sense when you have enough nodes that the ring latency becom
 - **Diameter:** 2(√N − 1) hops for √N × √N mesh
 - **Average distance:** ~(2/3)√N hops
 
-![Mesh Network](images/mesh-network.svg)
+![Mesh Network](images/pptx-mesh-network.png)
 
 **XY Routing (most common):**
 1. Route in X (East/West) direction until aligned with destination
