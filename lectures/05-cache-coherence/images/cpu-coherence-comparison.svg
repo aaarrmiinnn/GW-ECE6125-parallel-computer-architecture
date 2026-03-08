@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 900 500" xmlns="http://www.w3.org/2000/svg" font-family="Arial, sans-serif">
+
+  <!-- Background -->
+  <rect width="900" height="500" fill="#f8f9fa"/>
+
+  <!-- Title -->
+  <text x="450" y="34" text-anchor="middle" font-size="20" font-weight="bold" fill="#004065">Modern CPU Coherence: AMD vs Intel vs Apple</text>
+
+  <!-- ════════════════════════ AMD ZEN 5 panel (left, red) ════════════════════════ -->
+  <rect x="20" y="54" width="264" height="382" rx="10" fill="white" stroke="#c8001c" stroke-width="2.5"/>
+  <!-- header -->
+  <rect x="20" y="54" width="264" height="52" rx="10" fill="#c8001c"/>
+  <rect x="20" y="88" width="264" height="18" fill="#c8001c"/>
+  <text x="152" y="78" text-anchor="middle" font-size="16" font-weight="bold" fill="white">AMD Zen 5</text>
+  <text x="152" y="98" text-anchor="middle" font-size="11" fill="#ffd0d5">(Ryzen 9 9950X, EPYC 9005)</text>
+
+  <!-- Details -->
+  <text x="40" y="128" font-size="12" font-weight="bold" fill="#c8001c">Protocol</text>
+  <rect x="36" y="136" width="232" height="28" rx="5" fill="#fff0f0" stroke="#c8001c" stroke-width="1"/>
+  <text x="152" y="155" text-anchor="middle" font-size="13" font-weight="bold" fill="#c8001c">MOESI</text>
+
+  <text x="40" y="184" font-size="12" font-weight="bold" fill="#c8001c">Interconnect</text>
+  <rect x="36" y="192" width="232" height="28" rx="5" fill="#fff0f0" stroke="#c8001c" stroke-width="1"/>
+  <text x="152" y="211" text-anchor="middle" font-size="13" font-weight="bold" fill="#c8001c">Infinity Fabric (IF)</text>
+
+  <text x="40" y="240" font-size="12" font-weight="bold" fill="#c8001c">Directory</text>
+  <rect x="36" y="248" width="232" height="28" rx="5" fill="#fff0f0" stroke="#c8001c" stroke-width="1"/>
+  <text x="152" y="267" text-anchor="middle" font-size="12" fill="#333">Distributed L3 + IF routing</text>
+
+  <text x="40" y="298" font-size="12" font-weight="bold" fill="#c8001c">Key Feature</text>
+  <rect x="36" y="306" width="232" height="44" rx="5" fill="#c8001c"/>
+  <text x="152" y="324" text-anchor="middle" font-size="12" font-weight="bold" fill="white">L3 Probe Filter</text>
+  <text x="152" y="340" text-anchor="middle" font-size="10" fill="#ffd0d5">Avoids broadcasting probes</text>
+  <text x="152" y="353" text-anchor="middle" font-size="10" fill="#ffd0d5">to all CCDs (3D V-cache)</text>
+
+  <text x="40" y="372" font-size="11" font-weight="bold" fill="#c8001c">Why MOESI?</text>
+  <text x="40" y="388" font-size="10" fill="#555">O state: share dirty data without</text>
+  <text x="40" y="401" font-size="10" fill="#555">writeback. Key for multi-CCD latency.</text>
+  <text x="40" y="416" font-size="10" fill="#555">Cache-to-cache transfer without</text>
+  <text x="40" y="429" font-size="10" fill="#555">touching memory controller.</text>
+
+  <!-- ════════════════════════ Intel Raptor Lake panel (center, blue) ════════════════════════ -->
+  <rect x="318" y="54" width="264" height="382" rx="10" fill="white" stroke="#0068b5" stroke-width="2.5"/>
+  <!-- header -->
+  <rect x="318" y="54" width="264" height="52" rx="10" fill="#0068b5"/>
+  <rect x="318" y="88" width="264" height="18" fill="#0068b5"/>
+  <text x="450" y="78" text-anchor="middle" font-size="16" font-weight="bold" fill="white">Intel Raptor Lake</text>
+  <text x="450" y="98" text-anchor="middle" font-size="11" fill="#cce4ff">(Core i9-14900K, Xeon Sapphire)</text>
+
+  <!-- Details -->
+  <text x="338" y="128" font-size="12" font-weight="bold" fill="#0068b5">Protocol</text>
+  <rect x="334" y="136" width="232" height="28" rx="5" fill="#e8f4ff" stroke="#0068b5" stroke-width="1"/>
+  <text x="450" y="155" text-anchor="middle" font-size="13" font-weight="bold" fill="#0068b5">MESIF</text>
+
+  <text x="338" y="184" font-size="12" font-weight="bold" fill="#0068b5">Interconnect</text>
+  <rect x="334" y="192" width="232" height="28" rx="5" fill="#e8f4ff" stroke="#0068b5" stroke-width="1"/>
+  <text x="450" y="211" text-anchor="middle" font-size="13" font-weight="bold" fill="#0068b5">Ring Bus / Mesh (on-die)</text>
+
+  <text x="338" y="240" font-size="12" font-weight="bold" fill="#0068b5">Directory</text>
+  <rect x="334" y="248" width="232" height="28" rx="5" fill="#e8f4ff" stroke="#0068b5" stroke-width="1"/>
+  <text x="450" y="267" text-anchor="middle" font-size="12" fill="#333">Distributed LLC slices (tags)</text>
+
+  <text x="338" y="298" font-size="12" font-weight="bold" fill="#0068b5">Key Feature</text>
+  <rect x="334" y="306" width="232" height="44" rx="5" fill="#0068b5"/>
+  <text x="450" y="324" text-anchor="middle" font-size="12" font-weight="bold" fill="white">Dual Snoop Modes</text>
+  <text x="450" y="340" text-anchor="middle" font-size="10" fill="#cce4ff">Early Snoop (low latency)</text>
+  <text x="450" y="353" text-anchor="middle" font-size="10" fill="#cce4ff">Late Snoop (bandwidth-optimized)</text>
+
+  <text x="338" y="372" font-size="11" font-weight="bold" fill="#0068b5">Why MESIF?</text>
+  <text x="338" y="388" font-size="10" fill="#555">F (Forward) state: designated</text>
+  <text x="338" y="401" font-size="10" fill="#555">responder for QPI multi-socket</text>
+  <text x="338" y="414" font-size="10" fill="#555">transfers. Cache-to-cache supply</text>
+  <text x="338" y="427" font-size="10" fill="#555">without memory intervention.</text>
+
+  <!-- ════════════════════════ Apple M4 panel (right, gray) ════════════════════════ -->
+  <rect x="616" y="54" width="264" height="382" rx="10" fill="white" stroke="#555" stroke-width="2.5"/>
+  <!-- header -->
+  <rect x="616" y="54" width="264" height="52" rx="10" fill="#444"/>
+  <rect x="616" y="88" width="264" height="18" fill="#444"/>
+  <text x="748" y="78" text-anchor="middle" font-size="16" font-weight="bold" fill="white">Apple M4</text>
+  <text x="748" y="98" text-anchor="middle" font-size="11" fill="#ccc">(M4 Pro / M4 Max, 2024)</text>
+
+  <!-- Details -->
+  <text x="636" y="128" font-size="12" font-weight="bold" fill="#444">Protocol</text>
+  <rect x="632" y="136" width="232" height="28" rx="5" fill="#f0f0f0" stroke="#555" stroke-width="1"/>
+  <text x="748" y="155" text-anchor="middle" font-size="13" font-weight="bold" fill="#333">ARM ACE / CHI</text>
+
+  <text x="636" y="184" font-size="12" font-weight="bold" fill="#444">Interconnect</text>
+  <rect x="632" y="192" width="232" height="28" rx="5" fill="#f0f0f0" stroke="#555" stroke-width="1"/>
+  <text x="748" y="211" text-anchor="middle" font-size="13" font-weight="bold" fill="#333">SoC Fabric (proprietary)</text>
+
+  <text x="636" y="240" font-size="12" font-weight="bold" fill="#444">Directory</text>
+  <rect x="632" y="248" width="232" height="28" rx="5" fill="#f0f0f0" stroke="#555" stroke-width="1"/>
+  <text x="748" y="267" text-anchor="middle" font-size="12" fill="#333">System Cache (unified L3/SLC)</text>
+
+  <text x="636" y="298" font-size="12" font-weight="bold" fill="#444">Key Feature</text>
+  <rect x="632" y="306" width="232" height="44" rx="5" fill="#444"/>
+  <text x="748" y="322" text-anchor="middle" font-size="12" font-weight="bold" fill="white">CPU+GPU Unified Memory</text>
+  <text x="748" y="337" text-anchor="middle" font-size="10" fill="#ddd">Zero-copy CPU↔GPU transfers</text>
+  <text x="748" y="350" text-anchor="middle" font-size="10" fill="#ddd">GPU fully coherent with CPU</text>
+
+  <text x="636" y="372" font-size="11" font-weight="bold" fill="#444">Why ARM ACE?</text>
+  <text x="636" y="388" font-size="10" fill="#555">Supports DVM (distributed</text>
+  <text x="636" y="401" font-size="10" fill="#555">virtual memory) messages.</text>
+  <text x="636" y="414" font-size="10" fill="#555">GPU and Neural Engine share</text>
+  <text x="636" y="427" font-size="10" fill="#555">coherent address space.</text>
+
+  <!-- Bottom comparison bar -->
+  <rect x="20" y="448" width="860" height="42" rx="8" fill="#004065"/>
+  <text x="450" y="466" text-anchor="middle" font-size="12" font-weight="bold" fill="#FFD200">All three use write-invalidate, directory-based coherence, and cache-to-cache transfer optimization</text>
+  <text x="450" y="483" text-anchor="middle" font-size="11" fill="white">Key difference: AMD optimizes multi-chiplet latency (O state), Intel optimizes multi-socket (F state), Apple optimizes heterogeneous compute</text>
+</svg>

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 900 500" xmlns="http://www.w3.org/2000/svg" font-family="Arial, sans-serif">
+  <defs>
+    <marker id="arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#004065"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="500" fill="#f8f9fa"/>
+
+  <!-- Title -->
+  <text x="450" y="34" text-anchor="middle" font-size="20" font-weight="bold" fill="#004065">Directory Entry Structure</text>
+
+  <!-- ═══════════════════════════════════════
+       Central directory entry box
+  ════════════════════════════════════════ -->
+  <rect x="220" y="58" width="460" height="190" rx="8" fill="white" stroke="#004065" stroke-width="2.5"/>
+  <rect x="220" y="58" width="460" height="38" rx="8" fill="#004065"/>
+  <rect x="220" y="82" width="460" height="14" fill="#004065"/>
+  <text x="450" y="83" text-anchor="middle" font-size="14" font-weight="bold" fill="white">Directory Entry for Block B</text>
+
+  <!-- Row 1: State field -->
+  <rect x="232" y="104" width="436" height="38" rx="4" fill="#e8f0f8" stroke="#aaa" stroke-width="1"/>
+  <text x="310" y="120" text-anchor="middle" font-size="12" font-weight="bold" fill="#004065">State</text>
+  <text x="310" y="135" text-anchor="middle" font-size="10" fill="#555">(2 bits)</text>
+  <rect x="380" y="110" width="52" height="26" rx="3" fill="#004065"/>
+  <text x="406" y="128" text-anchor="middle" font-size="12" font-weight="bold" fill="white">0 1</text>
+  <text x="500" y="127" font-size="11" fill="#555">→ U=00, S=01, M=10</text>
+
+  <!-- Row 2: Sharer Bitmap -->
+  <rect x="232" y="148" width="436" height="44" rx="4" fill="#fff8e0" stroke="#aaa" stroke-width="1"/>
+  <text x="300" y="164" text-anchor="middle" font-size="12" font-weight="bold" fill="#004065">Sharer Bitmap</text>
+  <text x="300" y="179" text-anchor="middle" font-size="10" fill="#555">(N bits)</text>
+  <!-- 8 bit boxes -->
+  <g transform="translate(376, 152)">
+    <!-- bits 0..7, gold = bits 2,4,6 -->
+    <rect x="0"   y="2" width="22" height="22" rx="3" fill="#e0e0e0" stroke="#999" stroke-width="1"/><text x="11"  y="17" text-anchor="middle" font-size="10" fill="#333">0</text>
+    <rect x="26"  y="2" width="22" height="22" rx="3" fill="#e0e0e0" stroke="#999" stroke-width="1"/><text x="37"  y="17" text-anchor="middle" font-size="10" fill="#333">0</text>
+    <rect x="52"  y="2" width="22" height="22" rx="3" fill="#FFD200" stroke="#c8a000" stroke-width="1.5"/><text x="63"  y="17" text-anchor="middle" font-size="10" fill="#004065">1</text>
+    <rect x="78"  y="2" width="22" height="22" rx="3" fill="#e0e0e0" stroke="#999" stroke-width="1"/><text x="89"  y="17" text-anchor="middle" font-size="10" fill="#333">0</text>
+    <rect x="104" y="2" width="22" height="22" rx="3" fill="#FFD200" stroke="#c8a000" stroke-width="1.5"/><text x="115" y="17" text-anchor="middle" font-size="10" fill="#004065">1</text>
+    <rect x="130" y="2" width="22" height="22" rx="3" fill="#e0e0e0" stroke="#999" stroke-width="1"/><text x="141" y="17" text-anchor="middle" font-size="10" fill="#333">0</text>
+    <rect x="156" y="2" width="22" height="22" rx="3" fill="#FFD200" stroke="#c8a000" stroke-width="1.5"/><text x="167" y="17" text-anchor="middle" font-size="10" fill="#004065">1</text>
+    <rect x="182" y="2" width="22" height="22" rx="3" fill="#e0e0e0" stroke="#999" stroke-width="1"/><text x="193" y="17" text-anchor="middle" font-size="10" fill="#333">0</text>
+    <!-- bit labels -->
+    <text x="11"  y="38" text-anchor="middle" font-size="9" fill="#555">b0</text>
+    <text x="37"  y="38" text-anchor="middle" font-size="9" fill="#555">b1</text>
+    <text x="63"  y="38" text-anchor="middle" font-size="9" fill="#c8a000" font-weight="bold">b2</text>
+    <text x="89"  y="38" text-anchor="middle" font-size="9" fill="#555">b3</text>
+    <text x="115" y="38" text-anchor="middle" font-size="9" fill="#c8a000" font-weight="bold">b4</text>
+    <text x="141" y="38" text-anchor="middle" font-size="9" fill="#555">b5</text>
+    <text x="167" y="38" text-anchor="middle" font-size="9" fill="#c8a000" font-weight="bold">b6</text>
+    <text x="193" y="38" text-anchor="middle" font-size="9" fill="#555">b7</text>
+  </g>
+  <text x="618" y="174" font-size="10" fill="#c8a000" font-weight="bold">CPUs 2,4,6</text>
+  <text x="618" y="186" font-size="10" fill="#c8a000">have copies</text>
+
+  <!-- Row 3: Owner pointer -->
+  <rect x="232" y="198" width="436" height="38" rx="4" fill="#e8f0f8" stroke="#aaa" stroke-width="1"/>
+  <text x="300" y="214" text-anchor="middle" font-size="12" font-weight="bold" fill="#004065">Owner Pointer</text>
+  <text x="300" y="229" text-anchor="middle" font-size="10" fill="#555">(log₂N bits)</text>
+  <rect x="380" y="204" width="100" height="26" rx="3" fill="#004065"/>
+  <text x="430" y="222" text-anchor="middle" font-size="12" font-weight="bold" fill="white">CPU #4</text>
+  <text x="500" y="222" font-size="11" fill="#555">→ valid in M or O state</text>
+
+  <!-- ═══════ Left: State encodings ═══════ -->
+  <text x="110" y="72" text-anchor="middle" font-size="12" font-weight="bold" fill="#004065">State Codes</text>
+
+  <rect x="30" y="84" width="160" height="34" rx="6" fill="#d0d8e0" stroke="#004065" stroke-width="1.5"/>
+  <text x="62" y="97" font-size="12" font-weight="bold" fill="#004065">U (00)</text>
+  <text x="62" y="112" font-size="10" fill="#555">Uncached — no copies</text>
+
+  <rect x="30" y="126" width="160" height="34" rx="6" fill="#004065" stroke="#002a42" stroke-width="1.5"/>
+  <text x="62" y="139" font-size="12" font-weight="bold" fill="white">S (01)</text>
+  <text x="62" y="154" font-size="10" fill="white">Shared — N bits valid</text>
+
+  <rect x="30" y="168" width="160" height="34" rx="6" fill="#FFD200" stroke="#c8a000" stroke-width="1.5"/>
+  <text x="62" y="181" font-size="12" font-weight="bold" fill="#004065">M (10)</text>
+  <text x="62" y="196" font-size="10" fill="#004065">Modified — owner valid</text>
+
+  <!-- Arrows from state labels to directory entry -->
+  <line x1="190" y1="101" x2="220" y2="123" stroke="#aaa" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arr)"/>
+  <line x1="190" y1="143" x2="220" y2="165" stroke="#aaa" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arr)"/>
+  <line x1="190" y1="183" x2="220" y2="215" stroke="#aaa" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arr)"/>
+
+  <!-- ═══════ Bottom: Three encoding approaches ═══════ -->
+  <text x="450" y="282" text-anchor="middle" font-size="13" font-weight="bold" fill="#004065">Directory Encoding Schemes</text>
+
+  <!-- Full-map -->
+  <rect x="30" y="298" width="248" height="90" rx="8" fill="white" stroke="#004065" stroke-width="2"/>
+  <rect x="30" y="298" width="248" height="30" rx="8" fill="#004065"/>
+  <rect x="30" y="312" width="248" height="16" fill="#004065"/>
+  <text x="154" y="319" text-anchor="middle" font-size="13" font-weight="bold" fill="white">Full-Map (Flat)</text>
+  <text x="154" y="345" text-anchor="middle" font-size="12" font-weight="bold" fill="#004065">N bits per entry</text>
+  <text x="154" y="362" text-anchor="middle" font-size="11" fill="#555">Simple; 1 bit per CPU</text>
+  <text x="154" y="378" text-anchor="middle" font-size="11" fill="#cc2200">Overhead: O(N²) total bits</text>
+
+  <!-- Limited pointer -->
+  <rect x="326" y="298" width="248" height="90" rx="8" fill="white" stroke="#004065" stroke-width="2"/>
+  <rect x="326" y="298" width="248" height="30" rx="8" fill="#004065"/>
+  <rect x="326" y="312" width="248" height="16" fill="#004065"/>
+  <text x="450" y="319" text-anchor="middle" font-size="13" font-weight="bold" fill="white">Limited Pointer</text>
+  <text x="450" y="345" text-anchor="middle" font-size="12" font-weight="bold" fill="#004065">k × log₂N bits per entry</text>
+  <text x="450" y="362" text-anchor="middle" font-size="11" fill="#555">k pointers; fixed slots</text>
+  <text x="450" y="378" text-anchor="middle" font-size="11" fill="#FFD200" fill-opacity="1" stroke="#c8a000" stroke-width="0">Overflow → broadcast or evict</text>
+
+  <!-- Sparse directory -->
+  <rect x="622" y="298" width="248" height="90" rx="8" fill="white" stroke="#004065" stroke-width="2"/>
+  <rect x="622" y="298" width="248" height="30" rx="8" fill="#2e7d32"/>
+  <rect x="622" y="312" width="248" height="16" fill="#2e7d32"/>
+  <text x="746" y="319" text-anchor="middle" font-size="13" font-weight="bold" fill="white">Sparse Directory</text>
+  <text x="746" y="345" text-anchor="middle" font-size="12" font-weight="bold" fill="#2e7d32">Variable-size lists</text>
+  <text x="746" y="362" text-anchor="middle" font-size="11" fill="#555">Linked list of sharers</text>
+  <text x="746" y="378" text-anchor="middle" font-size="11" fill="#2e7d32">Scales to 1000s of nodes</text>
+
+  <!-- Summary bar -->
+  <rect x="30" y="404" width="840" height="78" rx="8" fill="#004065"/>
+  <text x="450" y="424" text-anchor="middle" font-size="12" font-weight="bold" fill="#FFD200">Key Insight: Directory overhead vs. scalability tradeoff</text>
+  <text x="450" y="444" text-anchor="middle" font-size="11" fill="white">Full-map: fast O(1) lookups but memory scales with N²  |  Sparse: O(sharers) space but variable latency</text>
+  <text x="450" y="462" text-anchor="middle" font-size="11" fill="white">Modern designs (AMD Infinity Fabric, Intel LLC slices) use tagged compressed directories + probe filters</text>
+  <text x="450" y="478" text-anchor="middle" font-size="11" fill="#FFD200">Typical entry: 2-3 state bits + 1-4 pointer fields + ownership tag = ~10–30 bits per cache line</text>
+</svg>

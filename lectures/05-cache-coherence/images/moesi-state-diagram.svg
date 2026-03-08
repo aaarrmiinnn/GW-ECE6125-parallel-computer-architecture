@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 900 500" xmlns="http://www.w3.org/2000/svg" font-family="Arial, sans-serif">
+  <defs>
+    <marker id="arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#004065"/>
+    </marker>
+    <marker id="arr-orange" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#e65100"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="500" fill="#f8f9fa"/>
+
+  <!-- Title -->
+  <text x="450" y="34" text-anchor="middle" font-size="20" font-weight="bold" fill="#004065">MOESI Protocol — The Owner State Optimization</text>
+
+  <!-- Pentagon layout (5 states):
+       M top-center      (450, 110)
+       O upper-right     (695, 230)
+       E right-lower     (615, 420)
+       S bottom-left     (285, 420)
+       I left-upper      (205, 230)
+  -->
+
+  <!-- M — top, gold -->
+  <circle cx="450" cy="110" r="55" fill="#FFD200" stroke="#004065" stroke-width="3"/>
+  <text x="450" y="103" text-anchor="middle" font-size="26" font-weight="bold" fill="#004065">M</text>
+  <text x="450" y="124" text-anchor="middle" font-size="11" fill="#004065">Modified</text>
+
+  <!-- O — upper-right, orange -->
+  <circle cx="695" cy="230" r="55" fill="#e65100" stroke="#bf360c" stroke-width="3"/>
+  <text x="695" y="223" text-anchor="middle" font-size="26" font-weight="bold" fill="white">O</text>
+  <text x="695" y="244" text-anchor="middle" font-size="11" fill="#ffe0cc">Owner</text>
+
+  <!-- E — lower-right, green -->
+  <circle cx="615" cy="420" r="55" fill="#2e7d32" stroke="#1b5e20" stroke-width="3"/>
+  <text x="615" y="413" text-anchor="middle" font-size="26" font-weight="bold" fill="white">E</text>
+  <text x="615" y="434" text-anchor="middle" font-size="11" fill="#ccffcc">Exclusive</text>
+
+  <!-- S — lower-left, blue -->
+  <circle cx="285" cy="420" r="55" fill="#004065" stroke="#002a42" stroke-width="3"/>
+  <text x="285" y="413" text-anchor="middle" font-size="26" font-weight="bold" fill="white">S</text>
+  <text x="285" y="434" text-anchor="middle" font-size="11" fill="white">Shared</text>
+
+  <!-- I — left, gray -->
+  <circle cx="205" cy="230" r="55" fill="#d0d8e0" stroke="#004065" stroke-width="3"/>
+  <text x="205" y="223" text-anchor="middle" font-size="26" font-weight="bold" fill="#004065">I</text>
+  <text x="205" y="244" text-anchor="middle" font-size="11" fill="#555">Invalid</text>
+
+  <!-- ═══ Key transitions ═══ -->
+
+  <!-- M → O  (top → upper-right, ORANGE thick, key transition) -->
+  <path d="M 503 135 Q 590 150 642 186" stroke="#e65100" stroke-width="3" fill="none" marker-end="url(#arr-orange)"/>
+  <rect x="510" y="118" width="160" height="32" rx="5" fill="#fff3e0" stroke="#e65100" stroke-width="2"/>
+  <text x="590" y="131" text-anchor="middle" font-size="10" font-weight="bold" fill="#e65100">M → O</text>
+  <text x="590" y="144" text-anchor="middle" font-size="9" fill="#555">Snoop BusRd (share dirty data)</text>
+
+  <!-- O → M  (upper-right → top) -->
+  <path d="M 648 188 Q 575 142 504 128" stroke="#004065" stroke-width="2" fill="none" marker-end="url(#arr)"/>
+
+  <!-- M → I  (top → left arc) -->
+  <path d="M 400 130 Q 310 160 250 202" stroke="#004065" stroke-width="2" fill="none" marker-end="url(#arr)"/>
+  <rect x="268" y="122" width="130" height="28" rx="5" fill="white" stroke="#004065" stroke-width="1"/>
+  <text x="333" y="135" text-anchor="middle" font-size="10" font-weight="bold" fill="#cc2200">M → I</text>
+  <text x="333" y="147" text-anchor="middle" font-size="9" fill="#555">Snoop BusRdX</text>
+
+  <!-- I → M  (left → top) -->
+  <path d="M 248 204 Q 300 148 396 120" stroke="#004065" stroke-width="2" fill="none" marker-end="url(#arr)"/>
+  <rect x="128" y="104" width="130" height="28" rx="5" fill="white" stroke="#004065" stroke-width="1"/>
+  <text x="193" y="117" text-anchor="middle" font-size="10" font-weight="bold" fill="#004065">I → M</text>
+  <text x="193" y="130" text-anchor="middle" font-size="9" fill="#555">CPU Write / BusRdX</text>
+
+  <!-- I → E  (left → lower-right, long arc top) -->
+  <path d="M 256 204 Q 400 60 562 385" stroke="#004065" stroke-width="2" fill="none" marker-end="url(#arr)"/>
+  <rect x="304" y="56" width="148" height="28" rx="5" fill="white" stroke="#004065" stroke-width="1"/>
+  <text x="378" y="69" text-anchor="middle" font-size="10" font-weight="bold" fill="#2e7d32">I → E</text>
+  <text x="378" y="82" text-anchor="middle" font-size="9" fill="#555">CPU Read (only copy)</text>
+
+  <!-- I → S  (left → lower-left) -->
+  <path d="M 218 282 Q 220 370 232 368" stroke="#004065" stroke-width="2" fill="none" marker-end="url(#arr)"/>
+  <rect x="88" y="320" width="130" height="28" rx="5" fill="white" stroke="#004065" stroke-width="1"/>
+  <text x="153" y="333" text-anchor="middle" font-size="10" font-weight="bold" fill="#004065">I → S</text>
+  <text x="153" y="346" text-anchor="middle" font-size="9" fill="#555">CPU Read (shared)</text>
+
+  <!-- O → S  (upper-right → lower-left, diagonal) -->
+  <path d="M 648 272 Q 500 380 340 400" stroke="#004065" stroke-width="2" fill="none" marker-end="url(#arr)"/>
+  <rect x="450" y="330" width="130" height="28" rx="5" fill="white" stroke="#004065" stroke-width="1"/>
+  <text x="515" y="343" text-anchor="middle" font-size="10" font-weight="bold" fill="#cc2200">O → S</text>
+  <text x="515" y="356" text-anchor="middle" font-size="9" fill="#555">Replacement/writeback</text>
+
+  <!-- O → I  (upper-right → left, wide arc bottom) -->
+  <path d="M 643 272 Q 450 470 258 268" stroke="#004065" stroke-width="2" fill="none" marker-end="url(#arr)"/>
+  <rect x="400" y="460" width="130" height="26" rx="5" fill="white" stroke="#004065" stroke-width="1"/>
+  <text x="465" y="473" text-anchor="middle" font-size="10" font-weight="bold" fill="#cc2200">O → I</text>
+  <text x="465" y="483" text-anchor="middle" font-size="9" fill="#555">Snoop BusRdX</text>
+
+  <!-- E → M  silent -->
+  <path d="M 615 365 Q 660 280 692 284" stroke="#004065" stroke-width="2" fill="none" marker-end="url(#arr)"/>
+  <rect x="634" y="290" width="106" height="28" rx="5" fill="#e8f5e9" stroke="#2e7d32" stroke-width="1"/>
+  <text x="687" y="303" text-anchor="middle" font-size="10" font-weight="bold" fill="#2e7d32">E → M</text>
+  <text x="687" y="316" text-anchor="middle" font-size="9" fill="#555">CPU Write (silent)</text>
+
+  <!-- S → I  (lower-left → left) -->
+  <path d="M 232 400 Q 190 340 218 278" stroke="#004065" stroke-width="2" fill="none" marker-end="url(#arr)"/>
+  <rect x="60" y="358" width="128" height="28" rx="5" fill="white" stroke="#004065" stroke-width="1"/>
+  <text x="124" y="371" text-anchor="middle" font-size="10" font-weight="bold" fill="#cc2200">S → I</text>
+  <text x="124" y="384" text-anchor="middle" font-size="9" fill="#555">Snoop BusRdX</text>
+
+  <!-- O state callout box -->
+  <rect x="680" y="40" width="208" height="64" rx="7" fill="#fff3e0" stroke="#e65100" stroke-width="2"/>
+  <text x="784" y="58" text-anchor="middle" font-size="11" font-weight="bold" fill="#e65100">O = Owner</text>
+  <text x="784" y="74" text-anchor="middle" font-size="10" fill="#555">Dirty data, shared with others</text>
+  <text x="784" y="88" text-anchor="middle" font-size="10" fill="#555">Supplies reads; skips writeback</text>
+
+  <!-- Key insight callout -->
+  <rect x="10" y="440" width="320" height="48" rx="7" fill="#004065"/>
+  <text x="170" y="459" text-anchor="middle" font-size="11" font-weight="bold" fill="#FFD200">O State Benefit:</text>
+  <text x="170" y="476" text-anchor="middle" font-size="10" fill="white">Share modified data without writing back to memory</text>
+</svg>

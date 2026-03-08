@@ -1,975 +1,1104 @@
-# Cache Coherence in Parallel Computer Architecture
-## GWU ECE 6125: Parallel Computer Architecture
-
----
-
-## 1. Introduction to Shared Memory Systems
-- **What is Shared Memory?**
-  - Multiple processors can access the same memory
-  - Each processor has its own cache
-  - All processors see the same data
-- **Why is it Important?**
-  - Enables parallel processing
-  - Allows data sharing between processors
-  - Simplifies programming compared to message passing
-
-![Basic shared memory system](images/coherence_problem.svg)
-
----
-
-## 2. Shared Memory System Examples
-- **Desktop/Laptop Computers**
-  - Intel Core i7/i9: 8-16 cores, shared L3 cache
-  - AMD Ryzen: Multiple CCX modules sharing memory
-- **Servers**
-  - Intel Xeon: Multiple sockets, shared memory
-  - IBM POWER: Enterprise systems with shared memory
-- **Supercomputers**
-  - Multiple nodes with shared memory within nodes
-  - Hybrid shared/distributed memory across nodes
-
----
-
-## 3. The Memory Access Problem
-- **Speed Gap**
-  - Processors are very fast (1ns per operation)
-  - Memory is much slower (100ns per access)
-  - This gap is growing every year
-- **Why This Matters**
-  - Programs spend most time waiting for memory
-  - Slow memory limits processor performance
-  - Need a solution to bridge this gap
-
----
-
-## 4. Memory Access Speed: The Numbers
-- **Typical Access Times**:
-  - CPU Register: 0.3-1 ns
-  - L1 Cache: 1-3 ns
-  - L2 Cache: 3-10 ns
-  - L3 Cache: 10-20 ns
-  - Main Memory: 100-300 ns
-  - Disk/SSD: 10,000-100,000 ns
-- **Real-World Impact**:
-  - 100-cycle stall on memory access
-  - Thousands of instructions could execute in this time
-
----
-
-## 5. Memory Access Patterns
-- **Temporal Locality**
-  - If you access data once, you'll likely access it again soon
-  - Example: Variables in a loop
-  - Why: Programs often reuse data
-- **Spatial Locality**
-  - If you access data at address X, you'll likely access data near X
-  - Example: Array elements
-  - Why: Programs often access data sequentially
-
----
-
-## 6. Memory Access Pattern Examples
-- **Temporal Locality Example**:
-  ```
-  // Variable 'sum' is accessed repeatedly
-  int sum = 0;
-  for (int i = 0; i < 1000; i++) {
-    sum += array[i];  // sum reused each iteration
-  }
-  ```
-- **Spatial Locality Example**:
-  ```
-  // Array elements accessed sequentially
-  for (int i = 0; i < 1000; i++) {
-    process(array[i]);  // adjacent memory locations
-  }
-  ```
-
----
-
-## 7. Cache Basics (Refresher)
-- **What is a Cache?**
-  - Fast memory close to the processor
-  - Stores frequently accessed data
-  - Much smaller than main memory
-- **Why Use Caches?**
-  - Faster than main memory
-  - Reduces memory access time
-  - Improves processor performance
-
----
-
-## 8. Cache Hierarchy (Refresher)
-- **Typical Modern Hierarchy**:
-  - L1 Cache: Smallest, fastest (32-64KB)
-    - Often split into instruction and data caches
-  - L2 Cache: Medium size/speed (256KB-1MB)
-    - Usually private to each core
-  - L3 Cache: Largest, slowest cache (8-32MB)
-    - Often shared between cores
-- **Why Multiple Levels?**
-  - Tradeoff between size, speed, and cost
-  - Step-by-step bridging of the speed gap
-
----
-
-## 9. Shared vs. Private Caches
-- **Private Caches**
-  - Each processor has its own cache
-  - No coherence needed within cache
-  - Better for single-thread performance
-  - Example: L1/L2 caches in modern CPUs
-
-- **Shared Caches**
-  - Multiple processors share one cache
-  - No coherence needed between processors
-  - Better for multi-thread performance
-  - Example: L3 cache in some systems
-
----
-
-## 10. Shared Cache Advantages
-- **No Coherence Overhead**
-  - All processors see same data
-  - No need for invalidation
-  - No cache-to-cache transfers
-  - Like everyone reading from same book
-
-- **Better Resource Utilization**
-  - No duplicate data across caches
-  - More effective cache capacity
-  - Better for shared data
-  - Like sharing one large library instead of many small ones
-
----
-
-## 11. Shared Cache Disadvantages
-- **Access Contention**
-  - Multiple processors compete for cache
-  - Increased access latency
-  - Cache thrashing possible
-  - Like too many people trying to use same library
-
-- **Scalability Issues**
-  - Cache becomes bottleneck
-  - Limited by single cache bandwidth
-  - Hard to scale to many processors
-  - Like library getting too crowded
-
----
+# Cache Coherence
+## Keeping Multiple Caches Consistent in Parallel Systems
+### GWU ECE 6125: Parallel Computer Architecture
 
-## 12. Why Private Caches Dominate
-- **Better Single-Thread Performance**
-  - No contention for local data
-  - Lower access latency
-  - Better for most workloads
-  - Like having your own personal library
-
-- **Easier to Scale**
-  - Add more processors easily
-  - No single cache bottleneck
-  - Better for modern multi-core
-  - Like having multiple libraries instead of one huge one
+Note: Today we dive into one of the most critical problems in parallel architecture: ensuring that when multiple processors each have their own cache, they all agree on what the "current" value of shared data is. This problem has driven decades of hardware innovation — from the simple MSI protocol to the complex SCD directories in today's 192-core server chips.
 
----
-
-## 13. Modern Hybrid Approaches
-- **Multi-Level Cache Design**
-  - Private L1/L2 for performance
-  - Shared L3 for capacity
-  - Best of both worlds
-  - Like personal books + shared library
-
-- **Example: Intel Core i7**
-  - Private 32KB L1 per core
-  - Private 256KB L2 per core
-  - Shared 8-16MB L3
-  - Optimized for common workloads
-
----
-
-## 14. Cache Line Basics (Refresher)
-- **What is a Cache Line?**
-  - Basic unit of cache storage
-  - Usually 64 bytes
-  - Contains multiple words of data
-- **Cache Line Structure**
-  - Tag: Identifies which memory block this is
-  - State bits: Tracks if data is valid/modified
-  - Data: The actual memory contents
+---
+
+## Lecture Roadmap
+
+| Part | Topic |
+|------|-------|
+| 1 | **The Coherence Problem** — what goes wrong with caches? |
+| 2 | **Snooping Protocols** — MSI → MESI → MOESI → MESIF |
+| 3 | **Directory-Based Coherence** — scaling beyond the bus |
+| 4 | **Memory Consistency Models** — SC, TSO, relaxed ordering |
+| 5 | **False Sharing** — the hidden performance killer |
+| 6 | **Modern CPU Implementations** — AMD Zen 5, Intel, Apple |
+| 7 | **Heterogeneous Coherence** — CPU + GPU |
+| 8 | **Emerging Topics** — CXL, chiplets |
+
+Note: We go from fundamentals to state-of-the-art. By the end, you'll understand the design decisions behind every modern processor's cache subsystem — and why each one made different choices.
+
+---
+
+## Part 1: The Coherence Problem
 
 ---
-
-## 15. Cache Line: Detailed Example (Refresher)
-- **64-byte Cache Line**:
-  - Can hold 16 integers (4 bytes each)
-  - Or 8 doubles (8 bytes each)
-- **Structure Breakdown**:
-  ```
-  |--- Tag (24 bits) ---|-- State (2-5 bits) --|------ Data (64 bytes) ------|
-  ```
-- **Why This Matters**:
-  - When one byte is accessed, entire line is fetched
-  - Modifications happen at line granularity
-  - Coherence is tracked per line, not per byte
-
----
-
-## 16. Cache Memory Addressing (Refresher)
-- **Parts of a Memory Address**:
-  - Tag: Which block in memory
-  - Index: Which set in cache
-  - Offset: Which byte in cache line
-- **Example: 32-bit Address, 64-byte Lines, 4-way cache with 1024 sets**:
-  ```
-  |-- Tag (16 bits) --|-- Index (10 bits) --|-- Offset (6 bits) --|
-  ```
-- **How It Works**:
-  - Offset selects byte within line (2^6 = 64 bytes)
-  - Index selects set (2^10 = 1024 sets)
-  - Tag checked against stored tags to find match
-
----
-
-## 17. Cache Organization Types (Refresher)
-- **Direct-mapped Cache**
-  - Each memory block has one possible location
-  - Simple but can cause conflicts
-  - Like a parking lot with assigned spots
-- **Set-associative Cache**
-  - Each block has several possible locations
-  - Better but more complex
-  - Like a parking lot with multiple spots per section
-
----
-
-## 18. More Cache Organization Types (Refresher)
-- **Fully-associative Cache**
-  - Block can go anywhere
-  - Best but most complex
-  - Like a parking lot with any spot available
-- **Comparison**:
-  - Direct-mapped: Simple hardware, high conflict rate
-  - Set-associative: Balance of complexity and performance
-  - Fully-associative: Best hit rate, most expensive hardware
-
-![Cache Organization Design](images/cache_organization_design.svg)
-
----
-
-## 19. Cache Organization: Detailed Example (Refresher)
-- **Direct-mapped Cache Example**:
-  - 4KB cache with 64-byte lines = 64 lines
-  - Memory address 0x12345678 maps to line (0x78/64) % 64 = line 29
-  - Only one place it can go
-- **4-way Set-associative Example**:
-  - Same 4KB cache = 16 sets of 4 lines each
-  - Address 0x12345678 maps to set (0x78/64) % 16 = set 7
-  - Can go in any of the 4 ways in set 7
-  - Need replacement policy to choose which way
-
----
 
-## 20. Cache Miss Types Explained (Refresher)
-- **Cold Miss**
-  - First time accessing data
-  - Cannot be avoided
-  - Like opening a new book
-- **Capacity Miss**
-  - Cache is too small for all needed data
-  - Like trying to fit too many books on a small shelf
-  - Solution: Bigger cache
+## The Stale Data Problem
 
+Consider two processors sharing a variable X in memory:
+
+| Time | CPU 0 | CPU 1 | Memory[X] |
+|------|-------|-------|-----------|
+| t₀ | — | — | **0** |
+| t₁ | Read X → **0** | — | 0 |
+| t₂ | — | Read X → **0** | 0 |
+| t₃ | Write X = **1** | — | stale |
+| t₄ | — | Read X → **0** ← WRONG! | 1 |
+
+CPU 1's cache holds a **stale copy**. Without coherence, parallel programs produce incorrect results — silently.
+
+![Two CPUs with shared variable and stale read scenario](images/coherence-problem.svg)
+
+Note: This isn't a theoretical edge case. Before hardware coherence protocols, programmers had to manually flush caches before reading shared data. Operating system kernels, databases, and any code that shared memory across cores would fail. The hardware must handle this automatically and efficiently — programmers cannot be trusted to flush caches correctly in every case.
+
 ---
+
+## Why This is Hard: The Speed-Correctness Tension
+
+- Main memory is **~100× slower** than the processor
+- **Private caches** keep hot data nearby → low latency, high performance
+- But private copies can **diverge** when one processor writes
 
-## 21. More Cache Miss Types (Refresher)
-- **Conflict Miss**
-  - Data blocks compete for same location
-  - Like two cars wanting same parking spot
-  - Solution: More associative cache
-- **Coherence Miss**
-  - Another processor modified the data
-  - Like someone changing a page while you're reading
-  - Solution: Efficient coherence protocol
+> "Cache coherence is the price we pay for making parallel systems fast with private caches."
 
-![Types of Cache Misses](images/cache_miss_types.svg)
+**The fundamental dilemma:**
+- No private caches → correct but slow (every access waits for memory)
+- Private caches + no coherence → fast but wrong
+- Private caches + coherence protocol → fast AND correct
 
+Note: If every processor shared a single, monolithic cache, there'd be no coherence problem — but also terrible performance and scalability. Private caches at each core are the right answer for performance. Coherence protocols are what make private caches safe.
+
 ---
+
+## Two Requirements for Coherence
+
+A memory system is **coherent** if it satisfies:
+
+**1. Write Propagation**
+> A write by any processor must eventually become visible to all other processors.
+
+**2. Write Serialization**
+> All processors must observe **all** writes to the same address in the **same order**.
+
+**Example — why serialization is essential:**
+```
+P1 writes X=1, then P2 writes X=2 (nearly simultaneously)
+
+Without serialization:
+  P3 sees: X=1 → X=2  (reads 2)
+  P4 sees: X=2 → X=1  (reads 1)  ← inconsistent!
 
-## 22. Cache Miss Example (Refresher)
-- **Program Accessing Matrix**:
-  ```
-  // Accessing 1024x1024 matrix (4MB)
-  // With 64KB cache
-  for (int i = 0; i < 1024; i++)
-    for (int j = 0; j < 1024; j++)
-      sum += matrix[i][j];
-  ```
-- **What Happens**:
-  - Cold misses: First access to each cache line
-  - Capacity misses: Matrix (4MB) > cache (64KB)
-  - Conflict misses: If direct-mapped, rows collide
-  - Result: Many cache misses, poor performance
+With serialization: one agreed-upon global order for all writes to X.
+```
 
+Note: Write propagation alone isn't enough. Even if every write eventually reaches every cache, if different caches see writes in different orders, programs can behave incorrectly. A lock-free queue relies on both propagation AND serialization. Serialization is what lets us reason about "who wrote last."
+
 ---
+
+## Write-Invalidate vs. Write-Update
+
+When a processor writes to a shared line, what should happen to other copies?
+
+| Strategy | Action on Write | Analogy |
+|----------|----------------|---------|
+| **Write-Invalidate** | Send "your copy is stale, discard it" to all sharers | Recall all library book copies before editing the master |
+| **Write-Update** | Send the new value to all sharers immediately | Announce the edit to everyone who has a copy |
 
-## 23. The Cache Coherence Problem
-- **What is Cache Coherence?**
-  - Ensuring all processors see the same data
-  - When one processor updates data, others must see the change
-  - Like everyone reading the same book
-- **Why is it Hard?**
-  - Each processor has its own cache
-  - Updates in one cache aren't visible to others
-  - Like multiple people reading different copies
+**Modern processors almost universally use write-invalidate. Why?**
 
+![Write-invalidate vs write-update side-by-side comparison](images/write-invalidate-vs-update.svg)
+
+Note: Write-update seems more helpful — sharers immediately have the new value. But it consumes bus bandwidth on EVERY write, even for data that other caches won't read for a while. Write-invalidate pays a one-time cost to force a future cache miss, and that miss only occurs if someone actually reads the data. If a value is written 10 times before anyone reads it, write-update sends 10 updates; write-invalidate sends 1 invalidation.
+
 ---
+
+## The Write-Invalidate Win Condition
+
+**Write-invalidate is optimal when:**
+- Any write is followed by ≥2 more writes to the same location before a read
+- This is the common case in real programs (loop bodies, accumulation patterns)
 
-## 24. Cache Coherence Problem: Example
-- **Simple Example**:
-  ```
-  // Initially: Memory X = 0, all caches empty
-  
-  P1: Read X   // P1's cache now has X = 0
-  P2: Read X   // P2's cache now has X = 0
-  P1: Write X = 1  // P1's cache now has X = 1
-  P2: Read X   // Without coherence, P2 still sees X = 0!
-  ```
-- **Problem**:
-  - P2 has stale data
-  - Different processors see different values
-  - Program correctness compromised
+**Write-update wins when:**
+- A consumer reads immediately after every producer write (tight producer-consumer pipelines)
+- Very few sharers (broadcast overhead is low)
 
-![Basic cache coherence visualization](images/basic_coherence_explained.svg)
+**The quantitative argument:**
+- Write-invalidate: 1 invalidation message per "write burst" to a location
+- Write-update: N messages for N writes before the next read
 
+> Intel, AMD, ARM, RISC-V, and IBM all chose write-invalidate for general-purpose coherence.
+
+Note: Berkeley RISC processors in the 1980s experimented with write-update. The conclusion was clear: write-invalidate wins for general-purpose workloads. Write-update survives only in specialized GPU contexts where access patterns are known to be producer-consumer.
+
 ---
+
+## Coherence vs. Consistency: A Critical Distinction
+
+These terms are often confused. They are fundamentally different concepts:
+
+| Concept | Scope | Question It Answers |
+|---------|-------|---------------------|
+| **Cache Coherence** | Single memory address | "Do all processors see the same value for address X?" |
+| **Memory Consistency** | Multiple memory addresses | "In what order can operations to DIFFERENT addresses be observed?" |
+
+**Analogy:**
+- Coherence = Everyone reading page 42 sees the same text on page 42
+- Consistency = Whether pages must be read in order 1→2→42, or can be reordered
+
+A system can be coherent but not sequentially consistent — and that's exactly what x86 processors are.
 
-## 25. Cache Coherence Requirements
-- **Write Propagation**
-  - When one processor writes, others must see the change
-  - Like updating a shared document
-  - Example: If P1 writes X=1, P2 must eventually see X=1
+Note: This distinction is subtle but critical. Coherence is a property of a single location over time. Consistency is a property of the ordering of operations across different locations. When programmers say "my parallel program has a memory ordering bug," they almost always mean a consistency issue, not a coherence issue. Coherence is handled entirely in hardware; consistency requires both hardware support and careful programming.
 
 ---
 
-## 26. Cache Coherence Requirements (continued)
-- **Write Serialization**
-  - All processors must see writes in the same order
-  - Like agreeing on the sequence of events
-  - Example: If P1 writes X=1, then P2 writes X=2, all processors must see X=1 before X=2
-  - Critical for correctness in parallel programs
+## Sequential Consistency: The Intuitive Model
 
+**Lamport's Definition (1979):**
+> A multiprocessor is sequentially consistent if the result of any execution is the same as if the operations of all processors were executed in some sequential order, and the operations of each individual processor appear in this order.
+
+**In plain English:** It looks like all processors are taking turns at a single memory, in some global order that respects each processor's program order.
+
+**The implication — Dekker's algorithm works under SC:**
+```c
+// Initially: flag0=0, flag1=0
+// CPU 0:                      // CPU 1:
+flag0 = 1;                     flag1 = 1;
+if (flag1 == 0) enter_CS();    if (flag0 == 0) enter_CS();
+```
+Under SC: at most one CPU enters the critical section. ✓
+Under relaxed models: both could read 0 and both enter. ✗
+
+Note: Sequential consistency is the intuitive model that programmers want. Reasoning about SC programs is relatively straightforward — you just need to imagine one possible interleaving of all operations. Unfortunately, enforcing SC prevents many hardware optimizations. Modern processors sacrifice SC for performance and require explicit memory fences to restore SC-like guarantees for specific code regions.
+
 ---
+
+## Part 2: Snooping Protocols
+
+### Bus-Based Coherence — Simplicity Through Broadcast
+
+> Every cache watches every transaction. Coherence emerges from universal visibility.
 
-## 27. Cache Coherence Requirements (continued)
-- **Read Value**
-  - Reading must get the most recent value
-  - Like reading the latest version of a document
-  - Example: After P1 writes X=1, any processor that reads X should get 1 not 0
-  - Defines what "most recent" means in terms of program order
+Note: Snooping protocols exploit the broadcast property of a shared bus. If every memory transaction is visible to every cache controller simultaneously, each controller can independently determine whether it needs to act — invalidate, update, or supply data. No central coordinator required. The bus does the work.
 
 ---
 
-## 28. Coherence vs. Consistency
-- **Cache Coherence**
-  - About single memory location
-  - All processors see same value for one address
-  - Like everyone seeing same text on one page
-  - Ensures updates to single location are visible
+## How Snooping Works
 
+**Hardware setup:**
+- All caches connect to a **shared bus**
+- Every bus transaction is seen by **all caches simultaneously**
+- Each cache controller "snoops" (monitors) all transactions
+
+**When CPU 0 writes to address X:**
+1. CPU 0 puts `BusRdX(address=X)` on the bus
+2. All other caches see this transaction immediately
+3. Any cache with X in its cache **invalidates** that line
+4. CPU 0 receives data and ownership
+
+![Bus topology with coherence broadcast arrows](images/snooping-protocol.svg)
+
+Note: The bus provides two critical properties: (1) broadcast — every controller sees every transaction, and (2) total order — the bus arbiter ensures all caches see transactions in exactly the same order. Property 2 provides write serialization for free. The bus arbiter IS the serialization point. This is elegant, but the bus becomes the bottleneck as core count grows.
+
 ---
+
+## MSI: The Foundational Protocol
+
+**Three states for every cache line:**
+
+| State | Meaning | Read? | Write? | Others May Have? |
+|-------|---------|-------|--------|-----------------|
+| **M**odified | Sole copy; dirty; responsible for writeback | ✓ | ✓ | No |
+| **S**hared | Clean copy; others may share it | ✓ | ✗ | Yes |
+| **I**nvalid | No valid copy; must fetch before use | ✗ | ✗ | Unknown |
 
-## 29. Coherence vs. Consistency (continued)
-- **Memory Consistency**
-  - About multiple memory locations
-  - Order of operations across different addresses
-  - Like reading multiple pages in order
-  - Ensures updates to different locations follow ordering rules
+**Transitions triggered by:** local CPU requests AND snooped bus transactions.
 
-![Coherence vs. Consistency](images/coherence_vs_consistency.svg)
+![MSI 3-state FSM with all labeled transitions](images/msi-state-diagram.svg)
 
+Note: MSI is the minimal coherent protocol. The key insight: "Modified" means "I own this data — I am responsible for supplying it to anyone who asks, and writing it back before eviction." "Shared" means "I hold a read-only lease on this data." "Invalid" means "I have nothing valid here — I must request permission before using this location."
+
 ---
+
+## MSI: State Transitions
+
+**Local CPU actions → bus transactions:**
+
+| Current State | CPU Read | CPU Write |
+|---------------|----------|-----------|
+| M | Hit, no bus | Hit, no bus |
+| S | Hit, no bus | Send **BusUpgr** (upgrade to exclusive) |
+| I | Send **BusRd** (fetch shared copy) | Send **BusRdX** (fetch + exclusive) |
 
-## 30. Memory Consistency Models
-- **Sequential Consistency**
-  - All processors see operations in same order
-  - Like watching a movie together
-  - Simple but slow
-  - Maintains the illusion of a single global order
+**Snooped bus transactions → local actions:**
 
+| Current State | Snoop BusRd | Snoop BusRdX or BusUpgr |
+|---------------|-------------|------------------------|
+| M | Supply data to bus → go to **S** | Supply data → go to **I** |
+| S | Stay in **S** | Go to **I** |
+| I | No action | No action |
+
+Note: Notice the S→M transition requires BusUpgr — a broadcast telling everyone else to invalidate. Even if the writing cache is the ONLY sharer, it must still broadcast. This wasted transaction is what the MESI Exclusive state eliminates.
+
 ---
+
+## MSI: Example Trace
+
+```
+Initial: Memory[X] = 0, all caches in I state
 
-## 31. Memory Consistency Models (continued)
-- **Relaxed Consistency**
-  - Allows reordering for performance
-  - Like reading chapters in different order
-  - Faster but more complex
-  - Requires explicit synchronization
+Step 1: CPU 0 reads X
+  CPU 0: I → S (BusRd issued)
+  Memory supplies X = 0
 
+Step 2: CPU 1 reads X
+  CPU 1: I → S (BusRd issued)
+  Memory supplies X = 0
+
+Step 3: CPU 0 writes X = 1
+  CPU 0: S → M (BusUpgr issued)   ← extra bus transaction!
+  CPU 1: S → I (snoops BusUpgr)
+
+Step 4: CPU 1 reads X
+  CPU 1: I → S (BusRd issued)
+  CPU 0: M → S, supplies X = 1 (cache-to-cache transfer)
+```
+
+**Key observation:** Step 3 requires `BusUpgr` even if CPU 0 were the ONLY reader. MESI fixes this with the Exclusive state.
+
 ---
+
+## MESI: Adding the Exclusive State
+
+**The Exclusive (E) state:** "I have the only copy, and it's clean (matches memory)."
+
+**How E is granted:** On a BusRd, if **no other cache** signals it has the line, the miss is granted as E instead of S. (Requires one extra "shared" wire on the bus.)
 
-## 32. Memory Consistency Example Explained
-- **Sequential Consistency Example**:
-  ```
-  // Initially X=0, Y=0
-  
-  Processor 1    |    Processor 2
-  ---------------|----------------
-  Write X=1      |    Read Y (gets 1)
-  Write Y=1      |    Read X (gets 0)
-  ```
-- **This outcome is impossible with sequential consistency**
-- **Why?** If P2 saw Y=1, then it must have seen P1's write to Y
-- **Therefore** P2 must also see P1's write to X (since X was written before Y)
-- **In sequential consistency**, if P2 reads Y=1, it must read X=1 also
+**The payoff — silent E→M transition:**
+```
+CPU 0 reads X → E state (no other copies)
+CPU 0 writes X → M state (NO BUS TRANSACTION)
+```
 
+Compare to MSI:
+```
+CPU 0 reads X → S state
+CPU 0 writes X → BusUpgr, wait for acks → M state  ← bus transaction wasted
+```
+
+![MESI 4-state FSM highlighting E state benefit](images/mesi-state-diagram.svg)
+
+Note: The E state is valuable because most data is private — local variables, private data structures, stack frames. Studies of SPLASH-2 and PARSEC benchmarks show 60-70% of cache lines are touched by only one core. Without E, every write to private data burns a bus transaction. With E, private-data writes are entirely local.
+
 ---
+
+## MESI: Real-World Impact
+
+**Typical workload breakdown:**
+
+| Data Type | Protocol State | Coherence Overhead |
+|-----------|---------------|-------------------|
+| Local variables, stack | E → M | **Zero** (silent transition) |
+| Read-only shared data | S | Zero (read-only) |
+| Producer writes, consumer reads | M/S exchange | 1 transaction per write-then-read |
+| Write-shared "hot" data | M ping-pong | 1 transaction per write |
+
+**Why MESI replaced MSI everywhere:**
+- ~60-70% of lines are private → E eliminates their upgrade traffic
+- Remaining ~30-40% benefit equally from MSI and MESI
 
-## 33. Relaxed Consistency Example
-- **Relaxed Consistency Models Allow This**:
-  ```
-  // Initially X=0, Y=0
-  
-  Processor 1    |    Processor 2
-  ---------------|----------------
-  Write X=1      |    Read Y (gets 1)
-  Write Y=1      |    Read X (gets 0)
-  ```
-- **Why?** Relaxed models allow writes to be reordered
-- **Result**: P2 can see the write to Y but not to X
-- **Real-world impact**: Better performance but harder to reason about
+MESI is used in: Intel x86, ARM Cortex-A, RISC-V implementations.
 
+Note: The E state is a pure win with a tiny hardware cost (one shared-line wire per bus, plus extra state bit per cache line). The improvement in real workloads is typically 15-30% fewer bus transactions. This is why every serious coherence protocol since 1985 includes an E state.
+
 ---
+
+## MOESI: Eliminating the Memory Writeback
+
+**Problem with MESI:** When a Modified line is requested by another cache:
+1. Owner must write back dirty data to memory
+2. Requester fetches from memory
+→ 2 slow memory transactions, one of which writes data that's about to be read
+
+**MOESI solution — the O (Owner) state:**
+
+> "I have a modified copy, and I'm sharing it. I'm responsible for keeping it coherent. Memory does NOT need to be updated yet."
+
+```
+CPU 0 has X in M state (X=5, memory has X=old)
+CPU 1 reads X:
+
+  MESI:  CPU 0 writes back to memory → CPU 1 fetches from memory  (2 mem ops)
+  MOESI: CPU 0 goes to O, CPU 1 gets data directly from CPU 0     (0 mem ops)
+```
 
-## 34. Basic Approaches to Cache Coherence
-- **Snooping Protocols**
-  - Use a shared bus that all caches monitor
-  - Simple to implement
-  - Limited scalability
-  - Common in small-scale systems (2-16 cores)
+![MOESI 5-state FSM highlighting O state benefit](images/moesi-state-diagram.svg)
 
-- **Directory-Based Protocols**
-  - Use a central directory to track cache states
-  - More complex to implement
-  - Better scalability
-  - Common in large-scale systems (16+ cores)
+Note: The Owner state is AMD's signature innovation. The owner is the cache responsible for maintaining the coherent view — it supplies data to any requester and writes back to memory when it finally evicts the line. The trade-off: the owner must track that it's the authoritative source, and the directory/other caches must know to ask the owner, not memory.
 
 ---
 
-## 35. Snooping Protocols Explained
-- **What is Snooping?**
-  - Caches watch a shared bus
-  - Like listening to a radio broadcast
-  - All caches hear all messages
-- **How it Works**
-  - When one cache writes, it broadcasts
-  - Other caches hear and update
-  - Like announcing changes over a PA system
+## MOESI in Practice
 
+**Owner state transitions:**
+- M → O: Another cache requests the line (owner stays, sharer added)
+- O → M: All other copies invalidated (write request from another core)
+- O → I: Line is evicted → must write back to memory now
+
+**Benefit quantification (from AMD's performance data):**
+- In workloads with heavy shared modified data, MOESI reduces memory traffic by 20-40%
+- Critical for large server systems where memory bandwidth is the bottleneck
+
+**AMD uses MOESI in:** Zen 1 through Zen 5, EPYC, Threadripper. All AMD processor families.
+
+Note: The Owner state is especially valuable on multi-socket systems where going to memory means crossing the inter-socket interconnect (200-400 ns). With MOESI, another cache in the same socket can supply the data at L3 speed (30-50 ns). The 4-8× latency reduction is often the difference between a scalable workload and a memory-bound one.
+
 ---
+
+## MESIF: Intel's Forward State
+
+**Problem without F:** When many caches have X in Shared state, who supplies data to a new requester?
+- Option A: All sharers could respond → thundering herd, multiple conflicting replies
+- Option B: Memory responds → no thundering herd, but memory is slow
+
+**MESIF solution — the F (Forward) state:**
+- Exactly one S-state cache is designated **Forward** (the most recent reader)
+- On a new BusRd, the F-cache **supplies data directly** (2-hop: requester ↔ F-cache)
+- The F-cache transitions: F → S; the new requester becomes F
+
+```
+Caches: CPU 0 in F, CPU 1 in S, CPU 2 in S
+CPU 3 reads X:
+  CPU 0 (F) → CPU 3: supplies X directly   [memory not accessed!]
+  CPU 0: F → S
+  CPU 3: I → F
+```
 
-## 36. Snooping Protocol: Detailed Example
-- **Example Scenario**:
-  1. Processor 1 wants to write to address X
-  2. P1 broadcasts "I want exclusive access to X" on bus
-  3. All other processors with X in their cache invalidate it
-  4. P1 performs the write
-  5. Later, if P2 reads X, it will miss and get current value
-- **Like**: Announcing in a library "I'm taking book X to make notes"
-  - Everyone returns their copies
-  - Only you have the book while writing
+![MESIF 6-state FSM with F (Forward) state](images/mesif-state-diagram.svg)
 
-![Snooping protocol visualization](images/snooping_vs_directory.svg)
+Note: MESIF is used in Intel's QPI and UPI interconnects for multi-socket Xeon systems. The F state eliminates memory from the critical path for read sharing in multi-socket configurations. Benchmarks show MESIF reduces average read latency by 10-20% in multi-socket workloads vs. MESI, by avoiding the ~200 ns round-trip to the home node's memory controller.
 
 ---
 
-## 37. Snooping Protocol Advantages
-- **Advantages**:
-  - Simple to implement
-  - Low latency for small systems
-  - Works well for bus-based systems
-  - Natural broadcast medium matches protocol
-- **Common Uses**:
-  - Desktop/laptop processors
-  - Small-scale multiprocessors
-  - Within a single CPU socket
+## Protocol Comparison: The Full Picture
 
+| Protocol | States | Key Addition | Eliminates |
+|----------|--------|-------------|------------|
+| MSI | 3 | — (baseline) | — |
+| MESI | 4 | Exclusive (E) | BusUpgr for private data |
+| MOESI | 5 | Owner (O) | Memory writeback on sharing |
+| MESIF | 6 | Forward (F) | Memory on read-sharing response |
+| MOESIF | 6 | Owner + Forward | Both writebacks and memory reads |
+
+**Design philosophy:** Each state addition trades hardware complexity (more state bits, more protocol logic, more verification effort) for eliminating a class of redundant transactions.
+
+Note: You'll sometimes see MOSI (early AMD), MESIF (Intel), MOESI (AMD), and MOESIF (theoretical / some research processors). The trend is always: add states to eliminate waste. But more states means more complex verification hardware and more coverage needed in simulation. MESIF and MOESI represent pragmatic stopping points where the cost-benefit ratio is favorable.
+
 ---
+
+## Snooping: The Scalability Wall
+
+**The bus is snooping's strength and its fatal weakness:**
+- **Strength:** Total order → write serialization for free; simple protocol
+- **Weakness:** One bus = one serialization bottleneck for ALL coherence traffic
+
+**Bus bandwidth math:**
+```
+Bus: 1600 MHz × 64-bit wide = 12.8 GB/s total bandwidth
+Each core generates ~1-2 GB/s coherence traffic
+→ 8-12 cores saturate the bus
+Coherence traffic is additive with data traffic
+→ Practical snooping limit: 16-32 cores
+```
+
+**Modern core counts:** AMD EPYC has 96-192 cores. Intel Xeon has 60 cores. ARM Neoverse has 128 cores.
 
-## 38. Snooping Protocol Limitations
-- **Limitations**:
-  - Requires broadcast medium (usually a bus)
-  - Bus becomes bottleneck as system scales
-  - Bus bandwidth limits number of processors
-  - Like too many people trying to speak at once
-- **Typical Scaling Limit**:
-  - Becomes inefficient beyond 8-16 processors
-  - Bus saturation causes performance collapse
+**Conclusion:** Every server-class chip needs directory-based coherence for inter-cluster communication.
 
+Note: The bus bandwidth wall was well understood by the late 1980s. Stanford DASH (1992) demonstrated that directory protocols could scale to hundreds of processors. SGI Origin (1996) used directory coherence at commercial scale. Today, snooping may still be used within a small cluster of cores (e.g., 8 cores sharing an L3 slice), but directory protocols handle all cross-cluster communication.
+
 ---
+
+## Part 3: Directory-Based Coherence
+
+### Scaling Coherence Beyond the Bus
 
-## 39. Directory-Based Protocols Explained
-- **What is a Directory?**
-  - Central record of who has what data
-  - Like a library catalog system
-  - Tracks all cache copies
-- **How it Works**
-  - Before writing, check directory
-  - Directory tells who needs updating
-  - Like asking the librarian who has books checked out
+> Instead of broadcasting to everyone, track exactly who has what — and message only them.
 
+Note: Directory protocols replace the broadcast medium with targeted point-to-point messages. A directory entry for each memory block tracks exactly which caches hold copies. When coherence action is needed, the directory sends messages to only the affected caches — not to everyone. This is the key scalability insight.
+
 ---
+
+## Directory Structure: Tracking Sharers
+
+**A directory entry for each memory block:**
+
+```
+┌──────────────────────────────────────────────────────────────────┐
+│  State (2 bits)  │  Owner/Sharers  (N bits for N-core system)   │
+│  U / S / M       │  Bitmap or pointer to cache(s) with copies   │
+└──────────────────────────────────────────────────────────────────┘
+```
 
-## 40. Directory Protocol: Detailed Example
-- **Example Scenario**:
-  1. Processor 1 wants to write to address X
-  2. P1 sends request to directory
-  3. Directory checks its records for X
-  4. Directory sends invalidate messages only to processors with X (say P3 and P4)
-  5. P3 and P4 invalidate their copies and acknowledge
-  6. Directory grants write permission to P1
-- **Like**: Asking the librarian "Who has book X?" then only notifying those people
+**Directory state field:**
+- **Uncached (U):** No cache has this block
+- **Shared (S):** ≥1 caches have clean copies; sharer bitmap indicates which ones
+- **Modified (M):** Exactly one cache has it (dirty); owner pointer indicates which one
 
+**Sharer tracking approaches:**
+
+| Approach | Storage | Max Practical Sharers | Use Case |
+|----------|---------|----------------------|----------|
+| Full-map bitmap | N bits/block | All N caches | ≤ 64 cores |
+| Limited pointer | k × log₂N bits | k sharers exactly | 64–256 cores |
+| Sparse directory | Variable (hash/list) | Unlimited | Large systems |
+
+![Directory entry format and pointer-to-sharers structure](images/directory-structure.svg)
+
+Note: Storage overhead is the core scalability problem with directories. For N=64 cores with 64-byte cache lines, full-map adds 64 bits = 8 bytes per line — 12.5% overhead. Acceptable. For N=1024 cores, full-map adds 1024 bits = 128 bytes per 64-byte line — 200% overhead. Unacceptable. This is why limited-pointer and sparse directories exist.
+
 ---
+
+## Directory Protocol: Read Miss
+
+**Case 1 — No cache has the block (Uncached):**
+```
+1. CPU 2 → Directory:   ReadReq(block B)
+2. Directory checks:    State = Uncached
+3. Directory → Memory:  Fetch(B)
+4. Memory → CPU 2:      Data(B)
+5. Directory updates:   State = Shared, Sharers = {CPU 2}
+```
+
+**Case 2 — Block is Modified (CPU 5 is Owner):**
+```
+1. CPU 2 → Directory:   ReadReq(B)
+2. Directory checks:    State = Modified, Owner = CPU 5
+3. Directory → CPU 5:   Intervention: supply B to CPU 2, go to Shared
+4. CPU 5 → CPU 2:       Data(B)   [cache-to-cache, bypasses memory]
+5. CPU 5 → Directory:   AckOwner (I've transferred ownership)
+6. Directory updates:   State = Shared, Sharers = {CPU 2, CPU 5}
+```
 
-## 41. Directory Structure Details Explained
-- **Presence Bits**:
-  - One bit per processor in the system
-  - Each bit shows if that processor has the data
-  - **Example**: In 8-processor system, bits 00100110 means processors 2, 3, and 6 have copies
-  - **Real-world analogy**: Library sign-out sheet showing who has each book
+Note: Case 2 demonstrates the directory's key advantage: it KNOWS to go to CPU 5, not to memory. In snooping, a read miss would broadcast to all cores — most of which have no stake in block B. With directory, only CPU 5 is messaged. At 64+ cores, this is the difference between O(1) and O(N) message complexity.
 
 ---
 
-## 42. Directory Structure Details (continued)
-- **State Information**:
-  - Tracks the state of the cache line in the system
-  - Common states: Uncached, Shared, Exclusive
-  - **Example**: 
-    - Uncached: No processor has the data
-    - Shared: Multiple processors have read-only copies
-    - Exclusive: One processor has the only copy (may be modified)
-  - **Real-world analogy**: Book status (available, checked out, reference only)
+## Directory Protocol: Write Miss
 
+**Block B is currently Shared by CPUs 1, 4, 7:**
+
+```
+1. CPU 3 → Directory:     WriteReq(B)
+2. Directory checks:      State = Shared, Sharers = {1, 4, 7}
+3. Directory → CPU 1:     Invalidate(B)
+   Directory → CPU 4:     Invalidate(B)
+   Directory → CPU 7:     Invalidate(B)
+4. CPU 1, 4, 7 → Directory: AckInval (I've invalidated my copy)
+5. Directory → CPU 3:     WriteAck + Data(B)
+6. Directory updates:     State = Modified, Owner = CPU 3
+```
+
+**Critical:** CPU 3 must wait for ALL AckInval messages before proceeding. This enforces write serialization — no cache can read stale data once all Acks are received.
+
+![Step-by-step message flow for directory read/write/eviction](images/directory-protocol-trace.svg)
+
+Note: The write must wait for ALL invalidation acknowledgments. Why? If CPU 3 wrote X=5 and CPU 1 hadn't yet invalidated, CPU 1 might return old data X=3 to a future reader — violating coherence. The directory acts as a serialization point: it processes one request per block at a time, naturally providing the same total order the bus provided in snooping.
+
 ---
+
+## Directory Protocol: Eviction (Writeback)
+
+**Dirty eviction (CPU 3 is Owner, State = Modified):**
+```
+1. CPU 3 → Directory:   WritebackReq(B, data)
+2. Directory → Memory:  Update(B, data)
+3. Directory updates:   State = Uncached
+4. Directory → CPU 3:   WritebackAck
+```
+
+**Clean eviction (CPU 1, one of several Shared copies):**
+```
+1. CPU 1 → Directory:   EvictShare(B)
+2. Directory updates:   Remove CPU 1 from Sharers bitmap
+3. If Sharers = ∅:      State = Uncached
+```
 
-## 43. Directory Structure Details (continued)
-- **Owner Pointer**:
-  - Points to processor with exclusive/modified copy
-  - Used when data needs to be fetched from a cache
-  - **Example**: If processor 5 has exclusive copy, owner = 5
-  - **Real-world analogy**: Library record showing who has the master copy of a document
-  - Important for performance: Get data directly from owner rather than going to memory
+**Why acknowledge writebacks?** Prevents races: if CPU 3 evicts B, then CPU 4 reads B before the writeback reaches memory, the directory must not grant CPU 4 the old value. WritebackAck serializes this.
 
+Note: Evictions are one of the harder parts of directory protocol implementation. The directory must handle races between simultaneous requests and evictions for the same block. Real implementations use "transient states" (IMAD, IMAD-WB, etc.) to track these race conditions. Full protocol verification requires model checking — there are O(N) transient states even for simple 3-state protocols.
+
 ---
+
+## SCD: Scalable Coherence Directory
+
+**Problem:** For 1024 cores, full-map directory = 128 bytes overhead per 64-byte block (200%). Impractical.
+
+**SCD's key insight (Sanchez & Kozyrakis, 2012):** The actual distribution of sharing is **bimodal** — most blocks are either **private** (1 sharer) or **broadcast** (many sharers). The "2–16 sharers" region is rare.
+
+**Variable-size encoding:**
+
+| Encoding | Bits Used | Represents |
+|----------|-----------|------------|
+| Single owner pointer | log₂N | Exactly 1 sharer (private) |
+| Pair of pointers | 2 × log₂N | Exactly 2 sharers (producer-consumer) |
+| Coarse-grained group vector | N/G bits | Many sharers (grouped by G cores) |
+| Broadcast flag | 1 bit | All caches are sharers |
+
+**Result at 1024 cores:** Only ~5% storage overhead vs. 200% for full-map.
 
-## 44. Directory Protocol Advantages
-- **Advantages**:
-  - Scales to large numbers of processors
-  - Reduces unnecessary traffic
-  - Works with any network topology
-  - Only affected processors receive messages
-- **Common Uses**:
-  - Large-scale servers
-  - Supercomputers
-  - Multi-socket systems
-  - Distributed shared memory systems
+![Variable-size sharer set encodings: 1, 2, many](images/scd-sharer-encoding.svg)
 
+Note: SCD was demonstrated at 1024 cores with 5% storage overhead and less than 2% increase in coherence latency vs. full-map. AMD uses similar ideas in their Infinity Fabric directory. Intel's scalable socket architecture uses compressed sharer lists. The bimodal sharing distribution is universal: most data is either truly private or truly broadcast-shared. Applications that have large numbers of sharers in the 3-32 range are the edge case SCD handles with coarse vectors.
+
 ---
+
+## Scalability Comparison
+
+| Protocol | Max Practical Cores | Message Pattern | Directory Storage |
+|----------|--------------------|-----------------|--------------------|
+| Bus snooping | 8–32 | O(N) broadcast | None |
+| Snooping (ring) | 32–64 | O(N) traversal | None |
+| Directory (full-map) | 64–128 | O(1) targeted | O(N bits/block) |
+| Directory (limited ptr) | 128–512 | O(k) targeted | O(k × log N) |
+| SCD variable | 512–1024+ | O(1) targeted | ~5% |
+| CXL fabric | Multi-socket, multi-device | O(1) targeted | Distributed |
 
-## 45. Directory Protocol Limitations
-- **Limitations**:
-  - More complex to implement
-  - Directory storage overhead
-  - Indirection adds latency
-  - Multiple network hops required
-- **Storage Overhead**:
-  - For N processors, each memory block needs N+2 bits
-  - 64-processor system: 66 bits per cache line
-  - Can be significant for large systems
-  - Various compression techniques exist
+Note: This is why every server CPU uses directory protocols between clusters. Modern AMD EPYC (96-192 cores) and Intel Xeon (60 cores) always use directory-based coherence at the inter-chiplet or inter-socket level. Snooping may be used within a small cluster of 8-16 cores sharing an L3 slice, but not across clusters. Understanding this hierarchy is key to understanding modern CPU performance.
 
 ---
 
-## 46. Coherence Protocol States Introduction
-- **What are Protocol States?**
-  - Define the status of a cache line
-  - Determine allowed operations
-  - Control transitions based on events
-  - Like rules for handling a book
-- **Basic States**:
-  - Valid/Invalid: Can the data be used?
-  - Clean/Dirty: Has the data been modified?
-  - Exclusive/Shared: Do others have copies?
+## Part 4: Memory Consistency Models
 
+### How Relaxed Can We Get Without Breaking Programs?
+
+> Coherence ensures everyone agrees on the order of writes to a single address. Consistency defines what ordering guarantees exist across DIFFERENT addresses.
+
+Note: This is where things get subtle. Coherence is a hardware property — the hardware either guarantees it or not. Consistency is a contract between hardware and software. The programming language (C11, Java, CUDA) maps to hardware instructions, and the hardware's consistency model determines what the programmer must add (fences, atomics) to get correct behavior.
+
 ---
+
+## Sequential Consistency: What Programmers Want
 
-## 47. MSI Protocol Explained
-- **What is MSI?**
-  - Three states: Modified, Shared, Invalid
-  - Fundamental protocol for cache coherence
-  - Like three book states: checked-out with notes, reading copy, not available
-- **States Explained**:
-  - Modified (M): Only copy, has been changed, must write back
-  - Shared (S): Clean copy, others may have it too
-  - Invalid (I): No valid copy, must fetch from elsewhere
+**Lamport's SC:**
+1. Operations of each processor appear in program order
+2. The complete execution looks like some interleaving of all processors' program orders
 
+**Why SC is desirable — Dekker's mutex works without fences:**
+```c
+// Initially: flag0=0, flag1=0
+// CPU 0:                         // CPU 1:
+flag0 = 1;                        flag1 = 1;
+if (flag1 == 0) enter_CS();       if (flag0 == 0) enter_CS();
+// Under SC: at most one enters. ✓
+```
+
+**Under relaxed models (ARM, without fences):** Both could read 0 → both enter. Mutual exclusion fails! ✗
+
+Note: This is the canonical example of why consistency models matter. The algorithm is logically correct. With SC, it's practically correct. With a relaxed model, it fails — and the failure is silent. No crash, no error — just two threads both "safely" in the critical section at once. Memory model bugs are notorious for being hard to reproduce and hard to debug.
+
 ---
+
+## Why SC is Too Strict for Performance
+
+**SC forbids hardware optimizations that all modern CPUs use:**
+
+| Optimization | Violates SC? | Typical Performance Gain |
+|--------------|-------------|--------------------------|
+| Store buffer (write queue) | Yes — loads can bypass stores | 10–30% IPC |
+| Out-of-order load execution | Yes — loads may not wait for prior stores | 20–40% IPC |
+| Non-blocking caches | Yes — multiple outstanding misses | 15–25% IPC |
+| Speculative loads | Yes — load before branch resolved | 10–20% IPC |
+
+**The store buffer is the key culprit:**
+```
+CPU 0: store X=1  (goes into store buffer, not yet visible)
+CPU 1: load X → 0 (sees old value from cache, not CPU 0's store buffer)
+→ This violates SC. But the store buffer gives 10-30% speedup.
+```
 
-## 48. MSI Protocol State Details
-- **Modified State**:
-  - Only this cache has a valid copy
-  - Data has been changed from memory value
-  - Cache is responsible for providing data to others
-  - Must write back to memory eventually
-  - **Like**: Having the only copy of a book with your notes in it
+Note: Every modern high-performance processor has a store buffer. Every modern high-performance processor is NOT sequentially consistent by default. The question is: how far do we relax, and what does the programmer need to add back to get correct behavior?
 
 ---
 
-## 49. MSI Protocol State Details (continued)
-- **Shared State**:
-  - This cache has a valid copy
-  - Data matches what's in memory
-  - Other caches may also have copies
-  - Read-only state (must transition to M to write)
-  - **Like**: Having a clean copy of a book that others might also be reading
+## TSO: Total Store Order (x86's Model)
 
+**TSO is SC with one relaxation:** Stores can be delayed in a per-processor FIFO write buffer before becoming globally visible.
+
+**What TSO permits that SC forbids:**
+```
+// Initially: X=0, Y=0
+
+CPU 0:              CPU 1:
+store X=1           store Y=1
+(buffer)            (buffer)
+load Y → 0          load X → 0
+```
+Both see 0 for the other's write — impossible under SC, allowed under TSO.
+
+**What TSO still guarantees:**
+- Stores become globally visible in order (total store order)
+- A load sees all prior stores from the **same** processor (via store-to-load forwarding)
+- `MFENCE` drains the store buffer completely
+
+Note: x86-TSO was formalized by Owens, Sarkar, and Sewell in 2009 — surprising that x86's memory model wasn't formally specified until then! TSO is one of the strongest relaxed models in practice, which is why x86 code is often more portable across architectures. The store buffer is the minimal relaxation needed for good performance.
+
 ---
+
+## Relaxed Models: ARM and RISC-V
+
+**ARM's memory model (Weakly Ordered):**
+- Loads and stores can be reordered in almost any way
+- Only restrictions: data dependencies, explicit barriers, and acquire/release atomics
+
+**RISC-V's memory model (RVWMO):**
+- Similar to ARM: aggressively relaxed
+- `FENCE r,w` instructions provide ordering guarantees
 
-## 50. MSI Protocol State Details (continued)
-- **Invalid State**:
-  - This cache does not have a valid copy
-  - Must fetch data from memory or another cache to use it
-  - Default state for all cache lines initially
-  - **Like**: Not having a book at all, must check it out from library
+**Why such aggressive relaxation?**
+- ARM targets everything from IoT devices to supercomputers
+- Weak ordering allows maximum hardware optimization at every power/performance point
+- The compiler and programmer are responsible for inserting barriers
 
----
-
-## 51. MSI Protocol Example
-- **Starting State**: 
-  - All caches have X in Invalid state
-  - Memory has X = 0
-- **Example Scenario**:
-  ```
-  P1: Read X  → S(0)   // P1 gets shared copy with value 0
-  P2: Read X  → S(0)   // P2 also gets shared copy
-  P1: Write X=1 → M(1) // P1 gets exclusive modified copy
-                      // P2's copy invalidated
-  P2: Read X  → S(1)   // P2 gets new value from P1
-                      // P1 moves to Shared
-  ```
+**Memory barrier instructions:**
 
-![MSI State Diagram](images/msi_state_diagram.svg)
+| Architecture | Full Barrier | Store Barrier | Load Barrier |
+|-------------|--------------|---------------|--------------|
+| x86 | `MFENCE` | `SFENCE` | `LFENCE` |
+| ARM | `DMB ISH` | `DMB ISHST` | `DMB ISHLD` |
+| RISC-V | `FENCE rw,rw` | `FENCE w,w` | `FENCE r,r` |
 
+![Memory consistency models: SC vs TSO vs WO operation ordering](images/memory-consistency-models.svg)
+
+Note: RISC-V's RVWMO is actually more carefully specified than ARM's model — RISC-V provides a formal axiomatic model in the ISA specification. Both allow significant reordering. In practice, the C11/C++11 memory model provides the best abstraction: `memory_order_acquire`, `memory_order_release`, and `memory_order_seq_cst` map to the minimum necessary barriers on each architecture.
+
 ---
+
+## Coherence vs. Consistency: A Concrete Example
+
+**This code is correct under SC but fails on ARM without fences:**
+```c
+// Initially: X=0, Y=0
+
+// CPU 0:           // CPU 1:
+X = 1;              while (Y == 0);   // spin until Y is set
+Y = 1;              print(X);         // may print 0 on ARM!
+```
+
+**Coherence perspective:** All writes to X propagate ✓, all writes to Y propagate ✓. Coherent!
+
+**Consistency perspective:** CPU 0's `X=1` store may still be in the write buffer when CPU 1 reads X, even though CPU 1 already saw `Y=1`.
 
-## 52. MESI Protocol Explained
-- **What is MESI?**
-  - Adds Exclusive state to MSI
-  - Four states: Modified, Exclusive, Shared, Invalid
-  - Like adding "reserved for you only" state
-- **Why Add Exclusive State?**
-  - Optimization for common case
-  - Reduces bus traffic for private data
-  - Allows direct M transition without bus traffic
+**Fix:** `memory_order_release` on `Y=1`, `memory_order_acquire` on the spin.
 
+Note: Coherence says "all writes to X will eventually be seen by everyone in the same order." But it says nothing about WHEN they're seen relative to writes to Y. Consistency fills that gap. This is why both concepts are necessary: coherence for single-variable correctness, consistency for multi-variable ordering. The Coherence hardware guarantees are preserved — the consistency violation is about cross-variable ordering.
+
 ---
+
+## Part 5: False Sharing
+
+### The Hidden Performance Killer
 
-## 53. MESI Protocol State Details
-- **Exclusive State**:
-  - Only this cache has a valid copy
-  - Data matches what's in memory (clean)
-  - No need to broadcast when writing
-  - Can silently transition to Modified
-  - **Like**: Having the only copy of a book, but haven't written in it yet
-  - When you start writing, no need to tell anyone
+> Two processors, two different variables, one cache line — catastrophic performance, silently correct results.
 
+Note: False sharing is insidious because the code is correct — it produces the right answers. But it can run 10-100× slower than expected, and there's no error to alert you. It's one of the most common parallel programming pitfalls discovered during performance optimization.
+
 ---
+
+## What is False Sharing?
+
+**Cache coherence operates at cache-line granularity (64 bytes on all modern x86/ARM).**
+
+If two processors access **different variables** that happen to share a **64-byte cache line**, the coherence protocol treats the whole line as shared — even though no data is actually shared.
 
-## 54. MESI Protocol Example
-- **Example Scenario**:
-  ```
-  // All caches start with X in Invalid state
-  // Memory has X = 0
-  
-  P1: Read X  → E(0)   // P1 gets exclusive copy (no other copies)
-  P1: Write X=1 → M(1) // P1 changes to Modified WITHOUT bus transaction
-  P2: Read X  → S(1)   // P2 gets shared copy
-                      // P1 changes to Shared
-  P3: Write X=2 → M(2) // P3 gets modified copy
-                      // P1 and P2 invalidated
-  ```
-- **Key Benefit**: P1's write didn't need bus transaction (silent E→M transition)
+```c
+struct {
+    long counter_A;   // Thread 0 writes this   ─┐ same 64-byte
+    long counter_B;   // Thread 1 writes this   ─┘ cache line!
+} data;
+```
 
-![MESI protocol overview](images/mesi_state_diagram.svg)
+**What the hardware sees:**
+1. Thread 0 writes `counter_A` → cache line enters M state on CPU 0
+2. Thread 1 writes `counter_B` → sends WriteReq for the same cache line
+3. CPU 0's line is invalidated; CPU 1 gets the line in M state
+4. Thread 0 writes `counter_A` again → sends WriteReq again
+5. **The cache line ping-pongs between CPUs indefinitely**
 
+![False sharing: same cache line, different variables, ping-pong](images/false-sharing.svg)
+
+Note: In the worst case, false sharing reduces performance to *below* sequential speed — you have the overhead of constant cache-line invalidation on top of the serial computation. I've seen production systems show 50× slowdown from a single false-sharing struct. It's the most common cause of "parallel code that's slower than single-threaded code."
+
 ---
+
+## False Sharing: Quantified Performance Impact
+
+**Benchmark: Two threads increment adjacent counters, 1 billion iterations each**
+
+| Configuration | Time | vs. Sequential |
+|---------------|------|----------------|
+| Single thread (no parallelism) | 2.1 s | 1.0× |
+| Two threads — **false sharing** | 9.8 s | **0.2× (5× SLOWER)** |
+| Two threads — padded to separate lines | 1.1 s | 1.9× |
+| Two threads — completely separate arrays | 1.0 s | 2.1× |
+
+**The false-sharing case is 4.7× slower than single-threaded.**
+
+The constant cache-line invalidation traffic completely dominates, consuming all available memory bandwidth.
 
-## 55. MOESI Protocol Explained
-- **What is MOESI?**
-  - Adds Owned state to MESI
-  - Five states: Modified, Owned, Exclusive, Shared, Invalid
-  - Like adding "master copy with sharing" state
-- **Why Add Owned State?**
-  - Allow sharing of modified data
-  - Defer write-back to memory
-  - Reduce memory traffic
-  - One cache owns responsibility for updates
+Note: The 5× slowdown relative to sequential is striking. You're not just failing to parallelize — you're actively making it worse. Every time Thread 0 writes, Thread 1's copy is invalidated. Thread 1 must fetch the line, write, and then Thread 0's copy is invalidated. The two CPUs are serializing each other's memory access through the coherence protocol.
 
 ---
 
-## 56. MOESI Protocol State Details
-- **Owned State**:
-  - This cache has a modified copy
-  - Other caches may have shared copies
-  - This cache is responsible for providing data
-  - Memory is not up-to-date
-  - **Like**: Having the annotated master copy of a book that others can read
-  - You're responsible for tracking your changes
+## Detecting False Sharing
 
+**Linux `perf c2c` — designed specifically for this:**
+```bash
+# Record cache-to-cache (c2c) events
+perf c2c record ./program
+
+# Report: shows lines with high HITM counts
+perf c2c report --call-graph
+
+# Key metric: HITM = Hit In The other processor's Modified cache line
+# High HITM count → false sharing
+```
+
+**What to look for:**
+- High `HITM` event count (accesses that hit a Modified line in another core)
+- High cache miss rate but most misses are cache-to-cache (not main memory)
+- Two specific cache line addresses bouncing between specific CPUs
+
+**Intel VTune:** Shows "Memory Access" issues, highlights false sharing automatically in the GUI.
+
+Note: `perf c2c` has been available since Linux 4.10 and was specifically designed to detect false sharing. It tracks HITM events — accesses that find a Modified line in another core's cache. Normal cache misses go to memory (slow). HITM misses go to another core's cache (also slow, and bandwidth-intensive). A cluster of HITM events on the same cache line address is the fingerprint of false sharing.
+
 ---
+
+## Fixing False Sharing: Padding and Alignment
+
+```c
+// ❌ BEFORE: False sharing (counter_A and counter_B share a cache line)
+struct {
+    long counter_A;
+    long counter_B;
+} data;
 
-## 57. MOESI Protocol Example
-- **Example Scenario**:
-  ```
-  // All caches start with X in Invalid state
-  // Memory has X = 0
-  
-  P1: Read X  → E(0)   // P1 gets exclusive copy
-  P1: Write X=1 → M(1) // P1 changes to Modified
-  P2: Read X  → P1:O(1), P2:S(1) // P1 moves to Owned
-                                // P2 gets Shared copy
-                                // Memory still has X=0!
-  P3: Read X  → P1:O(1), P2:S(1), P3:S(1) // Another shared copy
-                                         // P1 still responsible
-  ```
-- **Key Benefit**: No write-back to memory needed when sharing modified data
+// ✓ AFTER: Each counter on its own 64-byte cache line
+#define CACHE_LINE 64
 
-![MOESI protocol state diagram](images/moesi_state_diagram.svg)
+struct {
+    alignas(CACHE_LINE) long counter_A;
+    char _pad_A[CACHE_LINE - sizeof(long)];  // 56 bytes padding
+    alignas(CACHE_LINE) long counter_B;
+    char _pad_B[CACHE_LINE - sizeof(long)];
+} data;
 
----
-
-## 58. Protocol Comparison
-- **MSI**: Basic protocol, 3 states
-  - Simplest to implement
-  - Higher bus traffic
-  - Used in early systems
+// ✓ BEST (C++17): Portable, self-documenting
+#include <new>  // for hardware_destructive_interference_size
+struct alignas(std::hardware_destructive_interference_size) PerThreadCounter {
+    long value;
+};
+PerThreadCounter counters[NUM_THREADS];
+```
 
-- **MESI**: Adds Exclusive state, 4 states
-  - Reduces write traffic
-  - Better performance for private data
-  - Used in Intel processors
+**Result:** Each counter resides on its own cache line. Thread 0's writes never invalidate Thread 1's copy.
 
-- **MOESI**: Adds Owned state, 5 states
-  - Reduces memory traffic
-  - Better for shared modified data
-  - Used in AMD processors
+Note: `hardware_destructive_interference_size` is the C++17 portable way — it's defined per-platform to equal the actual cache line size. Don't hardcode 64: ARM platforms can have 64 or 128 byte cache lines. In production HPC and systems code, you'll see padding patterns everywhere in concurrent data structures: lock-free queues, thread-local storage, NUMA-aware allocators.
 
 ---
 
-## 59. Write Policies and Protocols
-- **Write-Through vs. Write-Back**:
-  - Write-Through: All writes go to memory immediately
-  - Write-Back: Writes stay in cache until eviction
-  - Most coherent systems use write-back for performance
+## Part 6: Modern CPU Cache Coherence
 
-- **Update vs. Invalidate**:
-  - Update: Send new data to all sharers
-  - Invalidate: Tell sharers their copy is invalid
-  - Most systems use invalidate (less bandwidth)
+### How AMD, Intel, and Apple Actually Do It
 
+Note: Real systems combine multiple protocols, hierarchical directories, and hardware-specific optimizations tailored to their die topology. The "correct" protocol depends on your target workload, die area budget, and interconnect topology. Let's see the three leading approaches.
+
 ---
+
+## AMD Zen 5: Probe Filtering at Scale
+
+**Architecture:** Up to 16 cores per CCD (Core Complex Die) connected via Infinity Fabric
 
-## 60. False Sharing Explained
-- **What is False Sharing?**
-  - Different processors access different variables
-  - But variables are in the same cache line
-  - Causes unnecessary coherence traffic
-  - Like sharing a textbook when each person needs a different chapter
+**Key coherence design choices:**
+- **MOESI protocol** within each CCD and across CCDs
+- **L3 cache as probe filter:** Before broadcasting a coherence probe across the Infinity Fabric, the L3 checks whether it holds the line. If not → the line is private to its CCD → no need to probe other CCDs
+  - Reduces inter-CCD coherence traffic by ~30-50%
+- **124 outstanding L1 misses per core** (up from 44 in Zen 4) — allows aggressive latency hiding while waiting for coherence responses
+- **Infinity Fabric directory:** Acts as the home node for cross-CCD coherence, with one home region per address range
 
+Note: The probe filter is the key scalability feature. Without it, every L3 miss would broadcast to all 12 CCDs in a Genoa chip to check for dirty copies — saturating the Infinity Fabric with coherence probes. With the probe filter, only misses to lines actually in SOME L3 cache generate probes. AMD claims this reduces Infinity Fabric coherence traffic by 30-50% for typical server workloads (database, HPC, virtualization).
+
 ---
+
+## Intel Raptor Lake: MESIF and Adaptive Snoop Modes
 
-## 61. False Sharing Detailed Example
-- **Example Code**:
-  ```
-  // Array of counters on same cache line
-  int counters[16]; // 64 bytes = 16 integers
-  
-  // Thread 1 updates counters[0]
-  while(running) counters[0]++;
-  
-  // Thread 2 updates counters[1]
-  while(running) counters[1]++;
-  ```
-- **Problem**:
-  - Both threads modify same cache line
-  - Each modification invalidates other's copy
-  - Cache line bounces between processors
-  - Massive performance degradation (10-100x slower)
+**Architecture:** P-cores + E-cores sharing L3 cache ring; Xeon uses mesh interconnect
 
-![False sharing visualization](images/false_sharing.svg)
+**Key coherence design choices:**
+- **MESIF protocol** — Forward state enables direct cache-to-cache transfers on the ring, eliminating memory from the critical path for read sharing
+- **Two snoop modes:**
+  - *Home Snoop:* Request goes to home LLC slice → home checks all sharers → lower bandwidth, higher latency
+  - *Source Snoop:* Request broadcasts first → lower latency if nearby cache has it → higher bandwidth
+- **Dynamic mode selection:** Hardware switches modes based on system load in real time
+- **Snoop filter in LLC:** Tracks which cores have copies of which lines; avoids unnecessary probes
 
+Note: The dual snoop mode is Intel's response to the latency vs. bandwidth tradeoff. Under low load, Source Snoop provides minimum latency (direct cache-to-cache). Under high load, Home Snoop reduces bandwidth. The hardware tracks which mode is more efficient. Intel's Xeon Scalable Family has been using variants of this since Skylake-SP (2017) and refined it through each generation.
+
 ---
+
+## Apple M-Series: ARM ACE and Zero-Copy GPU
 
-## 62. False Sharing Solutions
-- **How to Fix False Sharing**
-  - Separate variables to different cache lines
-  - Use padding between variables
-  - Align data to cache line boundaries
-  - Like giving each person their own copy of the book
+**Architecture:** CPU + GPU on same die, unified LPDDR memory, ARM AMBA ACE coherence fabric
 
+**Key coherence design choices:**
+- **ARM ACE protocol (AXI Coherency Extensions):** CPU and GPU participate in the same coherence protocol — the GPU has full read/write coherence with all CPU caches
+- **Asymmetric inclusiveness:**
+  - CPU L2: *Exclusive* (L1 evictions go to L2, not duplicated)
+  - GPU L2: *Inclusive* of GPU L1 (simplifies CPU→GPU probes; CPU only needs to probe GPU L2)
+- **Zero-copy data transfer:** GPU reads/writes CPU memory directly. No `memcpy` to GPU buffer.
+- **Fabric-level coherence:** All agents (CPU, GPU, Neural Engine, DMA) connect to the interconnect with ACE ports
+
+**Impact:** On Metal, a CPU-written texture can be read by the GPU with zero additional overhead. On discrete GPUs, this transfer typically dominates frame setup time.
+
+Note: Apple's unified memory architecture is only possible because they designed CPU and GPU coherence domains together from scratch. x86+discrete GPU architectures must use PCI-E or NVLink for GPU coherence — both add latency and bandwidth overhead. Apple's M-series shows what's possible when the entire stack is co-designed.
+
 ---
 
-## 63. False Sharing Solution Example
-- **Fixed Code**:
-  ```
-  // Padded structure to avoid false sharing
-  struct PaddedCounter {
-      int value;
-      char padding[60]; // Fill rest of 64-byte cache line
-  };
-  
-  PaddedCounter counters[16]; // Each counter on separate line
-  
-  // Thread 1 updates counters[0].value
-  // Thread 2 updates counters[1].value
-  // No false sharing!
-  ```
-- **Result**: Each counter on its own cache line
-- **Performance Impact**: Can be 10-100x faster in extreme cases
+## Modern CPU Coherence: Design Comparison
 
+| Architecture | Protocol | Directory Location | Notable Feature |
+|-------------|----------|--------------------|-----------------|
+| AMD Zen 5 | MOESI | Infinity Fabric | L3 probe filter, 124 MSHRs |
+| Intel Raptor Lake | MESIF | LLC slices | Dual snoop modes |
+| Apple M4 | ARM ACE | Fabric-integrated | CPU+GPU unified, zero-copy |
+| IBM POWER10 | MESI+ | NUMA directory | Memory Clustering Domains |
+| Ampere Altra | MESI | ARM CMN-700 mesh | 128-core coherent mesh |
+
+![AMD/Intel/Apple side-by-side protocol choices](images/cpu-coherence-comparison.svg)
+
+Note: There is no single best protocol — each company optimized for their target workload and die topology. AMD's MOESI eliminates writebacks, important for server workloads with many L3 slices. Intel's MESIF optimizes cache-to-cache latency for latency-sensitive applications in multi-socket Xeon systems. Apple's ACE prioritizes CPU-GPU zero-copy for the mobile/laptop workload where copy overhead dominates. The "right" choice is workload-dependent.
+
 ---
+
+## Part 7: Heterogeneous Coherence — CPU + GPU
 
-## 64. Modern CPU Cache Coherence
-- **Multi-level Coherence**
-  - Different protocols at different levels
-  - Like different rules for different buildings
-- **Hybrid Approaches**
-  - Snooping within processor socket
-  - Directory between sockets
-  - Like local meetings vs. conference calls
+### When Bandwidth Optimization Meets Latency Optimization
 
+> CPUs optimize for latency (single-thread response time). GPUs optimize for throughput (aggregate bandwidth). Making them coherent without destroying both is a hard engineering problem.
+
+Note: This is one of the hottest areas of current architecture research. The GPU's memory subsystem is built for bandwidth — hundreds to thousands of GB/s, with thousands of concurrent threads to hide latency. CPU caches optimize for single-thread latency — a few nanoseconds. Making them coherent without bottlenecking either side requires new protocol designs.
+
 ---
+
+## The CPU+GPU Coherence Problem
 
-## 65. Modern CPU Architecture Example
-- **Intel Xeon Multi-Socket System**:
-  - Within socket: Ring or mesh interconnect with snooping
-  - L3 cache acts as snoop filter
-  - Between sockets: Directory protocol over QPI/UPI
-  - Inclusive L3 cache simplifies coherence
-  - MESIF protocol (F=Forward state for cache-to-cache transfers)
+**CPU memory characteristics:**
+- Cache hierarchy: L1/L2/L3 private caches per core
+- Coherence at **64-byte line granularity**
+- Optimized for **latency** (single-digit ns for L1 hit)
 
-![Modern CPU architecture](images/modern_cpu_gpu_architecture.svg)
+**GPU memory characteristics:**
+- HBM (H100: 3.35 TB/s bandwidth)
+- Optimized for **throughput** (thousands of threads in flight)
+- Coherence typically at **128-byte or page granularity** (or none)
 
+**The mismatch:**
+- CPU-style fine-grained coherence on GPU → too many coherence messages saturate the NVLink/PCIe interconnect
+- GPU-style coarse coherence on CPU → CPU latency skyrockets (must flush pages, not lines)
+
+![CPU+GPU shared memory with coherence traffic challenge](images/cpu-gpu-coherence.svg)
+
+Note: The "two separate memory pools" model (pre-2020 GPU computing) was the industry's pragmatic answer: just don't make them coherent. CPU copies data to GPU memory, GPU computes, GPU copies results back. Zero coherence overhead, but massive data movement latency. With NVLink and CXL, we're now building systems where this copy overhead is the primary bottleneck — hence the push for hardware coherence.
+
 ---
+
+## AMD's Approach: Selective Caching
 
-## 66. AMD CPU Architecture Example
-- **AMD EPYC Architecture**:
-  - Multiple chiplets connected by Infinity Fabric
-  - Each chiplet has multiple cores with L1/L2
-  - L3 cache slices per chiplet
-  - MOESI protocol
-  - Directory-based coherence between chiplets
-  - Non-inclusive L3 cache for better capacity
+**Key insight:** Not all GPU data needs to be coherent with the CPU.
 
+**Selective caching (AMD CDNA architecture and APUs):**
+- GPU memory pages are tagged as **coherent** or **non-coherent** in the page table
+- Coherent pages: GPU uses the standard CPU coherence protocol (slower but correct for shared data)
+- Non-coherent pages: GPU uses its own high-bandwidth memory subsystem (no coherence overhead for GPU-private data)
+
+```cuda
+// Non-coherent: GPU-private, maximum bandwidth
+float* gpu_buf = allocate_device(size);        // non-coherent HBM
+
+// Coherent: shared with CPU, explicit protocol
+float* shared  = allocate_coherent(size);      // participates in CPU coherence
+```
+
+**Result:** ~3× bandwidth improvement vs. fully-coherent GPU for typical GPU-only compute workloads, with correct coherence for the subset that needs it.
+
+Note: AMD's ROCm runtime and HIP handle this automatically for common patterns (host-device data transfers). The programmer doesn't need to manually tag pages in most cases. But performance-critical HPC code often does explicit management to maximize GPU bandwidth on the non-coherent allocations.
+
 ---
+
+## Region Directories: Coarse-Grained GPU Coherence
+
+**Problem:** Even for coherent GPU data, 64-byte line coherence is too fine for GPU access patterns (GPU threads access 128+ byte aligned, bulk sequential regions).
+
+**Region directory approach:**
+- Track coherence at **page granularity (4KB)** rather than line granularity
+- If the CPU has no dirty lines in a region, the GPU can bypass coherence entirely for that region
+- Only pages with recent CPU writes need invalidation before GPU access
 
-## 67. Performance Impact
-- **How Much Does Coherence Cost?**
-  - 10-30% of cache misses are coherence misses
-  - False sharing can slow things down 5-10x
-  - Cache-to-cache transfers add latency
-  - Directory lookups add indirection
+**Message reduction math:**
+```
+Naive fine-grained: 64 invalidations per 4KB page (64 lines × 64B)
+Region directory:    1 page-level invalidation
+→ 64× reduction in coherence messages for bulk GPU accesses
+```
 
+**Trade-off:** Some false sharing at page granularity — a page may be partially dirty, requiring more invalidation than strictly necessary.
+
+Note: Region directories are used in AMD's NUMA GPU systems and in Apple's M-series for CPU-GPU data sharing. The coarser granularity means some waste (a page might be 50% dirty, forcing full invalidation) but the bandwidth savings for GPU workloads usually outweigh the false-sharing cost, because GPU access patterns are typically large and regular.
+
 ---
+
+## NVIDIA HMG: Hierarchical Multi-GPU Coherence
 
-## 68. Performance Numbers
-- **Typical Latencies**:
-  ```
-  Local L1 hit: 1-3 cycles
-  Local L2 hit: 10-15 cycles
-  Local L3 hit: 30-50 cycles
-  Remote cache (same socket): 50-80 cycles
-  Remote cache (different socket): 150-300 cycles
-  Memory access: 200-400 cycles
-  ```
-- **Coherence Impact**:
-  - Local coherence traffic can double latency
-  - Cross-socket coherence can triple latency
-  - False sharing can add 10x overhead
+**Problem:** Multi-GPU nodes (DGX H100: 8 × H100 GPUs) need inter-GPU coherence. Software-managed coherence requires explicit `cudaMemcpy` between GPUs — high programmer burden and latency.
 
+**NVIDIA HMG (Hierarchical Memory & Coherence, SC '22):**
+- **Two-level directory hierarchy:**
+  - Per-GPU local directory: tracks lines in that GPU's L2 cache
+  - Global inter-GPU directory: tracks cross-GPU sharing over NVLink
+- **Scope-based coherence:** GPU threads declare the coherence scope of their accesses (warp, CTA, device, system)
+
+**Measured results (SC '22 paper):**
+- 26% reduction in coherence traffic vs. software invalidation
+- Bandwidth scales with GPU count up to 8 GPUs
+- Enables GPU threads to directly read data cached in another GPU's L2
+
+Note: HMG is significant because it brings CPU-style hardware coherence to multi-GPU systems. Previously, GPU-to-GPU data sharing required explicit memory copies — the programmer had to know the data location and issue the copy. With HMG, a CUDA thread can access data in another GPU's cache with hardware-maintained coherence, enabling new programming models like unified GPU cluster memory.
+
 ---
 
-## 69. Best Practices
-1. **Avoid False Sharing**
-   - Keep frequently accessed data separate
-   - Use padding when needed
-   - Align data structures to cache lines
+## Part 8: Emerging Topics
 
-2. **Minimize Sharing**
-   - Keep data private when possible
-   - Use local copies when practical
-   - Share read-only data when possible
+### CXL, Chiplets, and the Next Frontier
 
 ---
+
+## CXL: Compute Express Link
 
-## 70. More Best Practices
-3. **Understand Access Patterns**
-   - Sequential access is better than random
-   - Read sharing is cheaper than write sharing
-   - Producer-consumer better than ping-pong
+**What is CXL?** An open standard (v1.0: 2019, v3.0: 2022) built on PCIe physical layer that adds three coherent protocols:
 
-4. **Use Appropriate Synchronization**
-   - Don't over-synchronize
-   - Batch updates to shared data
-   - Consider lock-free techniques for hot data
+| Sub-protocol | Direction | What It Enables |
+|-------------|-----------|----------------|
+| `CXL.io` | Host ↔ Device | Standard PCIe I/O |
+| `CXL.cache` | Device → Host | Accelerator caches host memory (coherently) |
+| `CXL.mem` | Host → Device | Host accesses device-attached memory (coherently) |
 
+**Why CXL matters:**
+- Accelerators (FPGAs, AI chips, SmartNICs) join the CPU's coherence domain
+- Memory pooling: multiple CPUs share a "pool" of CXL-attached DRAM
+- CXL 3.0 switches: multi-host, multi-device coherence fabrics
+
+**Practical example:** A 2TB CXL memory expander appears as regular RAM to Linux — cached by CPU caches, with full coherence — just higher latency (~100 ns additional).
+
+![CXL device and chiplet topology with coherence domains](images/cxl-chiplet-coherence.svg)
+
+Note: CXL is likely the most important architectural development of the 2020s. It breaks the assumption that coherence exists within one chip or socket. Intel Sapphire Rapids (2023) introduced CXL 1.1 support. AMD Genoa (2022) added CXL 1.1. CXL 3.0's fabric feature allows building disaggregated systems where memory is a service, accessed coherently over PCIe by any compute device on the network.
+
 ---
+
+## CXL Coherence: Granularity Modes
+
+**CXL.cache provides two coherence modes:**
+
+| Mode | Granularity | Use Case |
+|------|-------------|----------|
+| **Fully coherent** | 64-byte cache lines | CPU ↔ AI accelerator with fine-grained sharing |
+| **Memory-mapped coherent** | 4KB pages | CPU ↔ memory expander (mostly read-heavy) |
+
+**CXL.mem host-side caching:**
+- CPU can cache lines from device memory (home node = device)
+- Device memory controller runs a directory protocol for cached lines
+- Uncached regions are accessed like MMIO (no coherence overhead)
 
-## 71. Future Trends
-- **Disaggregated Memory**
-  - Memory separate from processors
-  - New coherence challenges across network
-  - Software-managed coherence domains
+**Multi-host CXL (CXL 3.0):**
+- Up to 16 hosts share a CXL fabric
+- Each host can cache regions of pooled memory
+- Hardware coherence across all hosts — without any software involvement
 
-- **Heterogeneous Systems**
-  - CPU, GPU, FPGA, accelerators
-  - Different coherence needs and capabilities
-  - Domain-specific coherence protocols
+Note: CXL 3.0's multi-host coherence is the key differentiator. Earlier versions allowed one host to coherently access one device. CXL 3.0 allows many hosts to coherently share memory — essentially NUMA-across-boxes, enabled by hardware coherence. This enables rack-scale memory pooling: 10 servers share 10TB of CXL DRAM, each server caching the regions it accesses most.
 
 ---
 
-## 72. Summary
-- Cache coherence ensures consistent view of memory
-- Protocols range from simple MSI to complex MOESI
-- Implementations use snooping, directories, or hybrids
-- Performance impact is significant
-- Best practices can help avoid coherence bottlenecks
-- Future systems face new coherence challenges
+## Chiplet Coherence: Inter-Die Bandwidth Contention
 
+**Modern chiplet systems:**
+- AMD EPYC Genoa: 12 CCDs + 1 I/O die → up to 96 cores
+- Intel Ponte Vecchio (datacenter GPU): 47 chiplets on one package
+- Apple M2 Ultra: Two M2 Max dies connected via die-to-die interconnect
+
+**The chiplet coherence challenge:** Die-to-die interconnects have **finite bandwidth shared between coherence traffic and data traffic.**
+
+```
+AMD EPYC Genoa — xGMI inter-CCD bandwidth: ~800 GB/s total
+  → Data traffic (computation results):        ~600 GB/s
+  → Coherence control messages:                ~200 GB/s
+If coherence traffic > budget → data bandwidth is stolen → performance collapse
+```
+
+**AMD's solution:** L3 probe filter reduces coherence traffic by filtering out probes for privately-cached lines — preserving data bandwidth on the xGMI fabric.
+
+Note: This is a hard real engineering constraint in chiplet design. Every coherence message sent across the die-to-die interconnect consumes bandwidth that could carry data. The probe filter, SCD-style directory compression, and careful thread/data placement are all tools for keeping coherence traffic under budget. Intel's Ponte Vecchio had to carefully partition on-package mesh bandwidth to avoid coherence traffic starving compute traffic.
+
 ---
+
+## Why Software Must Become Topology-Aware
+
+**In chiplet and CXL systems, performance depends on topology in new ways:**
 
-## 73. Key Takeaways
-1. **Concepts**
-   - Coherence vs. consistency
-   - Protocol states and transitions
-   - Performance implications
+Software must consider:
+1. **Core-to-core distance:** Same CCD (fast coherence) vs. different CCDs (Infinity Fabric hop, ~200ns extra)
+2. **Thread-to-data affinity:** Is shared data in a cache near both threads?
+3. **Coherence domain boundaries:** Where do protocols change? (snooping within CCD, directory across CCD)
+4. **CXL latency:** Is accessed memory local DRAM (~80ns) or CXL-attached (~180ns)?
 
-2. **Implementation**
-   - Hardware protocols
-   - Software optimizations
-   - Monitoring tools
+**Practical tools:**
+```bash
+# Show NUMA topology
+numactl --hardware
+lstopo --of png topology.png   # hwloc: visual topology map
 
+# Pin threads to cores near their data
+numactl --cpunodebind=0 --membind=0 ./program
+
+# Profile for cross-NUMA access
+perf stat -e dtlb_load_misses.miss_causes_a_walk \
+          -e offcore_requests.all_data_rd ./program
+```
+
+Note: Operating systems are increasingly topology-aware (Linux's NUMA scheduler, Windows Core Parking). But application-level optimization still matters enormously for HPC and database workloads. Libraries like MPI, OpenMP, and Intel TBB provide topology-aware task placement APIs. Understanding the hardware's coherence topology is now a first-class performance engineering skill.
+
 ---
 
-## 74. References
-1. Hennessy & Patterson: Computer Architecture
-2. Sorin, Hill, Wood: A Primer on Memory Consistency and Cache Coherence
-3. Intel Architecture Manuals
-4. AMD Architecture Manuals
-5. Recent research papers on coherence
-6. Industry white papers and case studies
+## Part 9: Summary
 
 ---
+
+## Cache Coherence: The Big Picture
+
+**Protocol evolution — each step eliminates one class of waste:**
+
+```
+MSI (3 states)
+  └→ MESI (4): +Exclusive → eliminates BusUpgr for private data
+       └→ MOESI (5): +Owner → eliminates memory writeback on sharing
+       └→ MESIF (6): +Forward → eliminates memory on read-sharing response
+            └→ MOESIF (6): +Owner+Forward → eliminates both
+```
+
+**Scaling evolution — each step reduces message complexity:**
+
+```
+Bus snooping (≤32 cores, O(N) broadcast)
+  └→ Directory full-map (≤128 cores, O(1) targeted)
+       └→ Limited pointer (≤512 cores, O(k) targeted)
+            └→ SCD variable (≤1024+ cores, ~5% overhead)
+                 └→ CXL fabric (cross-socket, cross-device)
+```
 
+**The universal design principle:**
+> **No free lunch.** Every coherence protocol trades hardware complexity (extra states, protocol logic, verification effort) for eliminating a class of redundant work (bus upgrades, writebacks, broadcasts, memory reads). The best protocol minimizes total cost for your specific workload, die topology, and target core count.
 
+Note: Every major concept in this lecture was motivated by a specific bottleneck in an earlier design. MSI→MESI to eliminate private-data upgrade traffic. Snooping→directory to eliminate broadcast at scale. Full-map→SCD to eliminate directory storage overhead. CXL to eliminate copy overhead for accelerators. The pattern is universal: identify the dominant cost, add mechanism to eliminate it, accept the added complexity. This is how computer architecture evolves.

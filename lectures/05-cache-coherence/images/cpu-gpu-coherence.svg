@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 900 500" xmlns="http://www.w3.org/2000/svg" font-family="Arial, sans-serif">
+  <defs>
+    <marker id="arr-blue" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#004065"/>
+    </marker>
+    <marker id="arr-red" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#cc2200"/>
+    </marker>
+    <marker id="arr-both" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#004065"/>
+    </marker>
+    <marker id="arr-both-start" markerWidth="10" markerHeight="7" refX="1" refY="3.5" orient="auto-start-reverse">
+      <polygon points="10 0, 0 3.5, 10 7" fill="#004065"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="500" fill="#f8f9fa"/>
+
+  <!-- Title -->
+  <text x="450" y="32" text-anchor="middle" font-size="20" font-weight="bold" fill="#004065">CPU + GPU Coherence: The Bandwidth Mismatch Problem</text>
+
+  <!-- ════════════════ CPU block (left) ════════════════ -->
+  <rect x="20" y="54" width="260" height="270" rx="10" fill="#004065"/>
+  <text x="150" y="80" text-anchor="middle" font-size="16" font-weight="bold" fill="white">CPU</text>
+  <text x="150" y="98" text-anchor="middle" font-size="11" fill="#FFD200">Optimized for Latency</text>
+
+  <!-- L1 cache (innermost) -->
+  <rect x="40" y="108" width="220" height="34" rx="6" fill="#0068b5"/>
+  <text x="150" y="122" text-anchor="middle" font-size="12" font-weight="bold" fill="white">L1 Cache — 64 KB</text>
+  <text x="150" y="136" text-anchor="middle" font-size="10" fill="#cce4ff">4-cycle latency</text>
+
+  <!-- L2 cache -->
+  <rect x="40" y="150" width="220" height="34" rx="6" fill="#0068b5" opacity="0.85"/>
+  <text x="150" y="164" text-anchor="middle" font-size="12" font-weight="bold" fill="white">L2 Cache — 1 MB</text>
+  <text x="150" y="178" text-anchor="middle" font-size="10" fill="#cce4ff">12-cycle latency</text>
+
+  <!-- L3 cache -->
+  <rect x="40" y="192" width="220" height="34" rx="6" fill="#0068b5" opacity="0.7"/>
+  <text x="150" y="206" text-anchor="middle" font-size="12" font-weight="bold" fill="white">L3 Cache — 32 MB</text>
+  <text x="150" y="220" text-anchor="middle" font-size="10" fill="#cce4ff">~50-cycle latency</text>
+
+  <!-- DRAM -->
+  <rect x="40" y="234" width="220" height="34" rx="6" fill="#002a42"/>
+  <text x="150" y="248" text-anchor="middle" font-size="12" font-weight="bold" fill="white">DDR5 DRAM</text>
+  <text x="150" y="262" text-anchor="middle" font-size="10" fill="#cce4ff">~80 GB/s  |  ~90ns</text>
+
+  <!-- CPU label below -->
+  <rect x="40" y="278" width="220" height="34" rx="6" fill="#FFD200"/>
+  <text x="150" y="292" text-anchor="middle" font-size="11" font-weight="bold" fill="#004065">64-byte cache line coherence</text>
+  <text x="150" y="307" text-anchor="middle" font-size="10" fill="#004065">Fine-grained, low latency</text>
+
+  <!-- ════════════════ GPU block (right) ════════════════ -->
+  <rect x="620" y="54" width="260" height="270" rx="10" fill="#1a5c1a"/>
+  <text x="750" y="80" text-anchor="middle" font-size="16" font-weight="bold" fill="white">GPU</text>
+  <text x="750" y="98" text-anchor="middle" font-size="11" fill="#ccffcc">Optimized for Bandwidth</text>
+
+  <!-- SM L1 caches -->
+  <rect x="640" y="108" width="220" height="34" rx="6" fill="#2e7d32"/>
+  <text x="750" y="122" text-anchor="middle" font-size="12" font-weight="bold" fill="white">SM L1 Caches (128 × 32 KB)</text>
+  <text x="750" y="136" text-anchor="middle" font-size="10" fill="#ccffcc">per-SM, not globally coherent</text>
+
+  <!-- GPU L2 -->
+  <rect x="640" y="150" width="220" height="34" rx="6" fill="#2e7d32" opacity="0.85"/>
+  <text x="750" y="164" text-anchor="middle" font-size="12" font-weight="bold" fill="white">GPU L2 Cache — 40 MB</text>
+  <text x="750" y="178" text-anchor="middle" font-size="10" fill="#ccffcc">128-byte sectors, ~600 GB/s</text>
+
+  <!-- HBM / GDDR -->
+  <rect x="640" y="192" width="220" height="34" rx="6" fill="#1b5e20"/>
+  <text x="750" y="206" text-anchor="middle" font-size="12" font-weight="bold" fill="white">HBM3 / GDDR7</text>
+  <text x="750" y="220" text-anchor="middle" font-size="10" fill="#ccffcc">3.2 TB/s  |  high throughput</text>
+
+  <!-- GPU note -->
+  <rect x="640" y="234" width="220" height="74" rx="6" fill="#0f3d0f"/>
+  <text x="750" y="252" text-anchor="middle" font-size="11" font-weight="bold" fill="#ccffcc">Traditionally non-coherent</text>
+  <text x="750" y="268" text-anchor="middle" font-size="10" fill="#ccffcc">with CPU — programmer moves</text>
+  <text x="750" y="284" text-anchor="middle" font-size="10" fill="#ccffcc">data explicitly (cudaMemcpy)</text>
+  <text x="750" y="300" text-anchor="middle" font-size="10" fill="#ccffcc">or uses unified memory APIs</text>
+
+  <!-- ════════════════ Interconnect center ════════════════ -->
+  <rect x="294" y="140" width="312" height="60" rx="10" fill="#555"/>
+  <text x="450" y="163" text-anchor="middle" font-size="14" font-weight="bold" fill="white">NVLink 5 / PCIe 5.0</text>
+  <text x="450" y="181" text-anchor="middle" font-size="11" fill="#ddd">~900 GB/s NVLink  |  ~128 GB/s PCIe</text>
+
+  <!-- Double-headed arrow CPU → interconnect -->
+  <line x1="280" y1="170" x2="294" y2="170" stroke="#004065" stroke-width="3" marker-end="url(#arr-blue)" marker-start="url(#arr-both-start)"/>
+  <!-- interconnect → GPU -->
+  <line x1="606" y1="170" x2="620" y2="170" stroke="#004065" stroke-width="3" marker-end="url(#arr-blue)" marker-start="url(#arr-both-start)"/>
+
+  <!-- Fine-grained coherence arrows going back and forth -->
+  <path d="M 280 220 Q 380 230 606 220" stroke="#cc2200" stroke-width="2" stroke-dasharray="5,3" fill="none" marker-end="url(#arr-red)"/>
+  <path d="M 606 245 Q 480 258 280 248" stroke="#cc2200" stroke-width="2" stroke-dasharray="5,3" fill="none" marker-end="url(#arr-red)"/>
+  <rect x="318" y="224" width="264" height="20" rx="4" fill="#cc2200" opacity="0.9"/>
+  <text x="450" y="237" text-anchor="middle" font-size="10" font-weight="bold" fill="white">Fine-grained coherence messages (64B)</text>
+
+  <!-- Warning label -->
+  <rect x="294" y="250" width="312" height="30" rx="6" fill="#cc2200"/>
+  <text x="450" y="262" text-anchor="middle" font-size="11" font-weight="bold" fill="white">Coherence traffic can saturate</text>
+  <text x="450" y="276" text-anchor="middle" font-size="11" font-weight="bold" fill="white">interconnect bandwidth!</text>
+
+  <!-- ════════════════ Solutions bottom ════════════════ -->
+  <rect x="20" y="340" width="420" height="86" rx="8" fill="white" stroke="#c8001c" stroke-width="2"/>
+  <rect x="20" y="340" width="420" height="28" rx="8" fill="#c8001c"/>
+  <rect x="20" y="354" width="420" height="14" fill="#c8001c"/>
+  <text x="230" y="358" text-anchor="middle" font-size="12" font-weight="bold" fill="white">AMD Selective Coherence (HMM)</text>
+  <text x="36" y="386" font-size="11" fill="#333">Pages marked coherent/non-coherent at page table level</text>
+  <text x="36" y="404" font-size="11" fill="#333">CPU &amp; GPU share address space; OS manages page migration</text>
+  <text x="36" y="420" font-size="11" fill="#555">Used in AMD Instinct MI300A (CPU+GPU on same die)</text>
+
+  <rect x="460" y="340" width="420" height="86" rx="8" fill="white" stroke="#1a7a1a" stroke-width="2"/>
+  <rect x="460" y="340" width="420" height="28" rx="8" fill="#1a7a1a"/>
+  <rect x="460" y="354" width="420" height="14" fill="#1a7a1a"/>
+  <text x="670" y="358" text-anchor="middle" font-size="12" font-weight="bold" fill="white">NVIDIA HMG (Hopper Memory Grid)</text>
+  <text x="476" y="386" font-size="11" fill="#333">Hierarchical directory with per-page coherence granularity</text>
+  <text x="476" y="404" font-size="11" fill="#333">NVLink 4+ allows direct GPU→CPU cache lookup</text>
+  <text x="476" y="420" font-size="11" fill="#555">Grace Hopper: 900 GB/s NVLink coherent bridge</text>
+
+  <!-- Bottom note -->
+  <rect x="20" y="442" width="860" height="44" rx="8" fill="#004065"/>
+  <text x="450" y="460" text-anchor="middle" font-size="12" font-weight="bold" fill="#FFD200">Key Insight: Coherence granularity mismatch (64B vs 128B) and bandwidth asymmetry</text>
+  <text x="450" y="478" text-anchor="middle" font-size="11" fill="white">force architects to choose: full coherence (Apple M4, AMD MI300A) vs. selective/software-managed (NVIDIA)</text>
+</svg>
