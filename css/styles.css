@@ -7,6 +7,14 @@
     --card-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+html {
+    min-height: 100%;
+    background:
+        radial-gradient(ellipse 80% 60% at 10% 5%, rgba(0, 64, 101, 0.22) 0%, transparent 65%),
+        radial-gradient(ellipse 65% 50% at 90% 95%, rgba(255, 210, 0, 0.18) 0%, transparent 60%),
+        linear-gradient(150deg, #e8f2fa 0%, #f5f9fd 45%, #fdf9ee 100%);
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -17,7 +25,7 @@ body {
     font-family: 'Roboto', sans-serif;
     line-height: 1.6;
     color: var(--text-color);
-    background-color: var(--background-color);
+    background-color: transparent;
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
