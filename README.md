@@ -18,10 +18,10 @@ Access all lecture materials at:
 | 4 | Feb 2-6 | Interconnect Networks 1 |
 | 5 | Feb 9-13 | Interconnect Networks 2 |
 | 6 | Feb 16-20 | *Presidents' Day - No Class* |
-| 7 | Feb 23-27 | Research at GW: Photonic Neuromorphic Computing |
-| 8 | Mar 2-6 | Cache Coherence |
+| 7 | Feb 23-27 | Interconnect Networks 2 (continued) |
+| 8 | Mar 2-6 | **Midterm Exam** |
 | 9 | Mar 9-14 | **Spring Break - No Classes** |
-| 10 | Mar 16-20 | **Midterm Exam** |
+| 10 | Mar 16-20 | Cache Coherence |
 | 11 | Mar 23-27 | Parallel Programming Part 1 |
 | 12 | Mar 30-Apr 3 | Parallel Programming Part 2 |
 | 13 | Apr 6-10 | GPU Architecture |
