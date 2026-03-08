@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 900 500" xmlns="http://www.w3.org/2000/svg" font-family="Arial, sans-serif">
+
+  <!-- Background -->
+  <rect width="900" height="500" fill="#f8f9fa"/>
+
+  <!-- Title -->
+  <text x="450" y="34" text-anchor="middle" font-size="20" font-weight="bold" fill="#004065">Memory Consistency Models: Allowed Reorderings</text>
+
+  <!-- ══════════ Table ══════════ -->
+  <!-- Column widths: Row label col = 200px, each of 4 model cols = 140px -->
+  <!-- Table x=40, y=56, total width=760, height=240 -->
+
+  <!-- Header row background -->
+  <rect x="40" y="56" width="760" height="44" rx="8" fill="#004065"/>
+  <rect x="40" y="82" width="760" height="18" fill="#004065"/>
+
+  <!-- Column headers -->
+  <text x="140" y="83" text-anchor="middle" font-size="14" font-weight="bold" fill="white">Operation Pair</text>
+  <text x="340" y="75" text-anchor="middle" font-size="14" font-weight="bold" fill="white">SC</text>
+  <text x="340" y="90" text-anchor="middle" font-size="11" fill="#FFD200">Sequential Consistency</text>
+  <text x="480" y="75" text-anchor="middle" font-size="14" font-weight="bold" fill="white">TSO</text>
+  <text x="480" y="90" text-anchor="middle" font-size="11" fill="#FFD200">Total Store Order</text>
+  <text x="620" y="75" text-anchor="middle" font-size="14" font-weight="bold" fill="white">PSO</text>
+  <text x="620" y="90" text-anchor="middle" font-size="11" fill="#FFD200">Partial Store Order</text>
+  <text x="760" y="75" text-anchor="middle" font-size="14" font-weight="bold" fill="white">WO</text>
+  <text x="760" y="90" text-anchor="middle" font-size="11" fill="#FFD200">Weak Ordering</text>
+
+  <!-- Row heights: 4 rows × 48px starting at y=100 -->
+  <!-- Alternating row backgrounds -->
+  <rect x="40" y="100" width="760" height="48" fill="white"/>
+  <rect x="40" y="148" width="760" height="48" fill="#eef2f7"/>
+  <rect x="40" y="196" width="760" height="48" fill="white"/>
+  <rect x="40" y="244" width="760" height="48" fill="#eef2f7"/>
+
+  <!-- Row labels -->
+  <text x="140" y="119" text-anchor="middle" font-size="13" font-weight="bold" fill="#004065">Load → Load</text>
+  <text x="140" y="137" text-anchor="middle" font-size="11" fill="#555">can 2nd load move before 1st?</text>
+
+  <text x="140" y="167" text-anchor="middle" font-size="13" font-weight="bold" fill="#004065">Load → Store</text>
+  <text x="140" y="185" text-anchor="middle" font-size="11" fill="#555">can store move before load?</text>
+
+  <text x="140" y="215" text-anchor="middle" font-size="13" font-weight="bold" fill="#004065">Store → Load</text>
+  <text x="140" y="233" text-anchor="middle" font-size="11" fill="#555">can load move before store?</text>
+
+  <text x="140" y="263" text-anchor="middle" font-size="13" font-weight="bold" fill="#004065">Store → Store</text>
+  <text x="140" y="281" text-anchor="middle" font-size="11" fill="#555">can 2nd store reorder before 1st?</text>
+
+  <!-- Helper macro: ✓ = green box, ✗ = red box -->
+  <!-- SC column (340): all ✓ -->
+  <rect x="303" y="108" width="74" height="32" rx="5" fill="#1a7a1a"/><text x="340" y="129" text-anchor="middle" font-size="18" font-weight="bold" fill="white">✓</text>
+  <rect x="303" y="156" width="74" height="32" rx="5" fill="#1a7a1a"/><text x="340" y="177" text-anchor="middle" font-size="18" font-weight="bold" fill="white">✓</text>
+  <rect x="303" y="204" width="74" height="32" rx="5" fill="#1a7a1a"/><text x="340" y="225" text-anchor="middle" font-size="18" font-weight="bold" fill="white">✓</text>
+  <rect x="303" y="252" width="74" height="32" rx="5" fill="#1a7a1a"/><text x="340" y="273" text-anchor="middle" font-size="18" font-weight="bold" fill="white">✓</text>
+
+  <!-- TSO column (480): Store→Load is ✗, rest ✓ -->
+  <rect x="443" y="108" width="74" height="32" rx="5" fill="#1a7a1a"/><text x="480" y="129" text-anchor="middle" font-size="18" font-weight="bold" fill="white">✓</text>
+  <rect x="443" y="156" width="74" height="32" rx="5" fill="#1a7a1a"/><text x="480" y="177" text-anchor="middle" font-size="18" font-weight="bold" fill="white">✓</text>
+  <rect x="443" y="204" width="74" height="32" rx="5" fill="#cc2200"/><text x="480" y="225" text-anchor="middle" font-size="18" font-weight="bold" fill="white">✗</text>
+  <rect x="443" y="252" width="74" height="32" rx="5" fill="#1a7a1a"/><text x="480" y="273" text-anchor="middle" font-size="18" font-weight="bold" fill="white">✓</text>
+
+  <!-- PSO column (620): Store→Load ✗, Store→Store ✗, rest ✓ -->
+  <rect x="583" y="108" width="74" height="32" rx="5" fill="#1a7a1a"/><text x="620" y="129" text-anchor="middle" font-size="18" font-weight="bold" fill="white">✓</text>
+  <rect x="583" y="156" width="74" height="32" rx="5" fill="#1a7a1a"/><text x="620" y="177" text-anchor="middle" font-size="18" font-weight="bold" fill="white">✓</text>
+  <rect x="583" y="204" width="74" height="32" rx="5" fill="#cc2200"/><text x="620" y="225" text-anchor="middle" font-size="18" font-weight="bold" fill="white">✗</text>
+  <rect x="583" y="252" width="74" height="32" rx="5" fill="#cc2200"/><text x="620" y="273" text-anchor="middle" font-size="18" font-weight="bold" fill="white">✗</text>
+
+  <!-- WO column (760): all ✗ -->
+  <rect x="723" y="108" width="74" height="32" rx="5" fill="#cc2200"/><text x="760" y="129" text-anchor="middle" font-size="18" font-weight="bold" fill="white">✗</text>
+  <rect x="723" y="156" width="74" height="32" rx="5" fill="#cc2200"/><text x="760" y="177" text-anchor="middle" font-size="18" font-weight="bold" fill="white">✗</text>
+  <rect x="723" y="204" width="74" height="32" rx="5" fill="#cc2200"/><text x="760" y="225" text-anchor="middle" font-size="18" font-weight="bold" fill="white">✗</text>
+  <rect x="723" y="252" width="74" height="32" rx="5" fill="#cc2200"/><text x="760" y="273" text-anchor="middle" font-size="18" font-weight="bold" fill="white">✗</text>
+
+  <!-- Table border -->
+  <rect x="40" y="56" width="760" height="236" rx="8" fill="none" stroke="#004065" stroke-width="2"/>
+
+  <!-- Vertical dividers -->
+  <line x1="240" y1="56" x2="240" y2="292" stroke="#aaa" stroke-width="1"/>
+  <line x1="400" y1="56" x2="400" y2="292" stroke="#aaa" stroke-width="1"/>
+  <line x1="540" y1="56" x2="540" y2="292" stroke="#aaa" stroke-width="1"/>
+  <line x1="680" y1="56" x2="680" y2="292" stroke="#aaa" stroke-width="1"/>
+
+  <!-- Horizontal dividers -->
+  <line x1="40" y1="148" x2="800" y2="148" stroke="#aaa" stroke-width="1"/>
+  <line x1="40" y1="196" x2="800" y2="196" stroke="#aaa" stroke-width="1"/>
+  <line x1="40" y1="244" x2="800" y2="244" stroke="#aaa" stroke-width="1"/>
+
+  <!-- Legend -->
+  <rect x="40" y="304" width="760" height="36" rx="6" fill="white" stroke="#ccc" stroke-width="1"/>
+  <rect x="52" y="312" width="60" height="20" rx="4" fill="#1a7a1a"/>
+  <text x="82" y="326" text-anchor="middle" font-size="12" fill="white" font-weight="bold">✓ preserved</text>
+  <text x="200" y="326" font-size="12" fill="#555">= ordering guaranteed (no reorder allowed between these two operations)</text>
+  <rect x="590" y="312" width="60" height="20" rx="4" fill="#cc2200"/>
+  <text x="620" y="326" text-anchor="middle" font-size="12" fill="white" font-weight="bold">✗ allowed</text>
+  <text x="700" y="326" font-size="12" fill="#555">= CPU may reorder</text>
+
+  <!-- Architecture labels -->
+  <rect x="40" y="354" width="370" height="68" rx="8" fill="white" stroke="#004065" stroke-width="2"/>
+  <text x="55" y="374" font-size="13" font-weight="bold" fill="#004065">x86 / x86-64 = TSO</text>
+  <text x="55" y="392" font-size="11" fill="#555">Intel &amp; AMD: store buffer causes Store→Load reorder</text>
+  <text x="55" y="408" font-size="11" fill="#555">MFENCE instruction restores SC ordering when needed</text>
+
+  <rect x="430" y="354" width="370" height="68" rx="8" fill="white" stroke="#004065" stroke-width="2"/>
+  <text x="445" y="374" font-size="13" font-weight="bold" fill="#004065">ARM / RISC-V / PowerPC = WO (Relaxed)</text>
+  <text x="445" y="392" font-size="11" fill="#555">Nearly all reorderings allowed; programmer uses barriers</text>
+  <text x="445" y="408" font-size="11" fill="#555">DMB / FENCE / SYNC instructions enforce ordering</text>
+
+  <!-- Bottom note -->
+  <rect x="40" y="436" width="760" height="48" rx="8" fill="#004065"/>
+  <text x="450" y="456" text-anchor="middle" font-size="12" font-weight="bold" fill="#FFD200">Stronger model = simpler programming, worse performance</text>
+  <text x="450" y="474" text-anchor="middle" font-size="11" fill="white">Relaxed models allow hardware and compiler to reorder for throughput; correctness requires explicit synchronization</text>
+</svg>

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 900 500" xmlns="http://www.w3.org/2000/svg" font-family="Arial, sans-serif">
+  <defs>
+    <marker id="arr-blue" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#004065"/>
+    </marker>
+    <marker id="arr-red" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#cc2200"/>
+    </marker>
+    <marker id="arr-green" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#1a7a1a"/>
+    </marker>
+    <marker id="arr-gray" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#555"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="500" fill="#f8f9fa"/>
+
+  <!-- Title -->
+  <text x="450" y="32" text-anchor="middle" font-size="20" font-weight="bold" fill="#004065">Directory Protocol: Write Miss Trace</text>
+
+  <!-- ══════ Column headers ══════ -->
+  <!-- Columns at x = 95, 290, 530, 760 -->
+
+  <rect x="20"  y="48" width="150" height="40" rx="6" fill="#004065"/>
+  <text x="95"  y="65" text-anchor="middle" font-size="13" font-weight="bold" fill="white">CPU 3</text>
+  <text x="95"  y="82" text-anchor="middle" font-size="11" fill="#FFD200">Requester</text>
+
+  <rect x="210" y="48" width="160" height="40" rx="6" fill="#004065"/>
+  <text x="290" y="65" text-anchor="middle" font-size="13" font-weight="bold" fill="white">Directory</text>
+  <text x="290" y="82" text-anchor="middle" font-size="11" fill="#FFD200">Home Node</text>
+
+  <rect x="450" y="48" width="160" height="40" rx="6" fill="#7a1a1a"/>
+  <text x="530" y="65" text-anchor="middle" font-size="13" font-weight="bold" fill="white">CPU 1</text>
+  <text x="530" y="82" text-anchor="middle" font-size="11" fill="#ffcccc">Previous Owner</text>
+
+  <rect x="680" y="48" width="160" height="40" rx="6" fill="#555"/>
+  <text x="760" y="65" text-anchor="middle" font-size="13" font-weight="bold" fill="white">Memory</text>
+  <text x="760" y="82" text-anchor="middle" font-size="11" fill="#ddd">Backing Store</text>
+
+  <!-- ══════ Vertical time lines (dashed) ══════ -->
+  <line x1="95"  y1="88" x2="95"  y2="460" stroke="#004065" stroke-width="1.5" stroke-dasharray="6,4"/>
+  <line x1="290" y1="88" x2="290" y2="460" stroke="#004065" stroke-width="1.5" stroke-dasharray="6,4"/>
+  <line x1="530" y1="88" x2="530" y2="460" stroke="#7a1a1a" stroke-width="1.5" stroke-dasharray="6,4"/>
+  <line x1="760" y1="88" x2="760" y2="460" stroke="#555"   stroke-width="1.5" stroke-dasharray="6,4"/>
+
+  <!-- ══════ Message arrows ══════ -->
+  <!-- Helper: y positions for messages: 130, 180, 230, 290, 350, 410 -->
+
+  <!-- 1. CPU3 → Directory: WriteReq(B) -->
+  <line x1="108" y1="130" x2="278" y2="130" stroke="#004065" stroke-width="2" marker-end="url(#arr-blue)"/>
+  <rect x="28" y="112" width="62" height="20" rx="4" fill="#FFD200"/>
+  <text x="59" y="126" text-anchor="middle" font-size="10" font-weight="bold" fill="#004065">1</text>
+  <rect x="118" y="118" width="150" height="20" rx="4" fill="white" stroke="#004065" stroke-width="1"/>
+  <text x="193" y="131" text-anchor="middle" font-size="11" font-weight="bold" fill="#004065">WriteReq(B)</text>
+
+  <!-- State at directory after receiving 1 -->
+  <rect x="218" y="144" width="144" height="22" rx="4" fill="#e8f0f8" stroke="#999" stroke-width="1"/>
+  <text x="290" y="159" text-anchor="middle" font-size="10" fill="#555">Check dir: B in S, owner=CPU1</text>
+
+  <!-- 2. Directory → CPU1: Invalidate(B) -->
+  <line x1="303" y1="190" x2="517" y2="190" stroke="#cc2200" stroke-width="2" marker-end="url(#arr-red)"/>
+  <rect x="218" y="172" width="62" height="20" rx="4" fill="#FFD200"/>
+  <text x="249" y="186" text-anchor="middle" font-size="10" font-weight="bold" fill="#004065">2</text>
+  <rect x="320" y="178" width="180" height="20" rx="4" fill="#ffeeee" stroke="#cc2200" stroke-width="1"/>
+  <text x="410" y="191" text-anchor="middle" font-size="11" font-weight="bold" fill="#cc2200">Invalidate(B)</text>
+
+  <!-- 3. CPU1 → Directory: AckInval -->
+  <line x1="517" y1="240" x2="303" y2="240" stroke="#1a7a1a" stroke-width="2" marker-end="url(#arr-green)"/>
+  <rect x="448" y="222" width="62" height="20" rx="4" fill="#FFD200"/>
+  <text x="479" y="236" text-anchor="middle" font-size="10" font-weight="bold" fill="#004065">3</text>
+  <rect x="320" y="228" width="180" height="20" rx="4" fill="#eeffee" stroke="#1a7a1a" stroke-width="1"/>
+  <text x="410" y="241" text-anchor="middle" font-size="11" font-weight="bold" fill="#1a7a1a">AckInval (CPU1 done)</text>
+
+  <!-- CPU1 cache state update -->
+  <rect x="462" y="250" width="136" height="20" rx="4" fill="#ffeeee" stroke="#aaa" stroke-width="1"/>
+  <text x="530" y="263" text-anchor="middle" font-size="10" fill="#8b0000">CPU1 cache: B → Invalid</text>
+
+  <!-- 4. Directory → Memory: (Fetch/lookup) -->
+  <line x1="303" y1="300" x2="747" y2="300" stroke="#555" stroke-width="2" stroke-dasharray="6,3" marker-end="url(#arr-gray)"/>
+  <rect x="218" y="282" width="62" height="20" rx="4" fill="#e0e0e0"/>
+  <text x="249" y="296" text-anchor="middle" font-size="10" font-weight="bold" fill="#444">4</text>
+  <rect x="440" y="288" width="196" height="20" rx="4" fill="#f0f0f0" stroke="#999" stroke-width="1"/>
+  <text x="538" y="301" text-anchor="middle" font-size="11" fill="#555">FetchData(B)  (optional)</text>
+
+  <!-- Memory response (dashed) -->
+  <line x1="747" y1="318" x2="303" y2="318" stroke="#555" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arr-gray)"/>
+  <rect x="440" y="308" width="196" height="16" rx="3" fill="#f0f0f0" stroke="#999" stroke-width="1"/>
+  <text x="538" y="319" text-anchor="middle" font-size="10" fill="#555">DataReply(B)</text>
+
+  <!-- 5. Directory → CPU3: WriteAck + Data(B) -->
+  <line x1="278" y1="368" x2="108" y2="368" stroke="#004065" stroke-width="2.5" marker-end="url(#arr-blue)"/>
+  <rect x="218" y="350" width="62" height="20" rx="4" fill="#FFD200"/>
+  <text x="249" y="364" text-anchor="middle" font-size="10" font-weight="bold" fill="#004065">5</text>
+  <rect x="94" y="356" width="178" height="20" rx="4" fill="#e8f5e9" stroke="#1a7a1a" stroke-width="1.5"/>
+  <text x="183" y="369" text-anchor="middle" font-size="11" font-weight="bold" fill="#004065">WriteAck + Data(B)</text>
+
+  <!-- CPU3 cache state update -->
+  <rect x="22" y="380" width="146" height="20" rx="4" fill="#e8f5e9" stroke="#1a7a1a" stroke-width="1"/>
+  <text x="95" y="393" text-anchor="middle" font-size="10" fill="#1a5c1a">CPU3 cache: B → M</text>
+
+  <!-- 6. Directory state update annotation -->
+  <rect x="210" y="386" width="162" height="38" rx="6" fill="#FFD200" stroke="#c8a000" stroke-width="2"/>
+  <text x="291" y="402" text-anchor="middle" font-size="11" font-weight="bold" fill="#004065">6  Directory Update</text>
+  <text x="291" y="418" text-anchor="middle" font-size="10" fill="#004065">State=M, Owner=CPU 3</text>
+
+  <!-- Time arrow on far right -->
+  <line x1="872" y1="100" x2="872" y2="440" stroke="#999" stroke-width="2" marker-end="url(#arr-gray)"/>
+  <text x="885" y="270" font-size="12" fill="#666" transform="rotate(90,885,270)">Time</text>
+</svg>

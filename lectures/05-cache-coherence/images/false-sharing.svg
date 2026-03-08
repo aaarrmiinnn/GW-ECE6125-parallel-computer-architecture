@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 900 500" xmlns="http://www.w3.org/2000/svg" font-family="Arial, sans-serif">
+  <defs>
+    <marker id="arr-blue" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#004065"/>
+    </marker>
+    <marker id="arr-green" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#1a5c1a"/>
+    </marker>
+    <marker id="arr-red" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#cc2200"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="500" fill="#f8f9fa"/>
+
+  <!-- Title -->
+  <text x="450" y="32" text-anchor="middle" font-size="20" font-weight="bold" fill="#004065">False Sharing: Cache Line Ping-Pong</text>
+
+  <!-- ══════ 64-byte cache line diagram (top) ══════ -->
+  <text x="450" y="58" text-anchor="middle" font-size="12" font-weight="bold" fill="#555">64-Byte Cache Line</text>
+
+  <!-- Full cache line rectangle split in two -->
+  <rect x="100" y="65" width="700" height="50" rx="6" fill="none" stroke="#004065" stroke-width="2.5"/>
+  <!-- Left half: counter_A blue -->
+  <rect x="100" y="65" width="350" height="50" rx="6" fill="#004065"/>
+  <!-- right half: counter_B green -->
+  <rect x="450" y="65" width="350" height="50" rx="0" fill="#1a5c1a"/>
+  <!-- right rounded corners -->
+  <rect x="800" y="65" width="50" height="50" fill="#1a5c1a"/>
+  <rect x="782" y="65" width="18" height="50" rx="0" fill="#1a5c1a"/>
+  <rect x="782" y="65" width="68" height="50" rx="6" fill="#1a5c1a"/>
+
+  <text x="275" y="87" text-anchor="middle" font-size="13" font-weight="bold" fill="white">counter_A  (Thread 0)</text>
+  <text x="275" y="104" text-anchor="middle" font-size="11" fill="#FFD200">bytes 0–31</text>
+  <text x="625" y="87" text-anchor="middle" font-size="13" font-weight="bold" fill="white">counter_B  (Thread 1)</text>
+  <text x="625" y="104" text-anchor="middle" font-size="11" fill="#ccffcc">bytes 32–63</text>
+
+  <!-- Warning label -->
+  <rect x="240" y="125" width="420" height="24" rx="6" fill="#cc2200"/>
+  <text x="450" y="141" text-anchor="middle" font-size="12" font-weight="bold" fill="white">Same 64-byte cache line — unnecessary invalidation!</text>
+
+  <!-- ══════ Ping-pong sequence ══════ -->
+  <!-- CPU 0 box left -->
+  <rect x="20" y="175" width="160" height="200" rx="8" fill="#004065"/>
+  <text x="100" y="198" text-anchor="middle" font-size="14" font-weight="bold" fill="white">CPU 0</text>
+  <text x="100" y="216" text-anchor="middle" font-size="11" fill="#FFD200">Thread 0</text>
+  <!-- cache 0 -->
+  <rect x="36" y="228" width="128" height="50" rx="5" fill="#002a42"/>
+  <text x="100" y="247" text-anchor="middle" font-size="11" font-weight="bold" fill="white">Cache 0</text>
+  <rect x="44" y="253" width="112" height="18" rx="3" fill="#FFD200"/>
+  <text x="100" y="265" text-anchor="middle" font-size="10" fill="#004065">cache line: M</text>
+  <!-- counter A increment label -->
+  <rect x="36" y="292" width="128" height="74" rx="5" fill="#003050"/>
+  <text x="100" y="310" text-anchor="middle" font-size="10" fill="white">increment counter_A</text>
+  <text x="100" y="326" text-anchor="middle" font-size="10" fill="#FFD200">(writes bytes 0–31)</text>
+  <text x="100" y="344" text-anchor="middle" font-size="10" fill="white">line goes M state</text>
+  <text x="100" y="360" text-anchor="middle" font-size="10" fill="#FFD200">CPU1 invalidated!</text>
+
+  <!-- CPU 1 box right -->
+  <rect x="720" y="175" width="160" height="200" rx="8" fill="#1a5c1a"/>
+  <text x="800" y="198" text-anchor="middle" font-size="14" font-weight="bold" fill="white">CPU 1</text>
+  <text x="800" y="216" text-anchor="middle" font-size="11" fill="#ccffcc">Thread 1</text>
+  <!-- cache 1 -->
+  <rect x="736" y="228" width="128" height="50" rx="5" fill="#0f3d0f"/>
+  <text x="800" y="247" text-anchor="middle" font-size="11" font-weight="bold" fill="white">Cache 1</text>
+  <rect x="744" y="253" width="112" height="18" rx="3" fill="#ccffcc"/>
+  <text x="800" y="265" text-anchor="middle" font-size="10" fill="#1a5c1a">cache line: M</text>
+  <!-- counter B increment label -->
+  <rect x="736" y="292" width="128" height="74" rx="5" fill="#0f2e0f"/>
+  <text x="800" y="310" text-anchor="middle" font-size="10" fill="white">increment counter_B</text>
+  <text x="800" y="326" text-anchor="middle" font-size="10" fill="#ccffcc">(writes bytes 32–63)</text>
+  <text x="800" y="344" text-anchor="middle" font-size="10" fill="white">line goes M state</text>
+  <text x="800" y="360" text-anchor="middle" font-size="10" fill="#ccffcc">CPU0 invalidated!</text>
+
+  <!-- ══════ Bounce arrows ══════ -->
+  <!-- Step 1: CPU0 writes (line goes to CPU0) — arrow left to right  above center -->
+  <path d="M 183 240 Q 450 205 716 240" stroke="#004065" stroke-width="2.5" fill="none" marker-end="url(#arr-blue)"/>
+  <rect x="374" y="196" width="104" height="20" rx="4" fill="#FFD200"/>
+  <text x="426" y="210" text-anchor="middle" font-size="10" font-weight="bold" fill="#004065">1. line to CPU0 (M)</text>
+
+  <!-- Step 2: CPU1 reads → line bounces to CPU1 — right arc below -->
+  <path d="M 716 275 Q 450 305 183 275" stroke="#1a5c1a" stroke-width="2.5" fill="none" marker-end="url(#arr-green)"/>
+  <rect x="374" y="282" width="104" height="20" rx="4" fill="#1a5c1a"/>
+  <text x="426" y="296" text-anchor="middle" font-size="10" font-weight="bold" fill="white">2. line to CPU1 (M)</text>
+
+  <!-- Invalidation indicator step 1 -->
+  <rect x="240" y="240" width="130" height="18" rx="4" fill="#cc2200"/>
+  <text x="305" y="252" text-anchor="middle" font-size="9" font-weight="bold" fill="white">3. CPU1 INVALIDATED</text>
+
+  <!-- Invalidation indicator step 2 -->
+  <rect x="530" y="258" width="130" height="18" rx="4" fill="#cc2200"/>
+  <text x="595" y="270" text-anchor="middle" font-size="9" font-weight="bold" fill="white">4. CPU0 INVALIDATED</text>
+
+  <!-- Repeat arrow -->
+  <path d="M 450 320 Q 450 368 450 320" stroke="#cc2200" stroke-width="0" fill="none"/>
+  <text x="450" y="345" text-anchor="middle" font-size="20" fill="#cc2200" font-weight="bold">⟳  repeats every write</text>
+
+  <!-- Bottom fix box -->
+  <rect x="20" y="400" width="860" height="84" rx="8" fill="white" stroke="#004065" stroke-width="2"/>
+  <text x="450" y="420" text-anchor="middle" font-size="13" font-weight="bold" fill="#cc2200">Fix: Pad data to separate cache lines</text>
+  <text x="228" y="442" text-anchor="middle" font-size="11" fill="#555" font-weight="bold">Before (broken):</text>
+  <rect x="130" y="448" width="196" height="22" rx="4" fill="#ffdddd" stroke="#cc2200" stroke-width="1"/>
+  <text x="228" y="463" text-anchor="middle" font-size="10" fill="#8b0000">struct { int A; int B; }</text>
+  <text x="450" y="442" text-anchor="middle" font-size="14" fill="#aaa">→</text>
+  <text x="672" y="442" text-anchor="middle" font-size="11" fill="#555" font-weight="bold">After (fixed):</text>
+  <rect x="574" y="448" width="196" height="22" rx="4" fill="#ddffdd" stroke="#1a5c1a" stroke-width="1"/>
+  <text x="672" y="463" text-anchor="middle" font-size="10" fill="#1a5c1a">struct { int A; char pad[60]; int B; }</text>
+  <text x="450" y="477" text-anchor="middle" font-size="11" fill="#555">Padding forces A and B into separate 64-byte cache lines — eliminates false sharing</text>
+</svg>

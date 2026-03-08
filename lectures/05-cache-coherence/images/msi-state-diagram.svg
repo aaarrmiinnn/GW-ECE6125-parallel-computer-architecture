@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 900 500" xmlns="http://www.w3.org/2000/svg" font-family="Arial, sans-serif">
+  <defs>
+    <marker id="arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#004065"/>
+    </marker>
+    <marker id="arr-self" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#004065"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="500" fill="#f8f9fa"/>
+
+  <!-- Title -->
+  <text x="450" y="36" text-anchor="middle" font-size="20" font-weight="bold" fill="#004065">MSI Protocol State Machine</text>
+
+  <!-- ── State circles ── -->
+  <!-- M — top, gold -->
+  <circle cx="450" cy="145" r="62" fill="#FFD200" stroke="#004065" stroke-width="3"/>
+  <text x="450" y="138" text-anchor="middle" font-size="28" font-weight="bold" fill="#004065">M</text>
+  <text x="450" y="162" text-anchor="middle" font-size="12" fill="#004065">Modified</text>
+
+  <!-- S — bottom-left, blue -->
+  <circle cx="220" cy="360" r="62" fill="#004065" stroke="#002a42" stroke-width="3"/>
+  <text x="220" y="353" text-anchor="middle" font-size="28" font-weight="bold" fill="white">S</text>
+  <text x="220" y="377" text-anchor="middle" font-size="12" fill="white">Shared</text>
+
+  <!-- I — bottom-right, light gray -->
+  <circle cx="680" cy="360" r="62" fill="#d0d8e0" stroke="#004065" stroke-width="3"/>
+  <text x="680" y="353" text-anchor="middle" font-size="28" font-weight="bold" fill="#004065">I</text>
+  <text x="680" y="377" text-anchor="middle" font-size="12" fill="#555">Invalid</text>
+
+  <!-- ═══ Transitions ═══ -->
+
+  <!-- I → S  (bottom-right → bottom-left, curved below) -->
+  <path d="M 618 380 Q 450 455 282 380" stroke="#004065" stroke-width="2" fill="none" marker-end="url(#arr)"/>
+  <rect x="380" y="445" width="140" height="32" rx="5" fill="white" stroke="#004065" stroke-width="1"/>
+  <text x="450" y="459" text-anchor="middle" font-size="11" font-weight="bold" fill="#004065">I → S</text>
+  <text x="450" y="472" text-anchor="middle" font-size="10" fill="#555">CPU Read / BusRd</text>
+
+  <!-- S → I  (bottom-left → bottom-right, curved above) -->
+  <path d="M 282 345 Q 450 280 618 345" stroke="#004065" stroke-width="2" fill="none" marker-end="url(#arr)"/>
+  <rect x="368" y="295" width="164" height="32" rx="5" fill="white" stroke="#004065" stroke-width="1"/>
+  <text x="450" y="308" text-anchor="middle" font-size="11" font-weight="bold" fill="#cc2200">S → I</text>
+  <text x="450" y="322" text-anchor="middle" font-size="10" fill="#555">Snoop BusRdX or BusUpgr</text>
+
+  <!-- I → M  (bottom-right → top, right side) -->
+  <path d="M 710 305 Q 740 220 502 167" stroke="#004065" stroke-width="2" fill="none" marker-end="url(#arr)"/>
+  <rect x="726" y="226" width="148" height="32" rx="5" fill="white" stroke="#004065" stroke-width="1"/>
+  <text x="800" y="239" text-anchor="middle" font-size="11" font-weight="bold" fill="#004065">I → M</text>
+  <text x="800" y="253" text-anchor="middle" font-size="10" fill="#555">CPU Write / BusRdX</text>
+
+  <!-- M → I  (top → bottom-right, right side) -->
+  <path d="M 502 180 Q 760 200 714 300" stroke="#004065" stroke-width="2" fill="none" marker-end="url(#arr)"/>
+  <rect x="600" y="195" width="164" height="32" rx="5" fill="white" stroke="#004065" stroke-width="1"/>
+  <text x="682" y="208" text-anchor="middle" font-size="11" font-weight="bold" fill="#cc2200">M → I</text>
+  <text x="682" y="222" text-anchor="middle" font-size="10" fill="#555">Snoop BusRdX / supply data</text>
+
+  <!-- S → M  (bottom-left → top, left side) -->
+  <path d="M 195 300 Q 175 210 395 165" stroke="#004065" stroke-width="2" fill="none" marker-end="url(#arr)"/>
+  <rect x="80" y="218" width="148" height="32" rx="5" fill="white" stroke="#004065" stroke-width="1"/>
+  <text x="154" y="231" text-anchor="middle" font-size="11" font-weight="bold" fill="#004065">S → M</text>
+  <text x="154" y="245" text-anchor="middle" font-size="10" fill="#555">CPU Write / BusUpgr</text>
+
+  <!-- M → S  (top → bottom-left, left side) -->
+  <path d="M 392 163 Q 160 170 198 302" stroke="#004065" stroke-width="2" fill="none" marker-end="url(#arr)"/>
+  <rect x="20" y="155" width="164" height="32" rx="5" fill="white" stroke="#004065" stroke-width="1"/>
+  <text x="102" y="168" text-anchor="middle" font-size="11" font-weight="bold" fill="#cc2200">M → S</text>
+  <text x="102" y="182" text-anchor="middle" font-size="10" fill="#555">Snoop BusRd / supply data</text>
+
+  <!-- Self-loop M: CPU Read/Write hit -->
+  <path d="M 490 84 Q 540 44 500 84" stroke="#004065" stroke-width="2" fill="none" marker-end="url(#arr-self)"/>
+  <rect x="496" y="44" width="140" height="30" rx="5" fill="#FFD200" stroke="#004065" stroke-width="1"/>
+  <text x="566" y="57" text-anchor="middle" font-size="10" font-weight="bold" fill="#004065">CPU Read/Write</text>
+  <text x="566" y="69" text-anchor="middle" font-size="10" fill="#004065">(hit — no bus traffic)</text>
+
+  <!-- Self-loop S: CPU Read hit -->
+  <path d="M 164 308 Q 136 260 172 312" stroke="#004065" stroke-width="2" fill="none" marker-end="url(#arr-self)"/>
+  <rect x="20" y="270" width="128" height="30" rx="5" fill="#e8f0f8" stroke="#004065" stroke-width="1"/>
+  <text x="84" y="283" text-anchor="middle" font-size="10" font-weight="bold" fill="#004065">CPU Read</text>
+  <text x="84" y="295" text-anchor="middle" font-size="10" fill="#555">(hit — S stays)</text>
+
+  <!-- Legend -->
+  <rect x="680" y="56" width="200" height="68" rx="6" fill="white" stroke="#aaa" stroke-width="1"/>
+  <text x="780" y="74" text-anchor="middle" font-size="11" font-weight="bold" fill="#004065">Legend</text>
+  <text x="695" y="92" font-size="11" fill="#004065">BusRd — read request on bus</text>
+  <text x="695" y="108" font-size="11" fill="#004065">BusRdX — exclusive read (write)</text>
+  <text x="695" y="120" font-size="11" fill="#004065">BusUpgr — upgrade (S→M, no data)</text>
+</svg>

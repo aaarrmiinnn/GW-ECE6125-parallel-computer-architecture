@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 900 500" xmlns="http://www.w3.org/2000/svg" font-family="Arial, sans-serif">
+  <defs>
+    <marker id="arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#004065"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="500" fill="#f8f9fa"/>
+
+  <!-- Title -->
+  <text x="450" y="32" text-anchor="middle" font-size="19" font-weight="bold" fill="#004065">SCD: Scalable Coherence Directory — Variable Sharer Encoding</text>
+
+  <!-- ══════════════════════════════════════
+       Left panel: 3 encoding rows
+  ══════════════════════════════════════ -->
+
+  <!-- Row 1: Single owner pointer -->
+  <rect x="20" y="54" width="580" height="94" rx="8" fill="white" stroke="#004065" stroke-width="2"/>
+  <rect x="20" y="54" width="580" height="30" rx="8" fill="#004065"/>
+  <rect x="20" y="68" width="580" height="16" fill="#004065"/>
+  <text x="300" y="74" text-anchor="middle" font-size="13" font-weight="bold" fill="white">Mode 1: Single Owner Pointer  — log₂N bits</text>
+
+  <!-- Single pointer box -->
+  <rect x="40" y="94" width="88" height="40" rx="5" fill="#FFD200" stroke="#c8a000" stroke-width="2"/>
+  <text x="84" y="113" text-anchor="middle" font-size="12" font-weight="bold" fill="#004065">CPU #</text>
+  <text x="84" y="128" text-anchor="middle" font-size="10" fill="#004065">owner</text>
+
+  <!-- Arrow right -->
+  <line x1="130" y1="114" x2="175" y2="114" stroke="#004065" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <rect x="180" y="94" width="200" height="40" rx="5" fill="#e8f0f8" stroke="#aaa" stroke-width="1"/>
+  <text x="280" y="113" text-anchor="middle" font-size="11" fill="#004065">Exclusive or Modified state</text>
+  <text x="280" y="128" text-anchor="middle" font-size="10" fill="#555">Most common (private data)</text>
+
+  <!-- Use case tag -->
+  <rect x="400" y="94" width="188" height="40" rx="5" fill="#004065"/>
+  <text x="494" y="110" text-anchor="middle" font-size="11" font-weight="bold" fill="#FFD200">Most common case</text>
+  <text x="494" y="127" text-anchor="middle" font-size="10" fill="white">Private / producer data (~70%)</text>
+
+  <!-- Row 2: Pair of pointers -->
+  <rect x="20" y="162" width="580" height="94" rx="8" fill="white" stroke="#004065" stroke-width="2"/>
+  <rect x="20" y="162" width="580" height="30" rx="8" fill="#2e7d32"/>
+  <rect x="20" y="176" width="580" height="16" fill="#2e7d32"/>
+  <text x="300" y="182" text-anchor="middle" font-size="13" font-weight="bold" fill="white">Mode 2: Pair of Pointers  — 2 × log₂N bits</text>
+
+  <!-- Two pointer boxes -->
+  <rect x="40" y="202" width="88" height="40" rx="5" fill="#FFD200" stroke="#c8a000" stroke-width="2"/>
+  <text x="84" y="221" text-anchor="middle" font-size="12" font-weight="bold" fill="#004065">CPU #</text>
+  <text x="84" y="236" text-anchor="middle" font-size="10" fill="#004065">sharer A</text>
+
+  <rect x="140" y="202" width="88" height="40" rx="5" fill="#FFD200" stroke="#c8a000" stroke-width="2"/>
+  <text x="184" y="221" text-anchor="middle" font-size="12" font-weight="bold" fill="#004065">CPU #</text>
+  <text x="184" y="236" text-anchor="middle" font-size="10" fill="#004065">sharer B</text>
+
+  <line x1="230" y1="222" x2="260" y2="222" stroke="#004065" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <rect x="265" y="202" width="150" height="40" rx="5" fill="#e8f5e9" stroke="#2e7d32" stroke-width="1"/>
+  <text x="340" y="221" text-anchor="middle" font-size="11" fill="#2e7d32">Shared between 2 CPUs</text>
+  <text x="340" y="236" text-anchor="middle" font-size="10" fill="#555">Producer-consumer pair</text>
+
+  <rect x="432" y="202" width="156" height="40" rx="5" fill="#2e7d32"/>
+  <text x="510" y="218" text-anchor="middle" font-size="11" font-weight="bold" fill="white">Producer-Consumer</text>
+  <text x="510" y="235" text-anchor="middle" font-size="10" fill="#ccffcc">2-way sharing (~20%)</text>
+
+  <!-- Row 3: Coarse group vector -->
+  <rect x="20" y="270" width="580" height="106" rx="8" fill="white" stroke="#004065" stroke-width="2"/>
+  <rect x="20" y="270" width="580" height="30" rx="8" fill="#7b1fa2"/>
+  <rect x="20" y="284" width="580" height="16" fill="#7b1fa2"/>
+  <text x="300" y="290" text-anchor="middle" font-size="13" font-weight="bold" fill="white">Mode 3: Coarse Group Vector  — N/G bits</text>
+
+  <!-- Group bit boxes (groups of 4) -->
+  <text x="40" y="318" font-size="10" fill="#555">Groups:</text>
+  <g transform="translate(40, 322)">
+    <!-- group 0 (bits 0-3) highlighted -->
+    <rect x="0"  y="0" width="44" height="28" rx="3" fill="#FFD200" stroke="#c8a000" stroke-width="2"/>
+    <text x="22" y="13" text-anchor="middle" font-size="9" font-weight="bold" fill="#004065">G0</text>
+    <text x="22" y="25" text-anchor="middle" font-size="8" fill="#004065">0-3</text>
+    <!-- group 1 -->
+    <rect x="50" y="0" width="44" height="28" rx="3" fill="#e0e0e0" stroke="#999" stroke-width="1"/>
+    <text x="73" y="13" text-anchor="middle" font-size="9" fill="#555">G1</text>
+    <text x="73" y="25" text-anchor="middle" font-size="8" fill="#777">4-7</text>
+    <!-- group 2 highlighted -->
+    <rect x="100" y="0" width="44" height="28" rx="3" fill="#FFD200" stroke="#c8a000" stroke-width="2"/>
+    <text x="122" y="13" text-anchor="middle" font-size="9" font-weight="bold" fill="#004065">G2</text>
+    <text x="122" y="25" text-anchor="middle" font-size="8" fill="#004065">8-11</text>
+    <!-- group 3 -->
+    <rect x="150" y="0" width="44" height="28" rx="3" fill="#e0e0e0" stroke="#999" stroke-width="1"/>
+    <text x="173" y="13" text-anchor="middle" font-size="9" fill="#555">G3</text>
+    <text x="173" y="25" text-anchor="middle" font-size="8" fill="#777">12-15</text>
+    <!-- group 4 highlighted -->
+    <rect x="200" y="0" width="44" height="28" rx="3" fill="#FFD200" stroke="#c8a000" stroke-width="2"/>
+    <text x="222" y="13" text-anchor="middle" font-size="9" font-weight="bold" fill="#004065">G4</text>
+    <text x="222" y="25" text-anchor="middle" font-size="8" fill="#004065">16-19</text>
+    <!-- group 5 -->
+    <rect x="250" y="0" width="44" height="28" rx="3" fill="#e0e0e0" stroke="#999" stroke-width="1"/>
+    <text x="273" y="13" text-anchor="middle" font-size="9" fill="#555">G5</text>
+    <text x="273" y="25" text-anchor="middle" font-size="8" fill="#777">20-23</text>
+    <!-- group 6 highlighted -->
+    <rect x="300" y="0" width="44" height="28" rx="3" fill="#FFD200" stroke="#c8a000" stroke-width="2"/>
+    <text x="322" y="13" text-anchor="middle" font-size="9" font-weight="bold" fill="#004065">G6</text>
+    <text x="322" y="25" text-anchor="middle" font-size="8" fill="#004065">24-27</text>
+    <!-- group 7 -->
+    <rect x="350" y="0" width="44" height="28" rx="3" fill="#e0e0e0" stroke="#999" stroke-width="1"/>
+    <text x="373" y="13" text-anchor="middle" font-size="9" fill="#555">G7</text>
+    <text x="373" y="25" text-anchor="middle" font-size="8" fill="#777">28-31</text>
+  </g>
+
+  <rect x="40" y="358" width="200" height="16" rx="3" fill="#7b1fa2" opacity="0.15"/>
+  <text x="140" y="369" text-anchor="middle" font-size="10" fill="#7b1fa2">Gold = groups with sharers</text>
+  <rect x="432" y="312" width="156" height="50" rx="5" fill="#7b1fa2"/>
+  <text x="510" y="328" text-anchor="middle" font-size="11" font-weight="bold" fill="white">Broadcast / Many Sharers</text>
+  <text x="510" y="344" text-anchor="middle" font-size="10" fill="#e1bee7">Trades precision for bits</text>
+  <text x="510" y="358" text-anchor="middle" font-size="10" fill="#e1bee7">May over-invalidate (~10%)</text>
+
+  <!-- ══════════════════════════════════════
+       Right panel: Bar chart — sharing distribution
+  ══════════════════════════════════════ -->
+  <rect x="618" y="54" width="268" height="322" rx="8" fill="white" stroke="#004065" stroke-width="2"/>
+  <text x="752" y="76" text-anchor="middle" font-size="12" font-weight="bold" fill="#004065">Sharing Distribution</text>
+  <text x="752" y="92" text-anchor="middle" font-size="10" fill="#555">(typical workload)</text>
+
+  <!-- Y axis -->
+  <line x1="650" y1="100" x2="650" y2="340" stroke="#999" stroke-width="1.5"/>
+  <!-- X axis -->
+  <line x1="650" y1="340" x2="868" y2="340" stroke="#999" stroke-width="1.5"/>
+
+  <!-- Bars -->
+  <!-- 1 sharer: very tall (~70%) -->
+  <rect x="658" y="130" width="36" height="210" rx="3" fill="#004065"/>
+  <text x="676" y="126" text-anchor="middle" font-size="10" font-weight="bold" fill="#004065">~70%</text>
+  <text x="676" y="356" text-anchor="middle" font-size="10" fill="#333">1</text>
+
+  <!-- 2 sharers: medium (~20%) -->
+  <rect x="702" y="280" width="36" height="60" rx="3" fill="#2e7d32"/>
+  <text x="720" y="276" text-anchor="middle" font-size="10" font-weight="bold" fill="#2e7d32">~20%</text>
+  <text x="720" y="356" text-anchor="middle" font-size="10" fill="#333">2</text>
+
+  <!-- 3-8 sharers: small (~5%) -->
+  <rect x="746" y="322" width="36" height="18" rx="3" fill="#7b1fa2"/>
+  <text x="764" y="318" text-anchor="middle" font-size="10" font-weight="bold" fill="#7b1fa2">~5%</text>
+  <text x="764" y="356" text-anchor="middle" font-size="10" fill="#333">3-8</text>
+
+  <!-- all sharers: medium-tall (~5%) -->
+  <rect x="810" y="310" width="36" height="30" rx="3" fill="#FFD200" stroke="#c8a000" stroke-width="1"/>
+  <text x="828" y="306" text-anchor="middle" font-size="10" font-weight="bold" fill="#c8a000">~5%</text>
+  <text x="828" y="356" text-anchor="middle" font-size="10" fill="#333">all</text>
+
+  <!-- X label -->
+  <text x="752" y="374" text-anchor="middle" font-size="10" fill="#555">Number of Sharers</text>
+  <!-- Y label -->
+  <text x="630" y="220" text-anchor="middle" font-size="10" fill="#555" transform="rotate(-90,630,220)">Frequency</text>
+
+  <!-- Bimodal note -->
+  <rect x="630" y="388" width="260" height="30" rx="5" fill="#004065"/>
+  <text x="760" y="400" text-anchor="middle" font-size="10" font-weight="bold" fill="#FFD200">Bimodal distribution:</text>
+  <text x="760" y="413" text-anchor="middle" font-size="10" fill="white">mostly 1-2 sharers  or  all-share</text>
+
+  <!-- Bottom insight bar -->
+  <rect x="20" y="392" width="580" height="90" rx="8" fill="#004065"/>
+  <text x="310" y="412" text-anchor="middle" font-size="12" font-weight="bold" fill="#FFD200">SCD Key Insight</text>
+  <text x="310" y="430" text-anchor="middle" font-size="11" fill="white">Bimodal sharing means mode-select bits + small number of pointers</text>
+  <text x="310" y="448" text-anchor="middle" font-size="11" fill="white">covers 90%+ of cases with far fewer bits than full-map directory.</text>
+  <text x="310" y="466" text-anchor="middle" font-size="10" fill="#FFD200">Used in SGI Origin, MIT Alewife, and modern NUMA coherence fabrics.</text>
+</svg>
