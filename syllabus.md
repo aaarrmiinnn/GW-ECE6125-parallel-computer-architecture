@@ -81,22 +81,25 @@ Average minimum amount of independent (out-of-class) learning expected per week:
 
 Mondays, 3:30 PM – 6:00 PM, **Monroe Hall 250**
 
-- 2026-01-12
-- ~~2026-01-19~~ (MLK Day, no class)
-- 2026-01-26
-- 2026-02-02
-- 2026-02-09
-- ~~2026-02-16~~ (Presidents Day, no class)
-- 2026-02-23
-- 2026-03-02
-- 2026-03-09
-- ~~2026-03-16~~ (Spring Break, no class)
-- 2026-03-23
-- 2026-03-30
-- 2026-04-06
-- 2026-04-13
-- 2026-04-20
-- 2026-04-27
+| Week | Dates | Topic |
+|------|-------|-------|
+| 1 | Jan 12–16 | Flynn's Taxonomy |
+| 2 | Jan 19–23 | MLK Day – No Class |
+| 3 | Jan 26–30 | Parallel Intuitions |
+| 4 | Feb 2–6 | Interconnect Networks 1 |
+| 5 | Feb 9–13 | Interconnect Networks 2 |
+| 6 | Feb 16–20 | Presidents' Day – No Class |
+| 7 | Feb 23–27 | Interconnect Networks 2 (continued) |
+| 8 | Mar 2–6 | Midterm Exam |
+| 9 | Mar 9–14 | Spring Break – No Classes |
+| 10 | Mar 16–20 | Cache Coherence |
+| 11 | Mar 23–27 | Parallel Programming Part 1 |
+| 12 | Mar 30–Apr 3 | Parallel Programming Part 2 |
+| 13 | Apr 6–10 | GPU Architecture |
+| 14 | Apr 13–17 | Specialized Parallel Architectures |
+| 15 | Apr 20–24 | Review & Special Topics |
+| 16 | Apr 27 | Last Day of Classes |
+| 17 | May 2–8 | Final Exam Period |
 
 ---
 
