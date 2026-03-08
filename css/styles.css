@@ -107,8 +107,20 @@ body {
 }
 
 .hero-instructor {
-    font-size: 0.9rem;
-    color: rgba(255,255,255,0.55);
+    font-size: 1rem;
+    color: rgba(255,255,255,0.65);
+}
+
+.instructor-link {
+    color: var(--gold);
+    text-decoration: none;
+    font-weight: 500;
+    transition: opacity var(--transition);
+}
+
+.instructor-link:hover {
+    opacity: 0.8;
+    text-decoration: underline;
 }
 
 /* ─── Main content wrapper ─────────────────────────────────── */
@@ -273,7 +285,7 @@ body {
     color: var(--text-muted);
 }
 
-.footer-dot {
+.footer-sep {
     color: var(--gold-dark);
     font-weight: 700;
 }
