@@ -5,67 +5,110 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GWU ECE 6125: Parallel Computer Architecture - Lecture Series</title>
     <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
 </head>
 <body>
-    <header>
-        <div class="logo-container">
-            <img src="images/gw_monogram_2c.png" alt="GWU Logo" class="logo">
+
+    <!-- ── Hero ─────────────────────────────────────────── -->
+    <header class="hero">
+        <div class="hero-inner">
+            <img src="images/gw_monogram_2c_rev.png" alt="GWU Logo" class="hero-logo">
+            <div class="hero-text">
+                <p class="hero-eyebrow">George Washington University &bull; ECE 6125</p>
+                <h1>Parallel Computer<br>Architecture</h1>
+                <p class="hero-sub">Lecture Series &bull; Spring 2026</p>
+                <p class="hero-instructor">Instructor: Armin Mehrabian</p>
+            </div>
         </div>
-        <h1>GWU ECE 6125: Parallel Computer Architecture</h1>
-        <h2>Lecture Series</h2>
-        <p class="instructor-info">Instructor: Armin Mehrabian &bull; Spring 2026</p>
     </header>
 
-    <main>
-        <section class="course-description">
-            <h3>Course Overview</h3>
-            <p>This course explores advanced concepts in parallel computer architecture, focusing on memory systems, coherence protocols, synchronization mechanisms, and performance optimization techniques.</p>
+    <main class="main-content">
+
+        <!-- ── Course overview ───────────────────────────── -->
+        <section class="overview">
+            <p>Advanced concepts in parallel computer architecture — memory systems, coherence protocols, interconnect topologies, synchronization mechanisms, and performance optimization.</p>
         </section>
 
-        <section class="lectures">
-            <h3>Lectures</h3>
+        <!-- ── Lecture grid ──────────────────────────────── -->
+        <section class="lectures-section">
+            <h2 class="section-label">Lectures</h2>
             <div class="lecture-grid">
-                <div class="lecture-card">
-                    <div class="lecture-number">1</div>
-                    <h4>Flynn's Taxonomy & Parallelism Intuition</h4>
-                    <p>Covers Flynn's classification (SISD, SIMD, MISD, MIMD), parallel computing models, pipelining, and ILP concepts.</p>
-                    <a href="lectures/01-flynn-taxonomy/" class="view-lecture">View Lecture</a>
-                </div>
 
-                <div class="lecture-card">
-                    <div class="lecture-number">2</div>
-                    <h4>Intuition for Parallelism</h4>
-                    <p>Explores caches, data locality, ILP limits, multi-core processing, SIMD, and hardware multithreading.</p>
-                    <a href="lectures/02-parallelism-intuition/" class="view-lecture">View Lecture</a>
-                </div>
+                <a href="lectures/01-flynn-taxonomy/" class="lecture-card">
+                    <div class="card-accent"></div>
+                    <div class="card-body">
+                        <span class="card-number">01</span>
+                        <h3>Flynn's Taxonomy &amp; Parallelism Intuition</h3>
+                        <p>Flynn's classification (SISD, SIMD, MISD, MIMD), parallel computing models, pipelining, and ILP concepts.</p>
+                    </div>
+                    <div class="card-footer">
+                        <span class="card-cta">View Lecture <span class="arrow">→</span></span>
+                    </div>
+                </a>
 
-                <div class="lecture-card">
-                    <div class="lecture-number">3</div>
-                    <h4>Interconnect Networks 1</h4>
-                    <p>Network basics, topology, routing algorithms, switching strategies, bus, crossbar, and point-to-point networks.</p>
-                    <a href="lectures/03-interconnect-networks/" class="view-lecture">View Lecture</a>
-                </div>
+                <a href="lectures/02-parallelism-intuition/" class="lecture-card">
+                    <div class="card-accent"></div>
+                    <div class="card-body">
+                        <span class="card-number">02</span>
+                        <h3>Intuition for Parallelism</h3>
+                        <p>Caches, data locality, ILP limits, multi-core processing, SIMD, and hardware multithreading.</p>
+                    </div>
+                    <div class="card-footer">
+                        <span class="card-cta">View Lecture <span class="arrow">→</span></span>
+                    </div>
+                </a>
 
-                <div class="lecture-card">
-                    <div class="lecture-number">4</div>
-                    <h4>Interconnect Networks 2</h4>
-                    <p>Multistage logarithmic networks (Omega, Butterfly, Benes), Fat Trees, Ring/Mesh/Torus topologies, and Hypercube networks.</p>
-                    <a href="lectures/04-interconnect-networks-2/" class="view-lecture">View Lecture</a>
-                </div>
+                <a href="lectures/03-interconnect-networks/" class="lecture-card">
+                    <div class="card-accent"></div>
+                    <div class="card-body">
+                        <span class="card-number">03</span>
+                        <h3>Interconnect Networks 1</h3>
+                        <p>Network basics, topology, routing algorithms, switching strategies, bus, crossbar, and point-to-point networks.</p>
+                    </div>
+                    <div class="card-footer">
+                        <span class="card-cta">View Lecture <span class="arrow">→</span></span>
+                    </div>
+                </a>
 
-                <div class="lecture-card">
-                    <div class="lecture-number">5</div>
-                    <h4>Cache Coherence</h4>
-                    <p>Snooping protocols (MSI, MESI, MOESI, MESIF), directory-based coherence, memory consistency models (SC, TSO), false sharing, and modern CPU/GPU coherence.</p>
-                    <a href="lectures/05-cache-coherence/" class="view-lecture">View Lecture</a>
-                </div>
+                <a href="lectures/04-interconnect-networks-2/" class="lecture-card">
+                    <div class="card-accent"></div>
+                    <div class="card-body">
+                        <span class="card-number">04</span>
+                        <h3>Interconnect Networks 2</h3>
+                        <p>Multistage networks (Omega, Butterfly, Benes), Fat Trees, Ring/Mesh/Torus topologies, and Hypercube networks.</p>
+                    </div>
+                    <div class="card-footer">
+                        <span class="card-cta">View Lecture <span class="arrow">→</span></span>
+                    </div>
+                </a>
+
+                <a href="lectures/05-cache-coherence/" class="lecture-card">
+                    <div class="card-accent"></div>
+                    <div class="card-body">
+                        <span class="card-number">05</span>
+                        <h3>Cache Coherence</h3>
+                        <p>Snooping protocols (MSI→MESIF), directory-based coherence, memory consistency models, false sharing, and modern CPU/GPU coherence.</p>
+                    </div>
+                    <div class="card-footer">
+                        <span class="card-cta">View Lecture <span class="arrow">→</span></span>
+                    </div>
+                </a>
+
             </div>
         </section>
     </main>
 
-    <footer>
-        <p>&copy; 2026 GWU ECE 6125: Parallel Computer Architecture &bull; Armin Mehrabian &bull; Spring 2026</p>
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <span>&copy; 2026 GWU ECE 6125</span>
+            <span class="footer-dot">·</span>
+            <span>Armin Mehrabian</span>
+            <span class="footer-dot">·</span>
+            <span>Spring 2026</span>
+        </div>
     </footer>
+
 </body>
-</html> 
+</html>
