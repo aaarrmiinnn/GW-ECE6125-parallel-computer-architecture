@@ -128,20 +128,30 @@ Note: The Dragon protocol (Xerox PARC, 1982) and Firefly protocol (DEC, 1987) we
 
 ## Coherence vs. Consistency: A Critical Distinction
 
-These terms are often confused. They are fundamentally different concepts:
+| Concept | Scope | The Question |
+|---------|-------|-------------|
+| **Cache Coherence** | One address | Do all processors agree on the value of X? |
+| **Memory Consistency** | Multiple addresses | In what order are writes to *different* addresses observed? |
 
-| Concept | Scope | Question It Answers |
-|---------|-------|---------------------|
-| **Cache Coherence** | Single memory address | "Do all processors see the same value for address X?" |
-| **Memory Consistency** | Multiple memory addresses | "In what order can operations to DIFFERENT addresses be observed?" |
+**Why the distinction matters — a concrete example:**
 
-**Analogy:**
-- Coherence = Everyone reading page 42 sees the same text on page 42
-- Consistency = Whether pages must be read in order 1→2→42, or can be reordered
+```c
+// Initially: data = 0, flag = 0
+// CPU 0:          // CPU 1:
+data = 42;         while (flag == 0); // spin until flag is set
+flag = 1;          print(data);       // what does this print?
+```
 
-A system can be coherent but not sequentially consistent — and that's exactly what x86 processors are.
+- **Coherence** guarantees: CPU 1 will *eventually* see `flag = 1` ✓ and *eventually* see `data = 42` ✓
+- **Coherence does NOT guarantee**: that CPU 1 sees `data = 42` *at the same time* it sees `flag = 1`
+- On a weakly-ordered CPU (ARM), `print(data)` can still print **0** — coherence is satisfied, but the ordering between two addresses is not
 
-Note: This distinction is subtle but critical. Coherence is a property of a single location over time. Consistency is a property of the ordering of operations across different locations. When programmers say "my parallel program has a memory ordering bug," they almost always mean a consistency issue, not a coherence issue. Coherence is handled entirely in hardware; consistency requires both hardware support and careful programming.
+> **Coherence** = everyone sees the same *value* for each address (eventually)
+> **Consistency** = everyone sees writes to *different* addresses in the right *order*
+
+**The ordering guarantee is consistency's job** — enforced via memory fences or atomic acquire/release operations.
+
+Note: This is the single most common source of confusion in parallel programming courses. Students write the flag/data pattern assuming it works, it passes their tests on x86 (which has strong TSO ordering), then breaks on ARM (weak ordering). The hardware IS coherent — data=42 and flag=1 will eventually reach every cache. The bug is that "eventually" doesn't mean "in the order you wrote them." Coherence is handled entirely in hardware. Consistency requires both hardware support and explicit programmer annotations.
 
 ---
 
