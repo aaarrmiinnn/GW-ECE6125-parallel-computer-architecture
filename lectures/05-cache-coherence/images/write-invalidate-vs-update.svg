@@ -113,11 +113,11 @@
   <!-- Benefits / Cost right -->
   <rect x="485" y="284" width="375" height="114" rx="6" fill="#f0f4f8" stroke="#aaa" stroke-width="1"/>
   <text x="673" y="304" text-anchor="middle" font-size="12" font-weight="bold" fill="#004065">Characteristics</text>
-  <text x="500" y="322" font-size="11" fill="#333">+ Subsequent reads always hit (low latency)</text>
-  <text x="500" y="340" font-size="11" fill="#333">+ Good for producer→consumer sharing patterns</text>
-  <text x="500" y="358" font-size="11" fill="#333">− High bandwidth: must broadcast every write value</text>
-  <text x="500" y="376" font-size="11" fill="#333">− Bus saturates under write-heavy workloads</text>
-  <text x="500" y="393" font-size="11" fill="#555">→ Used by: older SPARC designs; largely abandoned</text>
+  <text x="500" y="322" font-size="11" fill="#333">+ Next read after a write always hits (no stall)</text>
+  <text x="500" y="340" font-size="11" fill="#333">+ Ideal when consumers read immediately after each write</text>
+  <text x="500" y="358" font-size="11" fill="#333">− Every write consumes bus bandwidth (even if no one reads)</text>
+  <text x="500" y="376" font-size="11" fill="#333">− Bus saturates quickly under write-heavy workloads</text>
+  <text x="500" y="393" font-size="11" fill="#555">→ Largely abandoned; no modern general-purpose CPU uses it</text>
 
   <!-- Dividing line -->
   <line x1="450" y1="52" x2="450" y2="412" stroke="#999" stroke-width="2"/>
