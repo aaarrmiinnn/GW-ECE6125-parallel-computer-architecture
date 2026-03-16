@@ -41,6 +41,8 @@ Consider two processors sharing a variable X in memory:
 
 CPU 1's cache holds a **stale copy**. Without coherence, parallel programs produce incorrect results — silently.
 
+> **Think of it like Google Docs:** if two people have the same document open and one edits it, the other's tab can briefly show stale content. Cache coherence is the hardware equivalent of Google's sync mechanism — except it must resolve in nanoseconds, not seconds.
+
 ![Two CPUs with shared variable and stale read scenario](images/coherence-problem.svg)
 
 Note: This isn't a theoretical edge case. Before hardware coherence protocols, programmers had to manually flush caches before reading shared data. Operating system kernels, databases, and any code that shared memory across cores would fail. The hardware must handle this automatically and efficiently — programmers cannot be trusted to flush caches correctly in every case.
@@ -91,8 +93,8 @@ When a processor writes to a shared line, what should happen to other copies?
 
 | Strategy | Action on Write | Analogy |
 |----------|----------------|---------|
-| **Write-Invalidate** | Send "your copy is stale, discard it" to all sharers | Recall all library book copies before editing the master |
-| **Write-Update** | Send the new value to all sharers immediately | Announce the edit to everyone who has a copy |
+| **Write-Invalidate** | Send "your copy is stale, discard it" to all sharers | Google Docs marks other tabs as out of date — they reload on next access |
+| **Write-Update** | Send the new value to all sharers immediately | Google Docs pushes every keystroke live to all open tabs |
 
 **Modern processors almost universally use write-invalidate. Why?**
 
