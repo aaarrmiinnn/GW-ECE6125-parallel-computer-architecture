@@ -197,9 +197,15 @@ The efficiency jump between 2016 and 2018 on the Green500 is not primarily a tra
 
 ### Machine Learning Workloads Dominating
 
-![ML workload dominance](images/image19.png)
+**Top500 vendor share — June 2010 vs. June 2020** (NVIDIA + Fujitsu dominance)
 
-![GPU performance scaling](images/image27.png)
+![Top500 June 2010 vs June 2020 — NVIDIA+Fujitsu share](images/image19.png)
+
+**Relative performance: Tesla P100 vs. V100 (Tensorcore) across matrix sizes**
+
+![P100 vs V100 Tensorcore relative performance](images/image27.png)
+
+![Workloads shifting to neural networks](images/image14.png)
 
 - Workloads are changing dramatically in favor of **Neural Networks**
 - GPU design follows suit — NVIDIA introduced **Tensor Cores** in V100 (2017)
