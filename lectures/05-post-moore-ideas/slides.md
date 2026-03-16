@@ -154,15 +154,24 @@ It is important to be honest about where the field stands. Photonic interconnect
 
 ### Top Green500 Energy Efficiency
 
-![Green500 energy efficiency trend](images/image9.png)
+![Green500 trend chart](images/image9.png)
 
-- Energy efficiency increasing rapidly from June 2016 to June 2018, driven by GPU adoption
-- **November 2024 update:** Green500 #1 is **JEDI** (Forschungszentrum Jülich, Germany) — **72.7 GFLOPS/W** using NVIDIA Grace Hopper Superchips
-- **El Capitan** (#1 on Top500 at 1.742 ExaFLOPS): 58.89 GFLOPS/W — a >10× improvement from the 2018 era
-- **Fundamental question:** can we continue improving efficiency beyond electronics?
+![Top system Jun 2016](images/image28.png)
+
+![Top system Jun 2017](images/image10.png)
+
+![Top system Jun 2018](images/image20.png)
+
+![Efficiency jump detail](images/image17.png)
+
+- Energy efficiency **jumped dramatically** from June 2016 to June 2018 — what happened?
+- The answer: **optical links replaced copper** at key system interconnect boundaries (InfiniBand HDR → optical backplanes, then NVLink)
+- Moving bits optically instead of electrically cut interconnect power drastically — enabling the same FLOPS for far less total power
+- **November 2024:** Green500 #1 (**JEDI**, Jülich) reaches **72.7 GFLOPS/W** — NVIDIA Grace Hopper co-packages CPU+GPU+HBM3 with optical-class chip-to-chip links (NVLink-C2C)
+- **El Capitan** (#1 Top500, 1.742 ExaFLOPS): 58.89 GFLOPS/W — **>10× improvement** from the 2018 era
 
 Note:
-The JEDI system (part of the JUPITER cluster) achieves 72.7 GFLOPS/W using NVIDIA's Grace Hopper Superchips — which co-package an ARM CPU and H100 GPU with HBM3 memory using NVLink-C2C chip-to-chip interconnect. Even this efficiency improvement is largely driven by reducing data movement between CPU and GPU — validating the core argument that the bottleneck is communication, not compute.
+The efficiency jump between 2016 and 2018 on the Green500 is not primarily a transistor story — it is a data movement story. The systems that leaped ahead replaced copper backplane links with optical transceivers and tightened the memory-compute proximity (HBM stacked DRAM). The trend has continued: Grace Hopper's NVLink-C2C achieves 900 GB/s CPU-GPU bandwidth at a fraction of the power of PCIe — essentially an on-package optical-class interconnect. This is direct evidence that the photonic computing thesis is correct: efficiency comes from reducing the cost of moving data.
 
 ---
 
