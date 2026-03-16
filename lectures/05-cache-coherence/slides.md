@@ -171,7 +171,7 @@ On some processors, `flag = 1` can become visible to CPU 1 *before* `data = 42` 
 > The ordering of writes across *two different addresses* is a **consistency** question, not a coherence question.
 > **Fix:** a memory fence between CPU 0's writes, and an acquire load on CPU 1's spin.
 
-**Part 4 covers this in depth** — Sequential Consistency, TSO (x86), ARM's weak ordering, and how fences restore ordering.
+Memory consistency models (SC, TSO, ARM weak ordering) and how fences restore ordering are covered later in this lecture.
 
 Note: Students often blame "cache bugs" when they see this failure. The hardware is doing exactly what it's designed to do — coherence is satisfied. The missing piece is a memory ordering guarantee, which requires explicit programmer annotations on weakly-ordered architectures. On x86 (TSO), this pattern happens to work without fences — which is why the bug is often discovered only when porting to ARM or RISC-V.
 
@@ -179,7 +179,9 @@ Note: Students often blame "cache bugs" when they see this failure. The hardware
 
 ## Sequential Consistency: The Intuitive Model
 
-**The intuition:** Imagine a single shared memory with a multiplexer at the top. All CPUs take turns — one operation at a time, in some global order that respects each CPU's own program order. That is Sequential Consistency.
+**SC is the memory model you naturally assume when writing parallel code.**
+
+Every memory operation — every read and write across all CPUs — appears to happen in a single global order. Each CPU's own operations appear in the order it issued them. That's it.
 
 **Lamport's formal definition (1979):**
 > A multiprocessor is sequentially consistent if the result of any execution is the same as if operations of all processors were executed in some sequential order, and the operations of each processor appear in this order.
@@ -193,18 +195,25 @@ X = 1;       Y = 1;
 print(Y);    print(X);
 ```
 
-| print(Y), print(X) | Allowed under SC? | Why |
-|--------------------|-------------------|-----|
-| (1, 1) | ✓ | X=1, Y=1 both visible before either print |
-| (0, 1) | ✓ | CPU 0 runs fully before Y=1 propagates |
-| (1, 0) | ✓ | CPU 1 runs fully before X=1 propagates |
-| **(0, 0)** | **✗** | Impossible — would require both reads to precede both writes in a consistent global order |
+| Outcome (Y, X) | Under SC? | Reason |
+|----------------|-----------|--------|
+| (1, 1) | ✓ | Both writes complete before either read |
+| (0, 1) | ✓ | CPU 0 fully executes before CPU 1's write propagates |
+| (1, 0) | ✓ | CPU 1 fully executes before CPU 0's write propagates |
+| **(0, 0)** | **✗ Impossible** | No valid interleaving produces this — see note |
 
-> **(0, 0) being forbidden is SC's defining property.** Under relaxed models (store buffers), it can happen.
+> **(0, 0) is the defining forbidden outcome of SC.** Real hardware can produce it — which is why SC is not the default.
 
-**The cost:** Enforcing SC prevents write buffers, out-of-order stores, and many other hardware optimizations. Modern CPUs sacrifice SC by default — Part 4 covers how.
+**Memory consistency is a spectrum — three major models exist:**
 
-Note: The (0,0) outcome is forbidden under SC because if print(Y)=0, then Y=1 must not yet be visible, meaning CPU 1's Y=1 hasn't executed yet. So the global order must place all of CPU 0's operations (X=1, print(Y)) before CPU 1's Y=1. Therefore CPU 1's print(X) sees X=1 — it must print 1, not 0. The argument is symmetric. SC's total ordering prevents both CPUs from simultaneously "missing" each other's write. Store buffers break this by allowing each CPU to delay making its own write visible to others.
+| Model | Hardware | Guarantee |
+|-------|----------|-----------|
+| **Sequential Consistency** | Theoretical ideal | All operations globally ordered |
+| **TSO** (Total Store Order) | x86 — Intel & AMD | Stores may be briefly delayed; reads cannot bypass them |
+| **Weak Ordering** | ARM, RISC-V | Reads and stores can be reordered freely; programmer adds fences |
+
+
+Note: Why is (0,0) impossible under SC? If print(Y)=0, Y=1 hasn't happened yet, so CPU 0's entire execution (X=1, print(Y)=0) precedes CPU 1's Y=1. That means print(X) runs after X=1 — so it must print 1. Symmetrically, if print(X)=0, then print(Y) must be 1. Both being 0 simultaneously is a logical contradiction under any valid sequential ordering. Real hardware can produce (0,0) because processors can delay making a store globally visible — CPU 0's X=1 may sit in a local buffer when CPU 1 reads X. This is the store buffer, explained in the memory consistency models section.
 
 ---
 
