@@ -107,20 +107,22 @@ Note: Write-update seems more helpful — sharers immediately have the new value
 ## The Write-Invalidate Win Condition
 
 **Write-invalidate is optimal when:**
-- Any write is followed by ≥2 more writes to the same location before a read
-- This is the common case in real programs (loop bodies, accumulation patterns)
+- A location is written **≥2 times** before the next read — after the first write, all other copies are already invalidated, so subsequent writes cost zero messages
+- This is the common case in real programs (loop accumulators, local counters, flag updates)
 
 **Write-update wins when:**
-- A consumer reads immediately after every producer write (tight producer-consumer pipelines)
+- A consumer reads immediately after every single producer write (tight producer-consumer pipelines)
 - Very few sharers (broadcast overhead is low)
 
 **The quantitative argument:**
-- Write-invalidate: 1 invalidation message per "write burst" to a location
-- Write-update: N messages for N writes before the next read
+- Write-invalidate: 1 invalidation on the first write, then **0 messages** for every subsequent write (others already invalid)
+- Write-update: **1 broadcast per write**, every time, regardless of whether anyone will read
+
+> Think of Google Docs: write-update is like syncing every single keystroke to all open tabs — wasteful if the reader only opens the doc once an hour.
 
 > Intel, AMD, ARM, RISC-V, and IBM all chose write-invalidate for general-purpose coherence.
 
-Note: Berkeley RISC processors in the 1980s experimented with write-update. The conclusion was clear: write-invalidate wins for general-purpose workloads. Write-update survives only in specialized GPU contexts where access patterns are known to be producer-consumer.
+Note: The Dragon protocol (Xerox PARC, 1982) and Firefly protocol (DEC, 1987) were serious write-update implementations. Both were eventually abandoned for the same reason — bus bandwidth could not keep up. Write-update survives only in specialized GPU contexts where access patterns are known to be tightly coupled producer-consumer.
 
 ---
 
