@@ -126,32 +126,54 @@ Note: The Dragon protocol (Xerox PARC, 1982) and Firefly protocol (DEC, 1987) we
 
 ---
 
-## Coherence vs. Consistency: A Critical Distinction
+## Coherence vs. Consistency: Two Separate Guarantees
 
-| Concept | Scope | The Question |
-|---------|-------|-------------|
-| **Cache Coherence** | One address | Do all processors agree on the value of X? |
-| **Memory Consistency** | Multiple addresses | In what order are writes to *different* addresses observed? |
+These are two distinct properties of a shared memory system — and confusing them is the most common mistake in parallel programming.
 
-**Why the distinction matters — a concrete example:**
+| Property | Question it answers | Scope |
+|----------|---------------------|-------|
+| **Cache Coherence** | Do all CPUs agree on the *value* of address X? | Single address |
+| **Memory Consistency** | In what *order* do CPUs observe writes to *different* addresses? | Multiple addresses |
+
+**Analogy:** Think of a shared Google Doc.
+- **Coherence** guarantees: "Everyone's copy eventually shows the same text" — no stale reads forever.
+- **Consistency** guarantees: "If I first edited paragraph 1, then paragraph 2, you see them update in that order" — not paragraph 2 first.
+
+> Coherence is about **accuracy** per address. Consistency is about **ordering** across addresses.
+
+A system can be perfectly coherent yet still give surprising results when writes to different addresses appear out of order.
+
+Note: Both properties are required for a correct shared-memory system. Coherence is handled entirely in hardware (the protocols we study in this lecture). Consistency requires hardware support AND explicit programmer annotations — memory fences, acquire/release semantics. The next slide shows why with a concrete example.
+
+---
+
+## Why the Distinction Matters — The Flag/Data Trap
+
+A classic pattern that looks correct but can silently fail:
 
 ```c
 // Initially: data = 0, flag = 0
 // CPU 0:          // CPU 1:
-data = 42;         while (flag == 0); // spin until flag is set
-flag = 1;          print(data);       // what does this print?
+data = 42;         while (flag == 0);  // wait for signal
+flag = 1;          print(data);        // what prints here?
 ```
 
-- **Coherence** guarantees: CPU 1 will *eventually* see `flag = 1` ✓ and *eventually* see `data = 42` ✓
-- **Coherence does NOT guarantee**: that CPU 1 sees `data = 42` *at the same time* it sees `flag = 1`
-- On a weakly-ordered CPU (ARM), `print(data)` can still print **0** — coherence is satisfied, but the ordering between two addresses is not
+**What coherence guarantees:**
+- CPU 1 *will* eventually see `flag = 1` ✓
+- CPU 1 *will* eventually see `data = 42` ✓
 
-> **Coherence** = everyone sees the same *value* for each address (eventually)
-> **Consistency** = everyone sees writes to *different* addresses in the right *order*
+**What coherence does NOT guarantee:**
+- That CPU 1 sees `data = 42` *before* or *at the same time as* `flag = 1`
 
-**The ordering guarantee is consistency's job** — enforced via memory fences or atomic acquire/release operations.
+On some processors, `flag = 1` can become visible to CPU 1 *before* `data = 42` does.
+`print(data)` prints **0** — even though the hardware is fully coherent.
 
-Note: This is the single most common source of confusion in parallel programming courses. Students write the flag/data pattern assuming it works, it passes their tests on x86 (which has strong TSO ordering), then breaks on ARM (weak ordering). The hardware IS coherent — data=42 and flag=1 will eventually reach every cache. The bug is that "eventually" doesn't mean "in the order you wrote them." Coherence is handled entirely in hardware. Consistency requires both hardware support and explicit programmer annotations.
+> The ordering of writes across *two different addresses* is a **consistency** question, not a coherence question.
+> **Fix:** a memory fence between CPU 0's writes, and an acquire load on CPU 1's spin.
+
+**Part 4 covers this in depth** — Sequential Consistency, TSO (x86), ARM's weak ordering, and how fences restore ordering.
+
+Note: Students often blame "cache bugs" when they see this failure. The hardware is doing exactly what it's designed to do — coherence is satisfied. The missing piece is a memory ordering guarantee, which requires explicit programmer annotations on weakly-ordered architectures. On x86 (TSO), this pattern happens to work without fences — which is why the bug is often discovered only when porting to ARM or RISC-V.
 
 ---
 
