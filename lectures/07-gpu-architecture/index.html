@@ -211,7 +211,53 @@
             font-size: 1em;
         }
         
-        /* Reduce base font size so slides fit without scrolling */
+        /* ── Title slide (only slide with H1) ─────────────────── */
+        .reveal .slides section:has(> h1) {
+            justify-content: center !important;
+            text-align: center;
+        }
+        .reveal .slides section:has(> h1) h1 {
+            font-size: 3em;
+            letter-spacing: -0.02em;
+        }
+        .reveal .slides section:has(> h1) h2 {
+            font-size: 1.5em;
+            font-weight: 300;
+            color: #555;
+            margin-top: 0.4em;
+        }
+        .reveal .slides section:has(> h1) h3 {
+            font-size: 1em;
+            font-weight: 300;
+            color: #888;
+            margin-top: 0.4em;
+        }
+
+        /* ── Part divider slides (h2, no direct p/ul/ol/table/pre/img) ── */
+        .reveal .slides section:not(:has(> h1)):not(:has(> p)):not(:has(> ul)):not(:has(> ol)):not(:has(> table)):not(:has(> pre)):not(:has(> img)) {
+            justify-content: center !important;
+            border-left: 5px solid var(--gwu-gold);
+            padding-left: 2.5rem !important;
+        }
+        .reveal .slides section:not(:has(> h1)):not(:has(> p)):not(:has(> ul)):not(:has(> ol)):not(:has(> table)):not(:has(> pre)):not(:has(> img)) h2 {
+            font-size: 2.4em;
+            letter-spacing: -0.02em;
+        }
+        .reveal .slides section:not(:has(> h1)):not(:has(> p)):not(:has(> ul)):not(:has(> ol)):not(:has(> table)):not(:has(> pre)):not(:has(> img)) h3 {
+            font-size: 1.2em;
+            font-weight: 300;
+            color: #666;
+            margin-top: 0.5em;
+        }
+        .reveal .slides section:not(:has(> h1)):not(:has(> p)):not(:has(> ul)):not(:has(> ol)):not(:has(> table)):not(:has(> pre)):not(:has(> img)) blockquote {
+            margin-top: 1em;
+            font-size: 1.05em;
+            font-style: italic;
+            color: #555;
+            border-left: none;
+        }
+
+        /* ── Reduce base font size so slides fit without scrolling ── */
         .reveal { font-size: 18px !important; }
         .reveal h1 { font-size: 1.8em; }
         .reveal h2 { font-size: 1.4em; }
