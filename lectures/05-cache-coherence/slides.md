@@ -75,15 +75,11 @@ A memory system is **coherent** if it satisfies:
 > All processors must observe **all** writes to the same address in the **same order**.
 
 **Example — why serialization is essential:**
-```
+
 P1 writes X=1, then P2 writes X=2 (nearly simultaneously)
 
-Without serialization:
-  P3 sees: X=1 → X=2  (reads 2)
-  P4 sees: X=2 → X=1  (reads 1)  ← inconsistent!
-
-With serialization: one agreed-upon global order for all writes to X.
-```
+- **Without serialization:** P3 sees X=1 → X=2 (reads 2), P4 sees X=2 → X=1 (reads 1) — inconsistent!
+- **With serialization:** one agreed-upon global order for all writes to X.
 
 Note: Write propagation alone isn't enough. Even if every write eventually reaches every cache, if different caches see writes in different orders, programs can behave incorrectly. A lock-free queue relies on both propagation AND serialization. Serialization is what lets us reason about "who wrote last."
 
