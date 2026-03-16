@@ -179,22 +179,32 @@ Note: Students often blame "cache bugs" when they see this failure. The hardware
 
 ## Sequential Consistency: The Intuitive Model
 
-**Lamport's Definition (1979):**
-> A multiprocessor is sequentially consistent if the result of any execution is the same as if the operations of all processors were executed in some sequential order, and the operations of each individual processor appear in this order.
+**The intuition:** Imagine a single shared memory with a multiplexer at the top. All CPUs take turns — one operation at a time, in some global order that respects each CPU's own program order. That is Sequential Consistency.
 
-**In plain English:** It looks like all processors are taking turns at a single memory, in some global order that respects each processor's program order.
+**Lamport's formal definition (1979):**
+> A multiprocessor is sequentially consistent if the result of any execution is the same as if operations of all processors were executed in some sequential order, and the operations of each processor appear in this order.
 
-**The implication — Dekker's algorithm works under SC:**
+**What SC allows vs. forbids — a simple litmus test:**
+
 ```c
-// Initially: flag0=0, flag1=0
-// CPU 0:                      // CPU 1:
-flag0 = 1;                     flag1 = 1;
-if (flag1 == 0) enter_CS();    if (flag0 == 0) enter_CS();
+// Initially: X = 0, Y = 0
+// CPU 0:    // CPU 1:
+X = 1;       Y = 1;
+print(Y);    print(X);
 ```
-Under SC: at most one CPU enters the critical section. ✓
-Under relaxed models: both could read 0 and both enter. ✗
 
-Note: Sequential consistency is the intuitive model that programmers want. Reasoning about SC programs is relatively straightforward — you just need to imagine one possible interleaving of all operations. Unfortunately, enforcing SC prevents many hardware optimizations. Modern processors sacrifice SC for performance and require explicit memory fences to restore SC-like guarantees for specific code regions.
+| print(Y), print(X) | Allowed under SC? | Why |
+|--------------------|-------------------|-----|
+| (1, 1) | ✓ | X=1, Y=1 both visible before either print |
+| (0, 1) | ✓ | CPU 0 runs fully before Y=1 propagates |
+| (1, 0) | ✓ | CPU 1 runs fully before X=1 propagates |
+| **(0, 0)** | **✗** | Impossible — would require both reads to precede both writes in a consistent global order |
+
+> **(0, 0) being forbidden is SC's defining property.** Under relaxed models (store buffers), it can happen.
+
+**The cost:** Enforcing SC prevents write buffers, out-of-order stores, and many other hardware optimizations. Modern CPUs sacrifice SC by default — Part 4 covers how.
+
+Note: The (0,0) outcome is forbidden under SC because if print(Y)=0, then Y=1 must not yet be visible, meaning CPU 1's Y=1 hasn't executed yet. So the global order must place all of CPU 0's operations (X=1, print(Y)) before CPU 1's Y=1. Therefore CPU 1's print(X) sees X=1 — it must print 1, not 0. The argument is symmetric. SC's total ordering prevents both CPUs from simultaneously "missing" each other's write. Store buffers break this by allowing each CPU to delay making its own write visible to others.
 
 ---
 
