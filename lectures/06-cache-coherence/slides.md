@@ -216,12 +216,28 @@ Note: In C++11 and later, you rarely write raw fences. Instead you use std::atom
 
 **SC is the memory model you naturally assume when writing parallel code.**
 
-Every memory operation — every read and write across all CPUs — appears to happen in a single global order. Each CPU's own operations appear in the order it issued them. That's it.
+Two rules, both must hold simultaneously:
 
-**Lamport's formal definition (1979):**
-> A multiprocessor is sequentially consistent if the result of any execution is the same as if operations of all processors were executed in some sequential order, and the operations of each processor appear in this order.
+1. **Each CPU's operations happen in the order it issued them** — no CPU skips ahead or reorders its own instructions
+2. **All CPUs agree on one global order** — every CPU sees the same interleaving of everyone's operations
 
-**What SC allows vs. forbids — a simple litmus test:**
+Rule 1 is easy to understand. Rule 2 is the hard one.
+
+**What "one global order" means:**
+
+Think of two decks of cards — CPU 0's operations and CPU 1's operations. Each deck must keep its internal order. But the two decks can be shuffled together in any way. SC says: **every CPU must see the same shuffle result.** Not just their own cards in order — the same complete sequence of all cards from all CPUs.
+
+> If CPU 0 sees: write X, write Y, read Z — then CPU 1 must also see those operations in exactly that position in the global sequence. No CPU gets a different view.
+
+This is what makes SC powerful — and what makes it expensive to implement in hardware.
+
+Note: SC is the model most programmers implicitly assume. When you write parallel code and reason about it on paper, you're almost certainly assuming SC. The surprising fact is that almost no modern hardware actually provides SC by default — because enforcing it would require stalling the pipeline every time a write is issued, waiting for it to become visible globally before moving on.
+
+---
+
+## Sequential Consistency: The (0, 0) Litmus Test
+
+The classic test for whether a system is SC:
 
 ```c
 // Initially: X = 0, Y = 0
@@ -230,25 +246,18 @@ X = 1;       Y = 1;
 print(Y);    print(X);
 ```
 
-| Outcome (Y, X) | Under SC? | Reason |
-|----------------|-----------|--------|
-| (1, 1) | ✓ | Both writes complete before either read |
-| (0, 1) | ✓ | CPU 0 fully executes before CPU 1's write propagates |
-| (1, 0) | ✓ | CPU 1 fully executes before CPU 0's write propagates |
-| **(0, 0)** | **✗ Impossible** | No valid interleaving produces this — see note |
+| Outcome (Y, X) | Under SC? | Why |
+|----------------|-----------|-----|
+| (1, 1) | ✓ | Both writes committed before either read |
+| (0, 1) | ✓ | CPU 0 ran entirely before CPU 1's write reached it |
+| (1, 0) | ✓ | CPU 1 ran entirely before CPU 0's write reached it |
+| **(0, 0)** | **✗ Never** | No valid interleaving of the two programs can produce this |
 
-> **(0, 0) is the defining forbidden outcome of SC.** Real hardware can produce it — which is why SC is not the default.
+**(0, 0) is impossible under SC** — if CPU 0 sees Y=0, then Y=1 hasn't happened yet, which means CPU 0's entire sequence runs before CPU 1's write, which means CPU 1 must see X=1. You cannot have both reads return 0 in any single consistent ordering.
 
-**Memory consistency is a spectrum — three major models exist:**
+> Real hardware **can** produce (0, 0) — because stores sit in a buffer and are not immediately visible. This is covered in Part 4.
 
-| Model | Hardware | Guarantee |
-|-------|----------|-----------|
-| **Sequential Consistency** | Theoretical ideal | All operations globally ordered |
-| **TSO** (Total Store Order) | x86 — Intel & AMD | Stores may be briefly delayed; reads cannot bypass them |
-| **Weak Ordering** | ARM, RISC-V | Reads and stores can be reordered freely; programmer adds fences |
-
-
-Note: Why is (0,0) impossible under SC? If print(Y)=0, Y=1 hasn't happened yet, so CPU 0's entire execution (X=1, print(Y)=0) precedes CPU 1's Y=1. That means print(X) runs after X=1 — so it must print 1. Symmetrically, if print(X)=0, then print(Y) must be 1. Both being 0 simultaneously is a logical contradiction under any valid sequential ordering. Real hardware can produce (0,0) because processors can delay making a store globally visible — CPU 0's X=1 may sit in a local buffer when CPU 1 reads X. This is the store buffer, explained in the memory consistency models section.
+Note: The (0,0) outcome is the canonical fingerprint of a non-SC system. If you ever observe it, the hardware is definitely not SC. This test (called a "litmus test") is the standard tool for probing memory model behavior — researchers run millions of these on real hardware to map out exactly what orderings a given CPU permits.
 
 ---
 
