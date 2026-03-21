@@ -13,7 +13,7 @@ Note: Today we dive into one of the most critical problems in parallel architect
 | 1 | **The Coherence Problem** — what goes wrong with caches? |
 | 2 | **Snooping Protocols** — MSI → MESI → MOESI → MESIF |
 | 3 | **Directory-Based Coherence** — scaling beyond the bus |
-| 4 | **Memory Consistency Models** — SC, TSO, relaxed ordering |
+| 4 | **Memory Consistency Models** — SC (Sequential Consistency), TSO (Total Store Order), relaxed ordering |
 | 5 | **False Sharing** — the hidden performance killer |
 | 6 | **Modern CPU Implementations** — AMD Zen 5, Intel, Apple |
 | 7 | **Heterogeneous Coherence** — CPU + GPU |
@@ -171,7 +171,7 @@ On some processors, `flag = 1` can become visible to CPU 1 *before* `data = 42` 
 > The ordering of writes across *two different addresses* is a **consistency** question, not a coherence question.
 > **Fix:** a memory fence between CPU 0's writes, and an acquire load on CPU 1's spin.
 
-Memory consistency models (SC, TSO, ARM weak ordering) and how fences restore ordering are covered later in this lecture.
+Memory consistency models (SC — Sequential Consistency, TSO — Total Store Order, ARM weak ordering) and how fences restore ordering are covered later in this lecture.
 
 Note: Students often blame "cache bugs" when they see this failure. The hardware is doing exactly what it's designed to do — coherence is satisfied. The missing piece is a memory ordering guarantee, which requires explicit programmer annotations on weakly-ordered architectures. On x86 (TSO), this pattern happens to work without fences — which is why the bug is often discovered only when porting to ARM or RISC-V.
 
