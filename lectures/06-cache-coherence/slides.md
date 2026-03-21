@@ -261,6 +261,27 @@ Note: The (0,0) outcome is the canonical fingerprint of a non-SC system. If you 
 
 ---
 
+## So How Do We Keep Caches in Sync?
+
+We now know the problem: multiple CPUs each have a private cache, and any of them can write to the same memory address — leaving other caches holding a stale copy.
+
+**Hardware solves this with a coherence protocol.** Two fundamental approaches exist:
+
+| Approach | Core idea | Works best at |
+|---|---|---|
+| **Snooping** | Every cache watches every memory transaction on a shared bus. If a write affects your copy, you act on it. | Small systems — few cores |
+| **Directory** | A central directory tracks which caches hold each block. Only the relevant caches are notified on a write. | Large systems — many cores |
+
+Both approaches enforce the same guarantee: **no cache holds a stale value indefinitely.**
+
+They differ in *how* they communicate that guarantee — broadcast vs. targeted messaging.
+
+**We start with snooping** — it is simpler, and understanding it deeply makes directory protocols much easier to follow.
+
+Note: The snooping vs. directory split is one of the most important architectural decisions in parallel system design. Snooping dominated from the 1980s through the early 2000s when core counts were low (2–8 cores). As core counts grew beyond ~16, the broadcast overhead of snooping became a bottleneck and directory protocols took over. Modern chips often use a hybrid — snooping within a cluster of cores, directory between clusters.
+
+---
+
 ## Part 2: Snooping Protocols
 
 ### Bus-Based Coherence — Simplicity Through Broadcast
