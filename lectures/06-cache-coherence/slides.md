@@ -177,6 +177,41 @@ Note: Students often blame "cache bugs" when they see this failure. The hardware
 
 ---
 
+## Fences vs. Locks — What's the Difference?
+
+The natural reaction to the flag/data trap is: *"why not just use a lock?"* They are related but solve different problems.
+
+| | **Lock** | **Fence** |
+|---|---|---|
+| **Purpose** | Mutual exclusion — only one thread in the critical section | Ordering — my writes appear to others in the right sequence |
+| **Blocks execution?** | Yes — other threads wait outside | No — both threads keep running |
+| **Overhead** | High (contention, OS involvement on slow path) | Medium (pipeline stall, store buffer drain) |
+| **Prevents data races?** | Yes | No — races are still possible |
+| **Contains fences?** | Yes — internally | It *is* the primitive |
+
+**A lock secretly wraps fences inside it:**
+- `lock()` → implicit **acquire fence**: "I will see all writes committed before I enter"
+- `unlock()` → implicit **release fence**: "all my writes are visible before I signal I'm done"
+
+So if you use locks correctly, **you never need to think about fences.** The lock library handles ordering for you.
+
+**Then when do you use fences directly?**
+
+When you want the *ordering guarantee* of a lock but **without the mutual exclusion cost.** In the flag/data pattern there is only one writer and one reader — they never conflict. A lock would unnecessarily serialize them. A fence gives you the ordering at lower cost:
+
+```c
+// CPU 0 — writer:          // CPU 1 — reader:
+data = 42;                  while (flag == 0);
+// release fence            // acquire fence
+flag = 1;                   print(data);  // guaranteed to see 42
+```
+
+> **Rule of thumb:** Use a lock when two threads must not run concurrently. Use a fence (or atomics) when they can run concurrently but need to agree on the order of what they see.
+
+Note: In C++11 and later, you rarely write raw fences. Instead you use std::atomic with memory_order_acquire and memory_order_release — which compile down to the correct fence instructions per architecture. The compiler and hardware together handle the rest. Raw fences (std::atomic_thread_fence) exist for advanced cases like seqlocks or lock-free data structures.
+
+---
+
 ## Sequential Consistency: The Intuitive Model
 
 **SC is the memory model you naturally assume when writing parallel code.**
