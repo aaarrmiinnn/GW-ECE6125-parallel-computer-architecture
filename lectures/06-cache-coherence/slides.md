@@ -397,6 +397,25 @@ Note: Cache-to-cache transfers are faster than going to memory and are essential
 
 ---
 
+## The MSI Tax on Private Writes
+
+In Step 3 of the trace, CPU 0 was **already the only cache holding X** — yet it still had to broadcast a BusUpgr and wait for acks before writing.
+
+| What happened | Why it's wasteful |
+|---|---|
+| CPU 0 read X → S (shared) | Makes sense — maybe others will read too |
+| CPU 0 wants to write X | Forces BusUpgr onto the bus |
+| CPU 1 must invalidate and ack | But CPU 1 was never going to write! |
+| CPU 0 finally writes X | After burning a round-trip bus transaction |
+
+**The insight:** if the hardware had known at read time that no other cache had X, it could have given CPU 0 an **exclusive** copy — and the write would have been silent, no bus message at all.
+
+> ~60-70% of cache lines are private (stack frames, local variables, thread-local data). MSI charges a bus transaction for every write to every one of them.
+
+Note: This isn't a corner case — it's the common case. Most data in a program is private. The MSI protocol was designed for correctness first, and it achieves that, but it pays a heavy tax on the most frequent operation. MESI was designed specifically to eliminate this tax by adding a fourth state that says "I have the only copy."
+
+---
+
 ## MESI: Adding the Exclusive State
 
 **The Exclusive (E) state:** "I have the only copy, and it's clean (matches memory)."
@@ -404,16 +423,12 @@ Note: Cache-to-cache transfers are faster than going to memory and are essential
 **How E is granted:** On a BusRd, if **no other cache** signals it has the line, the miss is granted as E instead of S. (Requires one extra "shared" wire on the bus.)
 
 **The payoff — silent E→M transition:**
-```
-CPU 0 reads X → E state (no other copies)
-CPU 0 writes X → M state (NO BUS TRANSACTION)
-```
 
-Compare to MSI:
-```
-CPU 0 reads X → S state
-CPU 0 writes X → BusUpgr, wait for acks → M state  ← bus transaction wasted
-```
+| | MSI (before) | MESI (after) |
+|---|---|---|
+| CPU 0 reads X (only copy) | → **S** | → **E** |
+| CPU 0 writes X | BusUpgr → wait for acks → **M** | Silent → **M** (no bus message) |
+| Bus transactions | **2** (BusRd + BusUpgr) | **1** (BusRd only) |
 
 ![MESI 4-state FSM highlighting E state benefit](images/mesi-state-diagram.svg)
 
