@@ -282,6 +282,48 @@ Note: The snooping vs. directory split is one of the most important architectura
 
 ---
 
+## The Cache Hierarchy — What Are We Keeping in Sync?
+
+Before diving into protocols, let's ground ourselves in the **physical hardware**. A modern multi-socket server has multiple cache levels, each owned by a different scope:
+
+| Level | Typical size | Latency | Owned by | Shared? |
+|-------|-------------|---------|----------|---------|
+| **L1** (data + instruction) | 32–64 KB | ~1 ns (4 cycles) | One core | No — strictly private |
+| **L2** | 256 KB – 2 MB | ~4 ns (12 cycles) | One core | No — strictly private |
+| **L3** (LLC) | 16–96 MB | ~10–15 ns (40 cycles) | One chiplet or socket | Yes — shared among cores |
+| **DRAM** | 64–512 GB | ~70–100 ns | One socket's memory controller | Accessible by all, slow |
+
+**Cache coherence is always between caches** — never between a cache and memory. Memory is just the backing store: it gets written to when dirty data is evicted, not as part of the protocol itself.
+
+> When Core 0's L1 and Core 1's L1 both hold address X, coherence is the hardware mechanism that keeps them consistent. Memory has no role in that — it's not watching, not participating, not voting. It's a passive bystander.
+
+Note: This is a crucial mental model. Students often think coherence is "between cache and memory." It is not. Coherence is between caches at the same level — L1s with each other, L3s with each other across sockets. Memory only enters the picture on evictions (writeback of dirty data) or cold misses (fetching data nobody has cached yet).
+
+---
+
+## Where Coherence Happens — A 4-Level Map
+
+In a modern chiplet-based multi-socket server, coherence is enforced at **four distinct levels**, each using a different protocol:
+
+| Level | What's being kept in sync | Protocol used | Covered in |
+|-------|--------------------------|---------------|------------|
+| **1. Intra-chiplet** | L1↔L1 within one CCD (4–8 cores) | MESI or MOESI snooping | Parts 2–3 |
+| **2. Inter-chiplet** | CCD↔CCD within one socket (e.g., 12 CCDs in AMD EPYC) | Directory + probe filter over Infinity Fabric | Part 8 |
+| **3. Inter-socket** | Socket↔Socket over QPI/UPI (Intel) or xGMI (AMD) | MESIF (Intel) / MOESI+directory (AMD) | Parts 3 & 6 |
+| **4. Device coherence** | CPU↔GPU, CPU↔FPGA, CPU↔CXL memory expander | CXL.cache / CXL.mem protocols | Parts 7–8 |
+
+**Why different protocols at each level?**
+- Level 1 has few caches (4–8) → snooping works: everyone listens to a shared bus
+- Level 2 has many caches (96+) → snooping would flood the bus; directory tracks who has what
+- Level 3 crosses chip boundaries → slow interconnect, so Intel added the F state (MESIF) to avoid memory round-trips
+- Level 4 crosses PCIe → CXL adds coherence to a bus that was never designed for it
+
+![Cache hierarchy showing all four coherence levels in a multi-socket chiplet system](images/cache-hierarchy-coherence.svg)
+
+Note: This 4-level map is the mental model for the rest of the lecture. Parts 2–3 focus on Level 1 (snooping protocols, how MSI/MESI/MOESI/MESIF work). Part 3 introduces directory-based coherence for Level 2. Part 6 covers modern CPU implementations and how they combine these levels. Parts 7–8 extend to GPU coherence and CXL/chiplets. Every protocol we cover fits into one of these four levels.
+
+---
+
 ## Part 2: Snooping Protocols
 
 ### Bus-Based Coherence — Simplicity Through Broadcast
