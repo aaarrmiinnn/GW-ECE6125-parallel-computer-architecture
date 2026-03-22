@@ -328,6 +328,17 @@ Every cache line is always in exactly one of three states:
 
 ![MSI 3-state FSM with all labeled transitions](images/msi-state-diagram.svg)
 
+**MSI in the real world:**
+
+| System | Years | Notes |
+|---|---|---|
+| SGI Challenge (MIPS R4400) | 1993–1997 | Early commercial multiprocessor; pure MSI over a shared bus |
+| Sun UltraSPARC II systems | 1997–2001 | Used MSI-based snooping before moving to MESI |
+| Early IBM POWER systems | 1990s | MSI with bus-based coherence on 2–8 socket servers |
+| Academic research platforms | 1980s–present | MSI is the standard teaching and verification baseline |
+
+No modern high-volume processor ships with pure MSI today — they all use MESI or beyond. But MSI remains the **reference protocol**: every coherence proof, textbook, and formal verification tool starts here.
+
 Note: MSI is the minimal coherent protocol. Every more complex protocol (MESI, MOESI, MESIF) is just MSI with extra states added to avoid unnecessary bus traffic. Understand MSI and the rest follow naturally.
 
 ---
