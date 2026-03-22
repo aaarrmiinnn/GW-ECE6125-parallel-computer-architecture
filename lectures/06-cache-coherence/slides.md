@@ -379,27 +379,21 @@ The phrase "supply data" in the transition table is not optional or cosmetic. It
 
 ## MSI: Example Trace
 
-```
-Initial: Memory[X] = 0, all caches in I state
+| Step | Event | CPU 0 | CPU 1 | Memory | Bus transaction |
+|------|-------|-------|-------|--------|-----------------|
+| Start | — | **I** | **I** | X = 0 | — |
+| 1 | CPU 0 reads X | **S** | I | X = 0 | BusRd → memory supplies X = 0 |
+| 2 | CPU 1 reads X | S | **S** | X = 0 | BusRd → memory supplies X = 0 |
+| 3 | CPU 0 writes X = 1 | **M** | **I** | X = 0 ⚠️ stale | BusUpgr → CPU 1 must invalidate |
+| 4 | CPU 1 reads X | **S** | **S** | X = 1 | BusRd → **CPU 0** supplies X = 1 |
 
-Step 1: CPU 0 reads X
-  CPU 0: I → S (BusRd issued)
-  Memory supplies X = 0
+**Two things to notice:**
 
-Step 2: CPU 1 reads X
-  CPU 1: I → S (BusRd issued)
-  Memory supplies X = 0
+- **Step 3:** CPU 0 was already the only writer, yet it still had to broadcast BusUpgr to invalidate CPU 1. The bus was used even though CPU 0 knew it wanted to write all along. This is the wasted transaction MESI eliminates with the E state.
 
-Step 3: CPU 0 writes X = 1
-  CPU 0: S → M (BusUpgr issued)   ← extra bus transaction!
-  CPU 1: S → I (snoops BusUpgr)
+- **Step 4:** Memory did not supply the data — CPU 0's cache did. This is a **cache-to-cache transfer**. CPU 0 held the only up-to-date copy (memory was stale at X=0), so it intervenes on the bus and hands X=1 directly to CPU 1.
 
-Step 4: CPU 1 reads X
-  CPU 1: I → S (BusRd issued)
-  CPU 0: M → S, supplies X = 1 (cache-to-cache transfer)
-```
-
-**Key observation:** Step 3 requires `BusUpgr` even if CPU 0 were the ONLY reader. MESI fixes this with the Exclusive state.
+Note: Cache-to-cache transfers are faster than going to memory and are essential for correctness — if memory had supplied X=0 in step 4, CPU 1 would have read a stale value. The M-state cache intercepts the BusRd and overrides memory.
 
 ---
 
