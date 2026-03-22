@@ -365,6 +365,16 @@ Two types of events cause a cache line to change state:
 
 Note: The S→M transition sends BusUpgr even if this cache is the ONLY reader. That wasted broadcast is the key inefficiency MSI has — and exactly what the E (Exclusive) state in MESI eliminates.
 
+**"If I'm in M and forced to go to S or I — are my changes lost?"**
+
+No — and this is critical to understand. A cache in M state is the sole owner of the most recent copy of that data. The hardware will NEVER silently discard it. Before any M→S or M→I transition completes, the cache must first supply the data:
+
+- **M → S** (another CPU reads): your cache writes the data back to memory (or supplies it directly to the requester via a cache-to-cache transfer). Memory is now up to date. Both you and the requester hold clean S copies. Your changes are preserved.
+
+- **M → I** (another CPU writes): your cache again supplies the data — either writing back to memory or handing it directly to the requester. Memory and the requester both get the latest value. Your copy is then invalidated. Your changes are preserved — just no longer in your cache.
+
+The phrase "supply data" in the transition table is not optional or cosmetic. It is the writeback step that makes the protocol correct. Without it, the requester would get stale data from memory and the write your cache did would be lost forever.
+
 ---
 
 ## MSI: Example Trace
