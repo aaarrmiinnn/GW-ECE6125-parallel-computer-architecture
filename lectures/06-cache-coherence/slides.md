@@ -313,41 +313,46 @@ Note: The bus provides two critical properties: (1) broadcast — every controll
 
 ## MSI: The Foundational Protocol
 
-**Three states for every cache line:**
+Every cache line is always in exactly one of three states:
 
-| State | Meaning | Read? | Write? | Others May Have? |
-|-------|---------|-------|--------|-----------------|
-| **M**odified | Sole copy; dirty; responsible for writeback | ✓ | ✓ | No |
-| **S**hared | Clean copy; others may share it | ✓ | ✗ | Yes |
-| **I**nvalid | No valid copy; must fetch before use | ✗ | ✗ | Unknown |
+| State | What it means | This cache can read? | This cache can write? | Other caches can hold a copy? |
+|-------|--------------|----------------------|-----------------------|-------------------------------|
+| **M**odified | This cache has the only copy, and it has been written — memory is stale | ✓ | ✓ | No |
+| **S**hared | This cache has a clean copy — identical to what is in memory | ✓ | ✗ | Yes |
+| **I**nvalid | This cache has no usable copy — must fetch before use | ✗ | ✗ | Unknown |
 
-**Transitions triggered by:** local CPU requests AND snooped bus transactions.
+**Google Docs analogy:**
+- **M** = You have the doc open and have typed unsaved changes. Your version is the latest. No one else has it.
+- **S** = Multiple people have the doc open in view-only mode. Everyone sees the same saved version.
+- **I** = Your tab is closed. You have nothing.
 
 ![MSI 3-state FSM with all labeled transitions](images/msi-state-diagram.svg)
 
-Note: MSI is the minimal coherent protocol. The key insight: "Modified" means "I own this data — I am responsible for supplying it to anyone who asks, and writing it back before eviction." "Shared" means "I hold a read-only lease on this data." "Invalid" means "I have nothing valid here — I must request permission before using this location."
+Note: MSI is the minimal coherent protocol. Every more complex protocol (MESI, MOESI, MESIF) is just MSI with extra states added to avoid unnecessary bus traffic. Understand MSI and the rest follow naturally.
 
 ---
 
-## MSI: State Transitions
+## MSI: What Triggers a State Change?
 
-**Local CPU actions → bus transactions:**
+Two types of events cause a cache line to change state:
 
-| Current State | CPU Read | CPU Write |
-|---------------|----------|-----------|
-| M | Hit, no bus | Hit, no bus |
-| S | Hit, no bus | Send **BusUpgr** (upgrade to exclusive) |
-| I | Send **BusRd** (fetch shared copy) | Send **BusRdX** (fetch + exclusive) |
+**1. This CPU wants to read or write the line:**
 
-**Snooped bus transactions → local actions:**
+| Current State | This CPU reads | This CPU writes |
+|---------------|----------------|-----------------|
+| **M** | Serve from cache — no bus needed | Serve from cache — no bus needed |
+| **S** | Serve from cache — no bus needed | Broadcast **BusUpgr**: "everyone else invalidate your copy" |
+| **I** | Broadcast **BusRd**: "someone give me a copy" | Broadcast **BusRdX**: "give me a copy AND everyone else invalidate" |
 
-| Current State | Snoop BusRd | Snoop BusRdX or BusUpgr |
-|---------------|-------------|------------------------|
-| M | Supply data to bus → go to **S** | Supply data → go to **I** |
-| S | Stay in **S** | Go to **I** |
-| I | No action | No action |
+**2. This cache sees another CPU's request on the bus:**
 
-Note: Notice the S→M transition requires BusUpgr — a broadcast telling everyone else to invalidate. Even if the writing cache is the ONLY sharer, it must still broadcast. This wasted transaction is what the MESI Exclusive state eliminates.
+| Current State | Another CPU reads (BusRd) | Another CPU writes (BusRdX or BusUpgr) |
+|---------------|---------------------------|----------------------------------------|
+| **M** | Give them the data, go to **S** | Give them the data, go to **I** |
+| **S** | Stay **S** — they can share | Go to **I** — my copy is now stale |
+| **I** | Do nothing | Do nothing |
+
+Note: The S→M transition sends BusUpgr even if this cache is the ONLY reader. That wasted broadcast is the key inefficiency MSI has — and exactly what the E (Exclusive) state in MESI eliminates.
 
 ---
 
