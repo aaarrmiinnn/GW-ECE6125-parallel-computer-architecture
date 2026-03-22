@@ -451,9 +451,42 @@ Note: The E state is valuable because most data is private — local variables, 
 - ~60-70% of lines are private → E eliminates their upgrade traffic
 - Remaining ~30-40% benefit equally from MSI and MESI
 
-MESI is used in: Intel x86, ARM Cortex-A, RISC-V implementations.
+**Real-world systems using MESI:**
 
-Note: The E state is a pure win with a tiny hardware cost (one shared-line wire per bus, plus extra state bit per cache line). The improvement in real workloads is typically 15-30% fewer bus transactions. This is why every serious coherence protocol since 1985 includes an E state.
+| System | Years | Notes |
+|--------|-------|-------|
+| Intel i486 | 1989–1995 | First commercial MESI implementation — Intel invented the E state |
+| Intel Pentium / Pentium Pro | 1993–1999 | MESI at L1; Pentium Pro added L2 bus coherence |
+| Intel Core / Xeon (all generations) | 2006–present | MESI at L1/L2 between cores; MESIF added at socket level |
+| ARM Cortex-A (A9, A15, A53, A72…) | 2007–present | MESI at L1/L2 in all multi-core Cortex-A configurations |
+| IBM Cell Broadband Engine | 2006–2012 | Used by PS3; MESI between SPE local stores and main memory |
+| RISC-V (SiFive, Rocket Chip) | 2016–present | Reference implementations default to MESI |
+
+> MESI is the **baseline** for almost every coherence protocol in use today. AMD extended it to MOESI; Intel extended it to MESIF. But the M, E, S, I states are in every one of them.
+
+Note: The E state is a pure win with a tiny hardware cost (one shared-line wire per bus, plus one extra state bit per cache line). The improvement in real workloads is typically 15-30% fewer bus transactions. This is why every serious coherence protocol since 1985 includes an E state.
+
+---
+
+## MESI's Remaining Weakness: The Dirty-Data Round-Trip
+
+MESI solved private writes. It did not solve **shared dirty data**.
+
+Consider what happens when CPU 0 has X in M state and CPU 1 wants to read it:
+
+| Step | MESI |
+|------|------|
+| 1 | CPU 0 must **write back** X to memory (memory was stale) |
+| 2 | CPU 1 fetches X from memory |
+| Result | **2 memory transactions** — one to write stale memory, one to read it back |
+
+The second transaction is reading data that was just written a moment ago. Memory is acting as an unnecessary middleman.
+
+> In a producer–consumer pattern where CPU 0 repeatedly writes X and CPU 1 reads it, every single read burns two memory transactions. On a 4-socket server, each memory transaction can cost 200–400 ns. This adds up fast.
+
+**The insight:** if CPU 0 can hand X directly to CPU 1 and simply *stay responsible* for writing it back later, both memory transactions are eliminated.
+
+Note: This is the classic "dirty sharing" problem. It's most painful in producer-consumer workloads, streaming data pipelines, and any pattern where one core writes data that another must immediately read. The Owner state in MOESI is the direct answer.
 
 ---
 
@@ -468,13 +501,12 @@ Note: The E state is a pure win with a tiny hardware cost (one shared-line wire 
 
 > "I have a modified copy, and I'm sharing it. I'm responsible for keeping it coherent. Memory does NOT need to be updated yet."
 
-```
-CPU 0 has X in M state (X=5, memory has X=old)
-CPU 1 reads X:
-
-  MESI:  CPU 0 writes back to memory → CPU 1 fetches from memory  (2 mem ops)
-  MOESI: CPU 0 goes to O, CPU 1 gets data directly from CPU 0     (0 mem ops)
-```
+| | MESI | MOESI |
+|---|---|---|
+| CPU 0 state before | M (X=5, memory stale) | M (X=5, memory stale) |
+| CPU 1 reads X | CPU 0 writes back → memory → CPU 1 fetches | CPU 0 → **O**, supplies X=5 directly to CPU 1 |
+| Memory transactions | **2** (writeback + fetch) | **0** |
+| Memory state after | X=5 (updated) | X=old (still stale — owner responsible) |
 
 ![MOESI 5-state FSM highlighting O state benefit](images/moesi-state-diagram.svg)
 
