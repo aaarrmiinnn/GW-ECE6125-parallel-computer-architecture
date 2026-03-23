@@ -290,7 +290,7 @@ Before diving into protocols, let's ground ourselves in the **physical hardware*
 |-------|-------------|---------|----------|---------|
 | **L1** (data + instruction) | 32–64 KB | ~1 ns (4 cycles) | One core | No — strictly private |
 | **L2** | 256 KB – 2 MB | ~4 ns (12 cycles) | One core | No — strictly private |
-| **L3** (LLC) | 16–96 MB | ~10–15 ns (40 cycles) | One chiplet or socket | Yes — shared among cores |
+| **L3** (LLC — Last Level Cache) | 16–96 MB | ~10–15 ns (40 cycles) | One chiplet or socket | Yes — shared among cores |
 | **DRAM** | 64–512 GB | ~70–100 ns | One socket's memory controller | Accessible by all, slow |
 
 **Cache coherence is always between caches** — never between a cache and memory. Memory is just the backing store: it gets written to when dirty data is evicted, not as part of the protocol itself.
@@ -307,7 +307,7 @@ In a modern chiplet-based multi-socket server, coherence is enforced at **four d
 
 | Level | What's being kept in sync | Protocol used | Covered in |
 |-------|--------------------------|---------------|------------|
-| **1. Intra-chiplet** | L1↔L1 within one CCD (4–8 cores) | MESI or MOESI snooping | Parts 2–3 |
+| **1. Intra-chiplet** | L1↔L1 within one CCD (Core Complex Die — AMD's term for a chiplet, typically 4–8 cores + shared L3) | MESI or MOESI snooping | Parts 2–3 |
 | **2. Inter-chiplet** | CCD↔CCD within one socket (e.g., 12 CCDs in AMD EPYC) | Directory + probe filter over Infinity Fabric | Part 8 |
 | **3. Inter-socket** | Socket↔Socket over QPI/UPI (Intel) or xGMI (AMD) | MESIF (Intel) / MOESI+directory (AMD) | Parts 3 & 6 |
 | **4. Device coherence** | CPU↔GPU, CPU↔FPGA, CPU↔CXL memory expander | CXL.cache / CXL.mem protocols | Parts 7–8 |
