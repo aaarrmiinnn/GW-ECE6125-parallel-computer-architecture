@@ -587,17 +587,28 @@ Note: The orange M→O arrow is the key addition. When another cache wants to re
 ## MOESI in Practice
 
 **Owner state transitions:**
-- M → O: Another cache requests the line (owner stays, sharer added)
-- O → M: All other copies invalidated (write request from another core)
-- O → I: Line is evicted → must write back to memory now
 
-**Benefit quantification (from AMD's performance data):**
-- In workloads with heavy shared modified data, MOESI reduces memory traffic by 20-40%
-- Critical for large server systems where memory bandwidth is the bottleneck
+| Transition | Trigger | What happens |
+|------------|---------|-------------|
+| M → O | Another cache reads this line | Owner supplies data directly, keeps responsibility. Memory NOT updated. |
+| O → M | Owner wants to write again | BusUpgr invalidates all sharers. Owner has exclusive dirty copy again. |
+| O → I | Line evicted from owner's cache | **Must** write back to memory now — no one else has the authoritative copy. |
 
-**AMD uses MOESI in:** Zen 1 through Zen 5, EPYC, Threadripper. All AMD processor families.
+**Benefit:** In workloads with heavy shared modified data, MOESI reduces memory traffic by **20-40%**. On multi-socket systems where memory access crosses the inter-socket interconnect (200-400 ns), cache-to-cache transfer at L3 speed (30-50 ns) is a **4-8× latency reduction**.
 
-Note: The Owner state is especially valuable on multi-socket systems where going to memory means crossing the inter-socket interconnect (200-400 ns). With MOESI, another cache in the same socket can supply the data at L3 speed (30-50 ns). The 4-8× latency reduction is often the difference between a scalable workload and a memory-bound one.
+**AMD uses MOESI in:** Zen 1 through Zen 5, EPYC, Threadripper — all AMD processor families.
+
+**Why AMD and not Intel?** Intel chose a different path — MESIF (next slide) — which adds an F (Forward) state instead of O. MOESI keeps dirty data in caches as long as possible, avoiding memory writebacks entirely. MESIF designates one clean sharer as the responder, keeping memory up-to-date more eagerly. Neither is strictly better:
+
+| | MOESI (AMD) | MESIF (Intel) |
+|---|---|---|
+| Solves | Dirty-data round-trip | "Who responds?" for shared clean data |
+| Biggest win | Memory bandwidth-constrained workloads | Many-reader sharing patterns |
+| Trade-off | Memory stays stale longer | Still writes back on M→S |
+
+AMD leaned into MOESI because EPYC and Threadripper target exactly the multi-socket, memory-bandwidth-constrained environments where avoiding writebacks matters most.
+
+Note: The Owner state is especially valuable on multi-socket systems. Consider a 2-socket EPYC server: going to memory on the remote socket costs 200-400 ns (crossing the xGMI link). With MOESI, the owner cache supplies the data at L3 speed (30-50 ns) — the requester never waits for memory. The 4-8× latency reduction is often the difference between a scalable workload and a memory-bound one. Intel's MESIF solves a different problem (which of many clean sharers should respond?) and we cover it next.
 
 ---
 
