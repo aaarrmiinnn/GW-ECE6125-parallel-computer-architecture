@@ -458,15 +458,21 @@ Note: This isn't a corner case — it's the common case. Most data in a program 
 
 ---
 
-## MESI: Adding the Exclusive State
+## MESI: The Shared Wire
 
 **The Exclusive (E) state:** "I have the only copy, and it's clean (matches memory)."
 
-**How E is granted:** On a BusRd, if **no other cache** signals it has the line, the miss is granted as E instead of S. (Requires one extra "shared" wire on the bus.)
+**How E is granted:** On a BusRd, if **no other cache** signals it has the line, the miss is granted as E instead of S. The only hardware cost: one extra "shared" wire on the bus.
 
 ![Bus architecture showing the shared line — MESI's only added wire](images/mesi_bus_architecture.svg)
 
-**The payoff — silent E→M transition:**
+When a cache fetches a line and no other cache pulls the shared wire low → it concludes "I'm the only one" → records **E**. Without that wire, it must conservatively assume **S** every time — which is exactly what MSI does.
+
+Note: E is the only state that makes a claim about what other caches do NOT have. M says "I modified it, memory is stale" — a fact about this cache alone. S says "I have a clean copy, others might too" — also local. I says "I don't have it" — trivially local. But E says "I have it, it's clean, AND nobody else has it" — that last part requires knowledge about every other cache in the system. A cache can't know that by looking at itself. It needs external evidence, which is what the shared line on the bus provides. Without that wire, the cache must conservatively assume S every time — which is exactly what MSI does, and exactly why MSI wastes bus traffic on upgrades. The hardware cost of E is just one wire plus one state bit per line, but it eliminates 60-70% of upgrade transactions because most cache lines (stack, locals, thread-private data) are touched by only one core.
+
+---
+
+## MESI: The Payoff — Silent E→M
 
 | | MSI (before) | MESI (after) |
 |---|---|---|
@@ -476,7 +482,7 @@ Note: This isn't a corner case — it's the common case. Most data in a program 
 
 ![MESI 4-state FSM highlighting E state benefit](images/mesi-state-diagram.svg)
 
-Note: E is the only state that makes a claim about what other caches do NOT have. M says "I modified it, memory is stale" — a fact about this cache alone. S says "I have a clean copy, others might too" — also local. I says "I don't have it" — trivially local. But E says "I have it, it's clean, AND nobody else has it" — that last part requires knowledge about every other cache in the system. A cache can't know that by looking at itself. It needs external evidence, which is what the shared line on the bus provides: when a cache fetches a line and no other cache pulls the shared wire low, it concludes "I'm the only one" and records E. Without that wire, the cache must conservatively assume S every time — which is exactly what MSI does, and exactly why MSI wastes bus traffic on upgrades. The hardware cost of E is just one wire plus one state bit per line, but it eliminates 60-70% of upgrade transactions because most cache lines (stack, locals, thread-private data) are touched by only one core.
+Note: The E→M transition is completely invisible to the bus — no message, no ack, no latency. The cache simply flips its state bits from E to M. This is why MESI reduces bus traffic by 15-30% in real workloads: 60-70% of cache lines are private (stack frames, local variables, thread-local data), and every write to private data that MSI would charge a BusUpgr for is now free.
 
 ---
 
