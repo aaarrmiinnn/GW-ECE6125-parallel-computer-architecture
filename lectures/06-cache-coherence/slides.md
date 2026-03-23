@@ -464,6 +464,8 @@ Note: This isn't a corner case — it's the common case. Most data in a program 
 
 **How E is granted:** On a BusRd, if **no other cache** signals it has the line, the miss is granted as E instead of S. (Requires one extra "shared" wire on the bus.)
 
+![Bus architecture showing the shared line — MESI's only added wire](images/mesi_bus_architecture.svg)
+
 **The payoff — silent E→M transition:**
 
 | | MSI (before) | MESI (after) |
@@ -523,6 +525,8 @@ Consider what happens when CPU 0 has X in M state and CPU 1 wants to read it:
 | Result | **2 memory transactions** — one to write stale memory, one to read it back |
 
 The second transaction is reading data that was just written a moment ago. Memory is acting as an unnecessary middleman.
+
+![MESI dirty-data round-trip: memory acts as unnecessary middleman](images/mesi_dirty_roundtrip.svg)
 
 > In a producer–consumer pattern where CPU 0 repeatedly writes X and CPU 1 reads it, every single read burns two memory transactions. On a 4-socket server, each memory transaction can cost 200–400 ns. This adds up fast.
 
