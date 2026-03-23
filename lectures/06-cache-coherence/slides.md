@@ -614,26 +614,43 @@ Note: The Owner state is especially valuable on multi-socket systems. Consider a
 
 ## MESIF: Intel's Forward State
 
-**Problem without F:** When many caches have X in Shared state, who supplies data to a new requester?
-- Option A: All sharers could respond → thundering herd, multiple conflicting replies
-- Option B: Memory responds → no thundering herd, but memory is slow
+**The problem MESIF solves:** Imagine 8 caches all hold X in Shared state. A 9th cache wants to read X. Who responds?
 
-**MESIF solution — the F (Forward) state:**
-- Exactly one S-state cache is designated **Forward** (the most recent reader)
-- On a new BusRd, the F-cache **supplies data directly** (2-hop: requester ↔ F-cache)
-- The F-cache transitions: F → S; the new requester becomes F
+| Option | What happens | Problem |
+|--------|-------------|---------|
+| All sharers respond | 8 caches all send data at once | Thundering herd — wastes bandwidth, bus contention |
+| Memory responds | One response, no contention | Slow — ~200 ns round-trip to memory controller |
+| **F-cache responds** | Exactly one cache sends data | Fast (cache-to-cache) + no contention |
 
-```
-Caches: CPU 0 in F, CPU 1 in S, CPU 2 in S
-CPU 3 reads X:
-  CPU 0 (F) → CPU 3: supplies X directly   [memory not accessed!]
-  CPU 0: F → S
-  CPU 3: I → F
-```
+**The Forward (F) state:** exactly one cache among the sharers is designated **Forward** — the most recent reader. Only the F-cache responds to new read requests.
 
-![MESIF 6-state FSM with F (Forward) state](images/mesif-state-diagram.svg)
+| Step | CPU 0 (F) | CPU 1 (S) | CPU 2 (S) | CPU 3 |
+|------|-----------|-----------|-----------|-------|
+| Before | **F** | S | S | **I** |
+| CPU 3 reads X | Supplies data → CPU 3 | Does nothing | Does nothing | Gets data |
+| After | **S** | S | S | **F** |
 
-Note: MESIF is used in Intel's QPI and UPI interconnects for multi-socket Xeon systems. The F state eliminates memory from the critical path for read sharing in multi-socket configurations. Benchmarks show MESIF reduces average read latency by 10-20% in multi-socket workloads vs. MESI, by avoiding the ~200 ns round-trip to the home node's memory controller.
+The F "token" migrates to the newest reader — always exactly one F, never zero, never two.
+
+**MOESI vs MESIF — two solutions to two different problems:**
+
+| | MOESI (AMD) | MESIF (Intel) |
+|---|---|---|
+| New state | O (Owner) | F (Forward) |
+| Solves | Dirty sharing without writeback | Clean sharing without thundering herd |
+| Key scenario | CPU 0 has dirty data, CPU 1 reads it | 8 caches share clean data, CPU 9 reads it |
+| Memory access | **Eliminated** (owner supplies dirty data) | **Eliminated** (F-cache supplies clean data) |
+| Used in | AMD Zen / EPYC / Threadripper | Intel Nehalem+ / Xeon (QPI, UPI interconnects) |
+
+Note: MESIF is Intel's answer to read-sharing scalability in multi-socket Xeon systems. In a 4-socket server with 128+ cores, popular read-only data (page tables, shared libraries, read-heavy database indices) can be cached in dozens of S-state copies. Without F, every new reader either triggers a thundering herd or goes to slow memory. With F, exactly one cache responds at cache-to-cache speed (~30 ns instead of ~200 ns). Benchmarks show MESIF reduces average read latency by 10-20% in multi-socket workloads vs. MESI.
+
+---
+
+## MESIF: State Machine
+
+![MESIF state machine with Forward state highlighted](images/mesif-state-diagram.svg)
+
+Note: The purple F→S arrow is the key MESIF mechanism: when another cache reads X, the F-cache supplies data and drops to S, while the new reader becomes the new F. The F token always migrates to the most recent reader. Blue arrows are CPU-initiated, red are snoop-triggered, gold is the silent E→M (inherited from MESI), and purple highlights the new Forward-state transitions.
 
 ---
 

@@ -1,133 +1,209 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg viewBox="0 0 900 500" xmlns="http://www.w3.org/2000/svg" font-family="Arial, sans-serif">
+<svg viewBox="0 0 1400 860" xmlns="http://www.w3.org/2000/svg" font-family="Arial, sans-serif">
   <defs>
-    <marker id="arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <marker id="arr-blue" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
       <polygon points="0 0, 10 3.5, 0 7" fill="#004065"/>
+    </marker>
+    <marker id="arr-red" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#cc2200"/>
+    </marker>
+    <marker id="arr-gold" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#b8860b"/>
     </marker>
     <marker id="arr-purple" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
       <polygon points="0 0, 10 3.5, 0 7" fill="#6a1b9a"/>
     </marker>
-    <marker id="arr-green" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-      <polygon points="0 0, 10 3.5, 0 7" fill="#2e7d32"/>
-    </marker>
   </defs>
 
   <!-- Background -->
-  <rect width="900" height="500" fill="#f8f9fa"/>
+  <rect width="1400" height="860" fill="#f8f9fa"/>
 
   <!-- Title -->
-  <text x="450" y="34" text-anchor="middle" font-size="20" font-weight="bold" fill="#004065">MESIF Protocol — The Forward State (Intel)</text>
+  <text x="700" y="36" text-anchor="middle" font-size="22" font-weight="bold" fill="#004065">MESIF Protocol — State Machine (Intel)</text>
 
-  <!-- Hexagonal layout of 6 states (center 450,270):
-    M   top-center         (450, 100)
-    E   top-right          (670, 170)
-    S   right              (730, 310)
-    I   bottom-right       (620, 430)
-    F   bottom-left        (280, 430)
-    (no 6th node — use 5+asymmetric layout or place I at lower-center)
-    Adjusted: M top(450,105), E upper-right(660,155), S right(720,300),
-              I lower-right(580,430), F lower-left(320,430)
-  -->
+  <!-- ══════════════════════════════════════
+       LEGEND — top-left
+  ══════════════════════════════════════ -->
+  <rect x="30" y="56" width="250" height="140" rx="8" fill="white" stroke="#bbb" stroke-width="1.5"/>
+  <text x="155" y="78" text-anchor="middle" font-size="14" font-weight="bold" fill="#004065">Legend</text>
 
-  <!-- M — top, gold -->
-  <circle cx="450" cy="110" r="52" fill="#FFD200" stroke="#004065" stroke-width="3"/>
-  <text x="450" y="103" text-anchor="middle" font-size="25" font-weight="bold" fill="#004065">M</text>
-  <text x="450" y="123" text-anchor="middle" font-size="11" fill="#004065">Modified</text>
+  <line x1="46" y1="98" x2="86" y2="98" stroke="#004065" stroke-width="2.5" marker-end="url(#arr-blue)"/>
+  <text x="96" y="102" font-size="12" fill="#004065" font-weight="bold">Blue</text>
+  <text x="130" y="102" font-size="12" fill="#555"> = this CPU acted</text>
 
-  <!-- E — upper-right, green -->
-  <circle cx="660" cy="175" r="52" fill="#2e7d32" stroke="#1b5e20" stroke-width="3"/>
-  <text x="660" y="168" text-anchor="middle" font-size="25" font-weight="bold" fill="white">E</text>
-  <text x="660" y="188" text-anchor="middle" font-size="11" fill="#ccffcc">Exclusive</text>
+  <line x1="46" y1="120" x2="86" y2="120" stroke="#cc2200" stroke-width="2.5" marker-end="url(#arr-red)"/>
+  <text x="96" y="124" font-size="12" fill="#cc2200" font-weight="bold">Red</text>
+  <text x="124" y="124" font-size="12" fill="#555"> = another CPU (snoop)</text>
 
-  <!-- S — right, blue -->
-  <circle cx="740" cy="320" r="52" fill="#004065" stroke="#002a42" stroke-width="3"/>
-  <text x="740" y="313" text-anchor="middle" font-size="25" font-weight="bold" fill="white">S</text>
-  <text x="740" y="333" text-anchor="middle" font-size="11" fill="white">Shared</text>
+  <line x1="46" y1="142" x2="86" y2="142" stroke="#b8860b" stroke-width="3.5" marker-end="url(#arr-gold)"/>
+  <text x="96" y="146" font-size="12" fill="#b8860b" font-weight="bold">Gold</text>
+  <text x="130" y="146" font-size="12" fill="#555"> = silent (no bus)</text>
 
-  <!-- I — lower right, gray -->
-  <circle cx="590" cy="430" r="52" fill="#d0d8e0" stroke="#004065" stroke-width="3"/>
-  <text x="590" y="423" text-anchor="middle" font-size="25" font-weight="bold" fill="#004065">I</text>
-  <text x="590" y="443" text-anchor="middle" font-size="11" fill="#555">Invalid</text>
+  <line x1="46" y1="164" x2="86" y2="164" stroke="#6a1b9a" stroke-width="4" marker-end="url(#arr-purple)"/>
+  <text x="96" y="168" font-size="12" fill="#6a1b9a" font-weight="bold">Purple</text>
+  <text x="142" y="168" font-size="12" fill="#555"> = new in MESIF</text>
 
-  <!-- F — lower left, purple -->
-  <circle cx="310" cy="430" r="52" fill="#6a1b9a" stroke="#4a148c" stroke-width="3"/>
-  <text x="310" y="423" text-anchor="middle" font-size="25" font-weight="bold" fill="white">F</text>
-  <text x="310" y="443" text-anchor="middle" font-size="11" fill="#e1bee7">Forward</text>
+  <!-- ══════════════════════════════════════
+       STATE CIRCLES — wide pentagon
+       M(700,170)  E(1100,360)  S(920,700)  I(480,700)  F(300,360)
+  ══════════════════════════════════════ -->
 
-  <!-- (No 6th node — hexagon shown with 5 nodes and implied empty top-left) -->
+  <!-- M — top center, gold -->
+  <circle cx="700" cy="170" r="72" fill="#FFD200" stroke="#004065" stroke-width="3"/>
+  <text x="700" y="162" text-anchor="middle" font-size="32" font-weight="bold" fill="#004065">M</text>
+  <text x="700" y="188" text-anchor="middle" font-size="14" fill="#004065">Modified</text>
 
-  <!-- ═══ Core transitions ═══ -->
+  <!-- E — right, green -->
+  <circle cx="1100" cy="360" r="72" fill="#2e7d32" stroke="#1b5e20" stroke-width="3"/>
+  <text x="1100" y="352" text-anchor="middle" font-size="32" font-weight="bold" fill="white">E</text>
+  <text x="1100" y="378" text-anchor="middle" font-size="14" fill="#ccffcc">Exclusive</text>
 
-  <!-- M → E (top → upper-right) -->
-  <path d="M 500 128 Q 566 130 612 158" stroke="#004065" stroke-width="2" fill="none" marker-end="url(#arr)"/>
+  <!-- S — lower-right, blue -->
+  <circle cx="920" cy="700" r="72" fill="#004065" stroke="#002a42" stroke-width="3"/>
+  <text x="920" y="692" text-anchor="middle" font-size="32" font-weight="bold" fill="white">S</text>
+  <text x="920" y="718" text-anchor="middle" font-size="14" fill="white">Shared</text>
 
-  <!-- E → M  (upper-right → top, arc up, silent) -->
-  <path d="M 612 154 Q 556 100 498 114" stroke="#2e7d32" stroke-width="2.5" fill="none" marker-end="url(#arr-green)"/>
-  <rect x="510" y="70" width="152" height="30" rx="5" fill="#e8f5e9" stroke="#2e7d32" stroke-width="1.5"/>
-  <text x="586" y="83" text-anchor="middle" font-size="10" font-weight="bold" fill="#1b5e20">E → M: CPU Write (silent)</text>
-  <text x="586" y="95" text-anchor="middle" font-size="9" fill="#555">No bus transaction needed</text>
+  <!-- I — lower-left, gray -->
+  <circle cx="480" cy="700" r="72" fill="#d0d8e0" stroke="#004065" stroke-width="3"/>
+  <text x="480" y="692" text-anchor="middle" font-size="32" font-weight="bold" fill="#004065">I</text>
+  <text x="480" y="718" text-anchor="middle" font-size="14" fill="#555">Invalid</text>
 
-  <!-- E → S (upper-right → right) -->
-  <path d="M 682 224 Q 710 270 696 272" stroke="#004065" stroke-width="2" fill="none" marker-end="url(#arr)"/>
-  <rect x="706" y="228" width="106" height="28" rx="5" fill="white" stroke="#004065" stroke-width="1"/>
-  <text x="759" y="241" text-anchor="middle" font-size="10" font-weight="bold" fill="#004065">E → S</text>
-  <text x="759" y="254" text-anchor="middle" font-size="9" fill="#555">Snoop BusRd</text>
+  <!-- F — left, purple -->
+  <circle cx="300" cy="360" r="72" fill="#6a1b9a" stroke="#4a148c" stroke-width="3"/>
+  <text x="300" y="352" text-anchor="middle" font-size="32" font-weight="bold" fill="white">F</text>
+  <text x="300" y="378" text-anchor="middle" font-size="14" fill="#e1bee7">Forward</text>
 
-  <!-- S → F (right → lower-left, diagonal):  when another cache requests, S→F for designated responder -->
-  <path d="M 694 346 Q 560 420 362 430" stroke="#6a1b9a" stroke-width="2.5" fill="none" marker-end="url(#arr-purple)"/>
-  <rect x="470" y="382" width="170" height="30" rx="5" fill="#f3e5f5" stroke="#6a1b9a" stroke-width="2"/>
-  <text x="555" y="395" text-anchor="middle" font-size="10" font-weight="bold" fill="#6a1b9a">S → F</text>
-  <text x="555" y="408" text-anchor="middle" font-size="9" fill="#555">Designated as responder</text>
+  <!-- ══════════════════════════════════════
+       I → F  (purple — CPU Read, others share — NEW in MESIF)
+       Arc from I upper-left to F lower, curving left
+  ══════════════════════════════════════ -->
+  <path d="M 418 676 Q 260 600 290 432" stroke="#6a1b9a" stroke-width="4" fill="none" marker-end="url(#arr-purple)"/>
+  <rect x="148" y="556" width="240" height="46" rx="6" fill="#f3e5f5" stroke="#6a1b9a" stroke-width="2"/>
+  <text x="268" y="575" text-anchor="middle" font-size="13" font-weight="bold" fill="#6a1b9a">I → F  (NEW in MESIF)</text>
+  <text x="268" y="593" text-anchor="middle" font-size="11" fill="#555">CPU Read / BusRd — becomes designated responder</text>
 
-  <!-- F → S (lower-left → right, reverse) -->
-  <path d="M 360 420 Q 500 396 688 356" stroke="#004065" stroke-width="2" fill="none" marker-end="url(#arr)"/>
+  <!-- ══════════════════════════════════════
+       F → S  (purple — another cache reads, F supplies and drops to S)
+       Arc from F right to S left, curving below
+  ══════════════════════════════════════ -->
+  <path d="M 360 396 Q 600 520 860 700" stroke="#6a1b9a" stroke-width="4" fill="none" marker-end="url(#arr-purple)"/>
+  <rect x="478" y="524" width="250" height="46" rx="6" fill="#f3e5f5" stroke="#6a1b9a" stroke-width="2"/>
+  <text x="603" y="543" text-anchor="middle" font-size="13" font-weight="bold" fill="#6a1b9a">F → S  (token migrates)</text>
+  <text x="603" y="559" text-anchor="middle" font-size="11" fill="#555">Snoop BusRd — supply data, new reader gets F</text>
 
-  <!-- I → E  (lower-right → upper-right): CPU Read, only copy -->
-  <path d="M 600 378 Q 620 260 612 226" stroke="#2e7d32" stroke-width="2" fill="none" marker-end="url(#arr-green)"/>
-  <rect x="624" y="288" width="130" height="28" rx="5" fill="#e8f5e9" stroke="#2e7d32" stroke-width="1"/>
-  <text x="689" y="301" text-anchor="middle" font-size="10" font-weight="bold" fill="#2e7d32">I → E</text>
-  <text x="689" y="314" text-anchor="middle" font-size="9" fill="#555">CPU Read (only copy)</text>
+  <!-- ══════════════════════════════════════
+       F → I  (red — snoop BusRdX, another cache wants exclusive)
+       Self-loop on left side of F
+  ══════════════════════════════════════ -->
+  <path d="M 232 330 Q 170 290 234 390" stroke="#cc2200" stroke-width="2.5" fill="none" marker-end="url(#arr-red)"/>
+  <rect x="80" y="308" width="160" height="40" rx="5" fill="white" stroke="#cc2200" stroke-width="1.5"/>
+  <text x="160" y="325" text-anchor="middle" font-size="12" font-weight="bold" fill="#cc2200">F → I</text>
+  <text x="160" y="341" text-anchor="middle" font-size="11" fill="#555">Snoop BusRdX</text>
 
-  <!-- I → S  (lower-right → right) -->
-  <path d="M 538 430 Q 600 400 692 368" stroke="#004065" stroke-width="2" fill="none" marker-end="url(#arr)"/>
-  <rect x="570" y="412" width="120" height="26" rx="5" fill="white" stroke="#004065" stroke-width="1"/>
-  <text x="630" y="425" text-anchor="middle" font-size="10" font-weight="bold" fill="#004065">I → S</text>
-  <text x="630" y="438" text-anchor="middle" font-size="9" fill="#555">CPU Read (shared)</text>
+  <!-- ══════════════════════════════════════
+       I → E  (blue — CPU Read, only copy)
+       Arc from I right to E lower, sweeping far right
+  ══════════════════════════════════════ -->
+  <path d="M 548 680 Q 900 580 1074 424" stroke="#004065" stroke-width="2.5" fill="none" marker-end="url(#arr-blue)"/>
+  <rect x="790" y="576" width="220" height="40" rx="5" fill="white" stroke="#004065" stroke-width="1.5"/>
+  <text x="900" y="593" text-anchor="middle" font-size="12" font-weight="bold" fill="#004065">I → E</text>
+  <text x="900" y="609" text-anchor="middle" font-size="11" fill="#555">CPU Read / BusRd — only copy</text>
 
-  <!-- I → M  (lower-right → top, big arc left) -->
-  <path d="M 544 408 Q 300 300 400 158" stroke="#004065" stroke-width="2" fill="none" marker-end="url(#arr)"/>
-  <rect x="278" y="270" width="128" height="28" rx="5" fill="white" stroke="#004065" stroke-width="1"/>
-  <text x="342" y="283" text-anchor="middle" font-size="10" font-weight="bold" fill="#004065">I → M</text>
-  <text x="342" y="296" text-anchor="middle" font-size="9" fill="#555">CPU Write / BusRdX</text>
+  <!-- ══════════════════════════════════════
+       I → M  (blue — CPU Write / BusRdX)
+       Arc from I upper to M lower-left
+  ══════════════════════════════════════ -->
+  <path d="M 460 630 Q 440 400 648 228" stroke="#004065" stroke-width="2.5" fill="none" marker-end="url(#arr-blue)"/>
+  <rect x="366" y="410" width="190" height="40" rx="5" fill="white" stroke="#004065" stroke-width="1.5"/>
+  <text x="461" y="427" text-anchor="middle" font-size="12" font-weight="bold" fill="#004065">I → M</text>
+  <text x="461" y="443" text-anchor="middle" font-size="11" fill="#555">CPU Write / BusRdX</text>
 
-  <!-- S → I  (right → lower-right) -->
-  <path d="M 704 366 Q 680 408 638 406" stroke="#004065" stroke-width="2" fill="none" marker-end="url(#arr)"/>
-  <rect x="676" y="376" width="78" height="26" rx="5" fill="white" stroke="#004065" stroke-width="1"/>
-  <text x="715" y="389" text-anchor="middle" font-size="10" font-weight="bold" fill="#cc2200">S → I</text>
-  <text x="715" y="401" text-anchor="middle" font-size="9" fill="#555">BusRdX</text>
+  <!-- ══════════════════════════════════════
+       E → M  (gold — silent, CPU Write, no bus)
+       Arc from E upper to M right
+  ══════════════════════════════════════ -->
+  <path d="M 1060 300 Q 960 200 772 178" stroke="#b8860b" stroke-width="4" fill="none" marker-end="url(#arr-gold)"/>
+  <rect x="876" y="186" width="200" height="46" rx="6" fill="#FFF8D0" stroke="#b8860b" stroke-width="2"/>
+  <text x="976" y="205" text-anchor="middle" font-size="13" font-weight="bold" fill="#8b6a00">E → M  (SILENT)</text>
+  <text x="976" y="223" text-anchor="middle" font-size="11" fill="#555">CPU Write — no bus!</text>
 
-  <!-- M → I  (top → lower-right, left arc) -->
-  <path d="M 408 148 Q 330 300 544 402" stroke="#004065" stroke-width="2" fill="none" marker-end="url(#arr)"/>
-  <rect x="316" y="228" width="128" height="28" rx="5" fill="white" stroke="#004065" stroke-width="1"/>
-  <text x="380" y="241" text-anchor="middle" font-size="10" font-weight="bold" fill="#cc2200">M → I</text>
-  <text x="380" y="254" text-anchor="middle" font-size="9" fill="#555">Snoop BusRdX</text>
+  <!-- ══════════════════════════════════════
+       E → S  (red — Snoop BusRd / supply data)
+       Arc from E lower to S upper-right
+  ══════════════════════════════════════ -->
+  <path d="M 1074 428 Q 1020 580 980 648" stroke="#cc2200" stroke-width="2.5" fill="none" marker-end="url(#arr-red)"/>
+  <rect x="1010" y="510" width="190" height="40" rx="5" fill="white" stroke="#cc2200" stroke-width="1.5"/>
+  <text x="1105" y="527" text-anchor="middle" font-size="12" font-weight="bold" fill="#cc2200">E → S</text>
+  <text x="1105" y="543" text-anchor="middle" font-size="11" fill="#555">Snoop BusRd / supply data</text>
 
-  <!-- ═══ F state callout + data supply arrow ═══ -->
-  <rect x="10" y="56" width="220" height="84" rx="7" fill="#f3e5f5" stroke="#6a1b9a" stroke-width="2"/>
-  <text x="120" y="76" text-anchor="middle" font-size="12" font-weight="bold" fill="#6a1b9a">F = Forward State</text>
-  <text x="120" y="93" text-anchor="middle" font-size="10" fill="#555">Designated responder for</text>
-  <text x="120" y="107" text-anchor="middle" font-size="10" fill="#555">shared copies — supplies data</text>
-  <text x="120" y="121" text-anchor="middle" font-size="10" fill="#4a148c" font-weight="bold">directly (2-hop, skips memory)</text>
+  <!-- ══════════════════════════════════════
+       E → I  (red — Snoop BusRdX)
+       Self-loop on right side of E
+  ══════════════════════════════════════ -->
+  <path d="M 1168 330 Q 1240 290 1170 392" stroke="#cc2200" stroke-width="2.5" fill="none" marker-end="url(#arr-red)"/>
+  <rect x="1186" y="320" width="160" height="40" rx="5" fill="white" stroke="#cc2200" stroke-width="1.5"/>
+  <text x="1266" y="337" text-anchor="middle" font-size="12" font-weight="bold" fill="#cc2200">E → I</text>
+  <text x="1266" y="353" text-anchor="middle" font-size="11" fill="#555">Snoop BusRdX</text>
 
-  <!-- Arrow from F circle to "Requester" -->
-  <rect x="10" y="340" width="110" height="36" rx="6" fill="#6a1b9a"/>
-  <text x="65" y="355" text-anchor="middle" font-size="11" fill="white" font-weight="bold">Requester</text>
-  <text x="65" y="369" text-anchor="middle" font-size="10" fill="#e1bee7">CPU N</text>
-  <path d="M 258 430 Q 160 400 118 376" stroke="#6a1b9a" stroke-width="2.5" stroke-dasharray="6,3" fill="none" marker-end="url(#arr-purple)"/>
-  <text x="170" y="426" text-anchor="middle" font-size="9" fill="#6a1b9a" font-weight="bold">Supplies data (2-hop)</text>
+  <!-- ══════════════════════════════════════
+       S → M  (blue — CPU Write / BusUpgr)
+       Arc from S left to M lower
+  ══════════════════════════════════════ -->
+  <path d="M 870 648 Q 740 440 710 242" stroke="#004065" stroke-width="2.5" fill="none" marker-end="url(#arr-blue)"/>
+  <rect x="724" y="440" width="190" height="40" rx="5" fill="white" stroke="#004065" stroke-width="1.5"/>
+  <text x="819" y="457" text-anchor="middle" font-size="12" font-weight="bold" fill="#004065">S → M</text>
+  <text x="819" y="473" text-anchor="middle" font-size="11" fill="#555">CPU Write / BusUpgr</text>
 
-  <!-- Key insight -->
-  <rect x="10" y="456" width="388" height="34" rx="6" fill="#004065"/>
-  <text x="194" y="471" text-anchor="middle" font-size="11" font-weight="bold" fill="#FFD200">F state eliminates memory from read-sharing critical path</text>
-  <text x="194" y="485" text-anchor="middle" font-size="10" fill="white">Intel Nehalem+ uses MESIF for QPI (QuickPath) cache-to-cache transfers</text>
+  <!-- ══════════════════════════════════════
+       S → I  (red — Snoop BusRdX or BusUpgr)
+       Arc from S lower-left to I lower-right
+  ══════════════════════════════════════ -->
+  <path d="M 848 716 Q 700 780 552 716" stroke="#cc2200" stroke-width="2.5" fill="none" marker-end="url(#arr-red)"/>
+  <rect x="602" y="756" width="210" height="40" rx="5" fill="white" stroke="#cc2200" stroke-width="1.5"/>
+  <text x="707" y="773" text-anchor="middle" font-size="12" font-weight="bold" fill="#cc2200">S → I</text>
+  <text x="707" y="789" text-anchor="middle" font-size="11" fill="#555">Snoop BusRdX or BusUpgr</text>
+
+  <!-- ══════════════════════════════════════
+       M → I  (red — Snoop BusRdX / supply data)
+       Arc from M left to I upper, curving far left
+  ══════════════════════════════════════ -->
+  <path d="M 632 186 Q 400 200 340 310" stroke="#cc2200" stroke-width="2.5" fill="none" marker-end="url(#arr-red)"/>
+  <rect x="358" y="186" width="210" height="40" rx="5" fill="white" stroke="#cc2200" stroke-width="1.5"/>
+  <text x="463" y="203" text-anchor="middle" font-size="12" font-weight="bold" fill="#cc2200">M → I</text>
+  <text x="463" y="219" text-anchor="middle" font-size="11" fill="#555">Snoop BusRdX / supply data</text>
+
+  <!-- ══════════════════════════════════════
+       M → S  (red — Snoop BusRd / supply data, writeback)
+       Arc from M right to S, curving far right
+  ══════════════════════════════════════ -->
+  <path d="M 770 180 Q 1200 400 976 664" stroke="#cc2200" stroke-width="2.5" fill="none" marker-end="url(#arr-red)"/>
+  <rect x="1060" y="430" width="210" height="40" rx="5" fill="white" stroke="#cc2200" stroke-width="1.5"/>
+  <text x="1165" y="447" text-anchor="middle" font-size="12" font-weight="bold" fill="#cc2200">M → S</text>
+  <text x="1165" y="463" text-anchor="middle" font-size="11" fill="#555">Snoop BusRd / supply + writeback</text>
+
+  <!-- ══════════════════════════════════════
+       SELF-LOOPS
+  ══════════════════════════════════════ -->
+
+  <!-- M self-loop: CPU Read/Write while M -->
+  <path d="M 636 152 Q 576 100 640 188" stroke="#004065" stroke-width="2" fill="none" marker-end="url(#arr-blue)"/>
+  <rect x="432" y="92" width="190" height="38" rx="5" fill="#fffbe6" stroke="#004065" stroke-width="1.5"/>
+  <text x="527" y="107" text-anchor="middle" font-size="11" font-weight="bold" fill="#004065">CPU Read or Write</text>
+  <text x="527" y="123" text-anchor="middle" font-size="11" fill="#555">already M — no bus</text>
+
+  <!-- S self-loop: CPU Read while S -->
+  <path d="M 870 672 Q 820 630 874 700" stroke="#004065" stroke-width="2" fill="none" marker-end="url(#arr-blue)"/>
+  <rect x="750" y="630" width="130" height="38" rx="5" fill="#e8f0f8" stroke="#004065" stroke-width="1.5"/>
+  <text x="815" y="645" text-anchor="middle" font-size="11" font-weight="bold" fill="#004065">CPU Read</text>
+  <text x="815" y="661" text-anchor="middle" font-size="11" fill="#555">no bus traffic</text>
+
+  <!-- ══════════════════════════════════════
+       BUS TERM DEFINITIONS — bottom right
+  ══════════════════════════════════════ -->
+  <rect x="1100" y="746" width="280" height="90" rx="8" fill="white" stroke="#bbb" stroke-width="1.5"/>
+  <text x="1240" y="768" text-anchor="middle" font-size="12" font-weight="bold" fill="#004065">Bus Transactions</text>
+  <text x="1112" y="788" font-size="11" fill="#555">BusRd    — fetch a shared (read-only) copy</text>
+  <text x="1112" y="806" font-size="11" fill="#555">BusRdX  — fetch exclusive copy (for writing)</text>
+  <text x="1112" y="824" font-size="11" fill="#555">BusUpgr — upgrade S→M, no data needed</text>
+
 </svg>
