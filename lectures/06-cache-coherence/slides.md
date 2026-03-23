@@ -687,23 +687,26 @@ Note: You'll sometimes see MOSI (early AMD), MESIF (Intel), MOESI (AMD), and MOE
 ## Snooping: The Scalability Wall
 
 **The bus is snooping's strength and its fatal weakness:**
-- **Strength:** Total order → write serialization for free; simple protocol
-- **Weakness:** One bus = one serialization bottleneck for ALL coherence traffic
+
+| | Strength | Weakness |
+|---|---|---|
+| **Broadcast bus** | Total order → write serialization for free | One bus = one bottleneck for ALL coherence traffic |
+| **Simple protocol** | Every cache sees every transaction | Every cache must process every transaction |
 
 **Bus bandwidth math:**
-```
-Bus: 1600 MHz × 64-bit wide = 12.8 GB/s total bandwidth
-Each core generates ~1-2 GB/s coherence traffic
-→ 8-12 cores saturate the bus
-Coherence traffic is additive with data traffic
-→ Practical snooping limit: 16-32 cores
-```
 
-**Modern core counts:** AMD EPYC has 96-192 cores. Intel Xeon has 60 cores. ARM Neoverse has 128 cores.
+| | Value |
+|---|---|
+| Typical bus bandwidth | 1600 MHz × 64-bit = **12.8 GB/s** |
+| Coherence traffic per core | ~1–2 GB/s |
+| Cores to saturate the bus | **8–12 cores** |
+| Practical snooping limit | **16–32 cores** (coherence + data share the bus) |
 
-**Conclusion:** Every server-class chip needs directory-based coherence for inter-cluster communication.
+**Modern core counts:** AMD EPYC: 96–192 cores. Intel Xeon: 60+ cores. ARM Neoverse: 128 cores. None of these can fit on a single snooping bus.
 
-Note: The bus bandwidth wall was well understood by the late 1980s. Stanford DASH (1992) demonstrated that directory protocols could scale to hundreds of processors. SGI Origin (1996) used directory coherence at commercial scale. Today, snooping may still be used within a small cluster of cores (e.g., 8 cores sharing an L3 slice), but directory protocols handle all cross-cluster communication.
+**Conclusion:** every server-class chip needs **directory-based coherence** for inter-cluster communication. Snooping still works within small clusters (4–8 cores sharing an L3 slice), but the bus cannot scale beyond that.
+
+Note: The bus bandwidth wall was well understood by the late 1980s. Stanford DASH (1992) demonstrated that directory protocols could scale to hundreds of processors. SGI Origin (1996) used directory coherence at commercial scale. Today, every chip with more than ~16 cores uses a hybrid: snooping within a small cluster of cores, directory protocols between clusters. This is exactly the Level 1 vs Level 2 distinction from the cache hierarchy slide earlier.
 
 ---
 
