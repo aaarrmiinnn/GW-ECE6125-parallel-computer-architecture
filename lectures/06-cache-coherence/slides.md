@@ -654,6 +654,20 @@ Note: The purple F→S arrow is the key MESIF mechanism: when another cache read
 
 ---
 
+## MESIF: How the F Token Rotates
+
+The F state is not assigned by a central controller — it **transfers automatically** as data moves from cache to cache.
+
+![F token rotation: data flows forward in time, F always follows the data](images/mesif_rotation_why.svg)
+
+Each time a new cache reads X, the current F-holder supplies the data and drops to S. The new reader becomes F. The token always points to the **most recent reader** — which is statistically the most likely to still have the line cached.
+
+> No extra hardware tracker is needed. The F token is just a state bit that migrates with the data. Zero overhead beyond the existing coherence messages.
+
+Note: This self-maintaining property is what makes MESIF elegant. The protocol doesn't need a directory or central arbiter to decide who the responder is — the F bit travels with the data itself. The most recent reader is also the cache most likely to still be warm (not yet evicted), so F naturally gravitates to the best responder. If the F-holder does evict the line, the system falls back to memory responding — a graceful degradation, not a failure.
+
+---
+
 ## Protocol Comparison: The Full Picture
 
 | Protocol | States | Key Addition | Eliminates |
