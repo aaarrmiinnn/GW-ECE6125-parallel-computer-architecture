@@ -572,9 +572,15 @@ Note: This is the classic "dirty sharing" problem. It's most painful in producer
 | 2 | CPU 0 → **O** state (still responsible for writeback later) | Free |
 | | **Total: 0 memory transactions** | **~30 ns** |
 
+Note: The Owner state is AMD's signature innovation. The owner is the cache responsible for maintaining the coherent view — it supplies data to any requester and writes back to memory when it finally evicts the line. The trade-off: the owner must track that it's the authoritative source, and the directory/other caches must know to ask the owner, not memory.
+
+---
+
+## MOESI: State Machine
+
 ![MOESI 5-state FSM highlighting O state benefit](images/moesi-state-diagram.svg)
 
-Note: The Owner state is AMD's signature innovation. The owner is the cache responsible for maintaining the coherent view — it supplies data to any requester and writes back to memory when it finally evicts the line. The trade-off: the owner must track that it's the authoritative source, and the directory/other caches must know to ask the owner, not memory.
+Note: The orange M→O arrow is the key addition. When another cache wants to read a line that this cache holds in M, instead of writing back to memory (MESI) the cache transitions to O and supplies the data directly. Blue arrows are CPU-initiated transitions, red arrows are snooped bus messages, gold is the silent E→M (inherited from MESI), and orange highlights the new Owner-state transitions.
 
 ---
 

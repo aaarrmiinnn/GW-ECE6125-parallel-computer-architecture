@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg viewBox="0 0 1100 680" xmlns="http://www.w3.org/2000/svg" font-family="Arial, sans-serif">
+<svg viewBox="0 0 1200 700" xmlns="http://www.w3.org/2000/svg" font-family="Arial, sans-serif">
   <defs>
     <marker id="arr-blue" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
       <polygon points="0 0, 10 3.5, 0 7" fill="#004065"/>
@@ -16,7 +16,7 @@
   </defs>
 
   <!-- Background -->
-  <rect width="1100" height="680" fill="#f8f9fa"/>
+  <rect width="1200" height="700" fill="#f8f9fa"/>
 
   <!-- Title -->
   <text x="550" y="32" text-anchor="middle" font-size="19" font-weight="bold" fill="#004065">MOESI Protocol — State Machine</text>
