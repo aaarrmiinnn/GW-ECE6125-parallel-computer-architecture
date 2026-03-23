@@ -722,102 +722,130 @@ Note: Directory protocols replace the broadcast medium with targeted point-to-po
 
 ## Directory Structure: Tracking Sharers
 
-**A directory entry for each memory block:**
+Each memory block has a **directory entry** stored alongside it in memory:
 
-```
-┌──────────────────────────────────────────────────────────────────┐
-│  State (2 bits)  │  Owner/Sharers  (N bits for N-core system)   │
-│  U / S / M       │  Bitmap or pointer to cache(s) with copies   │
-└──────────────────────────────────────────────────────────────────┘
-```
+| Field | Size | Purpose |
+|-------|------|---------|
+| **State** | 2 bits | U (Uncached), S (Shared), or M (Modified) |
+| **Owner / Sharers** | N bits (for N cores) | Which cache(s) hold copies of this block |
 
-**Directory state field:**
-- **Uncached (U):** No cache has this block
-- **Shared (S):** ≥1 caches have clean copies; sharer bitmap indicates which ones
-- **Modified (M):** Exactly one cache has it (dirty); owner pointer indicates which one
+**What each state means:**
 
-**Sharer tracking approaches:**
-
-| Approach | Storage | Max Practical Sharers | Use Case |
-|----------|---------|----------------------|----------|
-| Full-map bitmap | N bits/block | All N caches | ≤ 64 cores |
-| Limited pointer | k × log₂N bits | k sharers exactly | 64–256 cores |
-| Sparse directory | Variable (hash/list) | Unlimited | Large systems |
+| State | Who has the block | What the directory knows |
+|-------|-------------------|------------------------|
+| **Uncached (U)** | No cache | Block only lives in memory |
+| **Shared (S)** | ≥1 caches, all clean | Sharer bitmap says which ones |
+| **Modified (M)** | Exactly 1 cache, dirty | Owner pointer says which one |
 
 ![Directory entry format and pointer-to-sharers structure](images/directory-structure.svg)
 
-Note: Storage overhead is the core scalability problem with directories. For N=64 cores with 64-byte cache lines, full-map adds 64 bits = 8 bytes per line — 12.5% overhead. Acceptable. For N=1024 cores, full-map adds 1024 bits = 128 bytes per 64-byte line — 200% overhead. Unacceptable. This is why limited-pointer and sparse directories exist.
+Note: Storage overhead is the core scalability problem with directories. For N=64 cores with 64-byte cache lines, full-map adds 64 bits = 8 bytes per line — 12.5% overhead. Acceptable. For N=1024 cores, full-map adds 1024 bits = 128 bytes per 64-byte line — 200% overhead. Unacceptable. This is why limited-pointer and sparse directories exist — covered in the SCD slide later.
 
 ---
 
-## Directory Protocol: Read Miss
+## Directory: Sharer Tracking Approaches
 
-**Case 1 — No cache has the block (Uncached):**
-```
-1. CPU 2 → Directory:   ReadReq(block B)
-2. Directory checks:    State = Uncached
-3. Directory → Memory:  Fetch(B)
-4. Memory → CPU 2:      Data(B)
-5. Directory updates:   State = Shared, Sharers = {CPU 2}
-```
+As core counts grow, the sharer bitmap becomes the bottleneck. Three approaches exist:
 
-**Case 2 — Block is Modified (CPU 5 is Owner):**
-```
-1. CPU 2 → Directory:   ReadReq(B)
-2. Directory checks:    State = Modified, Owner = CPU 5
-3. Directory → CPU 5:   Intervention: supply B to CPU 2, go to Shared
-4. CPU 5 → CPU 2:       Data(B)   [cache-to-cache, bypasses memory]
-5. CPU 5 → Directory:   AckOwner (I've transferred ownership)
-6. Directory updates:   State = Shared, Sharers = {CPU 2, CPU 5}
-```
+| Approach | Storage per block | Tracks up to | Trade-off |
+|----------|------------------|-------------|-----------|
+| **Full-map bitmap** | N bits (1 bit per core) | All N caches | Simple but 200% overhead at 1024 cores |
+| **Limited pointer** | k × log₂N bits | Exactly k sharers | Compact, but must evict a sharer if k+1th arrives |
+| **Sparse directory** | Variable (hash/list) | Unlimited | Flexible, but complex and variable latency |
 
-Note: Case 2 demonstrates the directory's key advantage: it KNOWS to go to CPU 5, not to memory. In snooping, a read miss would broadcast to all cores — most of which have no stake in block B. With directory, only CPU 5 is messaged. At 64+ cores, this is the difference between O(1) and O(N) message complexity.
+**The storage problem in numbers:**
+
+| Core count | Full-map overhead per 64B block | Acceptable? |
+|------------|-------------------------------|-------------|
+| 16 cores | 2 bytes (3%) | Yes |
+| 64 cores | 8 bytes (12.5%) | Borderline |
+| 1024 cores | 128 bytes (200%) | No — more metadata than data! |
+
+Note: The full-map bitmap is the simplest and fastest approach — a single bit-test tells you whether a core shares the block. But it doesn't scale. Limited pointers (typically k=4 or k=8) cover the common case well: most blocks are shared by fewer than 4 cores. When the k+1th sharer arrives, the protocol must either evict one of the existing sharers or fall back to broadcast. AMD's Infinity Fabric uses a variant of limited pointers with coarse grouping.
+
+---
+
+## Directory Protocol: Read Miss (Uncached)
+
+CPU 2 wants to read block B. No cache has it.
+
+| Step | From → To | Message | What happens |
+|------|-----------|---------|-------------|
+| 1 | CPU 2 → Directory | ReadReq(B) | "I need block B" |
+| 2 | Directory checks | — | State = Uncached → fetch from memory |
+| 3 | Memory → CPU 2 | Data(B) | CPU 2 gets the data |
+| 4 | Directory updates | — | State = **Shared**, Sharers = {CPU 2} |
+
+This is the simple case — identical to a snooping read miss, just routed through the directory instead of broadcast.
+
+Note: In the uncached case, directory coherence adds one extra hop (CPU→Directory→Memory→CPU) compared to snooping (CPU→Bus→Memory→CPU). The latency is slightly higher for this case. Directory protocols pay a small latency tax on cold misses in exchange for massive bandwidth savings on everything else.
+
+---
+
+## Directory Protocol: Read Miss (Modified)
+
+CPU 2 wants to read block B. CPU 5 holds it in Modified state.
+
+| Step | From → To | Message | What happens |
+|------|-----------|---------|-------------|
+| 1 | CPU 2 → Directory | ReadReq(B) | "I need block B" |
+| 2 | Directory checks | — | State = Modified, Owner = CPU 5 |
+| 3 | Directory → CPU 5 | Intervention | "Supply B to CPU 2, drop to Shared" |
+| 4 | CPU 5 → CPU 2 | Data(B) | **Cache-to-cache transfer** — memory bypassed |
+| 5 | CPU 5 → Directory | Ack | "Done, I'm now Shared" |
+| 6 | Directory updates | — | State = **Shared**, Sharers = {CPU 2, CPU 5} |
+
+**The key advantage:** the directory **knows** CPU 5 is the owner — it sends exactly one message. Snooping would broadcast to all 96+ cores to find the owner.
+
+Note: This is where directory protocols shine. The directory knows exactly who has the block and in what state. At 64+ cores, this is the difference between O(1) targeted messages and O(N) broadcast. Step 4 is a cache-to-cache transfer — same mechanism as MOESI's owner supply, but coordinated by the directory rather than bus snooping.
 
 ---
 
 ## Directory Protocol: Write Miss
 
-**Block B is currently Shared by CPUs 1, 4, 7:**
+CPU 3 wants to write block B. CPUs 1, 4, 7 currently hold it in Shared state.
 
-```
-1. CPU 3 → Directory:     WriteReq(B)
-2. Directory checks:      State = Shared, Sharers = {1, 4, 7}
-3. Directory → CPU 1:     Invalidate(B)
-   Directory → CPU 4:     Invalidate(B)
-   Directory → CPU 7:     Invalidate(B)
-4. CPU 1, 4, 7 → Directory: AckInval (I've invalidated my copy)
-5. Directory → CPU 3:     WriteAck + Data(B)
-6. Directory updates:     State = Modified, Owner = CPU 3
-```
+| Step | From → To | Message | What happens |
+|------|-----------|---------|-------------|
+| 1 | CPU 3 → Directory | WriteReq(B) | "I need exclusive access to B" |
+| 2 | Directory checks | — | State = Shared, Sharers = {1, 4, 7} |
+| 3 | Directory → CPUs 1, 4, 7 | Invalidate(B) | "Drop your copies of B" (3 targeted messages) |
+| 4 | CPUs 1, 4, 7 → Directory | AckInval | All three confirm they've invalidated |
+| 5 | Directory → CPU 3 | WriteAck + Data(B) | CPU 3 can now write |
+| 6 | Directory updates | — | State = **Modified**, Owner = CPU 3 |
 
-**Critical:** CPU 3 must wait for ALL AckInval messages before proceeding. This enforces write serialization — no cache can read stale data once all Acks are received.
+**Critical:** CPU 3 must wait for **all** AckInval messages before writing. If even one sharer hasn't invalidated yet, it could serve stale data to a future reader — violating coherence.
 
 ![Step-by-step message flow for directory read/write/eviction](images/directory-protocol-trace.svg)
 
-Note: The write must wait for ALL invalidation acknowledgments. Why? If CPU 3 wrote X=5 and CPU 1 hadn't yet invalidated, CPU 1 might return old data X=3 to a future reader — violating coherence. The directory acts as a serialization point: it processes one request per block at a time, naturally providing the same total order the bus provided in snooping.
+Note: Compare to snooping: BusRdX broadcasts to ALL cores. With 96 cores, that's 95 unnecessary messages to cores that don't have block B. The directory sends exactly 3 invalidations — only to the sharers. This is O(k) where k is the number of sharers, vs. O(N) for snooping. The directory acts as a serialization point: it processes one request per block at a time, naturally providing the same total order the bus provided in snooping.
 
 ---
 
-## Directory Protocol: Eviction (Writeback)
+## Directory Protocol: Eviction
 
-**Dirty eviction (CPU 3 is Owner, State = Modified):**
-```
-1. CPU 3 → Directory:   WritebackReq(B, data)
-2. Directory → Memory:  Update(B, data)
-3. Directory updates:   State = Uncached
-4. Directory → CPU 3:   WritebackAck
-```
+When a cache needs to free a line, it must notify the directory — otherwise the directory's metadata goes stale.
 
-**Clean eviction (CPU 1, one of several Shared copies):**
-```
-1. CPU 1 → Directory:   EvictShare(B)
-2. Directory updates:   Remove CPU 1 from Sharers bitmap
-3. If Sharers = ∅:      State = Uncached
-```
+**Dirty eviction** (CPU 3 is Owner):
 
-**Why acknowledge writebacks?** Prevents races: if CPU 3 evicts B, then CPU 4 reads B before the writeback reaches memory, the directory must not grant CPU 4 the old value. WritebackAck serializes this.
+| Step | From → To | What happens |
+|------|-----------|-------------|
+| 1 | CPU 3 → Directory | WritebackReq(B) + dirty data |
+| 2 | Directory → Memory | Writes data back to memory |
+| 3 | Directory updates | State = **Uncached** |
+| 4 | Directory → CPU 3 | WritebackAck — "safe to reuse the line" |
 
-Note: Evictions are one of the harder parts of directory protocol implementation. The directory must handle races between simultaneous requests and evictions for the same block. Real implementations use "transient states" (IMAD, IMAD-WB, etc.) to track these race conditions. Full protocol verification requires model checking — there are O(N) transient states even for simple 3-state protocols.
+**Clean eviction** (CPU 1, one of several Shared copies):
+
+| Step | From → To | What happens |
+|------|-----------|-------------|
+| 1 | CPU 1 → Directory | EvictShare(B) — "I dropped my copy" |
+| 2 | Directory updates | Remove CPU 1 from Sharers bitmap |
+| 3 | If Sharers = {} | State = **Uncached** |
+
+**Why does the dirty writeback need an Ack?** Without it, a race is possible: CPU 3 evicts B, then CPU 4 reads B before the writeback reaches memory. The directory must not serve the old value to CPU 4. The Ack serializes the eviction — CPU 3 isn't considered "done" until the directory confirms.
+
+Note: Evictions are one of the harder parts of directory protocol implementation. The directory must handle races between simultaneous requests and evictions for the same block. Real implementations use "transient states" (IMAD, IMAD-WB, etc.) to track these race conditions. Full protocol verification requires model checking — there are dozens of transient states even for simple 3-state protocols.
 
 ---
 
