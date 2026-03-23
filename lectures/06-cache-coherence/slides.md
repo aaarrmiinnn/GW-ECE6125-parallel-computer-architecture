@@ -486,9 +486,7 @@ Note: The E→M transition is completely invisible to the bus — no message, no
 
 ---
 
-## MESI: Real-World Impact
-
-**Typical workload breakdown:**
+## MESI: Workload Breakdown
 
 | Data Type | Protocol State | Coherence Overhead |
 |-----------|---------------|-------------------|
@@ -500,8 +498,13 @@ Note: The E→M transition is completely invisible to the bus — no message, no
 **Why MESI replaced MSI everywhere:**
 - ~60-70% of lines are private → E eliminates their upgrade traffic
 - Remaining ~30-40% benefit equally from MSI and MESI
+- Net result: **15-30% fewer bus transactions** in real workloads
 
-**Real-world systems using MESI:**
+Note: The top two rows — private data and read-only shared data — account for the vast majority of cache accesses in typical programs. Both have zero coherence overhead under MESI. The bottom two rows (producer-consumer and write-shared) are the expensive cases, but they're also the minority. This is why MESI is such a clear win: it optimizes the common case to zero cost.
+
+---
+
+## MESI: Real-World Systems
 
 | System | Years | Notes |
 |--------|-------|-------|
@@ -514,7 +517,7 @@ Note: The E→M transition is completely invisible to the bus — no message, no
 
 > MESI is the **baseline** for almost every coherence protocol in use today. AMD extended it to MOESI; Intel extended it to MESIF. But the M, E, S, I states are in every one of them.
 
-Note: The E state is a pure win with a tiny hardware cost (one shared-line wire per bus, plus one extra state bit per cache line). The improvement in real workloads is typically 15-30% fewer bus transactions. This is why every serious coherence protocol since 1985 includes an E state.
+Note: The i486 (1989) was the turning point. Before it, every processor used MSI and paid the upgrade tax on private writes. After the i486 proved the E state worked with minimal hardware cost (one wire + one bit per line), no serious design went back to pure MSI. Today, even AMD's MOESI and Intel's MESIF include the E state — they just add O or F on top of it.
 
 ---
 
