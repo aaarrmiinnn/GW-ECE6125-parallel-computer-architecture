@@ -554,14 +554,23 @@ Note: This is the classic "dirty sharing" problem. It's most painful in producer
 
 **MOESI solution — the O (Owner) state:**
 
-> "I have a modified copy, and I'm sharing it. I'm responsible for keeping it coherent. Memory does NOT need to be updated yet."
+> "I have a modified copy, and I'm sharing it. I'm responsible for supplying it to anyone who asks. Memory does NOT need to be updated yet."
 
-| | MESI | MOESI |
-|---|---|---|
-| CPU 0 state before | M (X=5, memory stale) | M (X=5, memory stale) |
-| CPU 1 reads X | CPU 0 writes back → memory → CPU 1 fetches | CPU 0 → **O**, supplies X=5 directly to CPU 1 |
-| Memory transactions | **2** (writeback + fetch) | **0** |
-| Memory state after | X=5 (updated) | X=old (still stale — owner responsible) |
+**MESI path** (what we want to eliminate):
+
+| Step | What happens | Cost |
+|------|-------------|------|
+| 1 | CPU 0 writes back X=5 to memory | 1 memory write (~200 ns) |
+| 2 | CPU 1 fetches X=5 from memory | 1 memory read (~200 ns) |
+| | **Total: 2 memory transactions** | **~400 ns** |
+
+**MOESI path** (with Owner state):
+
+| Step | What happens | Cost |
+|------|-------------|------|
+| 1 | CPU 0 hands X=5 directly to CPU 1 | 1 cache-to-cache (~30 ns) |
+| 2 | CPU 0 → **O** state (still responsible for writeback later) | Free |
+| | **Total: 0 memory transactions** | **~30 ns** |
 
 ![MOESI 5-state FSM highlighting O state benefit](images/moesi-state-diagram.svg)
 
