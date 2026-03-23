@@ -474,7 +474,7 @@ Note: This isn't a corner case — it's the common case. Most data in a program 
 
 ![MESI 4-state FSM highlighting E state benefit](images/mesi-state-diagram.svg)
 
-Note: The E state is valuable because most data is private — local variables, private data structures, stack frames. Studies of SPLASH-2 and PARSEC benchmarks show 60-70% of cache lines are touched by only one core. Without E, every write to private data burns a bus transaction. With E, private-data writes are entirely local.
+Note: E is the only state that makes a claim about what other caches do NOT have. M says "I modified it, memory is stale" — a fact about this cache alone. S says "I have a clean copy, others might too" — also local. I says "I don't have it" — trivially local. But E says "I have it, it's clean, AND nobody else has it" — that last part requires knowledge about every other cache in the system. A cache can't know that by looking at itself. It needs external evidence, which is what the shared line on the bus provides: when a cache fetches a line and no other cache pulls the shared wire low, it concludes "I'm the only one" and records E. Without that wire, the cache must conservatively assume S every time — which is exactly what MSI does, and exactly why MSI wastes bus traffic on upgrades. The hardware cost of E is just one wire plus one state bit per line, but it eliminates 60-70% of upgrade transactions because most cache lines (stack, locals, thread-private data) are touched by only one core.
 
 ---
 
