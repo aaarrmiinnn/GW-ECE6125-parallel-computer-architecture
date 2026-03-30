@@ -1165,20 +1165,41 @@ Note: `hardware_destructive_interference_size` is the C++17 portable way — it'
 
 ### How AMD, Intel, and Apple Actually Do It
 
+**Quick glossary for this section:**
+
+| Abbreviation | Meaning |
+|---|---|
+| **CCD** | Core Complex Die — AMD's term for a chiplet (a small die containing 4–16 cores + shared L3 cache) |
+| **LLC** | Last Level Cache — the largest on-chip cache (usually L3), shared by all cores in a chiplet or socket |
+| **Probe** | A coherence message asking "do you have a copy of this cache line?" |
+| **Probe filter** | Hardware that tracks which caches *might* hold a line, so probes are only sent where needed instead of broadcast to everyone |
+
 Note: Real systems combine multiple protocols, hierarchical directories, and hardware-specific optimizations tailored to their die topology. The "correct" protocol depends on your target workload, die area budget, and interconnect topology. Let's see the three leading approaches.
 
 ---
 
 ## AMD Zen 5: Probe Filtering at Scale
 
-**Architecture:** Up to 16 cores per CCD (Core Complex Die) connected via Infinity Fabric
+**Architecture:** Up to 16 cores per CCD, connected via Infinity Fabric (AMD's on-chip interconnect)
 
-**Key coherence design choices:**
-- **MOESI protocol** within each CCD and across CCDs
-- **L3 cache as probe filter:** Before broadcasting a coherence probe across the Infinity Fabric, the L3 checks whether it holds the line. If not → the line is private to its CCD → no need to probe other CCDs
-  - Reduces inter-CCD coherence traffic by ~30-50%
-- **124 outstanding L1 misses per core** (up from 44 in Zen 4) — allows aggressive latency hiding while waiting for coherence responses
-- **Infinity Fabric directory:** Acts as the home node for cross-CCD coherence, with one home region per address range
+**Coherence protocol:** MOESI (the O state lets dirty data transfer cache-to-cache without writing back to memory first)
+
+**The scalability problem:** A high-end EPYC chip has 12 CCDs. Without optimization, every cache miss would broadcast a probe to all 12 CCDs asking "do you have this line?" — that's 11 unnecessary messages if only one CCD cares.
+
+**AMD's solution — L3 as probe filter:**
+
+| Step | What happens |
+|---|---|
+| 1 | Core misses in L1 → checks its CCD's shared L3 |
+| 2 | L3 hit? → Done, no cross-CCD traffic needed |
+| 3 | L3 miss? → L3 tags tell us whether *any* CCD might have it |
+| 4 | Only if another CCD might have it → send targeted probe via Infinity Fabric |
+
+This reduces cross-CCD coherence traffic by **~30–50%** compared to naive broadcast.
+
+**Other features:**
+- **124 outstanding cache misses per core** (up from 44 in Zen 4) — the core can keep doing useful work while waiting for slow cross-CCD coherence responses to come back
+- **Infinity Fabric directory** acts as the home node for cross-CCD coherence, assigning each address range to a specific home region
 
 Note: The probe filter is the key scalability feature. Without it, every L3 miss would broadcast to all 12 CCDs in a Genoa chip to check for dirty copies — saturating the Infinity Fabric with coherence probes. With the probe filter, only misses to lines actually in SOME L3 cache generate probes. AMD claims this reduces Infinity Fabric coherence traffic by 30-50% for typical server workloads (database, HPC, virtualization).
 
@@ -1186,51 +1207,67 @@ Note: The probe filter is the key scalability feature. Without it, every L3 miss
 
 ## Intel Raptor Lake: MESIF and Adaptive Snoop Modes
 
-**Architecture:** P-cores + E-cores sharing L3 cache ring; Xeon uses mesh interconnect
+**Architecture:** Performance cores (P-cores) + Efficiency cores (E-cores), all sharing a distributed L3 cache connected by a ring bus; server Xeons use a mesh interconnect instead
 
-**Key coherence design choices:**
-- **MESIF protocol** — Forward state enables direct cache-to-cache transfers on the ring, eliminating memory from the critical path for read sharing
-- **Two snoop modes:**
-  - *Home Snoop:* Request goes to home LLC slice → home checks all sharers → lower bandwidth, higher latency
-  - *Source Snoop:* Request broadcasts first → lower latency if nearby cache has it → higher bandwidth
-- **Dynamic mode selection:** Hardware switches modes based on system load in real time
-- **Snoop filter in LLC:** Tracks which cores have copies of which lines; avoids unnecessary probes
+**Coherence protocol:** MESIF (the F state designates one sharer as the "forwarder" — it supplies data directly to requesters, so memory stays out of the critical path)
+
+**The design tension:** Low-latency access vs. low-bandwidth overhead — Intel solves this with two switchable snoop modes:
+
+| Snoop Mode | How it works | Best when |
+|---|---|---|
+| **Home Snoop** | Request goes to the "home" LLC slice for that address → home checks its directory → contacts only the sharers that matter | System is busy — saves bandwidth |
+| **Source Snoop** | Requester broadcasts to all caches first → whoever has the data responds directly | System is lightly loaded — minimizes latency |
+
+**The hardware switches between these modes automatically** based on real-time interconnect load — no software intervention needed.
+
+**Snoop filter in LLC:** Each LLC slice tracks which cores hold copies of which lines, so probes only go to cores that actually have the data.
 
 Note: The dual snoop mode is Intel's response to the latency vs. bandwidth tradeoff. Under low load, Source Snoop provides minimum latency (direct cache-to-cache). Under high load, Home Snoop reduces bandwidth. The hardware tracks which mode is more efficient. Intel's Xeon Scalable Family has been using variants of this since Skylake-SP (2017) and refined it through each generation.
 
 ---
 
-## Apple M-Series: ARM ACE and Zero-Copy GPU
+## Apple M-Series: Unified Memory and Zero-Copy GPU
 
-**Architecture:** CPU + GPU on same die, unified LPDDR memory, ARM AMBA ACE coherence fabric
+**Architecture:** CPU + GPU on the same die, sharing a single pool of LPDDR (low-power DDR) memory — there is no separate "GPU memory"
 
-**Key coherence design choices:**
-- **ARM ACE protocol (AXI Coherency Extensions):** CPU and GPU participate in the same coherence protocol — the GPU has full read/write coherence with all CPU caches
-- **Asymmetric inclusiveness:**
-  - CPU L2: *Exclusive* (L1 evictions go to L2, not duplicated)
-  - GPU L2: *Inclusive* of GPU L1 (simplifies CPU→GPU probes; CPU only needs to probe GPU L2)
-- **Zero-copy data transfer:** GPU reads/writes CPU memory directly. No `memcpy` to GPU buffer.
-- **Fabric-level coherence:** All agents (CPU, GPU, Neural Engine, DMA) connect to the interconnect with ACE ports
+**Coherence protocol:** ARM ACE (AXI Coherency Extensions) — a standard ARM protocol where CPU and GPU participate as equal partners in the same coherence domain
 
-**Impact:** On Metal, a CPU-written texture can be read by the GPU with zero additional overhead. On discrete GPUs, this transfer typically dominates frame setup time.
+**Why this is special:**
 
-Note: Apple's unified memory architecture is only possible because they designed CPU and GPU coherence domains together from scratch. x86+discrete GPU architectures must use PCI-E or NVLink for GPU coherence — both add latency and bandwidth overhead. Apple's M-series shows what's possible when the entire stack is co-designed.
+| Traditional (discrete GPU) | Apple M-Series (unified) |
+|---|---|
+| CPU and GPU have separate memory | CPU and GPU share one memory pool |
+| Data must be *copied* from CPU memory → GPU memory before GPU can use it | GPU reads CPU data directly — **zero copies** |
+| Coherence stops at the PCIe bus | Full hardware coherence across CPU, GPU, Neural Engine, and DMA engines |
+
+**How Apple keeps it efficient:**
+- CPU L2 is *exclusive* — when data is evicted from L1, it goes to L2 without duplication (saves space)
+- GPU L2 is *inclusive* of GPU L1 — so when the CPU needs to check GPU caches, it only has to probe GPU L2 (one check instead of many)
+
+**Real-world impact:** On Apple's Metal API, a texture written by the CPU can be read by the GPU with zero additional copy overhead. On discrete GPUs, this CPU→GPU copy often dominates frame setup time.
+
+Note: Apple's unified memory architecture is only possible because they designed CPU and GPU coherence domains together from scratch. x86+discrete GPU architectures must use PCIe or NVLink for GPU coherence — both add latency and bandwidth overhead. Apple's M-series shows what's possible when the entire stack is co-designed.
 
 ---
 
 ## Modern CPU Coherence: Design Comparison
 
-| Architecture | Protocol | Directory Location | Notable Feature |
-|-------------|----------|--------------------|-----------------|
-| AMD Zen 5 | MOESI | Infinity Fabric | L3 probe filter, 124 MSHRs |
-| Intel Raptor Lake | MESIF | LLC slices | Dual snoop modes |
-| Apple M4 | ARM ACE | Fabric-integrated | CPU+GPU unified, zero-copy |
-| IBM POWER10 | MESI+ | NUMA directory | Memory Clustering Domains |
-| Ampere Altra | MESI | ARM CMN-700 mesh | 128-core coherent mesh |
+| Architecture | Protocol | Where the directory lives | What makes it unique |
+|---|---|---|---|
+| **AMD Zen 5** | MOESI | Infinity Fabric (on-chip interconnect) | L3 probe filter eliminates unnecessary cross-chiplet probes |
+| **Intel Raptor Lake** | MESIF | Distributed across LLC slices | Switches between two snoop modes based on load |
+| **Apple M4** | ARM ACE | Integrated into the on-chip fabric | CPU + GPU share coherence domain; zero-copy transfers |
+| **IBM POWER10** | MESI variant | Per-socket NUMA directory | Groups memory into "clustering domains" for locality |
+| **Ampere Altra** | MESI | ARM CMN-700 mesh (a scalable on-chip network) | 128 cores in a single coherent mesh |
+
+**Key takeaway:** There is no single "best" protocol — each design optimizes for a different workload:
+- AMD's MOESI: Server workloads with many chiplets (avoids writebacks)
+- Intel's MESIF: Latency-sensitive multi-socket systems (fast cache-to-cache transfers)
+- Apple's ACE: Mobile/laptop workloads where CPU↔GPU copy overhead dominates
 
 ![AMD/Intel/Apple side-by-side protocol choices](images/cpu-coherence-comparison.svg)
 
-Note: There is no single best protocol — each company optimized for their target workload and die topology. AMD's MOESI eliminates writebacks, important for server workloads with many L3 slices. Intel's MESIF optimizes cache-to-cache latency for latency-sensitive applications in multi-socket Xeon systems. Apple's ACE prioritizes CPU-GPU zero-copy for the mobile/laptop workload where copy overhead dominates. The "right" choice is workload-dependent.
+Note: Each company optimized for their target workload and die topology. AMD's MOESI eliminates writebacks, important for server workloads with many L3 slices. Intel's MESIF optimizes cache-to-cache latency for latency-sensitive applications in multi-socket Xeon systems. Apple's ACE prioritizes CPU-GPU zero-copy for the mobile/laptop workload where copy overhead dominates. The "right" choice is workload-dependent.
 
 ---
 
