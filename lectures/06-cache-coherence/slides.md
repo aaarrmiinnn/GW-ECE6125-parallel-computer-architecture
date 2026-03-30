@@ -1017,11 +1017,13 @@ Note: x86-TSO was formalized by Owens, Sarkar, and Sewell in 2009 — surprising
 
 ## Relaxed Models: ARM and RISC-V
 
-**ARM's memory model (Weakly Ordered):**
+Both ARM and RISC-V use **WO (Weak Ordering)** — the most relaxed end of the spectrum. Unlike TSO, which relaxes only Store→Load, WO relaxes **all four** operation pairs by default.
+
+**ARM's memory model:**
 - Loads and stores can be reordered in almost any way
 - Only restrictions: data dependencies, explicit barriers, and acquire/release atomics
 
-**RISC-V's memory model (RVWMO):**
+**RISC-V's memory model (RVWMO — RISC-V Weak Memory Ordering):**
 - Similar to ARM: aggressively relaxed
 - `FENCE r,w` instructions provide ordering guarantees
 
@@ -1038,7 +1040,7 @@ Note: x86-TSO was formalized by Owens, Sarkar, and Sewell in 2009 — surprising
 | ARM | `DMB ISH` | `DMB ISHST` | `DMB ISHLD` |
 | RISC-V | `FENCE rw,rw` | `FENCE w,w` | `FENCE r,r` |
 
-![Memory consistency models: SC vs TSO vs WO operation ordering](images/memory-consistency-models.svg)
+![Reordering rules: SC preserves all, TSO relaxes Store→Load only, WO relaxes everything](images/memory-consistency-models.svg)
 
 Note: RISC-V's RVWMO is actually more carefully specified than ARM's model — RISC-V provides a formal axiomatic model in the ISA specification. Both allow significant reordering. In practice, the C11/C++11 memory model provides the best abstraction: `memory_order_acquire`, `memory_order_release`, and `memory_order_seq_cst` map to the minimum necessary barriers on each architecture.
 
