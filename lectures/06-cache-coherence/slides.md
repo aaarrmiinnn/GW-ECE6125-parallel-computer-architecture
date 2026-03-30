@@ -779,11 +779,22 @@ Storage: 16 bits. To invalidate all sharers, scan the bitmap and message every 1
 
 **2. Limited pointer** (k=2 pointers, 4 bits each for 16 cores):
 
-| Pointer 1 | Pointer 2 | Overflow? |
-|-----------|-----------|-----------|
-| Core 2 (0010) | Core 5 (0101) | **Yes** — core 11 can't fit! |
+Step-by-step — watch the pointers fill up and overflow:
 
-Only 8 bits — much smaller. But we can only track 2 sharers. When core 11 tries to share, the protocol must either **evict** one of the existing sharers (force core 2 or 5 to invalidate) or **fall back to broadcast** and invalidate everyone.
+| Event | Pointer 1 | Pointer 2 | Status |
+|-------|-----------|-----------|--------|
+| Core 2 reads B | Core 2 (0010) | *empty* | 1 slot left |
+| Core 5 reads B | Core 2 (0010) | Core 5 (0101) | **Full** — both slots used |
+| Core 11 reads B | ??? | ??? | **Overflow!** No slot for core 11 |
+
+Only 8 bits total — much smaller than 16-bit bitmap. But when core 11 arrives and both pointers are full, the hardware must choose:
+
+| Option | What happens | Cost |
+|--------|-------------|------|
+| **Evict a sharer** | Force core 2 or 5 to invalidate, give their slot to core 11 | Lost work — evicted core must re-fetch later |
+| **Broadcast invalidate** | Invalidate ALL sharers, give the block exclusively to core 11 | Even worse — everyone re-fetches |
+
+This overflow problem is rare (most blocks have 1–2 sharers) but painful when it hits. **SCD** (next section) solves this with variable-size encoding that adapts to the actual sharing pattern.
 
 **3. Sparse directory** (linked list in a separate SRAM table):
 
@@ -886,20 +897,20 @@ Note: **Directory message glossary** (used across these slides): **ReadReq(B)** 
 
 ## SCD: Scalable Coherence Directory
 
-**Problem:** For 1024 cores, full-map directory = 128 bytes overhead per 64-byte block (200%). Impractical.
+**The limited pointer problem:** Fixed k=2 pointers work great for 1–2 sharers, but overflow forces costly evictions or broadcasts when a third sharer arrives.
 
-**SCD's key insight (Sanchez & Kozyrakis, 2012):** The actual distribution of sharing is **bimodal** — most blocks are either **private** (1 sharer) or **broadcast** (many sharers). The "2–16 sharers" region is rare.
+**Why not just use full-map?** At 1024 cores, full-map = 128 bytes overhead per 64-byte block (200% storage tax). Impractical.
 
-**Variable-size encoding:**
+**SCD's key insight (Sanchez & Kozyrakis, 2012):** Sharing is **bimodal** — most blocks are either **private** (1 sharer) or **broadcast** (many sharers). The "2–16 sharers" middle region is rare. So don't use one fixed format — **adapt the encoding to the actual sharing pattern:**
 
-| Encoding | Bits Used | Represents |
-|----------|-----------|------------|
-| Single owner pointer | log₂N | Exactly 1 sharer (private) |
-| Pair of pointers | 2 × log₂N | Exactly 2 sharers (producer-consumer) |
-| Coarse-grained group vector | N/G bits | Many sharers (grouped by G cores) |
-| Broadcast flag | 1 bit | All caches are sharers |
+| Sharing pattern | Encoding | Bits (1024 cores) | Example |
+|----------------|----------|-------------------|---------|
+| 1 sharer (most common) | Single pointer | 10 bits | Core 11 only |
+| 2 sharers (producer-consumer) | Pair of pointers | 20 bits | Cores 2 and 5 |
+| 3+ sharers (rare) | Coarse group vector | N/G bits | Group bitmap, G=16 → 64 bits |
+| All sharers (barrier/lock) | Broadcast flag | 1 bit | Everyone has it |
 
-**Result at 1024 cores:** Only ~5% storage overhead vs. 200% for full-map.
+**Result at 1024 cores:** ~5% storage overhead vs. 200% for full-map — and **no overflow problem** because the encoding grows to fit.
 
 ![Variable-size sharer set encodings: 1, 2, many](images/scd-sharer-encoding.svg)
 
