@@ -1273,29 +1273,29 @@ Note: Each company optimized for their target workload and die topology. AMD's M
 
 ## Part 7: Heterogeneous Coherence — CPU + GPU
 
-### When Bandwidth Optimization Meets Latency Optimization
+### What Changes When GPUs Enter the Coherence Picture?
 
-> CPUs optimize for latency (single-thread response time). GPUs optimize for throughput (aggregate bandwidth). Making them coherent without destroying both is a hard engineering problem.
+In Parts 1–6, we dealt with keeping **CPU caches** coherent with each other. That was hard enough — but at least all participants (CPU cores) have similar cache sizes, similar access patterns, and live on the same die or package.
+
+**GPUs break every assumption** those CPU protocols were built on. This part explains *why*, and the three approaches industry uses to deal with it.
 
 Note: This is one of the hottest areas of current architecture research. The GPU's memory subsystem is built for bandwidth — hundreds to thousands of GB/s, with thousands of concurrent threads to hide latency. CPU caches optimize for single-thread latency — a few nanoseconds. Making them coherent without bottlenecking either side requires new protocol designs.
 
 ---
 
-## The CPU+GPU Coherence Problem
+## Why CPU+GPU Coherence is a Fundamentally Different Problem
 
-**CPU memory characteristics:**
-- Cache hierarchy: L1/L2/L3 private caches per core
-- Coherence at **64-byte line granularity**
-- Optimized for **latency** (single-digit ns for L1 hit)
+In a CPU-only system, coherence works because all caches speak the same language: 64-byte lines, similar speeds, a shared bus or directory. **GPUs break this in three ways:**
 
-**GPU memory characteristics:**
-- HBM (H100: 3.35 TB/s bandwidth)
-- Optimized for **throughput** (thousands of threads in flight)
-- Coherence typically at **128-byte or page granularity** (or none)
+| | CPU | GPU |
+|---|---|---|
+| **Optimizes for** | Latency (fast single-thread response) | Throughput (maximum aggregate bandwidth) |
+| **Cache line size** | 64 bytes | 128 bytes or larger |
+| **Threads in flight** | 4–128 per chip | **Thousands** per chip |
+| **Memory bandwidth** | ~100 GB/s (DDR5) | ~3,000 GB/s (HBM3, e.g., NVIDIA H100) |
+| **Typical coherence** | Fine-grained (every 64B line tracked) | Coarse or **none** (historically) |
 
-**The mismatch:**
-- CPU-style fine-grained coherence on GPU → too many coherence messages saturate the NVLink/PCIe interconnect
-- GPU-style coarse coherence on CPU → CPU latency skyrockets (must flush pages, not lines)
+**The core tension:** If you apply CPU-style coherence (track every 64-byte line) to GPU memory, the coherence messages alone would saturate the interconnect — the GPU would spend all its bandwidth on protocol overhead instead of computation. But if you apply GPU-style coarse coherence to the CPU, latency explodes.
 
 ![CPU+GPU shared memory with coherence traffic challenge](images/cpu-gpu-coherence.svg)
 
@@ -1303,65 +1303,93 @@ Note: The "two separate memory pools" model (pre-2020 GPU computing) was the ind
 
 ---
 
-## AMD's Approach: Selective Caching
+## The Old Way: Just Copy Everything (No Coherence)
 
-**Key insight:** Not all GPU data needs to be coherent with the CPU.
+Before hardware coherence between CPU and GPU, programmers had to **manually copy data** back and forth:
 
-**Selective caching (AMD CDNA architecture and APUs):**
-- GPU memory pages are tagged as **coherent** or **non-coherent** in the page table
-- Coherent pages: GPU uses the standard CPU coherence protocol (slower but correct for shared data)
-- Non-coherent pages: GPU uses its own high-bandwidth memory subsystem (no coherence overhead for GPU-private data)
+| Step | What happens | Cost |
+|---|---|---|
+| 1 | CPU prepares data in CPU memory | — |
+| 2 | `cudaMemcpy(gpu_buf, cpu_buf, size, HostToDevice)` | **Copy over PCIe** (~12 GB/s for PCIe 3.0) |
+| 3 | GPU kernel runs on gpu_buf | — |
+| 4 | `cudaMemcpy(cpu_buf, gpu_buf, size, DeviceToHost)` | **Copy back over PCIe** |
 
-```cuda
-// Non-coherent: GPU-private, maximum bandwidth
-float* gpu_buf = allocate_device(size);        // non-coherent HBM
+**Problems with this approach:**
+- Copy time dominates for small-to-medium workloads (data spends more time in transit than being computed on)
+- Programmer must manually track which data is where — bugs are common
+- No way for CPU and GPU to work on the same data simultaneously
 
-// Coherent: shared with CPU, explicit protocol
-float* shared  = allocate_coherent(size);      // participates in CPU coherence
-```
+**This is the problem that hardware CPU+GPU coherence aims to solve** — but doing it efficiently requires new ideas, not just applying MESI/MOESI to GPUs.
 
-**Result:** ~3× bandwidth improvement vs. fully-coherent GPU for typical GPU-only compute workloads, with correct coherence for the subset that needs it.
+Note: In CUDA programming before unified memory, this copy-based model was the only option. Each `cudaMemcpy` is a synchronization point — the GPU must wait for the copy to finish before starting work. For iterative algorithms (like machine learning training), the copy overhead compounds over thousands of iterations.
+
+---
+
+## Approach 1 — AMD Selective Caching: Coherent Only Where Needed
+
+**Key insight:** Most GPU data is private to the GPU — only a small fraction is actually shared with the CPU. So why pay coherence overhead for all of it?
+
+**How it works (AMD CDNA architecture and APUs):**
+
+| Memory type | Who uses it | Coherent with CPU? | Bandwidth |
+|---|---|---|---|
+| **Non-coherent** (GPU-private) | GPU kernels working on local data | No — GPU's own high-bandwidth HBM, no protocol overhead | Full HBM speed (~3 TB/s) |
+| **Coherent** (shared) | Data that both CPU and GPU read/write | Yes — participates in standard CPU coherence protocol | Slower (limited by coherence messages) |
+
+The GPU's page table tags each memory region as coherent or non-coherent. The hardware enforces the right behavior automatically.
+
+**Result:** ~3× bandwidth improvement vs. making everything coherent, because the vast majority of GPU data avoids coherence overhead entirely.
 
 Note: AMD's ROCm runtime and HIP handle this automatically for common patterns (host-device data transfers). The programmer doesn't need to manually tag pages in most cases. But performance-critical HPC code often does explicit management to maximize GPU bandwidth on the non-coherent allocations.
 
 ---
 
-## Region Directories: Coarse-Grained GPU Coherence
+## Approach 2 — Region Directories: Fewer Messages, Bigger Granularity
 
-**Problem:** Even for coherent GPU data, 64-byte line coherence is too fine for GPU access patterns (GPU threads access 128+ byte aligned, bulk sequential regions).
+**Problem:** Even for the data that *does* need CPU+GPU coherence, tracking every 64-byte cache line is wasteful. GPU access patterns are bulk and sequential — they read megabytes at a time, not individual cache lines.
 
-**Region directory approach:**
-- Track coherence at **page granularity (4KB)** rather than line granularity
-- If the CPU has no dirty lines in a region, the GPU can bypass coherence entirely for that region
-- Only pages with recent CPU writes need invalidation before GPU access
+**Solution:** Track coherence at **page granularity (4 KB)** instead of line granularity (64 B).
 
-**Message reduction:**
+**How a region directory works:**
+1. Hardware maintains a directory that tracks the coherence state of each **4 KB page** (not each 64B line)
+2. Before the GPU accesses a page, the directory checks: has the CPU written to *any* line in this page recently?
+3. If no → GPU can read the entire page without any coherence messages
+4. If yes → send **one** page-level invalidation instead of 64 line-level invalidations
 
-| Approach | Invalidations per 4 KB page | Messages |
-|----------|----------------------------|----------|
-| Naive fine-grained (64 B lines) | 64 lines × 1 message each | 64 |
-| Region directory (4 KB pages) | 1 page-level invalidation | **1** |
+| Approach | Messages to invalidate one 4 KB page | Reduction |
+|---|---|---|
+| Fine-grained (64-byte lines) | 64 separate invalidation messages | — |
+| Region directory (4 KB pages) | **1** page-level invalidation | **64×** |
 
-**64× fewer coherence messages** for bulk GPU accesses. Trade-off: some false sharing at page granularity — a page may be partially dirty, requiring more invalidation than strictly necessary.
+**Trade-off:** Some false invalidation — if only 1 of 64 lines in a page is dirty, the entire page still gets invalidated. But for GPU workloads (large, regular access patterns), this trade-off is overwhelmingly worth it.
 
 Note: Region directories are used in AMD's NUMA GPU systems and in Apple's M-series for CPU-GPU data sharing. The coarser granularity means some waste (a page might be 50% dirty, forcing full invalidation) but the bandwidth savings for GPU workloads usually outweigh the false-sharing cost, because GPU access patterns are typically large and regular.
 
 ---
 
-## NVIDIA HMG: Hierarchical Multi-GPU Coherence
+## Approach 3 — NVIDIA HMG: Multi-GPU Hardware Coherence
 
-**Problem:** Multi-GPU nodes (DGX H100: 8 × H100 GPUs) need inter-GPU coherence. Software-managed coherence requires explicit `cudaMemcpy` between GPUs — high programmer burden and latency.
+**New problem:** What about systems with **multiple GPUs** that need to share data with each other? (e.g., NVIDIA DGX H100: 8 GPUs connected via NVLink)
 
-**NVIDIA HMG (Hierarchical Memory & Coherence, SC '22):**
-- **Two-level directory hierarchy:**
-  - Per-GPU local directory: tracks lines in that GPU's L2 cache
-  - Global inter-GPU directory: tracks cross-GPU sharing over NVLink
-- **Scope-based coherence:** GPU threads declare the coherence scope of their accesses (warp, CTA, device, system)
+**The old way:** `cudaMemcpy` between GPUs — programmer manually copies data from GPU 0's memory to GPU 1's memory. Slow, error-prone, and a synchronization bottleneck.
 
-**Measured results (SC '22 paper):**
-- 26% reduction in coherence traffic vs. software invalidation
-- Bandwidth scales with GPU count up to 8 GPUs
-- Enables GPU threads to directly read data cached in another GPU's L2
+**NVIDIA's solution — HMG (Hierarchical Memory & Coherence):**
+
+A two-level directory, similar to how CPU systems use local + global directories:
+
+| Directory level | What it tracks | Scope |
+|---|---|---|
+| **Per-GPU local directory** | Which lines are in this GPU's L2 cache | Within one GPU |
+| **Global inter-GPU directory** | Which GPUs have copies of shared lines | Across all GPUs, over NVLink |
+
+**Additional feature — scope-based coherence:** GPU threads declare how widely their data is shared:
+- *Warp scope* — only threads in my warp see this (no coherence needed)
+- *Device scope* — only threads on my GPU (local directory only)
+- *System scope* — shared across GPUs or with CPU (full global coherence)
+
+This avoids paying global coherence overhead for data that's only shared locally.
+
+**Measured results:** 26% reduction in coherence traffic vs. software-managed copying; bandwidth scales with GPU count up to 8 GPUs.
 
 Note: HMG is significant because it brings CPU-style hardware coherence to multi-GPU systems. Previously, GPU-to-GPU data sharing required explicit memory copies — the programmer had to know the data location and issue the copy. With HMG, a CUDA thread can access data in another GPU's cache with hardware-maintained coherence, enabling new programming models like unified GPU cluster memory.
 
@@ -1371,24 +1399,26 @@ Note: HMG is significant because it brings CPU-style hardware coherence to multi
 
 ### CXL, Chiplets, and the Next Frontier
 
+These technologies extend coherence *beyond* a single chip — across devices, across dies, and even across separate servers. They build directly on the protocols from Parts 2–7.
+
 ---
 
-## CXL: Compute Express Link
+## CXL: Compute Express Link — Coherence Beyond the Chip
 
-**What is CXL?** An open standard (v1.0: 2019, v3.0: 2022) built on PCIe physical layer that adds three coherent protocols:
+**The problem CXL solves:** Until now, coherence stopped at the edge of the CPU socket. Accelerators (GPUs, FPGAs, AI chips) and memory expanders connected via PCIe had **no way to participate in the CPU's coherence protocol** — data had to be explicitly copied in and out.
 
-| Sub-protocol | Direction | What It Enables |
-|-------------|-----------|----------------|
-| `CXL.io` | Host ↔ Device | Standard PCIe I/O |
-| `CXL.cache` | Device → Host | Accelerator caches host memory (coherently) |
-| `CXL.mem` | Host → Device | Host accesses device-attached memory (coherently) |
+**What is CXL?** An open industry standard (v1.0: 2019, v3.0: 2022) that runs on the same physical wires as PCIe but adds three coherence-aware sub-protocols:
 
-**Why CXL matters:**
-- Accelerators (FPGAs, AI chips, SmartNICs) join the CPU's coherence domain
-- Memory pooling: multiple CPUs share a "pool" of CXL-attached DRAM
-- CXL 3.0 switches: multi-host, multi-device coherence fabrics
+| Sub-protocol | Direction | Plain-English meaning |
+|---|---|---|
+| **CXL.io** | Host ↔ Device | Standard PCIe I/O (same as before — device drivers, config, etc.) |
+| **CXL.cache** | Device → Host | An accelerator can **cache lines from CPU memory** and keep them coherent with CPU caches |
+| **CXL.mem** | Host → Device | The CPU can **access device-attached memory** as if it were regular RAM, with full coherence |
 
-**Practical example:** A 2TB CXL memory expander appears as regular RAM to Linux — cached by CPU caches, with full coherence — just higher latency (~100 ns additional).
+**Why this matters for everything we've studied:**
+- Accelerators (FPGAs, AI chips, SmartNICs) now join the CPU's coherence domain — no more manual copies
+- Multiple CPUs can share a pool of CXL-attached DRAM — coherently
+- A 2 TB CXL memory expander appears as regular RAM to Linux — cached by CPU caches, just with ~100 ns extra latency
 
 ![CXL device and chiplet topology with coherence domains](images/cxl-chiplet-coherence.svg)
 
@@ -1396,46 +1426,52 @@ Note: CXL is likely the most important architectural development of the 2020s. I
 
 ---
 
-## CXL Coherence: Granularity Modes
+## CXL Coherence: How It Actually Works
 
-**CXL.cache provides two coherence modes:**
+**CXL.cache — two granularity modes** (just like the CPU-only protocols, but extended to devices):
 
-| Mode | Granularity | Use Case |
-|------|-------------|----------|
-| **Fully coherent** | 64-byte cache lines | CPU ↔ AI accelerator with fine-grained sharing |
-| **Memory-mapped coherent** | 4KB pages | CPU ↔ memory expander (mostly read-heavy) |
+| Mode | Granularity | When to use |
+|---|---|---|
+| **Fully coherent** | 64-byte cache lines | AI accelerator that shares fine-grained data structures with the CPU |
+| **Memory-mapped** | 4 KB pages | Memory expander with mostly read-heavy, bulk access patterns |
 
-**CXL.mem host-side caching:**
-- CPU can cache lines from device memory (home node = device)
-- Device memory controller runs a directory protocol for cached lines
-- Uncached regions are accessed like MMIO (no coherence overhead)
+**CXL.mem — host-side caching of device memory:**
+- The CPU can cache lines from device-attached memory in its own L1/L2/L3
+- The device's memory controller acts as the **home node** and runs a directory protocol for those cached lines (just like the directory protocols from Part 3)
+- Uncached regions are accessed via direct memory-mapped I/O — no coherence overhead
 
-**Multi-host CXL (CXL 3.0):**
-- Up to 16 hosts share a CXL fabric
-- Each host can cache regions of pooled memory
-- Hardware coherence across all hosts — without any software involvement
+**CXL 3.0 — multi-host coherence (the big leap):**
+
+| CXL version | What's coherent | Scale |
+|---|---|---|
+| CXL 1.0/2.0 | One host ↔ one device | Single server |
+| **CXL 3.0** | **Up to 16 hosts ↔ shared memory pool** | Rack-scale |
+
+With CXL 3.0, multiple servers can coherently cache the same shared memory — hardware-managed, no software involvement. Think of it as extending MESI/MOESI across an entire server rack.
 
 Note: CXL 3.0's multi-host coherence is the key differentiator. Earlier versions allowed one host to coherently access one device. CXL 3.0 allows many hosts to coherently share memory — essentially NUMA-across-boxes, enabled by hardware coherence. This enables rack-scale memory pooling: 10 servers share 10TB of CXL DRAM, each server caching the regions it accesses most.
 
 ---
 
-## Chiplet Coherence: Inter-Die Bandwidth Contention
+## Chiplet Coherence: When Coherence Traffic Steals Your Bandwidth
+
+**What is a chiplet?** Instead of building one huge die, manufacturers build several smaller dies (chiplets) and connect them on a single package. This improves yields and allows mixing different process technologies.
 
 **Modern chiplet systems:**
-- AMD EPYC Genoa: 12 CCDs + 1 I/O die → up to 96 cores
-- Intel Ponte Vecchio (datacenter GPU): 47 chiplets on one package
-- Apple M2 Ultra: Two M2 Max dies connected via die-to-die interconnect
+- **AMD EPYC Genoa:** 12 CCDs + 1 I/O die → up to 96 cores
+- **Intel Ponte Vecchio** (datacenter GPU): 47 chiplets on one package
+- **Apple M2 Ultra:** Two M2 Max dies fused via die-to-die interconnect
 
-**The chiplet coherence challenge:** Die-to-die interconnects have **finite bandwidth shared between coherence traffic and data traffic.**
+**The new challenge:** The interconnect between chiplets has **finite bandwidth** — and coherence messages compete with actual data for that bandwidth.
 
-| AMD EPYC Genoa xGMI | Bandwidth |
-|----------------------|-----------|
-| Total inter-CCD bandwidth | ~800 GB/s |
-| Data traffic (computation results) | ~600 GB/s |
-| Coherence control messages | ~200 GB/s |
-| **If coherence > budget** | **Data bandwidth stolen → performance collapse** |
+| Inter-CCD traffic (AMD EPYC Genoa) | Bandwidth |
+|---|---|
+| Total inter-CCD bandwidth (via xGMI links) | ~800 GB/s |
+| Needed for data traffic (computation results) | ~600 GB/s |
+| Available for coherence control messages | ~200 GB/s |
+| **If coherence exceeds its budget** | **It steals from data bandwidth → performance collapses** |
 
-**AMD's solution:** L3 probe filter reduces coherence traffic by filtering out probes for privately-cached lines — preserving data bandwidth on the xGMI fabric.
+**This is why the probe filter from Part 6 matters so much:** By filtering out probes for privately-cached lines, AMD keeps coherence traffic under budget — preserving data bandwidth on the inter-chiplet fabric.
 
 Note: This is a hard real engineering constraint in chiplet design. Every coherence message sent across the die-to-die interconnect consumes bandwidth that could carry data. The probe filter, SCD-style directory compression, and careful thread/data placement are all tools for keeping coherence traffic under budget. Intel's Ponte Vecchio had to carefully partition on-package mesh bandwidth to avoid coherence traffic starving compute traffic.
 
@@ -1443,24 +1479,27 @@ Note: This is a hard real engineering constraint in chiplet design. Every cohere
 
 ## Why Software Must Become Topology-Aware
 
-**In chiplet and CXL systems, performance depends on topology in new ways:**
+Everything we've studied — protocols, directories, chiplets, CXL — means that **where** your data lives and **which core** accesses it now determines performance as much as the algorithm itself.
 
-Software must consider:
-1. **Core-to-core distance:** Same CCD (fast coherence) vs. different CCDs (Infinity Fabric hop, ~200ns extra)
-2. **Thread-to-data affinity:** Is shared data in a cache near both threads?
-3. **Coherence domain boundaries:** Where do protocols change? (snooping within CCD, directory across CCD)
-4. **CXL latency:** Is accessed memory local DRAM (~80ns) or CXL-attached (~180ns)?
+**What software must consider in modern systems:**
 
-**Practical tools:**
+| Factor | Fast path | Slow path | Penalty |
+|---|---|---|---|
+| Core-to-core distance | Same CCD (snooping, ~10 ns) | Different CCDs (directory over Infinity Fabric) | ~200 ns extra |
+| Thread-to-data affinity | Data cached near the thread | Data in a remote CCD's L3 | Coherence miss + fabric hop |
+| Coherence domain boundary | Both threads in same domain | Threads cross snooping → directory boundary | Protocol overhead |
+| Memory location | Local DRAM (~80 ns) | CXL-attached memory (~180 ns) | 2× latency |
+
+**Practical tools for exploring your system's topology:**
 ```bash
-# Show NUMA topology
+# Show NUMA topology (which cores share which memory)
 numactl --hardware
 lstopo --of png topology.png   # hwloc: visual topology map
 
 # Pin threads to cores near their data
 numactl --cpunodebind=0 --membind=0 ./program
 
-# Profile for cross-NUMA access
+# Profile for cross-NUMA memory accesses
 perf stat -e dtlb_load_misses.miss_causes_a_walk \
           -e offcore_requests.all_data_rd ./program
 ```
