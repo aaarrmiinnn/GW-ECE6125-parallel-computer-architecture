@@ -1,4 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#333"/>
+    </marker>
+  </defs>
   <!-- Background -->
   <rect width="800" height="500" fill="#f8f9fa" rx="10" ry="10"/>
   
@@ -43,11 +48,11 @@
     <line x1="50" y1="350" x2="210" y2="350"/>
   </g>
   <!-- Highlighted pixels -->
-  <rect x="70" y="290" width="20" height="20" fill="#4285f4" opacity="0.7"/>
-  <rect x="110" y="270" width="20" height="20" fill="#ea4335" opacity="0.7"/>
-  <rect x="150" y="310" width="20" height="20" fill="#fbbc05" opacity="0.7"/>
-  <rect x="90" y="330" width="20" height="20" fill="#34a853" opacity="0.7"/>
-  <rect x="170" y="350" width="20" height="20" fill="#4285f4" opacity="0.7"/>
+  <rect x="70" y="290" width="20" height="20" fill="#004065" opacity="0.7"/>
+  <rect x="110" y="270" width="20" height="20" fill="#8B0000" opacity="0.7"/>
+  <rect x="150" y="310" width="20" height="20" fill="#FFD200" opacity="0.7"/>
+  <rect x="90" y="330" width="20" height="20" fill="#2a7d4f" opacity="0.7"/>
+  <rect x="170" y="350" width="20" height="20" fill="#004065" opacity="0.7"/>
   <!-- Thread indicators -->
   <text x="80" y="305" font-family="Arial, sans-serif" font-size="8" text-anchor="middle" fill="white">T1</text>
   <text x="120" y="285" font-family="Arial, sans-serif" font-size="8" text-anchor="middle" fill="white">T2</text>
@@ -74,10 +79,10 @@
     <line x1="320" y1="350" x2="480" y2="350"/>
   </g>
   <!-- Highlighted blocks -->
-  <rect x="320" y="250" width="40" height="40" fill="#4285f4" opacity="0.7" stroke="#333" stroke-width="1"/>
-  <rect x="400" y="250" width="40" height="40" fill="#ea4335" opacity="0.7" stroke="#333" stroke-width="1"/>
-  <rect x="320" y="330" width="40" height="40" fill="#fbbc05" opacity="0.7" stroke="#333" stroke-width="1"/>
-  <rect x="400" y="330" width="40" height="40" fill="#34a853" opacity="0.7" stroke="#333" stroke-width="1"/>
+  <rect x="320" y="250" width="40" height="40" fill="#004065" opacity="0.7" stroke="#333" stroke-width="1"/>
+  <rect x="400" y="250" width="40" height="40" fill="#8B0000" opacity="0.7" stroke="#333" stroke-width="1"/>
+  <rect x="320" y="330" width="40" height="40" fill="#FFD200" opacity="0.7" stroke="#333" stroke-width="1"/>
+  <rect x="400" y="330" width="40" height="40" fill="#2a7d4f" opacity="0.7" stroke="#333" stroke-width="1"/>
   <!-- Thread indicators -->
   <text x="340" y="275" font-family="Arial, sans-serif" font-size="10" text-anchor="middle" fill="white">T1</text>
   <text x="420" y="275" font-family="Arial, sans-serif" font-size="10" text-anchor="middle" fill="white">T2</text>
@@ -87,9 +92,9 @@
   <!-- Pipeline Processing -->
   <text x="670" y="240" font-family="Arial, sans-serif" font-size="16" text-anchor="middle" fill="#333">Pipeline Parallelism</text>
   <!-- Pipeline stages boxes -->
-  <rect x="590" y="270" width="160" height="40" fill="#4285f4" opacity="0.8" stroke="#333" stroke-width="1" rx="5" ry="5"/>
-  <rect x="590" y="320" width="160" height="40" fill="#ea4335" opacity="0.8" stroke="#333" stroke-width="1" rx="5" ry="5"/>
-  <rect x="590" y="370" width="160" height="40" fill="#34a853" opacity="0.8" stroke="#333" stroke-width="1" rx="5" ry="5"/>
+  <rect x="590" y="270" width="160" height="40" fill="#004065" opacity="0.8" stroke="#333" stroke-width="1" rx="5" ry="5"/>
+  <rect x="590" y="320" width="160" height="40" fill="#8B0000" opacity="0.8" stroke="#333" stroke-width="1" rx="5" ry="5"/>
+  <rect x="590" y="370" width="160" height="40" fill="#2a7d4f" opacity="0.8" stroke="#333" stroke-width="1" rx="5" ry="5"/>
   <!-- Pipeline text -->
   <text x="670" y="295" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" fill="white">Loading (Thread 1)</text>
   <text x="670" y="345" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" fill="white">Processing (Thread 2)</text>
@@ -97,13 +102,6 @@
   <!-- Pipeline arrows -->
   <path d="M670 310 L670 320" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
   <path d="M670 360 L670 370" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
-  
-  <!-- Arrow marker definition -->
-  <defs>
-    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-      <polygon points="0 0, 10 3.5, 0 7" fill="#333"/>
-    </marker>
-  </defs>
   
   <!-- Operation examples and arrows -->
   <rect x="320" y="80" width="430" height="120" fill="#fff" stroke="#333" stroke-width="2" rx="5" ry="5"/>
