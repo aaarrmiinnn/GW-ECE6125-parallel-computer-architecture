@@ -798,10 +798,15 @@ This overflow problem is rare (most blocks have 1–2 sharers) but painful when 
 
 **3. Sparse directory** (linked list in a separate SRAM table):
 
-| Block B → | Core 2 → Core 5 → Core 11 → NULL |
-|-----------|----------------------------------|
+Each block's directory entry points to a chain of SRAM nodes — one per sharer:
 
-Variable size — grows and shrinks as sharers come and go. No overflow problem, but requires pointer chasing (slower lookup) and a shared SRAM pool that can run out of entries under pressure.
+| Directory entry | Node 1 | Node 2 | Node 3 | End |
+|----------------|--------|--------|--------|-----|
+| Block B head → | Core 2, next → | Core 5, next → | Core 11, next → | NULL |
+
+To invalidate all sharers: walk the list, messaging each node. To add core 9: allocate a new SRAM node, link it in.
+
+No overflow problem — the list grows as needed. But the trade-offs are real: **pointer chasing** (each hop is an SRAM read, so invalidating 3 sharers = 3 serial lookups vs. 1 bitmap scan), and the shared SRAM pool can **run out of entries** under heavy sharing pressure.
 
 Note: In practice, most systems use full-map for small core counts (≤64) and limited pointers or hybrid schemes for larger systems. AMD EPYC Genoa uses a probe filter in L3 that acts like a limited-pointer directory — it tracks the common cases (1-2 sharers) cheaply and falls back to broadcast for the rare many-sharer case. Intel uses a similar approach with their snoop filter in the LLC.
 
