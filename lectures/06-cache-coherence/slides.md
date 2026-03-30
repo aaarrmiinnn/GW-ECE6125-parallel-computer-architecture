@@ -981,11 +981,13 @@ Note: This is the canonical example of why consistency models matter. The algori
 | Speculative loads | Yes — load before branch resolved | 10–20% IPC |
 
 **The store buffer is the key culprit:**
-```
-CPU 0: store X=1  (goes into store buffer, not yet visible)
-CPU 1: load X → 0 (sees old value from cache, not CPU 0's store buffer)
-→ This violates SC. But the store buffer gives 10-30% speedup.
-```
+
+| CPU 0 | CPU 1 | What happens |
+|-------|-------|-------------|
+| store X=1 | | Goes into store buffer, not yet visible to others |
+| | load X → **0** | Sees old value from cache — CPU 0's buffer is invisible |
+
+This violates SC. But the store buffer gives 10–30% speedup — no modern CPU omits it.
 
 Note: Every modern high-performance processor has a store buffer. Every modern high-performance processor is NOT sequentially consistent by default. The question is: how far do we relax, and what does the programmer need to add back to get correct behavior?
 
@@ -995,16 +997,14 @@ Note: Every modern high-performance processor has a store buffer. Every modern h
 
 **TSO is SC with one relaxation:** Stores can be delayed in a per-processor FIFO write buffer before becoming globally visible.
 
-**What TSO permits that SC forbids:**
-```
-// Initially: X=0, Y=0
+**What TSO permits that SC forbids** (initially X=0, Y=0):
 
-CPU 0:              CPU 1:
-store X=1           store Y=1
-(buffer)            (buffer)
-load Y → 0          load X → 0
-```
-Both see 0 for the other's write — impossible under SC, allowed under TSO.
+| CPU 0 | CPU 1 |
+|-------|-------|
+| store X=1 *(enters buffer)* | store Y=1 *(enters buffer)* |
+| load Y → **0** | load X → **0** |
+
+Both see 0 for the other's write — impossible under SC, allowed under TSO because each load bypasses the other CPU's store buffer.
 
 **What TSO still guarantees:**
 - Stores become globally visible in order (total store order)
@@ -1041,27 +1041,6 @@ Note: x86-TSO was formalized by Owens, Sarkar, and Sewell in 2009 — surprising
 ![Memory consistency models: SC vs TSO vs WO operation ordering](images/memory-consistency-models.svg)
 
 Note: RISC-V's RVWMO is actually more carefully specified than ARM's model — RISC-V provides a formal axiomatic model in the ISA specification. Both allow significant reordering. In practice, the C11/C++11 memory model provides the best abstraction: `memory_order_acquire`, `memory_order_release`, and `memory_order_seq_cst` map to the minimum necessary barriers on each architecture.
-
----
-
-## Coherence vs. Consistency: A Concrete Example
-
-**This code is correct under SC but fails on ARM without fences:**
-```c
-// Initially: X=0, Y=0
-
-// CPU 0:           // CPU 1:
-X = 1;              while (Y == 0);   // spin until Y is set
-Y = 1;              print(X);         // may print 0 on ARM!
-```
-
-**Coherence perspective:** All writes to X propagate ✓, all writes to Y propagate ✓. Coherent!
-
-**Consistency perspective:** CPU 0's `X=1` store may still be in the write buffer when CPU 1 reads X, even though CPU 1 already saw `Y=1`.
-
-**Fix:** `memory_order_release` on `Y=1`, `memory_order_acquire` on the spin.
-
-Note: Coherence says "all writes to X will eventually be seen by everyone in the same order." But it says nothing about WHEN they're seen relative to writes to Y. Consistency fills that gap. This is why both concepts are necessary: coherence for single-variable correctness, consistency for multi-variable ordering. The Coherence hardware guarantees are preserved — the consistency violation is about cross-variable ordering.
 
 ---
 
@@ -1315,14 +1294,14 @@ Note: AMD's ROCm runtime and HIP handle this automatically for common patterns (
 - If the CPU has no dirty lines in a region, the GPU can bypass coherence entirely for that region
 - Only pages with recent CPU writes need invalidation before GPU access
 
-**Message reduction math:**
-```
-Naive fine-grained: 64 invalidations per 4KB page (64 lines × 64B)
-Region directory:    1 page-level invalidation
-→ 64× reduction in coherence messages for bulk GPU accesses
-```
+**Message reduction:**
 
-**Trade-off:** Some false sharing at page granularity — a page may be partially dirty, requiring more invalidation than strictly necessary.
+| Approach | Invalidations per 4 KB page | Messages |
+|----------|----------------------------|----------|
+| Naive fine-grained (64 B lines) | 64 lines × 1 message each | 64 |
+| Region directory (4 KB pages) | 1 page-level invalidation | **1** |
+
+**64× fewer coherence messages** for bulk GPU accesses. Trade-off: some false sharing at page granularity — a page may be partially dirty, requiring more invalidation than strictly necessary.
 
 Note: Region directories are used in AMD's NUMA GPU systems and in Apple's M-series for CPU-GPU data sharing. The coarser granularity means some waste (a page might be 50% dirty, forcing full invalidation) but the bandwidth savings for GPU workloads usually outweigh the false-sharing cost, because GPU access patterns are typically large and regular.
 
@@ -1408,12 +1387,12 @@ Note: CXL 3.0's multi-host coherence is the key differentiator. Earlier versions
 
 **The chiplet coherence challenge:** Die-to-die interconnects have **finite bandwidth shared between coherence traffic and data traffic.**
 
-```
-AMD EPYC Genoa — xGMI inter-CCD bandwidth: ~800 GB/s total
-  → Data traffic (computation results):        ~600 GB/s
-  → Coherence control messages:                ~200 GB/s
-If coherence traffic > budget → data bandwidth is stolen → performance collapse
-```
+| AMD EPYC Genoa xGMI | Bandwidth |
+|----------------------|-----------|
+| Total inter-CCD bandwidth | ~800 GB/s |
+| Data traffic (computation results) | ~600 GB/s |
+| Coherence control messages | ~200 GB/s |
+| **If coherence > budget** | **Data bandwidth stolen → performance collapse** |
 
 **AMD's solution:** L3 probe filter reduces coherence traffic by filtering out probes for privately-cached lines — preserving data bandwidth on the xGMI fabric.
 
@@ -1457,23 +1436,23 @@ Note: Operating systems are increasingly topology-aware (Linux's NUMA scheduler,
 
 **Protocol evolution — each step eliminates one class of waste:**
 
-```
-MSI (3 states)
-  └→ MESI (4): +Exclusive → eliminates BusUpgr for private data
-       └→ MOESI (5): +Owner → eliminates memory writeback on sharing
-       └→ MESIF (6): +Forward → eliminates memory on read-sharing response
-            └→ MOESIF (6): +Owner+Forward → eliminates both
-```
+| Protocol | Added State | What It Eliminates |
+|----------|------------|-------------------|
+| MSI (3 states) | — | Baseline |
+| MESI (+Exclusive) | E | BusUpgr for private data |
+| MOESI (+Owner) | O | Memory writeback on sharing |
+| MESIF (+Forward) | F | Memory read on shared response |
+| MOESIF (+Owner+Forward) | O + F | Both writebacks and memory reads |
 
 **Scaling evolution — each step reduces message complexity:**
 
-```
-Bus snooping (≤32 cores, O(N) broadcast)
-  └→ Directory full-map (≤128 cores, O(1) targeted)
-       └→ Limited pointer (≤512 cores, O(k) targeted)
-            └→ SCD variable (≤1024+ cores, ~5% overhead)
-                 └→ CXL fabric (cross-socket, cross-device)
-```
+| Approach | Max Cores | Message Pattern | Overhead |
+|----------|-----------|-----------------|----------|
+| Bus snooping | ≤32 | O(N) broadcast | None |
+| Directory full-map | ≤128 | O(1) targeted | O(N) bits/block |
+| Limited pointer | ≤512 | O(k) targeted | O(k × log N) |
+| SCD variable | ≤1024+ | O(1) targeted | ~5% |
+| CXL fabric | Cross-socket/device | O(1) targeted | Distributed |
 
 **The universal design principle:**
 > **No free lunch.** Every coherence protocol trades hardware complexity (extra states, protocol logic, verification effort) for eliminating a class of redundant work (bus upgrades, writebacks, broadcasts, memory reads). The best protocol minimizes total cost for your specific workload, die topology, and target core count.
