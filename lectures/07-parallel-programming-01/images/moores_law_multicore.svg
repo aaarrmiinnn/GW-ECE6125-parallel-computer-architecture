@@ -34,27 +34,27 @@
   <text x="200" y="360" font-family="Arial" font-size="12" fill="#004065">(Moore's Law)</text>
   
   <!-- Single-core Performance -->
-  <path d="M 100,390 L 150,380 L 200,360 L 250,335 L 300,300 L 350,260 L 400,230 L 425,225" stroke="#FF4500" stroke-width="3" fill="none"/>
-  <path d="M 425,225 L 450,223 L 500,220 L 550,218 L 600,216 L 650,215 L 700,214" stroke="#FF4500" stroke-width="3" fill="none"/>
-  <text x="330" y="285" font-family="Arial" font-size="12" fill="#FF4500" font-weight="bold">Single-core Performance</text>
+  <path d="M 100,390 L 150,380 L 200,360 L 250,335 L 300,300 L 350,260 L 400,230 L 425,225" stroke="#FFD200" stroke-width="3" fill="none"/>
+  <path d="M 425,225 L 450,223 L 500,220 L 550,218 L 600,216 L 650,215 L 700,214" stroke="#FFD200" stroke-width="3" fill="none"/>
+  <text x="330" y="285" font-family="Arial" font-size="12" fill="#FFD200" font-weight="bold">Single-core Performance</text>
   
   <!-- Multi-core Performance line (theoretical) -->
-  <path d="M 425,225 L 450,210 L 500,180 L 550,150 L 600,120 L 650,105 L 700,90" stroke="#008000" stroke-width="3" fill="none" stroke-dasharray="5,5"/>
-  <text x="550" y="130" font-family="Arial" font-size="12" fill="#008000" font-weight="bold">Multi-core Theoretical</text>
-  <text x="550" y="145" font-family="Arial" font-size="12" fill="#008000">Performance</text>
+  <path d="M 425,225 L 450,210 L 500,180 L 550,150 L 600,120 L 650,105 L 700,90" stroke="#2a7d4f" stroke-width="3" fill="none" stroke-dasharray="5,5"/>
+  <text x="550" y="130" font-family="Arial" font-size="12" fill="#2a7d4f" font-weight="bold">Multi-core Theoretical</text>
+  <text x="550" y="145" font-family="Arial" font-size="12" fill="#2a7d4f">Performance</text>
   
   <!-- Real Multi-core Performance -->
-  <path d="M 425,225 L 450,215 L 500,195 L 550,175 L 600,158 L 650,145 L 700,135" stroke="#008000" stroke-width="3" fill="none"/>
-  <text x="600" y="175" font-family="Arial" font-size="12" fill="#008000" font-weight="bold">Actual Multi-core</text>
-  <text x="600" y="190" font-family="Arial" font-size="12" fill="#008000">Performance</text>
+  <path d="M 425,225 L 450,215 L 500,195 L 550,175 L 600,158 L 650,145 L 700,135" stroke="#2a7d4f" stroke-width="3" fill="none"/>
+  <text x="600" y="175" font-family="Arial" font-size="12" fill="#2a7d4f" font-weight="bold">Actual Multi-core</text>
+  <text x="600" y="190" font-family="Arial" font-size="12" fill="#2a7d4f">Performance</text>
   
   <!-- Power Wall Annotation -->
   <line x1="425" y1="100" x2="425" y2="400" stroke="#999" stroke-width="1" stroke-dasharray="5,5"/>
-  <text x="425" y="80" text-anchor="middle" font-family="Arial" font-size="14" fill="#FF0000" font-weight="bold">Power Wall</text>
+  <text x="425" y="80" text-anchor="middle" font-family="Arial" font-size="14" fill="#8B0000" font-weight="bold">Power Wall</text>
   
   <!-- Processor Count Annotation -->
-  <rect x="550" y="360" width="20" height="10" fill="#008000"/>
-  <rect x="550" y="375" width="40" height="10" fill="#008000"/>
+  <rect x="550" y="360" width="20" height="10" fill="#2a7d4f"/>
+  <rect x="550" y="375" width="40" height="10" fill="#2a7d4f"/>
   <text x="620" y="370" font-family="Arial" font-size="12">2 cores</text>
   <text x="620" y="385" font-family="Arial" font-size="12">4 cores</text>
   
@@ -63,9 +63,9 @@
   <line x1="120" y1="470" x2="160" y2="470" stroke="#004065" stroke-width="3"/>
   <text x="170" y="475" font-family="Arial" font-size="12">Transistor Count (Moore's Law)</text>
   
-  <line x1="360" y1="470" x2="400" y2="470" stroke="#FF4500" stroke-width="3"/>
+  <line x1="360" y1="470" x2="400" y2="470" stroke="#FFD200" stroke-width="3"/>
   <text x="410" y="475" font-family="Arial" font-size="12">Single-core Performance</text>
   
-  <line x1="580" y1="470" x2="620" y2="470" stroke="#008000" stroke-width="3"/>
+  <line x1="580" y1="470" x2="620" y2="470" stroke="#2a7d4f" stroke-width="3"/>
   <text x="630" y="475" font-family="Arial" font-size="12">Multi-core Performance</text>
 </svg> 

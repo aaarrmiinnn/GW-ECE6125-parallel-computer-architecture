@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg width="900" height="600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#333" />
+    </marker>
+  </defs>
   <style>
     text {
       font-family: Arial, sans-serif;
@@ -28,12 +33,12 @@
       text-anchor: middle;
     }
     .ideal {
-      stroke: #4472C4;
+      stroke: #004065;
       stroke-width: 2;
       fill: none;
     }
     .actual {
-      stroke: #ED7D31;
+      stroke: #e6a030;
       stroke-width: 2;
       fill: none;
     }
@@ -235,15 +240,15 @@
   
   <!-- Gustafson's Diagram -->
   <!-- Before scaling - single processor -->
-  <rect x="520" y="410" width="100" height="30" fill="#4472C4" stroke="#333" stroke-width="1" />
-  <rect x="620" y="410" width="20" height="30" fill="#ED7D31" stroke="#333" stroke-width="1" />
+  <rect x="520" y="410" width="100" height="30" fill="#004065" stroke="#333" stroke-width="1" />
+  <rect x="620" y="410" width="20" height="30" fill="#e6a030" stroke="#333" stroke-width="1" />
   <text x="570" y="430" text-anchor="middle" font-size="12" fill="white">Parallel</text>
   <text x="630" y="430" text-anchor="middle" font-size="10" fill="white">Seq</text>
   <text x="500" y="425" text-anchor="end" font-size="12">1 proc:</text>
   
   <!-- After scaling - multiple processors -->
-  <rect x="520" y="460" width="300" height="30" fill="#4472C4" stroke="#333" stroke-width="1" />
-  <rect x="820" y="460" width="20" height="30" fill="#ED7D31" stroke="#333" stroke-width="1" />
+  <rect x="520" y="460" width="300" height="30" fill="#004065" stroke="#333" stroke-width="1" />
+  <rect x="820" y="460" width="20" height="30" fill="#e6a030" stroke="#333" stroke-width="1" />
   <text x="670" y="480" text-anchor="middle" font-size="12" fill="white">Scaled Parallel</text>
   <text x="830" y="480" text-anchor="middle" font-size="10" fill="white">Seq</text>
   <text x="500" y="475" text-anchor="end" font-size="12">p procs:</text>
@@ -251,12 +256,6 @@
   <!-- Arrows -->
   <line x1="570" y1="445" x2="570" y2="455" stroke="#333" stroke-width="1" marker-end="url(#arrowhead)" />
   <line x1="630" y1="445" x2="830" y2="455" stroke="#333" stroke-width="1" marker-end="url(#arrowhead)" />
-  
-  <defs>
-    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-      <polygon points="0 0, 10 3.5, 0 7" fill="#333" />
-    </marker>
-  </defs>
   
   <!-- Key Formula -->
   <rect x="540" y="500" width="240" height="60" class="text-box" />

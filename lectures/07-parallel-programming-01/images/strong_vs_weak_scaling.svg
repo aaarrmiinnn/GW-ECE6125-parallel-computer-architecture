@@ -76,22 +76,22 @@
   
   <!-- Lines (curves) -->
   <!-- Ideal scaling -->
-  <polyline points="50,280 110,220 170,160 230,100 290,80 350,80" fill="none" stroke="#4472C4" stroke-width="2"/>
-  <circle cx="50" cy="280" r="4" class="data-point" stroke="#4472C4"/>
-  <circle cx="110" cy="220" r="4" class="data-point" stroke="#4472C4"/>
-  <circle cx="170" cy="160" r="4" class="data-point" stroke="#4472C4"/>
-  <circle cx="230" cy="100" r="4" class="data-point" stroke="#4472C4"/>
-  <circle cx="290" cy="80" r="4" class="data-point" stroke="#4472C4"/>
-  <circle cx="350" cy="80" r="4" class="data-point" stroke="#4472C4"/>
+  <polyline points="50,280 110,220 170,160 230,100 290,80 350,80" fill="none" stroke="#004065" stroke-width="2"/>
+  <circle cx="50" cy="280" r="4" class="data-point" stroke="#004065"/>
+  <circle cx="110" cy="220" r="4" class="data-point" stroke="#004065"/>
+  <circle cx="170" cy="160" r="4" class="data-point" stroke="#004065"/>
+  <circle cx="230" cy="100" r="4" class="data-point" stroke="#004065"/>
+  <circle cx="290" cy="80" r="4" class="data-point" stroke="#004065"/>
+  <circle cx="350" cy="80" r="4" class="data-point" stroke="#004065"/>
   
   <!-- Realistic scaling -->
-  <polyline points="50,280 110,230 170,190 230,160 290,145 350,140" fill="none" stroke="#ED7D31" stroke-width="2"/>
-  <circle cx="50" cy="280" r="4" class="data-point" stroke="#ED7D31"/>
-  <circle cx="110" cy="230" r="4" class="data-point" stroke="#ED7D31"/>
-  <circle cx="170" cy="190" r="4" class="data-point" stroke="#ED7D31"/>
-  <circle cx="230" cy="160" r="4" class="data-point" stroke="#ED7D31"/>
-  <circle cx="290" cy="145" r="4" class="data-point" stroke="#ED7D31"/>
-  <circle cx="350" cy="140" r="4" class="data-point" stroke="#ED7D31"/>
+  <polyline points="50,280 110,230 170,190 230,160 290,145 350,140" fill="none" stroke="#e6a030" stroke-width="2"/>
+  <circle cx="50" cy="280" r="4" class="data-point" stroke="#e6a030"/>
+  <circle cx="110" cy="230" r="4" class="data-point" stroke="#e6a030"/>
+  <circle cx="170" cy="190" r="4" class="data-point" stroke="#e6a030"/>
+  <circle cx="230" cy="160" r="4" class="data-point" stroke="#e6a030"/>
+  <circle cx="290" cy="145" r="4" class="data-point" stroke="#e6a030"/>
+  <circle cx="350" cy="140" r="4" class="data-point" stroke="#e6a030"/>
   
   <!-- Weak scaling chart -->
   <rect x="450" y="80" width="300" height="200" fill="#f9f9f9" stroke="#ccc"/>
@@ -129,27 +129,27 @@
   
   <!-- Lines (curves) -->
   <!-- Ideal efficiency -->
-  <polyline points="450,80 510,80 570,80 630,80 690,80 750,80" fill="none" stroke="#4472C4" stroke-width="2"/>
-  <circle cx="450" cy="80" r="4" class="data-point" stroke="#4472C4"/>
-  <circle cx="510" cy="80" r="4" class="data-point" stroke="#4472C4"/>
-  <circle cx="570" cy="80" r="4" class="data-point" stroke="#4472C4"/>
-  <circle cx="630" cy="80" r="4" class="data-point" stroke="#4472C4"/>
-  <circle cx="690" cy="80" r="4" class="data-point" stroke="#4472C4"/>
-  <circle cx="750" cy="80" r="4" class="data-point" stroke="#4472C4"/>
+  <polyline points="450,80 510,80 570,80 630,80 690,80 750,80" fill="none" stroke="#004065" stroke-width="2"/>
+  <circle cx="450" cy="80" r="4" class="data-point" stroke="#004065"/>
+  <circle cx="510" cy="80" r="4" class="data-point" stroke="#004065"/>
+  <circle cx="570" cy="80" r="4" class="data-point" stroke="#004065"/>
+  <circle cx="630" cy="80" r="4" class="data-point" stroke="#004065"/>
+  <circle cx="690" cy="80" r="4" class="data-point" stroke="#004065"/>
+  <circle cx="750" cy="80" r="4" class="data-point" stroke="#004065"/>
   
   <!-- Realistic efficiency -->
-  <polyline points="450,80 510,85 570,95 630,110 690,130 750,150" fill="none" stroke="#ED7D31" stroke-width="2"/>
-  <circle cx="450" cy="80" r="4" class="data-point" stroke="#ED7D31"/>
-  <circle cx="510" cy="85" r="4" class="data-point" stroke="#ED7D31"/>
-  <circle cx="570" cy="95" r="4" class="data-point" stroke="#ED7D31"/>
-  <circle cx="630" cy="110" r="4" class="data-point" stroke="#ED7D31"/>
-  <circle cx="690" cy="130" r="4" class="data-point" stroke="#ED7D31"/>
-  <circle cx="750" cy="150" r="4" class="data-point" stroke="#ED7D31"/>
+  <polyline points="450,80 510,85 570,95 630,110 690,130 750,150" fill="none" stroke="#e6a030" stroke-width="2"/>
+  <circle cx="450" cy="80" r="4" class="data-point" stroke="#e6a030"/>
+  <circle cx="510" cy="85" r="4" class="data-point" stroke="#e6a030"/>
+  <circle cx="570" cy="95" r="4" class="data-point" stroke="#e6a030"/>
+  <circle cx="630" cy="110" r="4" class="data-point" stroke="#e6a030"/>
+  <circle cx="690" cy="130" r="4" class="data-point" stroke="#e6a030"/>
+  <circle cx="750" cy="150" r="4" class="data-point" stroke="#e6a030"/>
   
   <!-- Legend -->
-  <rect x="300" y="35" width="15" height="3" fill="#4472C4" stroke="none"/>
+  <rect x="300" y="35" width="15" height="3" fill="#004065" stroke="none"/>
   <text x="320" y="40" class="legend-text">Ideal</text>
-  <rect x="370" y="35" width="15" height="3" fill="#ED7D31" stroke="none"/>
+  <rect x="370" y="35" width="15" height="3" fill="#e6a030" stroke="none"/>
   <text x="390" y="40" class="legend-text">Realistic</text>
   
   <!-- Diagrams -->
@@ -168,10 +168,10 @@
   <text x="200" y="425" text-anchor="middle">↓ Split into smaller pieces</text>
   
   <!-- Processors -->
-  <rect x="75" y="435" width="60" height="20" fill="#4472C4" stroke="white"/>
-  <rect x="139" y="435" width="60" height="20" fill="#4472C4" stroke="white"/>
-  <rect x="203" y="435" width="60" height="20" fill="#4472C4" stroke="white"/>
-  <rect x="267" y="435" width="60" height="20" fill="#4472C4" stroke="white"/>
+  <rect x="75" y="435" width="60" height="20" fill="#004065" stroke="white"/>
+  <rect x="139" y="435" width="60" height="20" fill="#004065" stroke="white"/>
+  <rect x="203" y="435" width="60" height="20" fill="#004065" stroke="white"/>
+  <rect x="267" y="435" width="60" height="20" fill="#004065" stroke="white"/>
   <text x="104" y="450" text-anchor="middle" font-size="12">P0</text>
   <text x="168" y="450" text-anchor="middle" font-size="12">P1</text>
   <text x="232" y="450" text-anchor="middle" font-size="12">P2</text>
@@ -198,10 +198,10 @@
   <text x="600" y="425" text-anchor="middle">↓ Same size problem per processor</text>
   
   <!-- Processors -->
-  <rect x="460" y="435" width="60" height="20" fill="#4472C4" stroke="white"/>
-  <rect x="524" y="435" width="60" height="20" fill="#4472C4" stroke="white"/>
-  <rect x="588" y="435" width="60" height="20" fill="#4472C4" stroke="white"/>
-  <rect x="652" y="435" width="60" height="20" fill="#4472C4" stroke="white"/>
+  <rect x="460" y="435" width="60" height="20" fill="#004065" stroke="white"/>
+  <rect x="524" y="435" width="60" height="20" fill="#004065" stroke="white"/>
+  <rect x="588" y="435" width="60" height="20" fill="#004065" stroke="white"/>
+  <rect x="652" y="435" width="60" height="20" fill="#004065" stroke="white"/>
   <text x="490" y="450" text-anchor="middle" font-size="12">P0</text>
   <text x="554" y="450" text-anchor="middle" font-size="12">P1</text>
   <text x="618" y="450" text-anchor="middle" font-size="12">P2</text>
