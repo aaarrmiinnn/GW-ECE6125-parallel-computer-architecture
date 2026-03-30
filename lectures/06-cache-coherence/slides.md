@@ -765,6 +765,37 @@ Note: The full-map bitmap is the simplest and fastest approach — a single bit-
 
 ---
 
+## Directory: Sharer Tracking — By Example
+
+Suppose block B is shared by cores 2, 5, and 11 in a 16-core system.
+
+**1. Full-map bitmap** — one bit per core:
+
+| Core | 0 | 1 | **2** | 3 | 4 | **5** | 6 | 7 | 8 | 9 | 10 | **11** | 12 | 13 | 14 | 15 |
+|------|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| Bit | 0 | 0 | **1** | 0 | 0 | **1** | 0 | 0 | 0 | 0 | 0 | **1** | 0 | 0 | 0 | 0 |
+
+Storage: 16 bits. To invalidate all sharers, scan the bitmap and message every 1-bit. Simple and fast — but at 1024 cores this bitmap is 128 bytes per block.
+
+**2. Limited pointer** (k=2 pointers, 4 bits each for 16 cores):
+
+| Pointer 1 | Pointer 2 | Overflow? |
+|-----------|-----------|-----------|
+| Core 2 (0010) | Core 5 (0101) | **Yes** — core 11 can't fit! |
+
+Only 8 bits — much smaller. But we can only track 2 sharers. When core 11 tries to share, the protocol must either **evict** one of the existing sharers (force core 2 or 5 to invalidate) or **fall back to broadcast** and invalidate everyone.
+
+**3. Sparse directory** (linked list in a separate SRAM table):
+
+| Block B → | Core 2 → Core 5 → Core 11 → NULL |
+|-----------|----------------------------------|
+
+Variable size — grows and shrinks as sharers come and go. No overflow problem, but requires pointer chasing (slower lookup) and a shared SRAM pool that can run out of entries under pressure.
+
+Note: In practice, most systems use full-map for small core counts (≤64) and limited pointers or hybrid schemes for larger systems. AMD EPYC Genoa uses a probe filter in L3 that acts like a limited-pointer directory — it tracks the common cases (1-2 sharers) cheaply and falls back to broadcast for the rare many-sharer case. Intel uses a similar approach with their snoop filter in the LLC.
+
+---
+
 ## Directory Protocol: Read Miss (Uncached)
 
 CPU 2 wants to read block B. No cache has it.
