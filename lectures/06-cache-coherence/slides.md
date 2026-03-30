@@ -1103,26 +1103,28 @@ Note: The 5× slowdown relative to sequential is striking. You're not just faili
 
 ## Detecting False Sharing
 
+**The key metric: HITM (Hit In The Modified line)**
+
+When a CPU loads data, the cache checks where the data comes from. HITM means: "I found the line, but it was in **another core's cache in the M state** — that core had to flush it to me." This is the hardware fingerprint of cache-line ping-pong.
+
+| Cache load outcome | Where data came from | Latency | Meaning |
+|-------------------|---------------------|---------|---------|
+| L1 hit | Own L1 cache | ~1 ns | Normal — no coherence involved |
+| L2/L3 hit | Own L2 or shared L3 | ~5–15 ns | Normal — no cross-core traffic |
+| **HITM** | **Another core's M-state line** | **~40–80 ns** | **Coherence intervention — the other core's dirty line was transferred** |
+| DRAM miss | Main memory | ~80–120 ns | Cold miss — nobody had it |
+
+**A high HITM count on a single cache line address = false sharing.** Both cores keep writing, flipping the line to M, and the other core keeps hitting the modified copy.
+
 **Linux `perf c2c` — designed specifically for this:**
 ```bash
-# Record cache-to-cache (c2c) events
 perf c2c record ./program
-
-# Report: shows lines with high HITM counts
 perf c2c report --call-graph
-
-# Key metric: HITM = Hit In The other processor's Modified cache line
-# High HITM count → false sharing
 ```
 
-**What to look for:**
-- High `HITM` event count (accesses that hit a Modified line in another core)
-- High cache miss rate but most misses are cache-to-cache (not main memory)
-- Two specific cache line addresses bouncing between specific CPUs
+Look for: cache line addresses with many HITM events, bouncing between two specific CPUs. **Intel VTune** highlights the same pattern automatically in its "Memory Access" view.
 
-**Intel VTune:** Shows "Memory Access" issues, highlights false sharing automatically in the GUI.
-
-Note: `perf c2c` has been available since Linux 4.10 and was specifically designed to detect false sharing. It tracks HITM events — accesses that find a Modified line in another core's cache. Normal cache misses go to memory (slow). HITM misses go to another core's cache (also slow, and bandwidth-intensive). A cluster of HITM events on the same cache line address is the fingerprint of false sharing.
+Note: `perf c2c` (cache-to-cache) has been available since Linux 4.10. It instruments the hardware performance counters that track HITM events. Normal cache misses go to memory — slow, but they don't generate cross-core traffic. HITM misses go to another core's cache — also slow, AND they consume coherence bandwidth. A cluster of HITM events on the same 64-byte cache line address, with two specific cores alternating as source and destination, is the unmistakable fingerprint of false sharing (or true sharing under contention).
 
 ---
 
