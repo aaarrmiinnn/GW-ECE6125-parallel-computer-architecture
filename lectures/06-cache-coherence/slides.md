@@ -795,9 +795,13 @@ CPU 2 wants to read block B. CPU 5 holds it in Modified state.
 | 5 | CPU 5 → Directory | Ack | "Done, I'm now Shared" |
 | 6 | Directory updates | — | State = **Shared**, Sharers = {CPU 2, CPU 5} |
 
-**The key advantage:** the directory **knows** CPU 5 is the owner — it sends exactly one message. Snooping would broadcast to all 96+ cores to find the owner.
+**Why is this better than snooping?** Think of a **library checkout system:**
+- **Snooping:** the librarian pages the entire building over the intercom — "Does anyone have *Parallel Architecture*?" All 96 people stop, check their desk, 95 say "nope." One person brings the book.
+- **Directory:** the librarian checks the checkout card — "CPU 5 has it." One phone call. Nobody else is disturbed.
 
-Note: This is where directory protocols shine. The directory knows exactly who has the block and in what state. At 64+ cores, this is the difference between O(1) targeted messages and O(N) broadcast. Step 4 is a cache-to-cache transfer — same mechanism as MOESI's owner supply, but coordinated by the directory rather than bus snooping.
+At 8 cores, paging the building is fine. At 96 cores, the intercom (bus) is constantly jammed with messages that 95% of cores don't care about.
+
+Note: This is where directory protocols shine. The directory knows exactly who has the block and in what state. At 64+ cores, this is the difference between O(1) targeted messages and O(N) broadcast. Step 4 is a cache-to-cache transfer — same mechanism as MOESI's owner supply, but coordinated by the directory rather than bus snooping. The library analogy maps precisely: the checkout card is the directory entry, the librarian is the directory controller, and paging the building is a bus broadcast.
 
 ---
 
@@ -845,7 +849,7 @@ When a cache needs to free a line, it must notify the directory — otherwise th
 
 **Why does the dirty writeback need an Ack?** Without it, a race is possible: CPU 3 evicts B, then CPU 4 reads B before the writeback reaches memory. The directory must not serve the old value to CPU 4. The Ack serializes the eviction — CPU 3 isn't considered "done" until the directory confirms.
 
-Note: Evictions are one of the harder parts of directory protocol implementation. The directory must handle races between simultaneous requests and evictions for the same block. Real implementations use "transient states" (IMAD, IMAD-WB, etc.) to track these race conditions. Full protocol verification requires model checking — there are dozens of transient states even for simple 3-state protocols.
+Note: **Directory message glossary** (used across these slides): **ReadReq(B)** — "I want to read block B" (sent by a cache to the directory). **WriteReq(B)** — "I want exclusive/write access to block B." **Intervention** — directory tells the current owner to supply data directly to the requester. **Invalidate(B)** — directory tells a sharer to drop its copy. **AckInval** — sharer confirms it invalidated. **WritebackReq(B)** — "I'm evicting a dirty line, here's the data" (cache → directory). **WritebackAck** — directory confirms it received the writeback and updated memory. **EvictShare(B)** — "I'm dropping a clean shared copy" (cache → directory, no data needed since it's clean). These names vary by implementation (AMD uses different naming than Intel), but the semantics are universal across all directory protocols. — Evictions are one of the harder parts of directory protocol implementation. The directory must handle races between simultaneous requests and evictions for the same block. Real implementations use "transient states" (IMAD, IMAD-WB, etc.) to track these race conditions.
 
 ---
 
