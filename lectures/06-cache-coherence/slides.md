@@ -15,9 +15,7 @@ Note: Today we dive into one of the most critical problems in parallel architect
 | 3 | **Directory-Based Coherence** — scaling beyond the bus |
 | 4 | **Memory Consistency Models** — SC (Sequential Consistency), TSO (Total Store Order), relaxed ordering |
 | 5 | **False Sharing** — the hidden performance killer |
-| 6 | **Modern CPU Implementations** — AMD Zen 5, Intel, Apple |
-| 7 | **Heterogeneous Coherence** — CPU + GPU |
-| 8 | **Emerging Topics** — CXL, chiplets |
+| 6–8 | **Optional Reading** — Modern CPU implementations, heterogeneous coherence, CXL & chiplets |
 
 Note: We go from fundamentals to state-of-the-art. By the end, you'll understand the design decisions behind every modern processor's cache subsystem — and why each one made different choices.
 
@@ -1158,6 +1156,14 @@ PerThreadCounter counters[NUM_THREADS];
 **Result:** Each counter resides on its own cache line. Thread 0's writes never invalidate Thread 1's copy.
 
 Note: `hardware_destructive_interference_size` is the C++17 portable way — it's defined per-platform to equal the actual cache line size. Don't hardcode 64: ARM platforms can have 64 or 128 byte cache lines. In production HPC and systems code, you'll see padding patterns everywhere in concurrent data structures: lock-free queues, thread-local storage, NUMA-aware allocators.
+
+---
+
+## Optional Reading
+
+### Parts 6–8 are supplementary material — not required for exams.
+
+Note: The following slides cover how real CPUs (AMD Zen 5, Intel, Apple) implement coherence, how CPU+GPU coherence works, and emerging topics like CXL and chiplets. This is fascinating material for anyone going into architecture or systems work, but it's not part of the core exam content.
 
 ---
 
