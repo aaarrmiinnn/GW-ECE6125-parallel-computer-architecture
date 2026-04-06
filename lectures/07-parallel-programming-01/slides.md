@@ -80,9 +80,11 @@ $$Speedup = \frac{1}{s + \frac{1-s}{P}}$$
 
 > **The lesson:** Before parallelizing, find and minimize the serial bottleneck. Adding more processors won't help if 10% of your code is sequential — you're capped at 10×.
 
+**As P grows, the speedup approaches 1/s.** With 10% serial code, 16 processors give ~6.4× — already more than half the theoretical max of 10×. Doubling to 32 processors only gets you to ~7.5×. The closer you get to the ceiling, the less each added processor helps.
+
 ![Amdahl's Law — speedup curves](images/amdahls_law.svg)
 
-Note: Amdahl's Law is the single most important equation in parallel computing. It tells you the theoretical ceiling before you write a single line of code. In practice, real speedups are even lower because of communication overhead and load imbalance.
+Note: Amdahl's Law is the single most important equation in parallel computing. It tells you the theoretical ceiling before you write a single line of code. Notice how the curves flatten — each doubling of processors buys less and less speedup. In practice, real speedups are even lower because of communication overhead and load imbalance.
 
 ---
 
@@ -96,6 +98,8 @@ Amdahl's Law assumes a **fixed problem size** (strong scaling). But in practice,
 | **Goal** | Same problem, faster | Bigger problem, same time |
 | **Governed by** | Amdahl's Law | Gustafson's Law |
 | **Example** | Weather forecast: same grid, more CPUs → faster | Weather forecast: finer grid, more CPUs → same time, better resolution |
+
+**Efficiency** = Speedup / P — how well you're using each processor. An efficiency of 100% means every processor is doing useful work the entire time. In weak scaling, efficiency is the key metric: ideally it stays near 100% as you add processors.
 
 ![Strong vs. weak scaling](images/strong_vs_weak_scaling.svg)
 
