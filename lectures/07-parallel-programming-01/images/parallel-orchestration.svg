@@ -1,70 +1,65 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" width="800" height="400">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 380">
   <defs>
-    <marker id="arrowSolid" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
-      <polygon points="0 0, 10 3.5, 0 7" fill="#004065"/>
+    <marker id="orchArrow" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#004065"/>
     </marker>
-    <marker id="arrowDashed" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
-      <polygon points="0 0, 10 3.5, 0 7" fill="#888"/>
+    <marker id="msgArrow" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#e65100"/>
     </marker>
   </defs>
+  <style>
+    text { font-family: 'Segoe UI', Arial, sans-serif; }
+  </style>
 
-  <!-- Row 1: Orchestrator -->
-  <rect x="280" y="20" width="240" height="50" rx="5" ry="5" fill="#004065"/>
-  <text x="400" y="50" text-anchor="middle" fill="#fff" font-family="Arial" font-size="14" font-weight="bold">Orchestrator</text>
+  <!-- Orchestrator box -->
+  <rect x="300" y="20" width="200" height="44" rx="8" fill="#004065"/>
+  <text x="400" y="47" text-anchor="middle" font-size="15" font-weight="bold" fill="#fff">Orchestrator</text>
 
-  <!-- Arrows from Orchestrator to Tasks -->
-  <line x1="330" y1="70" x2="105" y2="130" stroke="#004065" stroke-width="1.5" marker-end="url(#arrowSolid)"/>
-  <line x1="370" y1="70" x2="285" y2="130" stroke="#004065" stroke-width="1.5" marker-end="url(#arrowSolid)"/>
-  <line x1="430" y1="70" x2="465" y2="130" stroke="#004065" stroke-width="1.5" marker-end="url(#arrowSolid)"/>
-  <line x1="470" y1="70" x2="645" y2="130" stroke="#004065" stroke-width="1.5" marker-end="url(#arrowSolid)"/>
+  <!-- Arrows from orchestrator to tasks -->
+  <line x1="340" y1="64" x2="145" y2="130" stroke="#004065" stroke-width="1.5" marker-end="url(#orchArrow)"/>
+  <line x1="375" y1="64" x2="310" y2="130" stroke="#004065" stroke-width="1.5" marker-end="url(#orchArrow)"/>
+  <line x1="425" y1="64" x2="490" y2="130" stroke="#004065" stroke-width="1.5" marker-end="url(#orchArrow)"/>
+  <line x1="460" y1="64" x2="655" y2="130" stroke="#004065" stroke-width="1.5" marker-end="url(#orchArrow)"/>
 
-  <!-- Row 2: Task boxes -->
-  <rect x="35" y="130" width="140" height="50" rx="5" ry="5" fill="#336699"/>
-  <text x="105" y="160" text-anchor="middle" fill="#fff" font-family="Arial" font-size="14" font-weight="bold">Task 1</text>
+  <!-- Task boxes -->
+  <rect x="85" y="135" width="120" height="44" rx="7" fill="#FFD200" stroke="#004065" stroke-width="1.5"/>
+  <text x="145" y="162" text-anchor="middle" font-size="14" font-weight="bold" fill="#004065">Task 1</text>
 
-  <rect x="215" y="130" width="140" height="50" rx="5" ry="5" fill="#336699"/>
-  <text x="285" y="160" text-anchor="middle" fill="#fff" font-family="Arial" font-size="14" font-weight="bold">Task 2</text>
+  <rect x="250" y="135" width="120" height="44" rx="7" fill="#FFD200" stroke="#004065" stroke-width="1.5"/>
+  <text x="310" y="162" text-anchor="middle" font-size="14" font-weight="bold" fill="#004065">Task 2</text>
 
-  <rect x="395" y="130" width="140" height="50" rx="5" ry="5" fill="#336699"/>
-  <text x="465" y="160" text-anchor="middle" fill="#fff" font-family="Arial" font-size="14" font-weight="bold">Task 3</text>
+  <rect x="430" y="135" width="120" height="44" rx="7" fill="#FFD200" stroke="#004065" stroke-width="1.5"/>
+  <text x="490" y="162" text-anchor="middle" font-size="14" font-weight="bold" fill="#004065">Task 3</text>
 
-  <rect x="575" y="130" width="140" height="50" rx="5" ry="5" fill="#336699"/>
-  <text x="645" y="160" text-anchor="middle" fill="#fff" font-family="Arial" font-size="14" font-weight="bold">Task 4</text>
+  <rect x="595" y="135" width="120" height="44" rx="7" fill="#FFD200" stroke="#004065" stroke-width="1.5"/>
+  <text x="655" y="162" text-anchor="middle" font-size="14" font-weight="bold" fill="#004065">Task 4</text>
 
-  <!-- Dashed sync arrows between adjacent tasks -->
-  <line x1="175" y1="145" x2="215" y2="145" stroke="#888" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrowDashed)"/>
-  <text x="195" y="140" text-anchor="middle" fill="#666" font-family="Arial" font-size="11">sync</text>
+  <!-- ===== Mutex between Task 1 and Task 2 ===== -->
+  <!-- Padlock icon -->
+  <path d="M218,140 C218,132 222,128 227,128 C232,128 236,132 236,140" fill="none" stroke="#004065" stroke-width="2" stroke-linecap="round"/>
+  <rect x="214" y="140" width="26" height="20" rx="3" fill="#004065"/>
+  <circle cx="227" cy="151" r="3" fill="#FFD200"/>
+  <text x="227" y="175" text-anchor="middle" font-size="12" font-weight="bold" fill="#004065">Mutex</text>
 
-  <line x1="355" y1="145" x2="395" y2="145" stroke="#888" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrowDashed)"/>
-  <text x="375" y="140" text-anchor="middle" fill="#666" font-family="Arial" font-size="11">sync</text>
+  <!-- ===== Barrier across all tasks ===== -->
+  <line x1="60" y1="220" x2="740" y2="220" stroke="#c62828" stroke-width="2.5" stroke-dasharray="8,4"/>
+  <rect x="340" y="208" width="80" height="24" rx="4" fill="#c62828"/>
+  <text x="380" y="225" text-anchor="middle" font-size="12" font-weight="bold" fill="#fff">Barrier</text>
 
-  <line x1="535" y1="145" x2="575" y2="145" stroke="#888" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrowDashed)"/>
-  <text x="555" y="140" text-anchor="middle" fill="#666" font-family="Arial" font-size="11">sync</text>
+  <!-- Task boxes below barrier -->
+  <rect x="85" y="260" width="120" height="44" rx="7" fill="#e8f0f5" stroke="#004065" stroke-width="1.5"/>
+  <text x="145" y="287" text-anchor="middle" font-size="13" fill="#004065">Task 1</text>
+  <rect x="250" y="260" width="120" height="44" rx="7" fill="#e8f0f5" stroke="#004065" stroke-width="1.5"/>
+  <text x="310" y="287" text-anchor="middle" font-size="13" fill="#004065">Task 2</text>
+  <rect x="430" y="260" width="120" height="44" rx="7" fill="#e8f0f5" stroke="#004065" stroke-width="1.5"/>
+  <text x="490" y="287" text-anchor="middle" font-size="13" fill="#004065">Task 3</text>
+  <rect x="595" y="260" width="120" height="44" rx="7" fill="#e8f0f5" stroke="#004065" stroke-width="1.5"/>
+  <text x="655" y="287" text-anchor="middle" font-size="13" fill="#004065">Task 4</text>
 
-  <!-- Arrows from Tasks to Resources -->
-  <line x1="105" y1="180" x2="105" y2="240" stroke="#004065" stroke-width="1.5" marker-end="url(#arrowSolid)"/>
-  <line x1="285" y1="180" x2="285" y2="240" stroke="#004065" stroke-width="1.5" marker-end="url(#arrowSolid)"/>
-  <line x1="465" y1="180" x2="465" y2="240" stroke="#004065" stroke-width="1.5" marker-end="url(#arrowSolid)"/>
-  <line x1="645" y1="180" x2="645" y2="240" stroke="#004065" stroke-width="1.5" marker-end="url(#arrowSolid)"/>
+  <!-- ===== Message arrow between Task 3 and Task 4 (below barrier) ===== -->
+  <path d="M550,282 C570,310 620,310 595,290" fill="none" stroke="#e65100" stroke-width="2.5" marker-end="url(#msgArrow)"/>
+  <text x="580" y="332" text-anchor="middle" font-size="12" font-weight="bold" fill="#e65100">Message</text>
 
-  <!-- Row 3: Resource boxes -->
-  <rect x="35" y="240" width="140" height="50" rx="5" ry="5" fill="#FFD200"/>
-  <text x="105" y="270" text-anchor="middle" fill="#333" font-family="Arial" font-size="14" font-weight="bold">Memory</text>
-
-  <rect x="215" y="240" width="140" height="50" rx="5" ry="5" fill="#FFD200"/>
-  <text x="285" y="270" text-anchor="middle" fill="#333" font-family="Arial" font-size="14" font-weight="bold">CPU Cores</text>
-
-  <rect x="395" y="240" width="140" height="50" rx="5" ry="5" fill="#FFD200"/>
-  <text x="465" y="270" text-anchor="middle" fill="#333" font-family="Arial" font-size="14" font-weight="bold">I/O</text>
-
-  <rect x="575" y="240" width="140" height="50" rx="5" ry="5" fill="#FFD200"/>
-  <text x="645" y="270" text-anchor="middle" fill="#333" font-family="Arial" font-size="14" font-weight="bold">Network</text>
-
-  <!-- Legend -->
-  <rect x="650" y="320" width="140" height="65" rx="5" ry="5" fill="none" stroke="#999" stroke-width="1"/>
-  <text x="720" y="338" text-anchor="middle" fill="#333" font-family="Arial" font-size="11" font-weight="bold">Legend</text>
-  <line x1="660" y1="352" x2="695" y2="352" stroke="#004065" stroke-width="1.5" marker-end="url(#arrowSolid)"/>
-  <text x="700" y="356" fill="#333" font-family="Arial" font-size="11">Control flow</text>
-  <line x1="660" y1="370" x2="695" y2="370" stroke="#888" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrowDashed)"/>
-  <text x="700" y="374" fill="#333" font-family="Arial" font-size="11">Synchronization</text>
+  <!-- Labels for phases -->
+  <text x="400" y="370" text-anchor="middle" font-size="12" fill="#888">All tasks must reach the barrier before any can proceed</text>
 </svg>
