@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 420">
+  <defs>
+    <marker id="arrDown" markerWidth="8" markerHeight="6" refX="4" refY="6" orient="auto">
+      <path d="M0,0 L8,0 L4,6 Z" fill="#004065"/>
+    </marker>
+    <marker id="arrUp" markerWidth="8" markerHeight="6" refX="4" refY="0" orient="auto">
+      <path d="M0,6 L8,6 L4,0 Z" fill="#004065"/>
+    </marker>
+  </defs>
+
+  <!-- ==================== TOP LAYER: MPI (Between Nodes) ==================== -->
+  <rect x="100" y="30" width="600" height="100" rx="12" fill="#004065" opacity="0.12" stroke="#004065" stroke-width="2"/>
+  <text x="400" y="55" text-anchor="middle" font-size="16" font-weight="bold" fill="#004065" font-family="Arial, sans-serif">Between Nodes -- MPI</text>
+
+  <!-- 3 server icons -->
+  <g transform="translate(170, 68)">
+    <rect x="0" y="0" width="70" height="44" rx="6" fill="#004065"/>
+    <text x="35" y="18" text-anchor="middle" font-size="10" fill="#fff" font-family="Arial, sans-serif">Node 0</text>
+    <rect x="10" y="24" width="50" height="4" rx="1" fill="#fff" opacity="0.3"/>
+    <rect x="10" y="32" width="50" height="4" rx="1" fill="#fff" opacity="0.3"/>
+  </g>
+  <g transform="translate(365, 68)">
+    <rect x="0" y="0" width="70" height="44" rx="6" fill="#004065"/>
+    <text x="35" y="18" text-anchor="middle" font-size="10" fill="#fff" font-family="Arial, sans-serif">Node 1</text>
+    <rect x="10" y="24" width="50" height="4" rx="1" fill="#fff" opacity="0.3"/>
+    <rect x="10" y="32" width="50" height="4" rx="1" fill="#fff" opacity="0.3"/>
+  </g>
+  <g transform="translate(560, 68)">
+    <rect x="0" y="0" width="70" height="44" rx="6" fill="#004065"/>
+    <text x="35" y="18" text-anchor="middle" font-size="10" fill="#fff" font-family="Arial, sans-serif">Node 2</text>
+    <rect x="10" y="24" width="50" height="4" rx="1" fill="#fff" opacity="0.3"/>
+    <rect x="10" y="32" width="50" height="4" rx="1" fill="#fff" opacity="0.3"/>
+  </g>
+
+  <!-- Network lines between nodes -->
+  <line x1="240" y1="90" x2="365" y2="90" stroke="#fff" stroke-width="2" stroke-dasharray="5,3" opacity="0.6"/>
+  <line x1="435" y1="90" x2="560" y2="90" stroke="#fff" stroke-width="2" stroke-dasharray="5,3" opacity="0.6"/>
+
+  <!-- Arrow down from layer 1 to layer 2 -->
+  <line x1="400" y1="134" x2="400" y2="158" stroke="#004065" stroke-width="2" marker-end="url(#arrDown)"/>
+  <line x1="400" y1="158" x2="400" y2="134" stroke="#004065" stroke-width="2" marker-end="url(#arrUp)" transform="translate(20,0)"/>
+
+  <!-- ==================== MIDDLE LAYER: OpenMP (Within a Node) ==================== -->
+  <rect x="160" y="165" width="480" height="100" rx="12" fill="#004065" opacity="0.07" stroke="#004065" stroke-width="2"/>
+  <text x="400" y="190" text-anchor="middle" font-size="16" font-weight="bold" fill="#004065" font-family="Arial, sans-serif">Within a Node -- OpenMP</text>
+
+  <!-- One node with 4 CPU cores -->
+  <rect x="240" y="202" width="320" height="48" rx="8" fill="#004065" opacity="0.15" stroke="#004065" stroke-width="1"/>
+  <rect x="255" y="210" width="60" height="32" rx="5" fill="#004065" opacity="0.75"/>
+  <text x="285" y="231" text-anchor="middle" font-size="11" fill="#fff" font-family="Arial, sans-serif">Core 0</text>
+  <rect x="325" y="210" width="60" height="32" rx="5" fill="#004065" opacity="0.75"/>
+  <text x="355" y="231" text-anchor="middle" font-size="11" fill="#fff" font-family="Arial, sans-serif">Core 1</text>
+  <rect x="395" y="210" width="60" height="32" rx="5" fill="#004065" opacity="0.75"/>
+  <text x="425" y="231" text-anchor="middle" font-size="11" fill="#fff" font-family="Arial, sans-serif">Core 2</text>
+  <rect x="465" y="210" width="60" height="32" rx="5" fill="#004065" opacity="0.75"/>
+  <text x="495" y="231" text-anchor="middle" font-size="11" fill="#fff" font-family="Arial, sans-serif">Core 3</text>
+
+  <!-- Arrow down from layer 2 to layer 3 -->
+  <line x1="400" y1="269" x2="400" y2="293" stroke="#004065" stroke-width="2" marker-end="url(#arrDown)"/>
+  <line x1="420" y1="293" x2="420" y2="269" stroke="#004065" stroke-width="2" marker-end="url(#arrUp)"/>
+
+  <!-- ==================== BOTTOM LAYER: CUDA (On the GPU) ==================== -->
+  <rect x="220" y="300" width="360" height="100" rx="12" fill="#FFD200" opacity="0.2" stroke="#FFD200" stroke-width="2.5"/>
+  <text x="400" y="325" text-anchor="middle" font-size="16" font-weight="bold" fill="#004065" font-family="Arial, sans-serif">On the GPU -- CUDA</text>
+
+  <!-- GPU with many small cores -->
+  <rect x="252" y="338" width="296" height="46" rx="6" fill="#FFD200" opacity="0.5" stroke="#004065" stroke-width="1"/>
+  <!-- Small core grid: 2 rows x 10 cols -->
+  <g transform="translate(260, 342)">
+    <rect x="0" y="0" width="22" height="16" rx="2" fill="#FFD200" stroke="#004065" stroke-width="0.8"/>
+    <rect x="28" y="0" width="22" height="16" rx="2" fill="#FFD200" stroke="#004065" stroke-width="0.8"/>
+    <rect x="56" y="0" width="22" height="16" rx="2" fill="#FFD200" stroke="#004065" stroke-width="0.8"/>
+    <rect x="84" y="0" width="22" height="16" rx="2" fill="#FFD200" stroke="#004065" stroke-width="0.8"/>
+    <rect x="112" y="0" width="22" height="16" rx="2" fill="#FFD200" stroke="#004065" stroke-width="0.8"/>
+    <rect x="140" y="0" width="22" height="16" rx="2" fill="#FFD200" stroke="#004065" stroke-width="0.8"/>
+    <rect x="168" y="0" width="22" height="16" rx="2" fill="#FFD200" stroke="#004065" stroke-width="0.8"/>
+    <rect x="196" y="0" width="22" height="16" rx="2" fill="#FFD200" stroke="#004065" stroke-width="0.8"/>
+    <rect x="224" y="0" width="22" height="16" rx="2" fill="#FFD200" stroke="#004065" stroke-width="0.8"/>
+    <rect x="252" y="0" width="22" height="16" rx="2" fill="#FFD200" stroke="#004065" stroke-width="0.8"/>
+    <rect x="0" y="22" width="22" height="16" rx="2" fill="#FFD200" stroke="#004065" stroke-width="0.8"/>
+    <rect x="28" y="22" width="22" height="16" rx="2" fill="#FFD200" stroke="#004065" stroke-width="0.8"/>
+    <rect x="56" y="22" width="22" height="16" rx="2" fill="#FFD200" stroke="#004065" stroke-width="0.8"/>
+    <rect x="84" y="22" width="22" height="16" rx="2" fill="#FFD200" stroke="#004065" stroke-width="0.8"/>
+    <rect x="112" y="22" width="22" height="16" rx="2" fill="#FFD200" stroke="#004065" stroke-width="0.8"/>
+    <rect x="140" y="22" width="22" height="16" rx="2" fill="#FFD200" stroke="#004065" stroke-width="0.8"/>
+    <rect x="168" y="22" width="22" height="16" rx="2" fill="#FFD200" stroke="#004065" stroke-width="0.8"/>
+    <rect x="196" y="22" width="22" height="16" rx="2" fill="#FFD200" stroke="#004065" stroke-width="0.8"/>
+    <rect x="224" y="22" width="22" height="16" rx="2" fill="#FFD200" stroke="#004065" stroke-width="0.8"/>
+    <rect x="252" y="22" width="22" height="16" rx="2" fill="#FFD200" stroke="#004065" stroke-width="0.8"/>
+  </g>
+
+  <!-- Side labels for scale -->
+  <text x="80" y="90" text-anchor="middle" font-size="12" fill="#004065" font-family="Arial, sans-serif" opacity="0.7">Coarsest</text>
+  <text x="80" y="106" text-anchor="middle" font-size="12" fill="#004065" font-family="Arial, sans-serif" opacity="0.7">granularity</text>
+
+  <text x="80" y="365" text-anchor="middle" font-size="12" fill="#004065" font-family="Arial, sans-serif" opacity="0.7">Finest</text>
+  <text x="80" y="381" text-anchor="middle" font-size="12" fill="#004065" font-family="Arial, sans-serif" opacity="0.7">granularity</text>
+
+  <!-- Vertical arrow on left showing granularity -->
+  <line x1="80" y1="115" x2="80" y2="348" stroke="#004065" stroke-width="1.5" marker-end="url(#arrDown)" opacity="0.4"/>
+</svg>

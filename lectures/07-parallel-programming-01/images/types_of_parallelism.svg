@@ -1,158 +1,95 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 480" width="800" height="480" font-family="Arial, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400">
   <defs>
-    <marker id="arrow-blue" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+    <marker id="arr" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
       <path d="M0,0 L8,3 L0,6 Z" fill="#004065"/>
     </marker>
-    <marker id="arrow-red" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
-      <path d="M0,0 L8,3 L0,6 Z" fill="#8B0000"/>
-    </marker>
-    <marker id="arrow-green" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
-      <path d="M0,0 L8,3 L0,6 Z" fill="#2a7d4f"/>
+    <marker id="arrG" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#FFD200"/>
     </marker>
   </defs>
 
-  <!-- ==================== DATA PARALLELISM (top-left) ==================== -->
-  <g transform="translate(10, 0)">
-    <!-- Title -->
-    <text x="190" y="22" text-anchor="middle" font-size="16" font-weight="bold" fill="#004065">Data Parallelism</text>
+  <!-- ==================== DATA PARALLELISM ==================== -->
+  <text x="133" y="35" text-anchor="middle" font-size="15" font-weight="bold" fill="#004065" font-family="Arial, sans-serif">DATA PARALLELISM</text>
 
-    <!-- Input array -->
-    <rect x="40" y="32" width="75" height="28" rx="5" fill="#e8f0f5" stroke="#004065" stroke-width="1.5"/>
-    <text x="77" y="51" text-anchor="middle" font-size="12" fill="#004065">Data 1</text>
-    <rect x="120" y="32" width="75" height="28" rx="5" fill="#e8f0f5" stroke="#004065" stroke-width="1.5"/>
-    <text x="157" y="51" text-anchor="middle" font-size="12" fill="#004065">Data 2</text>
-    <rect x="200" y="32" width="75" height="28" rx="5" fill="#e8f0f5" stroke="#004065" stroke-width="1.5"/>
-    <text x="237" y="51" text-anchor="middle" font-size="12" fill="#004065">Data 3</text>
-    <rect x="280" y="32" width="75" height="28" rx="5" fill="#e8f0f5" stroke="#004065" stroke-width="1.5"/>
-    <text x="317" y="51" text-anchor="middle" font-size="12" fill="#004065">Data 4</text>
+  <!-- Single function box -->
+  <rect x="83" y="55" width="100" height="38" rx="6" fill="#004065"/>
+  <text x="133" y="80" text-anchor="middle" font-size="14" fill="#fff" font-family="Arial, sans-serif">f(x)</text>
 
-    <!-- Arrows: input → f() -->
-    <line x1="77" y1="60" x2="77" y2="80" stroke="#004065" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
-    <line x1="157" y1="60" x2="157" y2="80" stroke="#004065" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
-    <line x1="237" y1="60" x2="237" y2="80" stroke="#004065" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
-    <line x1="317" y1="60" x2="317" y2="80" stroke="#004065" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
+  <!-- Arrows fanning out -->
+  <line x1="96" y1="93" x2="56" y2="135" stroke="#004065" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="116" y1="93" x2="106" y2="135" stroke="#004065" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="150" y1="93" x2="160" y2="135" stroke="#004065" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="170" y1="93" x2="210" y2="135" stroke="#004065" stroke-width="1.5" marker-end="url(#arr)"/>
 
-    <!-- f() boxes -->
-    <rect x="52" y="88" width="50" height="28" rx="5" fill="#004065" stroke="#004065" stroke-width="1.5"/>
-    <text x="77" y="107" text-anchor="middle" font-size="13" fill="#fff" font-weight="bold">f()</text>
-    <rect x="132" y="88" width="50" height="28" rx="5" fill="#004065" stroke="#004065" stroke-width="1.5"/>
-    <text x="157" y="107" text-anchor="middle" font-size="13" fill="#fff" font-weight="bold">f()</text>
-    <rect x="212" y="88" width="50" height="28" rx="5" fill="#004065" stroke="#004065" stroke-width="1.5"/>
-    <text x="237" y="107" text-anchor="middle" font-size="13" fill="#fff" font-weight="bold">f()</text>
-    <rect x="292" y="88" width="50" height="28" rx="5" fill="#004065" stroke="#004065" stroke-width="1.5"/>
-    <text x="317" y="107" text-anchor="middle" font-size="13" fill="#fff" font-weight="bold">f()</text>
+  <!-- 4 data chunks -->
+  <rect x="30" y="140" width="52" height="34" rx="5" fill="#FFD200"/>
+  <text x="56" y="162" text-anchor="middle" font-size="13" fill="#004065" font-family="Arial, sans-serif">D1</text>
+  <rect x="88" y="140" width="52" height="34" rx="5" fill="#FFD200"/>
+  <text x="114" y="162" text-anchor="middle" font-size="13" fill="#004065" font-family="Arial, sans-serif">D2</text>
+  <rect x="146" y="140" width="52" height="34" rx="5" fill="#FFD200"/>
+  <text x="172" y="162" text-anchor="middle" font-size="13" fill="#004065" font-family="Arial, sans-serif">D3</text>
+  <rect x="204" y="140" width="52" height="34" rx="5" fill="#FFD200"/>
+  <text x="230" y="162" text-anchor="middle" font-size="13" fill="#004065" font-family="Arial, sans-serif">D4</text>
 
-    <!-- Arrows: f() → results -->
-    <line x1="77" y1="116" x2="77" y2="136" stroke="#004065" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
-    <line x1="157" y1="116" x2="157" y2="136" stroke="#004065" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
-    <line x1="237" y1="116" x2="237" y2="136" stroke="#004065" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
-    <line x1="317" y1="116" x2="317" y2="136" stroke="#004065" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
+  <text x="133" y="205" text-anchor="middle" font-size="12" fill="#666" font-style="italic" font-family="Arial, sans-serif">Same operation, different data</text>
 
-    <!-- Result array -->
-    <rect x="40" y="144" width="75" height="28" rx="5" fill="#FFD200" stroke="#004065" stroke-width="1.5"/>
-    <text x="77" y="163" text-anchor="middle" font-size="12" fill="#004065">Result 1</text>
-    <rect x="120" y="144" width="75" height="28" rx="5" fill="#FFD200" stroke="#004065" stroke-width="1.5"/>
-    <text x="157" y="163" text-anchor="middle" font-size="12" fill="#004065">Result 2</text>
-    <rect x="200" y="144" width="75" height="28" rx="5" fill="#FFD200" stroke="#004065" stroke-width="1.5"/>
-    <text x="237" y="163" text-anchor="middle" font-size="12" fill="#004065">Result 3</text>
-    <rect x="280" y="144" width="75" height="28" rx="5" fill="#FFD200" stroke="#004065" stroke-width="1.5"/>
-    <text x="317" y="163" text-anchor="middle" font-size="12" fill="#004065">Result 4</text>
+  <!-- Divider 1 -->
+  <line x1="267" y1="20" x2="267" y2="215" stroke="#ddd" stroke-width="1" stroke-dasharray="5,4"/>
 
-    <!-- Labels -->
-    <text x="190" y="192" text-anchor="middle" font-size="14" fill="#004065">Same operation on different data</text>
-    <text x="190" y="208" text-anchor="middle" font-size="11" fill="#004065" font-style="italic">Image filtering, array operations</text>
-  </g>
+  <!-- ==================== TASK PARALLELISM ==================== -->
+  <text x="400" y="35" text-anchor="middle" font-size="15" font-weight="bold" fill="#004065" font-family="Arial, sans-serif">TASK PARALLELISM</text>
 
-  <!-- ==================== TASK PARALLELISM (top-right) ==================== -->
-  <g transform="translate(410, 0)">
-    <!-- Title -->
-    <text x="190" y="22" text-anchor="middle" font-size="16" font-weight="bold" fill="#8B0000">Task Parallelism</text>
+  <!-- Three different function boxes -->
+  <rect x="310" y="60" width="56" height="36" rx="6" fill="#004065"/>
+  <text x="338" y="83" text-anchor="middle" font-size="12" fill="#fff" font-family="Arial, sans-serif">Physics</text>
+  <rect x="372" y="60" width="56" height="36" rx="6" fill="#004065"/>
+  <text x="400" y="83" text-anchor="middle" font-size="12" fill="#fff" font-family="Arial, sans-serif">Render</text>
+  <rect x="434" y="60" width="56" height="36" rx="6" fill="#004065"/>
+  <text x="462" y="83" text-anchor="middle" font-size="12" fill="#fff" font-family="Arial, sans-serif">AI</text>
 
-    <!-- Input Data box -->
-    <rect x="130" y="32" width="120" height="28" rx="5" fill="#f5e8e8" stroke="#8B0000" stroke-width="1.5"/>
-    <text x="190" y="51" text-anchor="middle" font-size="13" fill="#8B0000" font-weight="bold">Input Data</text>
+  <!-- Arrows down to shared data -->
+  <line x1="338" y1="96" x2="372" y2="140" stroke="#004065" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="400" y1="96" x2="400" y2="140" stroke="#004065" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="462" y1="96" x2="428" y2="140" stroke="#004065" stroke-width="1.5" marker-end="url(#arr)"/>
 
-    <!-- Fan-out arrows -->
-    <line x1="165" y1="60" x2="70" y2="80" stroke="#8B0000" stroke-width="1.5" marker-end="url(#arrow-red)"/>
-    <line x1="190" y1="60" x2="190" y2="80" stroke="#8B0000" stroke-width="1.5" marker-end="url(#arrow-red)"/>
-    <line x1="215" y1="60" x2="310" y2="80" stroke="#8B0000" stroke-width="1.5" marker-end="url(#arrow-red)"/>
+  <!-- Shared data block -->
+  <rect x="352" y="143" width="96" height="32" rx="5" fill="#FFD200"/>
+  <text x="400" y="164" text-anchor="middle" font-size="13" fill="#004065" font-family="Arial, sans-serif">Shared Data</text>
 
-    <!-- Task boxes -->
-    <rect x="25" y="88" width="90" height="28" rx="5" fill="#8B0000" stroke="#8B0000" stroke-width="1.5"/>
-    <text x="70" y="107" text-anchor="middle" font-size="13" fill="#fff" font-weight="bold">Task A</text>
-    <rect x="145" y="88" width="90" height="28" rx="5" fill="#8B0000" stroke="#8B0000" stroke-width="1.5"/>
-    <text x="190" y="107" text-anchor="middle" font-size="13" fill="#fff" font-weight="bold">Task B</text>
-    <rect x="265" y="88" width="90" height="28" rx="5" fill="#8B0000" stroke="#8B0000" stroke-width="1.5"/>
-    <text x="310" y="107" text-anchor="middle" font-size="13" fill="#fff" font-weight="bold">Task C</text>
+  <text x="400" y="205" text-anchor="middle" font-size="12" fill="#666" font-style="italic" font-family="Arial, sans-serif">Different operations, same time</text>
 
-    <!-- Arrows: tasks → results -->
-    <line x1="70" y1="116" x2="70" y2="136" stroke="#8B0000" stroke-width="1.5" marker-end="url(#arrow-red)"/>
-    <line x1="190" y1="116" x2="190" y2="136" stroke="#8B0000" stroke-width="1.5" marker-end="url(#arrow-red)"/>
-    <line x1="310" y1="116" x2="310" y2="136" stroke="#8B0000" stroke-width="1.5" marker-end="url(#arrow-red)"/>
+  <!-- Divider 2 -->
+  <line x1="533" y1="20" x2="533" y2="215" stroke="#ddd" stroke-width="1" stroke-dasharray="5,4"/>
 
-    <!-- Result boxes -->
-    <rect x="25" y="144" width="90" height="28" rx="5" fill="#FFD200" stroke="#8B0000" stroke-width="1.5"/>
-    <text x="70" y="163" text-anchor="middle" font-size="12" fill="#8B0000">Result A</text>
-    <rect x="145" y="144" width="90" height="28" rx="5" fill="#FFD200" stroke="#8B0000" stroke-width="1.5"/>
-    <text x="190" y="163" text-anchor="middle" font-size="12" fill="#8B0000">Result B</text>
-    <rect x="265" y="144" width="90" height="28" rx="5" fill="#FFD200" stroke="#8B0000" stroke-width="1.5"/>
-    <text x="310" y="163" text-anchor="middle" font-size="12" fill="#8B0000">Result C</text>
+  <!-- ==================== PIPELINE PARALLELISM ==================== -->
+  <text x="667" y="35" text-anchor="middle" font-size="15" font-weight="bold" fill="#004065" font-family="Arial, sans-serif">PIPELINE PARALLELISM</text>
 
-    <!-- Labels -->
-    <text x="190" y="192" text-anchor="middle" font-size="14" fill="#8B0000">Different operations on same/different data</text>
-    <text x="190" y="208" text-anchor="middle" font-size="11" fill="#8B0000" font-style="italic">Game: physics + rendering + AI</text>
-  </g>
+  <!-- Three stage boxes -->
+  <rect x="556" y="60" width="72" height="36" rx="6" fill="#004065"/>
+  <text x="592" y="83" text-anchor="middle" font-size="12" fill="#fff" font-family="Arial, sans-serif">Decode</text>
 
-  <!-- ==================== PIPELINE PARALLELISM (bottom center) ==================== -->
-  <g transform="translate(0, 235)">
-    <!-- Title -->
-    <text x="400" y="18" text-anchor="middle" font-size="16" font-weight="bold" fill="#2a7d4f">Pipeline Parallelism</text>
+  <rect x="648" y="60" width="72" height="36" rx="6" fill="#004065"/>
+  <text x="684" y="83" text-anchor="middle" font-size="12" fill="#fff" font-family="Arial, sans-serif">Filter</text>
 
-    <!-- Stage boxes (tall, to show multiple items passing through) -->
-    <rect x="260" y="30" width="80" height="100" rx="5" fill="#2a7d4f" stroke="#2a7d4f" stroke-width="1.5"/>
-    <text x="300" y="72" text-anchor="middle" font-size="13" fill="#fff" font-weight="bold">Stage 1</text>
-    <text x="300" y="88" text-anchor="middle" font-size="11" fill="#ddd">decode</text>
+  <rect x="740" y="60" width="72" height="36" rx="6" fill="#004065"/>
+  <text x="776" y="83" text-anchor="middle" font-size="12" fill="#fff" font-family="Arial, sans-serif">Encode</text>
 
-    <rect x="360" y="30" width="80" height="100" rx="5" fill="#2a7d4f" stroke="#2a7d4f" stroke-width="1.5"/>
-    <text x="400" y="72" text-anchor="middle" font-size="13" fill="#fff" font-weight="bold">Stage 2</text>
-    <text x="400" y="88" text-anchor="middle" font-size="11" fill="#ddd">process</text>
+  <!-- Arrows between stages -->
+  <line x1="628" y1="78" x2="646" y2="78" stroke="#FFD200" stroke-width="2.5" marker-end="url(#arrG)"/>
+  <line x1="720" y1="78" x2="738" y2="78" stroke="#FFD200" stroke-width="2.5" marker-end="url(#arrG)"/>
 
-    <rect x="460" y="30" width="80" height="100" rx="5" fill="#2a7d4f" stroke="#2a7d4f" stroke-width="1.5"/>
-    <text x="500" y="72" text-anchor="middle" font-size="13" fill="#fff" font-weight="bold">Stage 3</text>
-    <text x="500" y="88" text-anchor="middle" font-size="11" fill="#ddd">encode</text>
+  <!-- Items at each stage -->
+  <rect x="570" y="116" width="44" height="24" rx="4" fill="#FFD200" opacity="0.55"/>
+  <text x="592" y="133" text-anchor="middle" font-size="11" fill="#004065" font-family="Arial, sans-serif">Item 3</text>
+  <rect x="662" y="116" width="44" height="24" rx="4" fill="#FFD200" opacity="0.78"/>
+  <text x="684" y="133" text-anchor="middle" font-size="11" fill="#004065" font-family="Arial, sans-serif">Item 2</text>
+  <rect x="754" y="116" width="44" height="24" rx="4" fill="#FFD200"/>
+  <text x="776" y="133" text-anchor="middle" font-size="11" fill="#004065" font-family="Arial, sans-serif">Item 1</text>
 
-    <!-- Arrows between stages -->
-    <line x1="340" y1="80" x2="352" y2="80" stroke="#2a7d4f" stroke-width="2" marker-end="url(#arrow-green)"/>
-    <line x1="440" y1="80" x2="452" y2="80" stroke="#2a7d4f" stroke-width="2" marker-end="url(#arrow-green)"/>
+  <!-- Dashed lines linking items to stages -->
+  <line x1="592" y1="114" x2="592" y2="98" stroke="#aaa" stroke-width="1" stroke-dasharray="3,2"/>
+  <line x1="684" y1="114" x2="684" y2="98" stroke="#aaa" stroke-width="1" stroke-dasharray="3,2"/>
+  <line x1="776" y1="114" x2="776" y2="98" stroke="#aaa" stroke-width="1" stroke-dasharray="3,2"/>
 
-    <!-- Input items (left side) -->
-    <rect x="120" y="38" width="90" height="24" rx="5" fill="#e8f5ed" stroke="#2a7d4f" stroke-width="1.2"/>
-    <text x="165" y="55" text-anchor="middle" font-size="11" fill="#2a7d4f">Input 1</text>
-    <rect x="120" y="68" width="90" height="24" rx="5" fill="#e8f5ed" stroke="#2a7d4f" stroke-width="1.2"/>
-    <text x="165" y="85" text-anchor="middle" font-size="11" fill="#2a7d4f">Input 2</text>
-    <rect x="120" y="98" width="90" height="24" rx="5" fill="#e8f5ed" stroke="#2a7d4f" stroke-width="1.2"/>
-    <text x="165" y="115" text-anchor="middle" font-size="11" fill="#2a7d4f">Input 3</text>
-
-    <!-- Arrows: inputs → Stage 1 -->
-    <line x1="210" y1="50" x2="252" y2="55" stroke="#2a7d4f" stroke-width="1.5" marker-end="url(#arrow-green)"/>
-    <line x1="210" y1="80" x2="252" y2="80" stroke="#2a7d4f" stroke-width="1.5" marker-end="url(#arrow-green)"/>
-    <line x1="210" y1="110" x2="252" y2="105" stroke="#2a7d4f" stroke-width="1.5" marker-end="url(#arrow-green)"/>
-
-    <!-- Output items (right side) -->
-    <rect x="590" y="38" width="90" height="24" rx="5" fill="#FFD200" stroke="#2a7d4f" stroke-width="1.2"/>
-    <text x="635" y="55" text-anchor="middle" font-size="11" fill="#2a7d4f">Output 1</text>
-    <rect x="590" y="68" width="90" height="24" rx="5" fill="#FFD200" stroke="#2a7d4f" stroke-width="1.2"/>
-    <text x="635" y="85" text-anchor="middle" font-size="11" fill="#2a7d4f">Output 2</text>
-    <rect x="590" y="98" width="90" height="24" rx="5" fill="#FFD200" stroke="#2a7d4f" stroke-width="1.2"/>
-    <text x="635" y="115" text-anchor="middle" font-size="11" fill="#2a7d4f">Output 3</text>
-
-    <!-- Arrows: Stage 3 → outputs -->
-    <line x1="540" y1="55" x2="582" y2="50" stroke="#2a7d4f" stroke-width="1.5" marker-end="url(#arrow-green)"/>
-    <line x1="540" y1="80" x2="582" y2="80" stroke="#2a7d4f" stroke-width="1.5" marker-end="url(#arrow-green)"/>
-    <line x1="540" y1="105" x2="582" y2="110" stroke="#2a7d4f" stroke-width="1.5" marker-end="url(#arrow-green)"/>
-
-    <!-- Labels -->
-    <text x="400" y="155" text-anchor="middle" font-size="14" fill="#2a7d4f">Assembly line — each stage processes different data</text>
-    <text x="400" y="172" text-anchor="middle" font-size="11" fill="#2a7d4f" font-style="italic">Video: decode → process → encode</text>
-  </g>
+  <text x="667" y="205" text-anchor="middle" font-size="12" fill="#666" font-style="italic" font-family="Arial, sans-serif">Stages overlap on different items</text>
 </svg>

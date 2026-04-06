@@ -1,0 +1,130 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 350">
+  <defs>
+    <marker id="arr2" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#004065"/>
+    </marker>
+    <marker id="arr2g" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#FFD200"/>
+    </marker>
+  </defs>
+
+  <!-- ==================== REDUCE ==================== -->
+  <text x="133" y="28" font-family="Arial, sans-serif" font-size="15" font-weight="bold" fill="#004065" text-anchor="middle">Reduce</text>
+  <text x="133" y="48" font-family="Arial, sans-serif" font-size="12" fill="#666" text-anchor="middle">Combine with operation (sum, max)</text>
+
+  <!-- Level 3 (leaves) -->
+  <circle cx="40" cy="240" r="20" fill="#004065"/>
+  <text x="40" y="245" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="white" text-anchor="middle">5</text>
+
+  <circle cx="100" cy="240" r="20" fill="#004065"/>
+  <text x="100" y="245" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="white" text-anchor="middle">8</text>
+
+  <circle cx="166" cy="240" r="20" fill="#004065"/>
+  <text x="166" y="245" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="white" text-anchor="middle">2</text>
+
+  <circle cx="226" cy="240" r="20" fill="#004065"/>
+  <text x="226" y="245" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="white" text-anchor="middle">7</text>
+
+  <!-- Arrows up from leaves -->
+  <line x1="52" y1="222" x2="62" y2="182" stroke="#004065" stroke-width="1.5" marker-end="url(#arr2)"/>
+  <line x1="88" y1="222" x2="78" y2="182" stroke="#004065" stroke-width="1.5" marker-end="url(#arr2)"/>
+  <line x1="178" y1="222" x2="188" y2="182" stroke="#004065" stroke-width="1.5" marker-end="url(#arr2)"/>
+  <line x1="214" y1="222" x2="204" y2="182" stroke="#004065" stroke-width="1.5" marker-end="url(#arr2)"/>
+
+  <!-- + labels -->
+  <text x="70" y="215" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#e74c3c" text-anchor="middle">+</text>
+  <text x="196" y="215" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#e74c3c" text-anchor="middle">+</text>
+
+  <!-- Level 2 (intermediate) -->
+  <circle cx="70" cy="165" r="20" fill="#004065"/>
+  <text x="70" y="170" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="white" text-anchor="middle">13</text>
+
+  <circle cx="196" cy="165" r="20" fill="#004065"/>
+  <text x="196" y="170" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="white" text-anchor="middle">9</text>
+
+  <!-- Arrows up to root -->
+  <line x1="84" y1="150" x2="120" y2="110" stroke="#004065" stroke-width="1.5" marker-end="url(#arr2)"/>
+  <line x1="182" y1="150" x2="146" y2="110" stroke="#004065" stroke-width="1.5" marker-end="url(#arr2)"/>
+
+  <text x="133" y="138" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#e74c3c" text-anchor="middle">+</text>
+
+  <!-- Root -->
+  <circle cx="133" cy="92" r="22" fill="#FFD200" stroke="#004065" stroke-width="2"/>
+  <text x="133" y="97" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#004065" text-anchor="middle">22</text>
+
+  <!-- ==================== ALL-TO-ALL ==================== -->
+  <text x="400" y="28" font-family="Arial, sans-serif" font-size="15" font-weight="bold" fill="#004065" text-anchor="middle">All-to-All</text>
+  <text x="400" y="48" font-family="Arial, sans-serif" font-size="12" fill="#666" text-anchor="middle">Every process ↔ every process</text>
+
+  <!-- 4 circles in a square -->
+  <circle cx="345" cy="100" r="22" fill="#004065"/>
+  <text x="345" y="105" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="white" text-anchor="middle">P0</text>
+
+  <circle cx="455" cy="100" r="22" fill="#004065"/>
+  <text x="455" y="105" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="white" text-anchor="middle">P1</text>
+
+  <circle cx="345" cy="210" r="22" fill="#004065"/>
+  <text x="345" y="215" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="white" text-anchor="middle">P2</text>
+
+  <circle cx="455" cy="210" r="22" fill="#004065"/>
+  <text x="455" y="215" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="white" text-anchor="middle">P3</text>
+
+  <!-- Edges (bidirectional — draw as lines) -->
+  <!-- Top edge P0-P1 -->
+  <line x1="367" y1="95" x2="433" y2="95" stroke="#FFD200" stroke-width="2.5"/>
+  <!-- Bottom edge P2-P3 -->
+  <line x1="367" y1="215" x2="433" y2="215" stroke="#FFD200" stroke-width="2.5"/>
+  <!-- Left edge P0-P2 -->
+  <line x1="340" y1="122" x2="340" y2="188" stroke="#FFD200" stroke-width="2.5"/>
+  <!-- Right edge P1-P3 -->
+  <line x1="460" y1="122" x2="460" y2="188" stroke="#FFD200" stroke-width="2.5"/>
+  <!-- Diagonal P0-P3 -->
+  <line x1="363" y1="116" x2="437" y2="194" stroke="#FFD200" stroke-width="2.5"/>
+  <!-- Diagonal P1-P2 -->
+  <line x1="437" y1="116" x2="363" y2="194" stroke="#FFD200" stroke-width="2.5"/>
+
+  <!-- Bidirectional arrows symbol -->
+  <text x="400" y="155" font-family="Arial, sans-serif" font-size="13" fill="#004065" text-anchor="middle">↔</text>
+
+  <!-- ==================== NEIGHBOR ==================== -->
+  <text x="667" y="28" font-family="Arial, sans-serif" font-size="15" font-weight="bold" fill="#004065" text-anchor="middle">Nearest-Neighbor</text>
+  <text x="667" y="48" font-family="Arial, sans-serif" font-size="12" fill="#666" text-anchor="middle">Each talks to neighbors only</text>
+
+  <!-- 2x3 grid of squares -->
+  <!-- Row 1 -->
+  <rect x="590" y="80" width="44" height="44" rx="4" fill="#e0e0e0" stroke="#004065" stroke-width="1.5"/>
+  <text x="612" y="107" font-family="Arial, sans-serif" font-size="11" fill="#004065" text-anchor="middle">P0</text>
+
+  <rect x="645" y="80" width="44" height="44" rx="4" fill="#e0e0e0" stroke="#004065" stroke-width="1.5"/>
+  <text x="667" y="107" font-family="Arial, sans-serif" font-size="11" fill="#004065" text-anchor="middle">P1</text>
+
+  <rect x="700" y="80" width="44" height="44" rx="4" fill="#e0e0e0" stroke="#004065" stroke-width="1.5"/>
+  <text x="722" y="107" font-family="Arial, sans-serif" font-size="11" fill="#004065" text-anchor="middle">P2</text>
+
+  <!-- Row 2 -->
+  <rect x="590" y="140" width="44" height="44" rx="4" fill="#e0e0e0" stroke="#004065" stroke-width="1.5"/>
+  <text x="612" y="167" font-family="Arial, sans-serif" font-size="11" fill="#004065" text-anchor="middle">P3</text>
+
+  <!-- Center cell highlighted -->
+  <rect x="645" y="140" width="44" height="44" rx="4" fill="#FFD200" stroke="#004065" stroke-width="2.5"/>
+  <text x="667" y="167" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#004065" text-anchor="middle">P4</text>
+
+  <rect x="700" y="140" width="44" height="44" rx="4" fill="#e0e0e0" stroke="#004065" stroke-width="1.5"/>
+  <text x="722" y="167" font-family="Arial, sans-serif" font-size="11" fill="#004065" text-anchor="middle">P5</text>
+
+  <!-- Arrows from P4 to neighbors -->
+  <!-- Up: P4 to P1 -->
+  <line x1="667" y1="140" x2="667" y2="128" stroke="#e74c3c" stroke-width="2.5" marker-end="url(#arr2)"/>
+  <!-- Left: P4 to P3 -->
+  <line x1="645" y1="162" x2="638" y2="162" stroke="#e74c3c" stroke-width="2.5" marker-end="url(#arr2)"/>
+  <!-- Right: P4 to P5 -->
+  <line x1="689" y1="162" x2="696" y2="162" stroke="#e74c3c" stroke-width="2.5" marker-end="url(#arr2)"/>
+
+  <!-- No bottom neighbor, so add a row 3 hint or just show the 3 neighbors -->
+  <!-- Legend note -->
+  <text x="667" y="210" font-family="Arial, sans-serif" font-size="11" fill="#666" text-anchor="middle" font-style="italic">Stencil / grid computations</text>
+
+  <!-- Divider lines -->
+  <line x1="267" y1="20" x2="267" y2="270" stroke="#ccc" stroke-width="1" stroke-dasharray="4,4"/>
+  <line x1="533" y1="20" x2="533" y2="270" stroke="#ccc" stroke-width="1" stroke-dasharray="4,4"/>
+</svg>
