@@ -200,15 +200,17 @@ Note: Embarrassingly parallel problems are the dream case — they scale nearly 
 
 One program is written once. The runtime launches many copies. Each copy uses its **unique ID** to decide which data to work on.
 
+**OpenMP (C) — shared-memory parallelism with compiler directives:**
 ```c
-#pragma omp parallel
+#pragma omp parallel                       // Fork: launch a team of threads
 {
-    int tid = omp_get_thread_num();      // My unique ID
-    int chunk = N / omp_get_num_threads();
-    int start = tid * chunk;
+    int tid = omp_get_thread_num();        // Each thread gets a unique ID (0, 1, 2, ...)
+    int total = omp_get_num_threads();     // How many threads are running
+    int chunk = N / total;                 // Divide data evenly
+    int start = tid * chunk;              // This thread's starting index
     for (int i = start; i < start + chunk; i++)
-        result[i] = process(data[i]);    // Same function, different data
-}
+        result[i] = process(data[i]);      // Same function, different slice of data
+}                                          // Join: all threads rejoin here
 ```
 
 **Used everywhere:** MPI programs, CUDA kernels, OpenMP parallel regions, MapReduce jobs, Spark transformations.
@@ -283,19 +285,20 @@ Note: Data decomposition is far more common in scientific computing and ML becau
 
 ## Example: Summing an Array in Parallel
 
-**Sequential:**
+**Sequential (C):**
 ```c
-long sum = 0;
-for (int i = 0; i < N; i++)
-    sum += array[i];
+long sum = 0;                          // Single accumulator
+for (int i = 0; i < N; i++)           // One thread processes ALL N elements
+    sum += array[i];                   // Runs in O(N) time
 ```
 
-**Parallel (data decomposition + tree reduction):**
+**Parallel with OpenMP (C) — one line turns it parallel:**
 ```c
-// Each thread sums its chunk; OpenMP combines with tree reduction
-#pragma omp parallel reduction(+:sum)
-for (int i = 0; i < N; i++)
-    sum += array[i];
+long sum = 0;
+#pragma omp parallel reduction(+:sum)  // Each thread gets a private copy of sum;
+for (int i = 0; i < N; i++)           // OpenMP splits iterations across threads
+    sum += array[i];                   // Each thread sums its chunk
+// reduction(+:sum) combines all private copies into final sum via tree reduction
 ```
 
 **Tree reduction** combines partial sums in **log₂(P) steps** instead of P steps:
@@ -444,18 +447,21 @@ Note: Draw the dependency graph of your computation. Nodes are tasks, edges are 
 
 A **race condition** occurs when correctness depends on the **timing** of thread execution.
 
+**Pseudocode (C-style) — two threads sharing a counter:**
 ```c
-// BUG: Two threads incrementing a shared counter
-// "counter++" is actually: load → add 1 → store
-//
-// Thread A: load counter (=0)
-//                                Thread B: load counter (=0)
-// Thread A: add 1 → 1
-//                                Thread B: add 1 → 1
-// Thread A: store 1
-//                                Thread B: store 1
-//
-// Expected: counter = 2.  Actual: counter = 1.  Lost update!
+// BUG: "counter++" looks like one operation but is actually THREE steps
+// Both threads run counter++ on a shared variable (initially counter = 0)
+
+// Thread A                          Thread B
+// --------                          --------
+   load counter   // → sees 0
+                                     load counter   // → also sees 0 (stale!)
+   add 1          // → computes 1
+                                     add 1          // → computes 1
+   store 1        // → writes 1
+                                     store 1        // → overwrites with 1
+
+// Expected: counter = 2.  Actual: counter = 1.  B's increment was lost!
 ```
 
 **Three fixes:**
@@ -501,11 +507,14 @@ Note: Barriers are common in scientific simulations that proceed in timesteps �
 
 A **deadlock** occurs when threads wait for resources held by each other — and none can proceed.
 
+**Pseudocode (C-style) — two threads acquiring locks in opposite order:**
 ```c
-// Thread A                    // Thread B
-lock(mutex_1);                 lock(mutex_2);
-lock(mutex_2);  // BLOCKED     lock(mutex_1);  // BLOCKED
-// → DEADLOCK: neither can ever proceed
+// Thread A                        Thread B
+// --------                        --------
+lock(mutex_1);   // A grabs lock 1    lock(mutex_2);   // B grabs lock 2
+lock(mutex_2);   // A waits for 2...  lock(mutex_1);   // B waits for 1...
+// A holds 1, needs 2                 // B holds 2, needs 1
+// → DEADLOCK: neither can ever proceed — both wait forever
 ```
 
 **Four conditions (all must be true):**
