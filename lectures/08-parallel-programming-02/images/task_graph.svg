@@ -1,0 +1,115 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
+  <defs>
+    <marker id="arrtg" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#004065"/>
+    </marker>
+    <marker id="arrtgg" markerWidth="9" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <path d="M0,0 L9,3.5 L0,7 Z" fill="#d4a40b"/>
+    </marker>
+  </defs>
+  <style>
+    text { font-family: 'Helvetica Neue', Arial, sans-serif; fill: #222; }
+    .title { font-size: 22px; font-weight: bold; fill: #004065; }
+    .sub { font-size: 13px; fill: #666; font-style: italic; }
+    .node { fill: #cfe2f3; stroke: #004065; stroke-width: 2; }
+    .critnode { fill: #FFD200; stroke: #004065; stroke-width: 2.5; }
+    .nlab { font-size: 16px; font-weight: bold; fill: #004065; }
+    .edge { stroke: #004065; stroke-width: 1.8; fill: none; }
+    .critedge { stroke: #d4a40b; stroke-width: 3.5; fill: none; }
+    .elab { font-size: 11px; fill: #666; font-style: italic; }
+    .cost { font-size: 11px; fill: #004065; font-weight: bold; }
+  </style>
+
+  <!-- Title -->
+  <text x="400" y="34" class="title" text-anchor="middle">Task Graph: Critical Path in Gold</text>
+  <text x="400" y="54" class="sub" text-anchor="middle">DAG of tasks with dependencies; longest path bounds minimum execution time</text>
+
+  <!-- Layout:
+       A (top, 400,110)
+       B (left upper, 250,210)  C (right upper, 550,210)
+       D (left lower, 200,320)  E (center lower, 400,320)  (wait: spec says B,C feed D,E; let's place D below B, E below C)
+       Redo: D (250,320), E (550,320)
+       F (400,410)
+       G (400,480) sink -> but we only have 450 height. Put F=400,400 and G=400,460
+  -->
+
+  <!-- Edges (draw first so nodes sit on top) -->
+  <!-- A -> B (critical? No, A->C is critical) -->
+  <line x1="380" y1="135" x2="280" y2="195" class="edge" marker-end="url(#arrtg)"/>
+  <text x="310" y="160" class="elab">d1</text>
+
+  <!-- A -> C (critical) -->
+  <line x1="420" y1="135" x2="520" y2="195" class="critedge" marker-end="url(#arrtgg)"/>
+  <text x="485" y="160" class="cost">d2</text>
+
+  <!-- B -> D -->
+  <line x1="250" y1="235" x2="250" y2="295" class="edge" marker-end="url(#arrtg)"/>
+  <text x="258" y="270" class="elab">d3</text>
+
+  <!-- B -> E -->
+  <line x1="275" y1="230" x2="525" y2="300" class="edge" marker-end="url(#arrtg)"/>
+  <text x="400" y="258" class="elab">d4</text>
+
+  <!-- C -> D -->
+  <line x1="525" y1="230" x2="275" y2="300" class="edge" marker-end="url(#arrtg)"/>
+  <text x="400" y="278" class="elab">d5</text>
+
+  <!-- C -> E (critical) -->
+  <line x1="550" y1="235" x2="550" y2="295" class="critedge" marker-end="url(#arrtgg)"/>
+  <text x="560" y="270" class="cost">d6</text>
+
+  <!-- D -> F -->
+  <line x1="275" y1="345" x2="375" y2="395" class="edge" marker-end="url(#arrtg)"/>
+  <text x="310" y="380" class="elab">d7</text>
+
+  <!-- E -> F (critical) -->
+  <line x1="525" y1="345" x2="425" y2="395" class="critedge" marker-end="url(#arrtgg)"/>
+  <text x="488" y="380" class="cost">d8</text>
+
+  <!-- F -> G (critical) -->
+  <line x1="400" y1="425" x2="400" y2="455" class="critedge" marker-end="url(#arrtgg)"/>
+
+  <!-- Nodes -->
+  <!-- A -->
+  <circle cx="400" cy="110" r="28" class="node"/>
+  <text x="400" y="116" class="nlab" text-anchor="middle">A</text>
+
+  <!-- B (not critical) -->
+  <circle cx="250" cy="210" r="28" class="node"/>
+  <text x="250" y="216" class="nlab" text-anchor="middle">B</text>
+
+  <!-- C (critical) -->
+  <circle cx="550" cy="210" r="28" class="critnode"/>
+  <text x="550" y="216" class="nlab" text-anchor="middle">C</text>
+
+  <!-- D -->
+  <circle cx="250" cy="320" r="28" class="node"/>
+  <text x="250" y="326" class="nlab" text-anchor="middle">D</text>
+
+  <!-- E (critical) -->
+  <circle cx="550" cy="320" r="28" class="critnode"/>
+  <text x="550" y="326" class="nlab" text-anchor="middle">E</text>
+
+  <!-- F (critical) -->
+  <circle cx="400" cy="410" r="28" class="critnode"/>
+  <text x="400" y="416" class="nlab" text-anchor="middle">F</text>
+
+  <!-- G (critical, sink) - place further down? Use 400, 470 but viewBox 500 -->
+  <circle cx="400" cy="470" r="24" class="critnode"/>
+  <text x="400" y="476" class="nlab" text-anchor="middle">G</text>
+
+  <!-- Mark A as also critical (source of critical path) -->
+  <circle cx="400" cy="110" r="28" class="critnode"/>
+  <text x="400" y="116" class="nlab" text-anchor="middle">A</text>
+
+  <!-- Legend -->
+  <rect x="620" y="80" width="170" height="90" rx="6" fill="white" stroke="#ccc"/>
+  <text x="705" y="100" font-size="13" font-weight="bold" fill="#004065" text-anchor="middle">Legend</text>
+  <circle cx="640" cy="120" r="10" class="node"/>
+  <text x="658" y="124" font-size="12" fill="#222">regular task</text>
+  <circle cx="640" cy="145" r="10" class="critnode"/>
+  <text x="658" y="149" font-size="12" fill="#222">on critical path</text>
+
+  <!-- Critical path note -->
+  <text x="400" y="498" font-size="12" fill="#666" font-style="italic" text-anchor="middle">Critical path: A &#8594; C &#8594; E &#8594; F &#8594; G</text>
+</svg>

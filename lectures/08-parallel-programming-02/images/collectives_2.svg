@@ -1,0 +1,155 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
+  <defs>
+    <marker id="arrc2" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#004065"/>
+    </marker>
+    <marker id="arrc2g" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+      <path d="M0,0 L7,2.5 L0,5 Z" fill="#666"/>
+    </marker>
+  </defs>
+  <style>
+    text { font-family: 'Helvetica Neue', Arial, sans-serif; fill: #222; }
+    .title { font-size: 22px; font-weight: bold; fill: #004065; }
+    .sub { font-size: 15px; font-weight: bold; fill: #004065; }
+    .cap { font-size: 12px; fill: #666; font-style: italic; }
+    .plab { font-size: 13px; font-weight: bold; fill: white; }
+    .rootlab { font-size: 13px; font-weight: bold; fill: #004065; }
+    .flow { stroke: #004065; stroke-width: 1.6; fill: none; }
+    .fine { stroke: #888; stroke-width: 1; fill: none; }
+  </style>
+
+  <!-- Title -->
+  <text x="400" y="34" class="title" text-anchor="middle">MPI Collectives: Reduce, All-reduce, All-to-all</text>
+
+  <!-- Dividers -->
+  <line x1="267" y1="60" x2="267" y2="470" stroke="#ccc" stroke-width="1" stroke-dasharray="4,4"/>
+  <line x1="533" y1="60" x2="533" y2="470" stroke="#ccc" stroke-width="1" stroke-dasharray="4,4"/>
+
+  <!-- ================= REDUCE ================= -->
+  <text x="133" y="90" class="sub" text-anchor="middle">Reduce</text>
+  <text x="133" y="110" class="cap" text-anchor="middle">All -&gt; One  (combine with op)</text>
+
+  <!-- P1 P2 P3 at top with values -->
+  <circle cx="55"  cy="160" r="24" fill="#004065"/>
+  <text x="55"  y="165" class="plab" text-anchor="middle">P1</text>
+  <circle cx="133" cy="160" r="24" fill="#004065"/>
+  <text x="133" y="165" class="plab" text-anchor="middle">P2</text>
+  <circle cx="211" cy="160" r="24" fill="#004065"/>
+  <text x="211" y="165" class="plab" text-anchor="middle">P3</text>
+
+  <rect x="43"  y="125" width="24" height="16" rx="2" fill="#cfe2f3" stroke="#004065" stroke-width="1"/>
+  <text x="55"  y="137" font-size="10" fill="#004065" text-anchor="middle">3</text>
+  <rect x="121" y="125" width="24" height="16" rx="2" fill="#cfe2f3" stroke="#004065" stroke-width="1"/>
+  <text x="133" y="137" font-size="10" fill="#004065" text-anchor="middle">5</text>
+  <rect x="199" y="125" width="24" height="16" rx="2" fill="#cfe2f3" stroke="#004065" stroke-width="1"/>
+  <text x="211" y="137" font-size="10" fill="#004065" text-anchor="middle">2</text>
+
+  <!-- Combine node (+) -->
+  <circle cx="133" cy="240" r="20" fill="#fff4cc" stroke="#004065" stroke-width="2"/>
+  <text x="133" y="247" font-size="20" font-weight="bold" fill="#004065" text-anchor="middle">+</text>
+
+  <!-- Arrows from P1,P2,P3 into + -->
+  <line x1="69"  y1="178" x2="115" y2="230" class="flow" marker-end="url(#arrc2)"/>
+  <line x1="133" y1="184" x2="133" y2="220" class="flow" marker-end="url(#arrc2)"/>
+  <line x1="197" y1="178" x2="151" y2="230" class="flow" marker-end="url(#arrc2)"/>
+
+  <!-- Arrow from + to P0 -->
+  <line x1="133" y1="260" x2="133" y2="300" class="flow" marker-end="url(#arrc2)"/>
+
+  <!-- P0 root -->
+  <circle cx="133" cy="325" r="26" fill="#FFD200" stroke="#004065" stroke-width="2"/>
+  <text x="133" y="330" class="rootlab" text-anchor="middle">P0</text>
+
+  <rect x="121" y="360" width="24" height="18" rx="2" fill="#FFD200" stroke="#004065" stroke-width="1.5"/>
+  <text x="133" y="374" font-size="11" font-weight="bold" fill="#004065" text-anchor="middle">10</text>
+
+  <text x="133" y="410" class="cap" text-anchor="middle">sum = 3 + 5 + 2 = 10</text>
+
+  <!-- ================= ALL-REDUCE ================= -->
+  <text x="400" y="90" class="sub" text-anchor="middle">All-reduce</text>
+  <text x="400" y="110" class="cap" text-anchor="middle">Reduce + Broadcast result</text>
+
+  <!-- 4 processes in a square -->
+  <circle cx="340" cy="160" r="22" fill="#004065"/>
+  <text x="340" y="165" class="plab" text-anchor="middle">P0</text>
+  <circle cx="460" cy="160" r="22" fill="#004065"/>
+  <text x="460" y="165" class="plab" text-anchor="middle">P1</text>
+  <circle cx="340" cy="320" r="22" fill="#004065"/>
+  <text x="340" y="325" class="plab" text-anchor="middle">P2</text>
+  <circle cx="460" cy="320" r="22" fill="#004065"/>
+  <text x="460" y="325" class="plab" text-anchor="middle">P3</text>
+
+  <!-- values before -->
+  <rect x="295" y="152" width="22" height="16" rx="2" fill="#cfe2f3" stroke="#004065" stroke-width="1"/>
+  <text x="306" y="164" font-size="10" fill="#004065" text-anchor="middle">1</text>
+  <rect x="483" y="152" width="22" height="16" rx="2" fill="#cfe2f3" stroke="#004065" stroke-width="1"/>
+  <text x="494" y="164" font-size="10" fill="#004065" text-anchor="middle">2</text>
+  <rect x="295" y="312" width="22" height="16" rx="2" fill="#cfe2f3" stroke="#004065" stroke-width="1"/>
+  <text x="306" y="324" font-size="10" fill="#004065" text-anchor="middle">3</text>
+  <rect x="483" y="312" width="22" height="16" rx="2" fill="#cfe2f3" stroke="#004065" stroke-width="1"/>
+  <text x="494" y="324" font-size="10" fill="#004065" text-anchor="middle">4</text>
+
+  <!-- Central combine node -->
+  <circle cx="400" cy="240" r="22" fill="#fff4cc" stroke="#004065" stroke-width="2"/>
+  <text x="400" y="247" font-size="18" font-weight="bold" fill="#004065" text-anchor="middle">+</text>
+
+  <!-- In arrows -->
+  <line x1="356" y1="176" x2="386" y2="224" class="flow" marker-end="url(#arrc2)"/>
+  <line x1="444" y1="176" x2="414" y2="224" class="flow" marker-end="url(#arrc2)"/>
+  <line x1="356" y1="304" x2="386" y2="256" class="flow" marker-end="url(#arrc2)"/>
+  <line x1="444" y1="304" x2="414" y2="256" class="flow" marker-end="url(#arrc2)"/>
+
+  <!-- Out arrows (dashed gold for broadcast) -->
+  <line x1="385" y1="230" x2="355" y2="178" stroke="#FFD200" stroke-width="2" stroke-dasharray="4,3"/>
+  <line x1="415" y1="230" x2="445" y2="178" stroke="#FFD200" stroke-width="2" stroke-dasharray="4,3"/>
+  <line x1="385" y1="250" x2="355" y2="302" stroke="#FFD200" stroke-width="2" stroke-dasharray="4,3"/>
+  <line x1="415" y1="250" x2="445" y2="302" stroke="#FFD200" stroke-width="2" stroke-dasharray="4,3"/>
+
+  <!-- Result "10" on each process -->
+  <rect x="328" y="186" width="24" height="16" rx="2" fill="#FFD200" stroke="#004065" stroke-width="1.2"/>
+  <text x="340" y="198" font-size="10" font-weight="bold" fill="#004065" text-anchor="middle">10</text>
+  <rect x="448" y="186" width="24" height="16" rx="2" fill="#FFD200" stroke="#004065" stroke-width="1.2"/>
+  <text x="460" y="198" font-size="10" font-weight="bold" fill="#004065" text-anchor="middle">10</text>
+  <rect x="328" y="286" width="24" height="16" rx="2" fill="#FFD200" stroke="#004065" stroke-width="1.2"/>
+  <text x="340" y="298" font-size="10" font-weight="bold" fill="#004065" text-anchor="middle">10</text>
+  <rect x="448" y="286" width="24" height="16" rx="2" fill="#FFD200" stroke="#004065" stroke-width="1.2"/>
+  <text x="460" y="298" font-size="10" font-weight="bold" fill="#004065" text-anchor="middle">10</text>
+
+  <text x="400" y="410" class="cap" text-anchor="middle">Every rank gets the sum</text>
+
+  <!-- ================= ALL-TO-ALL ================= -->
+  <text x="667" y="90" class="sub" text-anchor="middle">All-to-all</text>
+  <text x="667" y="110" class="cap" text-anchor="middle">Each sends distinct piece to each</text>
+
+  <!-- 4 processes in square -->
+  <circle cx="600" cy="160" r="22" fill="#004065"/>
+  <text x="600" y="165" class="plab" text-anchor="middle">P0</text>
+  <circle cx="734" cy="160" r="22" fill="#004065"/>
+  <text x="734" y="165" class="plab" text-anchor="middle">P1</text>
+  <circle cx="600" cy="320" r="22" fill="#004065"/>
+  <text x="600" y="325" class="plab" text-anchor="middle">P2</text>
+  <circle cx="734" cy="320" r="22" fill="#004065"/>
+  <text x="734" y="325" class="plab" text-anchor="middle">P3</text>
+
+  <!-- Crisscross arrows (each pair bidirectional) -->
+  <!-- P0 <-> P1 -->
+  <line x1="622" y1="155" x2="712" y2="155" class="fine" marker-end="url(#arrc2g)"/>
+  <line x1="712" y1="165" x2="622" y2="165" class="fine" marker-end="url(#arrc2g)"/>
+  <!-- P2 <-> P3 -->
+  <line x1="622" y1="315" x2="712" y2="315" class="fine" marker-end="url(#arrc2g)"/>
+  <line x1="712" y1="325" x2="622" y2="325" class="fine" marker-end="url(#arrc2g)"/>
+  <!-- P0 <-> P2 -->
+  <line x1="595" y1="182" x2="595" y2="298" class="fine" marker-end="url(#arrc2g)"/>
+  <line x1="605" y1="298" x2="605" y2="182" class="fine" marker-end="url(#arrc2g)"/>
+  <!-- P1 <-> P3 -->
+  <line x1="729" y1="182" x2="729" y2="298" class="fine" marker-end="url(#arrc2g)"/>
+  <line x1="739" y1="298" x2="739" y2="182" class="fine" marker-end="url(#arrc2g)"/>
+  <!-- Diagonals: P0 <-> P3 -->
+  <line x1="618" y1="178" x2="716" y2="302" class="fine" marker-end="url(#arrc2g)"/>
+  <line x1="716" y1="302" x2="618" y2="178" class="fine" marker-end="url(#arrc2g)"/>
+  <!-- P1 <-> P2 -->
+  <line x1="716" y1="178" x2="618" y2="302" class="fine" marker-end="url(#arrc2g)"/>
+  <line x1="618" y1="302" x2="716" y2="178" class="fine" marker-end="url(#arrc2g)"/>
+
+  <text x="667" y="410" class="cap" text-anchor="middle">Used in FFT, transpose, sorting</text>
+</svg>
