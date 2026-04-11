@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
+  <style>
+    text { font-family: 'Helvetica Neue', Arial, sans-serif; fill: #222; }
+    .title { font-size: 22px; font-weight: bold; fill: #004065; }
+    .sub { font-size: 13px; fill: #666; font-style: italic; }
+    .mlab { font-size: 22px; font-weight: bold; fill: #004065; }
+    .eq { font-size: 26px; font-weight: bold; fill: #004065; }
+    .blk { fill: #cfe2f3; stroke: #004065; stroke-width: 1.5; }
+    .hl { fill: #FFD200; stroke: #004065; stroke-width: 2; }
+    .tgt { fill: #e74c3c; stroke: #004065; stroke-width: 2.5; }
+    .idx { font-size: 11px; font-weight: bold; fill: #004065; }
+    .tidx { font-size: 11px; font-weight: bold; fill: white; }
+  </style>
+
+  <!-- Title -->
+  <text x="400" y="34" class="title" text-anchor="middle">2D Block Decomposition</text>
+  <text x="400" y="54" class="sub" text-anchor="middle">C = A x B     processes arranged in a sqrt(P) x sqrt(P) grid; here 3 x 3 = 9 blocks</text>
+
+  <!-- Geometry: each matrix is 180x180 with 3x3 sub-blocks, cell 60x60
+       C: 40..220 , 130..310 -> target block C(1,1) at rows 1,1 i.e. (100..160, 190..250)
+       A: 290..470, 130..310
+       B: 540..720, 130..310
+  -->
+
+  <!-- ===== Matrix C ===== -->
+  <text x="130" y="118" class="mlab" text-anchor="middle">C</text>
+  <!-- blocks -->
+  <g>
+    <rect x="40"  y="130" width="60" height="60" class="blk"/><text x="70"  y="165" class="idx" text-anchor="middle">C00</text>
+    <rect x="100" y="130" width="60" height="60" class="blk"/><text x="130" y="165" class="idx" text-anchor="middle">C01</text>
+    <rect x="160" y="130" width="60" height="60" class="blk"/><text x="190" y="165" class="idx" text-anchor="middle">C02</text>
+
+    <rect x="40"  y="190" width="60" height="60" class="blk"/><text x="70"  y="225" class="idx" text-anchor="middle">C10</text>
+    <!-- target block C11 -->
+    <rect x="100" y="190" width="60" height="60" class="tgt"/><text x="130" y="225" class="tidx" text-anchor="middle">C11</text>
+    <rect x="160" y="190" width="60" height="60" class="blk"/><text x="190" y="225" class="idx" text-anchor="middle">C12</text>
+
+    <rect x="40"  y="250" width="60" height="60" class="blk"/><text x="70"  y="285" class="idx" text-anchor="middle">C20</text>
+    <rect x="100" y="250" width="60" height="60" class="blk"/><text x="130" y="285" class="idx" text-anchor="middle">C21</text>
+    <rect x="160" y="250" width="60" height="60" class="blk"/><text x="190" y="285" class="idx" text-anchor="middle">C22</text>
+  </g>
+
+  <!-- Equals -->
+  <text x="255" y="225" class="eq" text-anchor="middle">=</text>
+
+  <!-- ===== Matrix A ===== -->
+  <text x="380" y="118" class="mlab" text-anchor="middle">A</text>
+  <g>
+    <rect x="290" y="130" width="60" height="60" class="blk"/><text x="320" y="165" class="idx" text-anchor="middle">A00</text>
+    <rect x="350" y="130" width="60" height="60" class="blk"/><text x="380" y="165" class="idx" text-anchor="middle">A01</text>
+    <rect x="410" y="130" width="60" height="60" class="blk"/><text x="440" y="165" class="idx" text-anchor="middle">A02</text>
+
+    <!-- Highlighted row of A (row 1) -->
+    <rect x="290" y="190" width="60" height="60" class="hl"/><text x="320" y="225" class="idx" text-anchor="middle">A10</text>
+    <rect x="350" y="190" width="60" height="60" class="hl"/><text x="380" y="225" class="idx" text-anchor="middle">A11</text>
+    <rect x="410" y="190" width="60" height="60" class="hl"/><text x="440" y="225" class="idx" text-anchor="middle">A12</text>
+
+    <rect x="290" y="250" width="60" height="60" class="blk"/><text x="320" y="285" class="idx" text-anchor="middle">A20</text>
+    <rect x="350" y="250" width="60" height="60" class="blk"/><text x="380" y="285" class="idx" text-anchor="middle">A21</text>
+    <rect x="410" y="250" width="60" height="60" class="blk"/><text x="440" y="285" class="idx" text-anchor="middle">A22</text>
+  </g>
+
+  <!-- Times -->
+  <text x="505" y="225" class="eq" text-anchor="middle">&#215;</text>
+
+  <!-- ===== Matrix B ===== -->
+  <text x="630" y="118" class="mlab" text-anchor="middle">B</text>
+  <g>
+    <rect x="540" y="130" width="60" height="60" class="blk"/><text x="570" y="165" class="idx" text-anchor="middle">B00</text>
+    <!-- Highlighted col of B (col 1) -->
+    <rect x="600" y="130" width="60" height="60" class="hl"/><text x="630" y="165" class="idx" text-anchor="middle">B01</text>
+    <rect x="660" y="130" width="60" height="60" class="blk"/><text x="690" y="165" class="idx" text-anchor="middle">B02</text>
+
+    <rect x="540" y="190" width="60" height="60" class="blk"/><text x="570" y="225" class="idx" text-anchor="middle">B10</text>
+    <rect x="600" y="190" width="60" height="60" class="hl"/><text x="630" y="225" class="idx" text-anchor="middle">B11</text>
+    <rect x="660" y="190" width="60" height="60" class="blk"/><text x="690" y="225" class="idx" text-anchor="middle">B12</text>
+
+    <rect x="540" y="250" width="60" height="60" class="blk"/><text x="570" y="285" class="idx" text-anchor="middle">B20</text>
+    <rect x="600" y="250" width="60" height="60" class="hl"/><text x="630" y="285" class="idx" text-anchor="middle">B21</text>
+    <rect x="660" y="250" width="60" height="60" class="blk"/><text x="690" y="285" class="idx" text-anchor="middle">B22</text>
+  </g>
+
+  <!-- Annotation -->
+  <rect x="100" y="360" width="600" height="110" rx="6" fill="#f0f4f8" stroke="#004065" stroke-width="1.5"/>
+  <text x="400" y="385" font-size="14" font-weight="bold" fill="#004065" text-anchor="middle">To compute the target block C11 (red):</text>
+  <text x="400" y="408" font-size="13" fill="#222" text-anchor="middle">C11 = A10&#183;B01 + A11&#183;B11 + A12&#183;B21</text>
+  <text x="400" y="430" font-size="12" fill="#555" font-style="italic" text-anchor="middle">Each process needs a row of A blocks + a column of B blocks (shown in gold)</text>
+  <text x="400" y="450" font-size="12" fill="#555" font-style="italic" text-anchor="middle">Communication ~ O(n^2 / sqrt(P))  --  far less than 1D decomposition</text>
+
+  <!-- Legend -->
+  <rect x="40" y="360" width="18" height="14" class="tgt"/>
+  <text x="62" y="372" font-size="11" fill="#222">target</text>
+  <rect x="40" y="378" width="18" height="14" class="hl"/>
+  <text x="62" y="390" font-size="11" fill="#222">needed</text>
+  <rect x="40" y="396" width="18" height="14" class="blk"/>
+  <text x="62" y="408" font-size="11" fill="#222">other</text>
+</svg>

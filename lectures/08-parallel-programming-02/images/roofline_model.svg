@@ -1,0 +1,118 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
+  <style>
+    text { font-family: 'Helvetica Neue', Arial, sans-serif; fill: #222; }
+    .title { font-size: 20px; font-weight: bold; fill: #004065; }
+    .axis { stroke: #333; stroke-width: 2; }
+    .tick { stroke: #333; stroke-width: 1; }
+    .grid { stroke: #e5e5e5; stroke-width: 1; }
+    .axlab { font-size: 14px; fill: #555; }
+    .tlab { font-size: 12px; fill: #555; }
+    .roof { stroke: #004065; stroke-width: 3; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+    .kernel { font-size: 13px; font-weight: bold; fill: #004065; }
+    .anno { font-size: 12px; fill: #666; font-style: italic; }
+  </style>
+
+  <!-- Title -->
+  <text x="400" y="34" class="title" text-anchor="middle">Roofline Model</text>
+  <text x="400" y="54" class="anno" text-anchor="middle">Performance bounded by compute peak and memory bandwidth</text>
+
+  <!-- Plot region: x from 90 to 740, y from 90 to 400 -->
+  <!-- X axis log scale: 1/8, 1/4, 1/2, 1, 2, 4, 8, 16, 32 -->
+  <!-- positions: 90, 171, 252, 333, 414, 495, 576, 657, 738 -->
+  <!-- Y axis log scale: 1, 4, 16, 64, 256, 1024 GFLOP/s -->
+  <!-- positions: 400, 338, 276, 214, 152, 90 -->
+
+  <!-- Grid vertical -->
+  <line x1="171" y1="90" x2="171" y2="400" class="grid"/>
+  <line x1="252" y1="90" x2="252" y2="400" class="grid"/>
+  <line x1="333" y1="90" x2="333" y2="400" class="grid"/>
+  <line x1="414" y1="90" x2="414" y2="400" class="grid"/>
+  <line x1="495" y1="90" x2="495" y2="400" class="grid"/>
+  <line x1="576" y1="90" x2="576" y2="400" class="grid"/>
+  <line x1="657" y1="90" x2="657" y2="400" class="grid"/>
+  <line x1="738" y1="90" x2="738" y2="400" class="grid"/>
+  <!-- Grid horizontal -->
+  <line x1="90" y1="338" x2="740" y2="338" class="grid"/>
+  <line x1="90" y1="276" x2="740" y2="276" class="grid"/>
+  <line x1="90" y1="214" x2="740" y2="214" class="grid"/>
+  <line x1="90" y1="152" x2="740" y2="152" class="grid"/>
+
+  <!-- Axes -->
+  <line x1="90" y1="400" x2="740" y2="400" class="axis"/>
+  <line x1="90" y1="90" x2="90" y2="400" class="axis"/>
+
+  <!-- X ticks + labels -->
+  <line x1="90"  y1="400" x2="90"  y2="406" class="tick"/><text x="90"  y="422" class="tlab" text-anchor="middle">1/8</text>
+  <line x1="171" y1="400" x2="171" y2="406" class="tick"/><text x="171" y="422" class="tlab" text-anchor="middle">1/4</text>
+  <line x1="252" y1="400" x2="252" y2="406" class="tick"/><text x="252" y="422" class="tlab" text-anchor="middle">1/2</text>
+  <line x1="333" y1="400" x2="333" y2="406" class="tick"/><text x="333" y="422" class="tlab" text-anchor="middle">1</text>
+  <line x1="414" y1="400" x2="414" y2="406" class="tick"/><text x="414" y="422" class="tlab" text-anchor="middle">2</text>
+  <line x1="495" y1="400" x2="495" y2="406" class="tick"/><text x="495" y="422" class="tlab" text-anchor="middle">4</text>
+  <line x1="576" y1="400" x2="576" y2="406" class="tick"/><text x="576" y="422" class="tlab" text-anchor="middle">8</text>
+  <line x1="657" y1="400" x2="657" y2="406" class="tick"/><text x="657" y="422" class="tlab" text-anchor="middle">16</text>
+  <line x1="738" y1="400" x2="738" y2="406" class="tick"/><text x="738" y="422" class="tlab" text-anchor="middle">32</text>
+
+  <!-- Y ticks + labels -->
+  <line x1="84" y1="400" x2="90" y2="400" class="tick"/><text x="80" y="404" class="tlab" text-anchor="end">1</text>
+  <line x1="84" y1="338" x2="90" y2="338" class="tick"/><text x="80" y="342" class="tlab" text-anchor="end">4</text>
+  <line x1="84" y1="276" x2="90" y2="276" class="tick"/><text x="80" y="280" class="tlab" text-anchor="end">16</text>
+  <line x1="84" y1="214" x2="90" y2="214" class="tick"/><text x="80" y="218" class="tlab" text-anchor="end">64</text>
+  <line x1="84" y1="152" x2="90" y2="152" class="tick"/><text x="80" y="156" class="tlab" text-anchor="end">256</text>
+  <line x1="84" y1="90"  x2="90" y2="90"  class="tick"/><text x="80" y="94"  class="tlab" text-anchor="end">1024</text>
+
+  <!-- Axis labels -->
+  <text x="415" y="450" class="axlab" text-anchor="middle">Arithmetic Intensity (FLOPs / byte)  -- log scale</text>
+  <text x="30" y="245" class="axlab" text-anchor="middle" transform="rotate(-90,30,245)">Performance (GFLOP/s)  -- log scale</text>
+
+  <!-- Roofline:
+       Memory-bound slope: P = BW * AI. Choose BW so that at AI=1 (x=333), P=32 GFLOP/s (between 16 and 64).
+       log2(32)=5 -> y = 276 - (5-4)*15.5... use direct: y for 32 is between 276(16) and 214(64).
+       Map log2(P) to y: y = 400 - log2(P)*31
+       Peak compute = 512 GFLOP/s -> y = 400 - 9*31 = 400 - 279 = 121
+       Slope line: at AI = 1/8 (x=90), P = BW*1/8. If BW=32 GB/s -> P=4 -> y=338
+       at AI = 1 (x=333), P=32 -> y=245
+       at AI = 16 (x=657), P=512 -> y=121 (ridge)
+       Ridge at AI = Peak/BW = 512/32 = 16 -> x=657, y=121
+       Horizontal roof from ridge to right: (657,121) to (740,121)
+  -->
+
+  <!-- Memory-bound slope (from 90,338 to 657,121) -->
+  <line x1="90" y1="338" x2="657" y2="121" class="roof"/>
+  <!-- Compute roof (from 657,121 to 740,121) -->
+  <line x1="657" y1="121" x2="740" y2="121" class="roof"/>
+
+  <!-- Roof labels -->
+  <text x="230" y="215" class="kernel" transform="rotate(-21,230,215)">DRAM BW  (slope)</text>
+  <text x="700" y="112" class="kernel" text-anchor="middle">Peak FLOP/s</text>
+
+  <!-- Ridge point -->
+  <circle cx="657" cy="121" r="5" fill="#FFD200" stroke="#004065" stroke-width="2"/>
+  <text x="645" y="110" class="tlab" text-anchor="end" fill="#004065" font-weight="bold">ridge point</text>
+
+  <!-- Kernels -->
+  <!-- SpMV: AI ~ 1/4 (x=171), attained ~ 8 GFLOP/s (y ~ 307) -->
+  <circle cx="171" cy="307" r="8" fill="#e74c3c" stroke="#004065" stroke-width="2"/>
+  <text x="182" y="303" class="kernel" fill="#e74c3c">SpMV</text>
+  <text x="182" y="318" class="anno" fill="#666">memory-bound</text>
+
+  <!-- Stencil: AI ~ 4 (x=495), near ridge y ~ 183 (P ~ 128) -->
+  <circle cx="495" cy="183" r="8" fill="#2ecc71" stroke="#004065" stroke-width="2"/>
+  <text x="508" y="179" class="kernel" fill="#2ecc71">Stencil</text>
+  <text x="508" y="194" class="anno" fill="#666">near ridge</text>
+
+  <!-- GEMM: AI ~ 16+ on roof, x=720, y=111 (just above roof pinned) -->
+  <circle cx="720" cy="121" r="8" fill="#004065" stroke="#004065" stroke-width="2"/>
+  <text x="715" y="142" class="kernel" text-anchor="middle" fill="#004065">GEMM</text>
+  <text x="715" y="157" class="anno" text-anchor="middle">compute-bound</text>
+
+  <!-- Legend -->
+  <rect x="95" y="462" width="620" height="28" rx="4" fill="white" stroke="#ddd" stroke-width="1"/>
+  <circle cx="112" cy="476" r="6" fill="#e74c3c" stroke="#004065" stroke-width="1.5"/>
+  <text x="125" y="480" class="tlab">SpMV (memory-bound)</text>
+  <circle cx="295" cy="476" r="6" fill="#2ecc71" stroke="#004065" stroke-width="1.5"/>
+  <text x="308" y="480" class="tlab">Stencil (near ridge)</text>
+  <circle cx="460" cy="476" r="6" fill="#004065" stroke="#004065" stroke-width="1.5"/>
+  <text x="473" y="480" class="tlab">GEMM (compute-bound)</text>
+  <circle cx="630" cy="476" r="5" fill="#FFD200" stroke="#004065" stroke-width="1.5"/>
+  <text x="642" y="480" class="tlab">ridge point</text>
+</svg>
