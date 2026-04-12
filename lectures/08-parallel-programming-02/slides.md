@@ -45,17 +45,17 @@ Note: This fact explains almost everything about modern parallel architecture. W
 
 ## Latency, Bandwidth, and Arithmetic Intensity
 
-Three numbers tell you everything about whether your program is **communication-bound** or **compute-bound**:
+Three numbers tell you whether your program is <span class="accent">communication-bound</span> or <span class="accent">compute-bound</span>:
 
-| Metric | What It Measures | Why You Care | What It Tells You |
+| Metric | Measures | Bottleneck Sign | Fix |
 |---|---|---|---|
-| **Latency ($\alpha$)** | Fixed cost to start one message (μs) | Dominates when you send **many small messages** | High latency + small messages = **latency-bound**. Fix: batch messages, reduce communication frequency |
-| **Bandwidth ($\beta$)** | Max data rate for large transfers (GB/s) | Dominates when you move **large volumes** of data | Low bandwidth + big transfers = **bandwidth-bound**. Fix: compress data, reduce what you send |
-| **Arithmetic Intensity** | $\frac{\text{FLOPs performed}}{\text{bytes moved}}$ | The ratio that decides everything | Low = **memory/IO-bound** (need less data movement). High = **compute-bound** (you're using the hardware well) |
+| **Latency** ($\alpha$) | Fixed startup cost per message | Many small messages | Batch messages together |
+| **Bandwidth** ($\beta$) | Max transfer rate (GB/s) | Moving large volumes | Send less data, compress |
+| **Arith. Intensity** | FLOPs / bytes moved | Low ratio = <span class="accent">IO-bound</span> | Restructure algorithm, block data |
 
 $$T_{\text{message}} = \alpha + \frac{n}{\beta}$$
 
-> **The diagnostic:** Compute your kernel's arithmetic intensity. If it's below your hardware's ridge point, no amount of code tuning will help -- you need to move less data or do more work per byte.
+> **The diagnostic:** Compute your kernel's arithmetic intensity. If it's low, you're <span class="accent">IO-bound</span> -- move less data or do more work per byte. If it's high, you're <span class="accent">compute-bound</span> -- the good case.
 
 Note: This is the single most important slide in the lecture. Every performance question in parallel computing reduces to: am I moving too much data (bandwidth-bound), sending too many small messages (latency-bound), or actually limited by compute (rare, and the good case)? Arithmetic intensity is the number that answers this instantly. We'll see it again in the roofline model two slides from now.
 
