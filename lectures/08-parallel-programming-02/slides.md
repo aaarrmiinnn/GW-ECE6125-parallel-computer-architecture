@@ -80,13 +80,14 @@ Approximate costs on a modern system (2026):
 | Operation | Latency | Bandwidth |
 |---|---|---|
 | L1 cache access | ~1 ns | ~1 TB/s |
+| L2 cache access | ~4 ns | ~600 GB/s |
 | L3 cache access | ~10 ns | ~400 GB/s |
 | Local DRAM access | ~100 ns | ~100 GB/s |
 | Remote DRAM (NUMA) | ~200 ns | ~50 GB/s |
 | NVLink (GPU↔GPU, same node) | ~1 μs | ~900 GB/s |
 | InfiniBand (node↔node) | ~1–2 μs | ~50 GB/s |
 | Ethernet (cloud, cross-rack) | ~50 μs | ~25 GB/s |
-| Cross-region WAN | ~50 ms | varies |
+| Cross-region network (WAN) | ~50 ms | varies |
 
 Note: Every step down this table is roughly 10× slower than the one above it. Good parallel algorithms structure themselves around this hierarchy: do as much work as possible at the top of the table, and move data across the expensive boundaries only when absolutely necessary. This is why GPU programmers obsess over shared memory and coalesced access -- they're fighting this table at every level.
 
@@ -94,17 +95,25 @@ Note: Every step down this table is roughly 10× slower than the one above it. G
 
 ## The Roofline Model
 
-A picture of what limits your program:
+The roofline answers one question: **is my program limited by computation or by data movement?**
 
 ![Roofline model: arithmetic intensity vs achievable performance](images/roofline_model.svg)
 
-- **Memory-bound region** (left): performance rises with arithmetic intensity -- you're limited by bandwidth
-- **Compute-bound region** (right): performance plateaus at peak FLOP/s -- you're limited by the processor
-- **Ridge point**: the intensity at which you transition
+- **Diagonal slope** (left) = memory bandwidth ceiling -- performance rises with arithmetic intensity
+- **Flat roof** (right) = peak FLOP/s ceiling -- the processor's maximum
+- **Ridge point** = where you transition from <span class="accent">IO-bound</span> to <span class="accent">compute-bound</span>
 
-> If your kernel lands on the memory-bound slope, buying a faster CPU won't help. You need to raise arithmetic intensity -- by blocking, fusing operations, or changing the algorithm.
+The example kernels on the plot:
 
-Note: The roofline model was popularized by Sam Williams at Berkeley around 2009 and is now the standard way performance engineers reason about kernels on CPUs, GPUs, and accelerators. NVIDIA Nsight, Intel Advisor, and AMD uProf all generate roofline plots automatically. If your point is well below the roof, you know there's headroom; if it's on the roof, further optimization requires architectural changes.
+| Kernel | What It Does | Intensity | Why It Lands There |
+|---|---|---|---|
+| **SpMV** (Sparse Matrix-Vector multiply) | Multiply a sparse matrix by a vector | ~2 FLOPs/byte | Mostly loading scattered matrix entries -- very little compute per byte |
+| **Stencil** | Update grid points from neighbors (e.g., heat simulation) | ~5-10 FLOPs/byte | Moderate -- each point uses a few neighbors |
+| **GEMM** (Dense Matrix Multiply) | Multiply two dense matrices | ~50+ FLOPs/byte | O(n³) work on O(n²) data -- the best case for hardware utilization |
+
+> If your kernel is on the slope, a faster processor won't help. Move less data or restructure the algorithm.
+
+Note: The roofline model was popularized by Sam Williams at Berkeley around 2009 and is now the standard way performance engineers reason about kernels. NVIDIA Nsight, Intel Advisor, and AMD uProf all generate roofline plots automatically. If your point is well below the roof, there's optimization headroom; if it's on the roof, you need algorithmic or architectural changes.
 
 ---
 
