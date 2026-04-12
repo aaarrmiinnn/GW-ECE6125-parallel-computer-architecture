@@ -179,9 +179,23 @@ Note: Students often confuse fences with locks. A fence doesn't block other thre
 
 ## Part 2: Communication Patterns
 
-### The vocabulary of parallel data exchange
+### The programmer's toolkit for moving data
 
-Note: Nearly every parallel algorithm uses one or more of these patterns. Learning to recognize them lets you reach for the right MPI collective or NCCL call instead of hand-coding point-to-point messages.
+Every time parallel tasks need to share data, the programmer chooses a **communication pattern**. The wrong choice can be 100× slower than the right one.
+
+These patterns are **not MPI-specific** -- they appear everywhere:
+
+| Framework | How You Access Them |
+|---|---|
+| **MPI** | `MPI_Bcast`, `MPI_Scatter`, `MPI_Allreduce`, ... |
+| **NCCL** (GPU) | `ncclBroadcast`, `ncclAllReduce`, ... |
+| **OpenMP** | `#pragma omp for reduction(+:sum)`, implicit barriers |
+| **Spark / Dask** | `reduceByKey`, `groupBy`, `broadcast` variables |
+| **CUDA** | Warp shuffles, shared memory, cooperative groups |
+
+> The patterns are universal. The API names change; the ideas don't.
+
+Note: This is a key insight students miss -- they think collectives are an MPI thing. In reality, every parallel framework implements the same small set of patterns because the underlying math of data movement is the same regardless of the programming model. Once you learn to recognize "this is a scatter" or "this is an all-reduce," you can apply that knowledge in any framework.
 
 ---
 
