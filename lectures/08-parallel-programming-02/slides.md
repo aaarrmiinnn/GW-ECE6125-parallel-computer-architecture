@@ -153,6 +153,30 @@ Note: Non-blocking communication is the standard practice in production HPC code
 
 ---
 
+## Recap: Synchronization and Ordering Mechanisms
+
+A quick reference of every mechanism that controls **when** and **in what order** parallel work happens:
+
+| Mechanism | What It Does | Scope |
+|---|---|---|
+| **Mutex / Lock** | Only one thread enters the critical section at a time | Shared memory (threads) |
+| **Atomic operation** | Read-modify-write in one hardware instruction (CAS, fetch-add) | Shared memory (threads) |
+| **Barrier** | All threads/ranks must arrive before any proceed | Threads or MPI ranks |
+| **Semaphore** | Allow up to N concurrent accesses | Threads |
+| **Memory fence** | Force all prior loads/stores to complete before proceeding | Single thread -- controls what *other* threads see |
+| **Acquire / Release** | Fence variants: acquire = "see all writes before the lock"; release = "flush my writes before unlocking" | Lock/unlock boundaries |
+| **Volatile / _Atomic** | Compiler: don't optimize away or reorder this access | Single variable |
+| **MPI_Barrier** | Global synchronization across all ranks | Distributed (MPI) |
+| **MPI_Wait / Waitall** | Block until non-blocking operation completes | Distributed (MPI) |
+| **cudaDeviceSynchronize** | Host waits for all GPU kernels to finish | GPU stream |
+| **cudaStreamSynchronize** | Host waits for one specific GPU stream | GPU stream |
+
+> **Fences vs. locks:** A lock protects a *section* of code. A fence controls *memory visibility* -- it ensures other cores see your writes in the right order. You often need both: the lock for mutual exclusion, the fence (built into the lock) for ordering.
+
+Note: Students often confuse fences with locks. A fence doesn't block other threads -- it tells the hardware "make sure my writes are visible before I continue." Locks use fences internally (acquire fence on lock, release fence on unlock), but you can also use standalone fences for lock-free algorithms. The C11/C++11 memory model formalizes this with memory_order_acquire, memory_order_release, and memory_order_seq_cst. We covered the hardware side (store buffers, invalidation queues) in Lecture 6 on cache coherence.
+
+---
+
 ## Part 2: Communication Patterns
 
 ### The vocabulary of parallel data exchange
