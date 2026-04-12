@@ -37,7 +37,9 @@ A single CPU core in 2026 can execute ~10 billion floating-point operations per 
 
 **Analogy:** Imagine a chef who can chop vegetables at superhuman speed, but the pantry is a 10-minute walk away. The chef's peak speed is irrelevant — the walking time decides how many meals get made.
 
-Note: This fact explains almost everything about modern parallel architecture. Why do we have caches? To avoid the walk. Why are GPUs fast for ML? Because matrix multiply does O(n³) work on O(n²) data — the ratio of compute to communication is high. Why is all-reduce the hot topic in distributed training? Because it's the step that limits how many GPUs you can usefully throw at a model.
+> **Think about it:** What strategies can we use to hide or reduce the cost of moving data? We've already seen the hardware's answers — caches, coherence protocols, fast interconnects. Today's question: what can the *programmer* do?
+
+Note: This fact explains almost everything about modern parallel architecture. Why do we have caches? To avoid the walk. Why are GPUs fast for ML? Because matrix multiply does O(n³) work on O(n²) data — the ratio of compute to communication is high. Why is all-reduce the hot topic in distributed training? Because it's the step that limits how many GPUs you can usefully throw at a model. The question at the end bridges prior lectures (hardware solutions) to today's content (software solutions): overlapping communication with computation, choosing the right collective, raising arithmetic intensity, and picking the right programming model.
 
 ---
 
