@@ -103,15 +103,9 @@ The roofline answers one question: **is my program limited by computation or by 
 - **Flat roof** (right) = peak FLOP/s ceiling -- the processor's maximum
 - **Ridge point** = where you transition from <span class="accent">IO-bound</span> to <span class="accent">compute-bound</span>
 
-The example kernels on the plot:
-
-| Kernel | What It Does | Intensity | Why It Lands There |
-|---|---|---|---|
-| **SpMV** (Sparse Matrix-Vector multiply) | Multiply a sparse matrix by a vector | ~2 FLOPs/byte | Mostly loading scattered matrix entries -- very little compute per byte |
-| **Stencil** | Update grid points from neighbors (e.g., heat simulation) | ~5-10 FLOPs/byte | Moderate -- each point uses a few neighbors |
-| **GEMM** (Dense Matrix Multiply) | Multiply two dense matrices | ~50+ FLOPs/byte | O(n³) work on O(n²) data -- the best case for hardware utilization |
-
 > If your kernel is on the slope, a faster processor won't help. Move less data or restructure the algorithm.
+
+*Kernels on the plot: **SpMV** = sparse matrix-vector multiply (~2 FLOPs/byte, IO-bound). **Stencil** = neighbor grid update (~5-10). **GEMM** = dense matrix multiply (~50+, compute-bound).*
 
 Note: The roofline model was popularized by Sam Williams at Berkeley around 2009 and is now the standard way performance engineers reason about kernels. NVIDIA Nsight, Intel Advisor, and AMD uProf all generate roofline plots automatically. If your point is well below the roof, there's optimization headroom; if it's on the roof, you need algorithmic or architectural changes.
 
