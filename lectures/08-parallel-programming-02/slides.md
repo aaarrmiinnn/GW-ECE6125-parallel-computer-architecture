@@ -179,11 +179,17 @@ Note: Students often confuse fences with locks. A fence doesn't block other thre
 
 ## Part 2: Communication Patterns
 
-### The programmer's toolkit for moving data
+### The vocabulary of parallel data exchange
 
-Every time parallel tasks need to share data, the programmer chooses a **communication pattern**. The wrong choice can be 100× slower than the right one.
+Note: Nearly every parallel algorithm uses one or more of these patterns. Learning to recognize them lets you reach for the right collective call instead of hand-coding point-to-point messages.
 
-These patterns are **not MPI-specific** -- they appear everywhere:
+---
+
+## Communication Patterns Are Universal
+
+Every time parallel tasks need to share data, the programmer chooses a **pattern**. The wrong choice can be 100× slower than the right one.
+
+These patterns are **not MPI-specific** -- they appear in every framework:
 
 | Framework | How You Access Them |
 |---|---|
@@ -193,9 +199,9 @@ These patterns are **not MPI-specific** -- they appear everywhere:
 | **Spark / Dask** | `reduceByKey`, `groupBy`, `broadcast` variables |
 | **CUDA** | Warp shuffles, shared memory, cooperative groups |
 
-> The patterns are universal. The API names change; the ideas don't.
+> The API names change; the ideas don't.
 
-Note: This is a key insight students miss -- they think collectives are an MPI thing. In reality, every parallel framework implements the same small set of patterns because the underlying math of data movement is the same regardless of the programming model. Once you learn to recognize "this is a scatter" or "this is an all-reduce," you can apply that knowledge in any framework.
+Note: This is a key insight students miss -- they think collectives are an MPI thing. In reality, every parallel framework implements the same small set of patterns because the underlying math of data movement is the same regardless of the programming model.
 
 ---
 
