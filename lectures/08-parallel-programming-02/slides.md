@@ -49,13 +49,16 @@ Three numbers define the cost of every communication:
 
 | Term | Definition | Units |
 |---|---|---|
-| **Latency** | Time to deliver *one* message, independent of size | microseconds (μs) |
-| **Bandwidth** | Steady-state data rate for large transfers | gigabytes/second (GB/s) |
-| **Message time** | `latency + (bytes / bandwidth)` | seconds |
+| **Latency ($\alpha$)** | Time to deliver *one* message, independent of size | microseconds (μs) |
+| **Bandwidth ($\beta$)** | Steady-state data rate for large transfers | gigabytes/second (GB/s) |
 
-For small messages, **latency dominates**. For large messages, **bandwidth dominates**. The crossover is usually a few kilobytes.
+$$T_{\text{message}} = \alpha + \frac{n}{\beta}$$
 
-> **Arithmetic intensity** = FLOPs performed ÷ bytes communicated. If it's low, you're memory-bound. If it's high, you're compute-bound.
+where $n$ is the message size in bytes. For small $n$, **latency dominates**. For large $n$, **bandwidth dominates**.
+
+![Message time vs message size: latency vs bandwidth regimes](images/message_time_curve.svg)
+
+> **Arithmetic intensity** $= \frac{\text{FLOPs performed}}{\text{bytes communicated}}$. Low → memory-bound. High → compute-bound.
 
 Note: Arithmetic intensity is the single most useful number to compute when you're analyzing a parallel algorithm. Dense matrix multiply has high intensity (~n operations per byte loaded, with blocking). Sparse matrix-vector multiply has low intensity (~2 operations per byte). This tells you before writing a line of code whether your algorithm will scale.
 
