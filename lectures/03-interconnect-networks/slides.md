@@ -46,7 +46,7 @@ The **Network Interface Controller (NIC)**, also called the **Host Interface**, 
 
 **Primary Responsibilities:**
 - Connects a computer node (CPU, memory) to the network fabric
-- Manages **bidirectional traffic** — data flows both to and from the network
+- Manages **bidirectional traffic** -- data flows both to and from the network
 - Offloads communication tasks from the CPU, improving overall system efficiency
 
 ![NIC Architecture](images/nic-architecture.svg)
@@ -86,7 +86,7 @@ The **Network Interface Controller (NIC)**, also called the **Host Interface**, 
 
 ## Basic Definitions: Switches
 
-**Switches** are the traffic directors of the network — they receive packets and forward them toward their destination.
+**Switches** are the traffic directors of the network -- they receive packets and forward them toward their destination.
 
 - Connect a fixed number of **input** and **output** channels/links
 - Each **input port** has a **receiver (RX)** and **input buffer** to hold incoming data
@@ -236,12 +236,12 @@ Controls **when messages or portions of them traverse the network**
 ## Direct vs Indirect: Key Differences
 
 **Direct Networks** (Mesh, Torus, Hypercube)
-- Every node is also a router — participates in forwarding traffic
+- Every node is also a router -- participates in forwarding traffic
 - Fixed topology with predictable routes
 - Great for **local communication** (nearby nodes)
 
 **Indirect Networks** (Fat Tree, Clos, Butterfly)
-- Nodes only compute — dedicated switches handle all routing
+- Nodes only compute -- dedicated switches handle all routing
 - More flexible paths, often multiple routes between nodes
 - Great for **all-to-all communication** (any node to any node)
 
@@ -379,7 +379,7 @@ The fundamental trade-off: **more connections reduce diameter but increase cost*
 
 **Barrel Shifter:** Connections at powers of 2 (1, 2, 4, 8...) for efficient shifting operations
 
-**Fully Connected:** Degree=N-1, diameter=1, but O(N²) wires — impractical for large N
+**Fully Connected:** Degree=N-1, diameter=1, but O(N²) wires -- impractical for large N
 
 ---
 
