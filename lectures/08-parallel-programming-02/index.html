@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/theme/white.min.css" id="theme">
     
     <!-- Plugins CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/vs.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/plugin/highlight/monokai.css">
     
     <!-- PDF Export - Directly include the print stylesheet -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/css/print/pdf.css" media="print">
@@ -127,6 +127,22 @@
             border-radius: 4px;
             font-size: 1em;
         }
+
+        /* Light IDE-style syntax highlighting */
+        .reveal pre code.hljs {
+            background: #fafafa;
+            color: #222;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+        }
+        .hljs-comment { color: #008000 !important; font-style: italic; }
+        .hljs-keyword, .hljs-built_in { color: #0000ff !important; }
+        .hljs-string { color: #a31515 !important; }
+        .hljs-number { color: #098658 !important; }
+        .hljs-function .hljs-title, .hljs-title.function_ { color: #795e26 !important; }
+        .hljs-type, .hljs-class .hljs-title { color: #267f99 !important; }
+        .hljs-meta, .hljs-preprocessor { color: #808080 !important; }
+        .hljs-attr, .hljs-attribute { color: #e50000 !important; }
         
         /* ── Title slide (only slide with H1) ─────────────────── */
         .reveal .slides section:has(> h1) {
