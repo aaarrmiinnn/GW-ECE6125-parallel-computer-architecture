@@ -29,11 +29,11 @@ Note: If we could keep doubling single-core speed, parallel programming wouldn't
 
 **Writing software that breaks a computation into pieces that execute simultaneously on multiple processors.**
 
-> **Analogy:** Building a house with 1 worker vs. 10 workers. More workers *can* finish faster — but only if you plan who does what, avoid conflicts (two workers painting the same wall), and coordinate handoffs (electrician finishes before drywaller starts).
+> **Analogy:** Building a house with 1 worker vs. 10 workers. More workers *can* finish faster -- but only if you plan who does what, avoid conflicts (two workers painting the same wall), and coordinate handoffs (electrician finishes before drywaller starts).
 
 ![Sequential vs. parallel execution](images/sequential_vs_parallel.svg)
 
-Note: The house analogy captures every challenge we'll cover: decomposition (divide the house into tasks), assignment (who does what), synchronization (electrician before drywaller), and why 10 workers ≠ 10× speedup — some tasks are inherently sequential (pouring the foundation).
+Note: The house analogy captures every challenge we'll cover: decomposition (divide the house into tasks), assignment (who does what), synchronization (electrician before drywaller), and why 10 workers ≠ 10× speedup -- some tasks are inherently sequential (pouring the foundation).
 
 ---
 
@@ -43,11 +43,11 @@ Note: The house analogy captures every challenge we'll cover: decomposition (div
 
 Power ∝ Voltage² × Frequency, and voltage must increase with frequency.
 
-**What happened:** Intel's Pentium 4 Prescott (2004) hit 130W at 3.8 GHz — a thermal disaster. The planned 4+ GHz successors were cancelled.
+**What happened:** Intel's Pentium 4 Prescott (2004) hit 130W at 3.8 GHz -- a thermal disaster. The planned 4+ GHz successors were cancelled.
 
 **The industry's response:** Stop making cores faster. Put **more cores** on the chip instead. Intel Core 2 Duo (2006) marked the shift.
 
-Note: Clock speeds have been stuck at ~4-5 GHz since 2005. Moore's Law continues — transistor counts still double — but those transistors now go into more cores, wider SIMD units, and specialized accelerators, not faster single cores.
+Note: Clock speeds have been stuck at ~4-5 GHz since 2005. Moore's Law continues -- transistor counts still double -- but those transistors now go into more cores, wider SIMD units, and specialized accelerators, not faster single cores.
 
 ---
 
@@ -56,13 +56,13 @@ Note: Clock speeds have been stuck at ~4-5 GHz since 2005. Moore's Law continues
 | Wall | Problem | Why It Matters |
 |---|---|---|
 | **Memory Wall** | CPU speed grew ~50%/year, memory speed grew ~7%/year | CPUs spend most time **waiting for data** |
-| **ILP Wall** | Out-of-order execution, branch prediction — diminishing returns | Sequential code has limited parallelism to extract |
+| **ILP Wall** | Out-of-order execution, branch prediction -- diminishing returns | Sequential code has limited parallelism to extract |
 
 **Bottom line:** Single-core performance hit a ceiling. The only path forward is **parallel execution**.
 
 ![Moore's Law and the multi-core transition](images/moores_law_multicore.svg)
 
-Note: The Memory Wall is why we spent two lectures on cache coherence — caches exist to hide memory latency. The ILP Wall means even the cleverest hardware can only find so much parallelism in sequential code. Together, these walls made multi-core inevitable.
+Note: The Memory Wall is why we spent two lectures on cache coherence -- caches exist to hide memory latency. The ILP Wall means even the cleverest hardware can only find so much parallelism in sequential code. Together, these walls made multi-core inevitable.
 
 ---
 
@@ -78,13 +78,13 @@ $$Speedup = \frac{1}{s + \frac{1-s}{P}}$$
 | 5% | 20× |
 | 1% | 100× |
 
-> **The lesson:** Before parallelizing, find and minimize the serial bottleneck. Adding more processors won't help if 10% of your code is sequential — you're capped at 10×.
+> **The lesson:** Before parallelizing, find and minimize the serial bottleneck. Adding more processors won't help if 10% of your code is sequential -- you're capped at 10×.
 
-**As P grows, the speedup approaches 1/s.** With 10% serial code, 16 processors give ~6.4× — already more than half the theoretical max of 10×. Doubling to 32 processors only gets you to ~7.5×. The closer you get to the ceiling, the less each added processor helps.
+**As P grows, the speedup approaches 1/s.** With 10% serial code, 16 processors give ~6.4× -- already more than half the theoretical max of 10×. Doubling to 32 processors only gets you to ~7.5×. The closer you get to the ceiling, the less each added processor helps.
 
-![Amdahl's Law — speedup curves](images/amdahls_law.svg)
+![Amdahl's Law -- speedup curves](images/amdahls_law.svg)
 
-Note: Amdahl's Law is the single most important equation in parallel computing. It tells you the theoretical ceiling before you write a single line of code. Notice how the curves flatten — each doubling of processors buys less and less speedup. In practice, real speedups are even lower because of communication overhead and load imbalance.
+Note: Amdahl's Law is the single most important equation in parallel computing. It tells you the theoretical ceiling before you write a single line of code. Notice how the curves flatten -- each doubling of processors buys less and less speedup. In practice, real speedups are even lower because of communication overhead and load imbalance.
 
 ---
 
@@ -99,11 +99,11 @@ Amdahl's Law assumes a **fixed problem size** (strong scaling). But in practice,
 | **Governed by** | Amdahl's Law | Gustafson's Law |
 | **Example** | Weather forecast: same grid, more CPUs → faster | Weather forecast: finer grid, more CPUs → same time, better resolution |
 
-**Efficiency** = Speedup / P — how well you're using each processor. An efficiency of 100% means every processor is doing useful work the entire time. In weak scaling, efficiency is the key metric: ideally it stays near 100% as you add processors.
+**Efficiency** = Speedup / P -- how well you're using each processor. An efficiency of 100% means every processor is doing useful work the entire time. In weak scaling, efficiency is the key metric: ideally it stays near 100% as you add processors.
 
 ![Strong vs. weak scaling](images/strong_vs_weak_scaling.svg)
 
-Note: In the AI era, weak scaling dominates. When you double your GPUs, you typically double the batch size and train in the same time — that's Gustafson's Law. ML training is *designed* for weak scaling. Strong scaling still matters for latency-critical workloads like real-time inference.
+Note: In the AI era, weak scaling dominates. When you double your GPUs, you typically double the batch size and train in the same time -- that's Gustafson's Law. ML training is *designed* for weak scaling. Strong scaling still matters for latency-critical workloads like real-time inference.
 
 ---
 
@@ -117,7 +117,7 @@ Note: In the AI era, weak scaling dominates. When you double your GPUs, you typi
 | **Deadlocks** | Threads wait for each other's locks forever → program hangs |
 | **Non-determinism** | Bugs appear sometimes, disappear when you add print statements |
 
-Note: Parallel bugs are fundamentally harder than sequential bugs. Sequential bugs are reproducible — same input, same crash. Parallel bugs depend on timing: thread A might finish before B 99% of the time, but the 1% where B wins causes corruption. These are called **heisenbugs** — they disappear when you try to observe them.
+Note: Parallel bugs are fundamentally harder than sequential bugs. Sequential bugs are reproducible -- same input, same crash. Parallel bugs depend on timing: thread A might finish before B 99% of the time, but the 1% where B wins causes corruption. These are called **heisenbugs** -- they disappear when you try to observe them.
 
 ---
 
@@ -129,7 +129,7 @@ Note: Parallel bugs are fundamentally harder than sequential bugs. Sequential bu
 | **Load imbalance** | Some processors finish early and wait for others |
 | **Communication overhead** | Time spent moving data between processors, not computing |
 
-> "Making sequential programs run in parallel is so hard that it's considered one of computer science's grand challenges." — Tim Mattson, Intel
+> "Making sequential programs run in parallel is so hard that it's considered one of computer science's grand challenges." -- Tim Mattson, Intel
 
 Note: Over-synchronization is the #1 performance killer. Many parallel programs run slower than sequential because they spend more time coordinating than computing. The art of parallel programming is minimizing synchronization while maintaining correctness.
 
@@ -156,7 +156,7 @@ Note: Before writing parallel code, recognize what kind of parallelism your prob
 2. Which operations **depend on another's result**? → Must be sequential
 3. Which operations **share data**? → Need synchronization
 
-Note: The mental shift is hard. Take any algorithm you know, draw its dependency graph, and find the longest chain of dependent operations — that's your serial bottleneck, and Amdahl's Law applies to it.
+Note: The mental shift is hard. Take any algorithm you know, draw its dependency graph, and find the longest chain of dependent operations -- that's your serial bottleneck, and Amdahl's Law applies to it.
 
 ---
 
@@ -168,11 +168,11 @@ Note: The mental shift is hard. Take any algorithm you know, draw its dependency
 | **Task Parallelism** | Different operations at the same time | Game engine: physics + rendering + AI |
 | **Pipeline Parallelism** | Data flows through stages; different items at different stages | Video: decode → filter → encode |
 
-**Which dominates?** Data parallelism — because the largest computations (matrix algebra, neural networks, image processing) apply the same operation to millions of elements.
+**Which dominates?** Data parallelism -- because the largest computations (matrix algebra, neural networks, image processing) apply the same operation to millions of elements.
 
 ![Types of parallelism](images/types_of_parallelism.svg)
 
-Note: These types aren't mutually exclusive. A video encoder uses all three: pipeline (decode → process → encode), data parallelism within each stage (process many pixels at once), and task parallelism (audio encoding in parallel with video). But data parallelism is why GPUs exist — thousands of cores doing the same operation on different data.
+Note: These types aren't mutually exclusive. A video encoder uses all three: pipeline (decode → process → encode), data parallelism within each stage (process many pixels at once), and task parallelism (audio encoding in parallel with video). But data parallelism is why GPUs exist -- thousands of cores doing the same operation on different data.
 
 ---
 
@@ -190,17 +190,17 @@ Some problems have **zero dependencies** between parallel pieces. No synchroniza
 
 ![Parallel image processing](images/parallel-image-processing.svg)
 
-Note: Embarrassingly parallel problems are the dream case — they scale nearly linearly with processor count. Instagram filters, Monte Carlo simulations, and MapReduce jobs are all embarrassingly parallel. The hard problems are the ones with dependencies between pieces.
+Note: Embarrassingly parallel problems are the dream case -- they scale nearly linearly with processor count. Instagram filters, Monte Carlo simulations, and MapReduce jobs are all embarrassingly parallel. The hard problems are the ones with dependencies between pieces.
 
 ---
 
 ## The SPMD Model
 
-**Single Program, Multiple Data** — the dominant parallel programming pattern.
+**Single Program, Multiple Data** -- the dominant parallel programming pattern.
 
 One program is written once. The runtime launches many copies. Each copy uses its **unique ID** to decide which data to work on.
 
-**OpenMP (C) — shared-memory parallelism with compiler directives:**
+**OpenMP (C) -- shared-memory parallelism with compiler directives:**
 ```c
 #pragma omp parallel                       // Fork: launch a team of threads
 {
@@ -215,7 +215,7 @@ One program is written once. The runtime launches many copies. Each copy uses it
 
 **Used everywhere:** MPI programs, CUDA kernels, OpenMP parallel regions, MapReduce jobs, Spark transformations.
 
-Note: SPMD is so widespread because it's simple: same code, different data. CUDA takes this to the extreme — a kernel launches thousands of threads, each computing one output element. The programmer writes code for ONE thread; the hardware replicates it.
+Note: SPMD is so widespread because it's simple: same code, different data. CUDA takes this to the extreme -- a kernel launches thousands of threads, each computing one output element. The programmer writes code for ONE thread; the hardware replicates it.
 
 ---
 
@@ -237,7 +237,7 @@ Note: Most real HPC systems use both: shared memory within a node (cores share D
 | **Advantage** | Easier to program | Scales to thousands of nodes |
 | **Disadvantage** | Limited to one machine | Must manage all data movement |
 
-Note: Shared memory is easier because threads just read and write variables — the hardware handles cache coherence. Distributed memory forces the programmer to decide what data goes where and when to send it. That's harder but necessary for anything beyond one machine.
+Note: Shared memory is easier because threads just read and write variables -- the hardware handles cache coherence. Distributed memory forces the programmer to decide what data goes where and when to send it. That's harder but necessary for anything beyond one machine.
 
 ---
 
@@ -252,7 +252,7 @@ Note: Shared memory is easier because threads just read and write variables — 
 - **OpenMP** within each node (shared memory)
 - **CUDA** on each GPU (massively parallel)
 
-Note: This MPI+OpenMP+CUDA stack is how every major HPC application works today — from weather forecasting (ECMWF) to molecular dynamics (GROMACS) to AI training (PyTorch distributed). CUDA dominates GPU computing with ~90% market share, though AMD's ROCm and Intel's oneAPI are growing. Portability frameworks like Kokkos and SYCL aim to write once, run on any accelerator — but CUDA's ecosystem advantage remains enormous.
+Note: This MPI+OpenMP+CUDA stack is how every major HPC application works today -- from weather forecasting (ECMWF) to molecular dynamics (GROMACS) to AI training (PyTorch distributed). CUDA dominates GPU computing with ~90% market share, though AMD's ROCm and Intel's oneAPI are growing. Portability frameworks like Kokkos and SYCL aim to write once, run on any accelerator -- but CUDA's ecosystem advantage remains enormous.
 
 ---
 
@@ -279,7 +279,7 @@ Note: Decomposition determines how much parallelism you have, how much communica
 
 ![Task vs. data decomposition](images/task_vs_data_decomposition.svg)
 
-Note: Data decomposition is far more common in scientific computing and ML because the dominant operations (matrix multiply, convolution, stencil) apply the same operation to large arrays. Task decomposition appears more in systems programming — web servers, game engines, OS schedulers.
+Note: Data decomposition is far more common in scientific computing and ML because the dominant operations (matrix multiply, convolution, stencil) apply the same operation to large arrays. Task decomposition appears more in systems programming -- web servers, game engines, OS schedulers.
 
 ---
 
@@ -292,7 +292,7 @@ for (int i = 0; i < N; i++)           // One thread processes ALL N elements
     sum += array[i];                   // Runs in O(N) time
 ```
 
-**Parallel with OpenMP (C) — one line turns it parallel:**
+**Parallel with OpenMP (C) -- one line turns it parallel:**
 ```c
 long sum = 0;
 #pragma omp parallel reduction(+:sum)  // Each thread gets a private copy of sum;
@@ -337,7 +337,7 @@ Note: On shared memory (OpenMP), synchronization costs hundreds of cycles, so fi
 | **Cyclic** | P0 gets 0,4,8…; P1 gets 1,5,9…; etc. | Work varies by position |
 | **Block-cyclic** | Blocks of *k* elements, distributed round-robin | Balance of locality + load |
 
-> Block-cyclic is the default in ScaLAPACK — the standard library for distributed dense linear algebra.
+> Block-cyclic is the default in ScaLAPACK -- the standard library for distributed dense linear algebra.
 
 Note: If a triangular matrix is block-distributed, processors with the top rows (few nonzeros) finish much earlier than those with bottom rows (many nonzeros). Cyclic distribution spreads work evenly but destroys cache locality. Block-cyclic is the compromise used by almost all production HPC math libraries.
 
@@ -349,7 +349,7 @@ Note: If a triangular matrix is block-distributed, processors with the top rows 
 
 > After decomposition gives us pieces, **assignment** decides which processor executes which piece. The goal: keep every processor computing for the entire runtime.
 
-Note: Assignment is separate from decomposition. You might decompose a matrix into 1000 blocks but only have 64 processors — how you map blocks to processors determines efficiency.
+Note: Assignment is separate from decomposition. You might decompose a matrix into 1000 blocks but only have 64 processors -- how you map blocks to processors determines efficiency.
 
 ---
 
@@ -364,7 +364,7 @@ Note: Assignment is separate from decomposition. You might decompose a matrix in
 
 > **When to use which:** Can you predict work per task at compile time? → static. Work varies unpredictably? → dynamic.
 
-Note: Static assignment works for regular computations — dense linear algebra, stencil codes, image processing — where every element requires the same work. Dynamic assignment shines for irregular problems: graph algorithms (some nodes have 2 edges, others 10,000), adaptive mesh refinement, sparse matrix operations.
+Note: Static assignment works for regular computations -- dense linear algebra, stencil codes, image processing -- where every element requires the same work. Dynamic assignment shines for irregular problems: graph algorithms (some nodes have 2 edges, others 10,000), adaptive mesh refinement, sparse matrix operations.
 
 ---
 
@@ -377,11 +377,11 @@ Note: Static assignment works for regular computations — dense linear algebra,
 **Why it works:**
 - The victim barely notices (it works from the top of its queue; theft happens from the bottom)
 - Stolen tasks tend to be large (recursive algorithms put coarse work at the bottom)
-- Fully decentralized — no single bottleneck
+- Fully decentralized -- no single bottleneck
 
 **Used in:** Intel TBB, Java ForkJoinPool, Go goroutines, Rust's Rayon, Tokio async runtime
 
-Note: Work stealing is *the* load balancing technology of choice in both industry and academia as of 2025. Go's entire concurrency model is built on a work-stealing scheduler — that's how millions of goroutines efficiently share a few OS threads. Rust's Rayon makes it one line: `array.par_iter().map(|x| process(x))` — work stealing happens automatically.
+Note: Work stealing is *the* load balancing technology of choice in both industry and academia as of 2025. Go's entire concurrency model is built on a work-stealing scheduler -- that's how millions of goroutines efficiently share a few OS threads. Rust's Rayon makes it one line: `array.par_iter().map(|x| process(x))` -- work stealing happens automatically.
 
 ---
 
@@ -389,7 +389,7 @@ Note: Work stealing is *the* load balancing technology of choice in both industr
 
 ### How Do Parallel Pieces Coordinate Safely?
 
-> Decomposition splits the work. Assignment maps it to processors. **Orchestration** ensures correctness — managing dependencies, protecting shared data, and coordinating completion.
+> Decomposition splits the work. Assignment maps it to processors. **Orchestration** ensures correctness -- managing dependencies, protecting shared data, and coordinating completion.
 
 ![Orchestration in parallel computing](images/parallel-orchestration.svg)
 
@@ -409,7 +409,7 @@ Parallel tasks need to exchange data. These are the fundamental patterns:
 
 ![Broadcast, scatter, gather patterns](images/communication_patterns_1.svg)
 
-Note: MPI provides optimized implementations of all these as "collective operations" (`MPI_Bcast`, `MPI_Scatter`, `MPI_Gather`). Using collectives instead of hand-coded point-to-point messages is almost always faster — the MPI library uses tree-based algorithms and can exploit hardware multicast on modern InfiniBand networks.
+Note: MPI provides optimized implementations of all these as "collective operations" (`MPI_Bcast`, `MPI_Scatter`, `MPI_Gather`). Using collectives instead of hand-coded point-to-point messages is almost always faster -- the MPI library uses tree-based algorithms and can exploit hardware multicast on modern InfiniBand networks.
 
 ---
 
@@ -439,7 +439,7 @@ Before adding synchronization, identify what **actually** needs coordination:
 
 > **Key insight:** Only synchronize where a real dependency exists. Over-synchronization is the #1 performance killer.
 
-Note: Draw the dependency graph of your computation. Nodes are tasks, edges are dependencies. The longest path is the **critical path** — it determines minimum execution time regardless of processor count. This *is* Amdahl's serial fraction.
+Note: Draw the dependency graph of your computation. Nodes are tasks, edges are dependencies. The longest path is the **critical path** -- it determines minimum execution time regardless of processor count. This *is* Amdahl's serial fraction.
 
 ---
 
@@ -447,13 +447,13 @@ Note: Draw the dependency graph of your computation. Nodes are tasks, edges are 
 
 A **race condition** occurs when correctness depends on the **timing** of thread execution.
 
-**Pseudocode (C-style) — two threads sharing a counter:**
+**Pseudocode (C-style) -- two threads sharing a counter:**
 ```c
 // BUG: "counter++" looks like one operation but is actually THREE steps
 // Both threads run counter++ on a shared variable (initially counter = 0)
 
 // Thread A                          Thread B
-// --------                          --------
+// --------                         --------
    load counter   // → sees 0
                                      load counter   // → also sees 0 (stale!)
    add 1          // → computes 1
@@ -468,11 +468,11 @@ A **race condition** occurs when correctness depends on the **timing** of thread
 
 | Fix | How | Overhead |
 |---|---|---|
-| **Atomic** | `atomic_fetch_add(&counter, 1)` | Lowest — single hardware instruction |
-| **Lock** | `lock(m); counter++; unlock(m)` | Medium — thread may block |
+| **Atomic** | `atomic_fetch_add(&counter, 1)` | Lowest -- single hardware instruction |
+| **Lock** | `lock(m); counter++; unlock(m)` | Medium -- thread may block |
 | **Thread-local + reduce** | Each thread has private counter, combine at end | Lowest contention |
 
-Note: This connects to cache coherence from Lecture 06. When Thread A writes `counter`, the cache line enters M state. When Thread B writes, it invalidates A's line — the coherence protocol doing its job. But coherence ensures memory consistency, NOT that load-add-store is atomic. That's why we need explicit atomics or locks.
+Note: This connects to cache coherence from Lecture 06. When Thread A writes `counter`, the cache line enters M state. When Thread B writes, it invalidates A's line -- the coherence protocol doing its job. But coherence ensures memory consistency, NOT that load-add-store is atomic. That's why we need explicit atomics or locks.
 
 ---
 
@@ -486,7 +486,7 @@ Note: This connects to cache coherence from Lecture 06. When Thread A writes `co
 
 ![Atomic operations: CAS and Fetch-and-Add](images/atomic-operations.svg)
 
-Note: Compare-and-swap (CAS) is the foundation of lock-free programming. Each thread reads a value, computes the new value, and attempts to write — if another thread changed it first, it retries. This avoids locks entirely and is used extensively in database engines, OS kernels, and concurrent data structures like lock-free queues.
+Note: Compare-and-swap (CAS) is the foundation of lock-free programming. Each thread reads a value, computes the new value, and attempts to write -- if another thread changed it first, it retries. This avoids locks entirely and is used extensively in database engines, OS kernels, and concurrent data structures like lock-free queues.
 
 ---
 
@@ -499,33 +499,33 @@ Note: Compare-and-swap (CAS) is the foundation of lock-free programming. Each th
 
 > **Danger with barriers:** The slowest thread determines wait time for everyone. A single slow thread serializes the entire program.
 
-Note: Barriers are common in scientific simulations that proceed in timesteps — all processors must finish timestep N before anyone starts N+1. MPI's `MPI_Barrier()` and OpenMP's `#pragma omp barrier` implement this. The performance cost is real: if one processor has 10% more work than others, every processor wastes 10% of its time waiting at the barrier.
+Note: Barriers are common in scientific simulations that proceed in timesteps -- all processors must finish timestep N before anyone starts N+1. MPI's `MPI_Barrier()` and OpenMP's `#pragma omp barrier` implement this. The performance cost is real: if one processor has 10% more work than others, every processor wastes 10% of its time waiting at the barrier.
 
 ---
 
 ## Deadlocks: When Everyone Waits Forever
 
-A **deadlock** occurs when threads wait for resources held by each other — and none can proceed.
+A **deadlock** occurs when threads wait for resources held by each other -- and none can proceed.
 
-**Pseudocode (C-style) — two threads acquiring locks in opposite order:**
+**Pseudocode (C-style) -- two threads acquiring locks in opposite order:**
 ```c
 // Thread A                        Thread B
-// --------                        --------
+// --------                       --------
 lock(mutex_1);   // A grabs lock 1    lock(mutex_2);   // B grabs lock 2
 lock(mutex_2);   // A waits for 2...  lock(mutex_1);   // B waits for 1...
 // A holds 1, needs 2                 // B holds 2, needs 1
-// → DEADLOCK: neither can ever proceed — both wait forever
+// → DEADLOCK: neither can ever proceed -- both wait forever
 ```
 
 **Four conditions (all must be true):**
-1. **Mutual exclusion** — resource held by one thread at a time
-2. **Hold and wait** — hold one resource, wait for another
-3. **No preemption** — can't forcibly take resources
-4. **Circular wait** — A waits for B, B waits for A
+1. **Mutual exclusion** -- resource held by one thread at a time
+2. **Hold and wait** -- hold one resource, wait for another
+3. **No preemption** -- can't forcibly take resources
+4. **Circular wait** -- A waits for B, B waits for A
 
 > **Easiest prevention:** Always acquire locks in the **same global order**. If every thread locks mutex_1 before mutex_2, circular wait is impossible.
 
-Note: Deadlocks are devastating because the program hangs silently — no crash, no error. Database systems detect deadlocks by tracking the wait-for graph; if a cycle appears, one transaction is aborted and retried. In parallel programming, prevention (global lock ordering) is preferred over detection.
+Note: Deadlocks are devastating because the program hangs silently -- no crash, no error. Database systems detect deadlocks by tracking the wait-for graph; if a cycle appears, one transaction is aborted and retried. In parallel programming, prevention (global lock ordering) is preferred over detection.
 
 ---
 
@@ -551,11 +551,11 @@ The **concepts** in this lecture are timeless. But the **landscape** is shifting
 | Trend | What's Happening |
 |---|---|
 | **GPU-first computing** | CUDA dominates AI/ML (~90% market share). AMD ROCm and Intel oneAPI are catching up but lack CUDA's ecosystem |
-| **Portability frameworks** | Kokkos, SYCL, oneAPI aim for "write once, run on any accelerator" — increasingly important as hardware diversifies |
-| **Chiplet architectures** | AMD Zen, Intel tiles — parallelism now exists *within* the chip across chiplets with different latencies |
-| **CXL memory pooling** | Compute Express Link allows shared memory pools across chips — blurring the shared/distributed boundary |
+| **Portability frameworks** | Kokkos, SYCL, oneAPI aim for "write once, run on any accelerator" -- increasingly important as hardware diversifies |
+| **Chiplet architectures** | AMD Zen, Intel tiles -- parallelism now exists *within* the chip across chiplets with different latencies |
+| **CXL memory pooling** | Compute Express Link allows shared memory pools across chips -- blurring the shared/distributed boundary |
 | **Weak scaling dominates AI** | ML training is designed for Gustafson's Law: more GPUs → larger batches, same training time |
 
 > **Next lecture:** We apply this framework to real parallel algorithms using OpenMP, MPI, and CUDA.
 
-Note: The biggest shift is that the "programming abstraction" problem is now harder than the "parallelism" problem. We have thousands of cores — the challenge is writing code that adapts to heterogeneous, chiplet-based, CXL-augmented systems without rewriting for each architecture. This is why portability frameworks like Kokkos and SYCL matter, even if they haven't replaced CUDA yet.
+Note: The biggest shift is that the "programming abstraction" problem is now harder than the "parallelism" problem. We have thousands of cores -- the challenge is writing code that adapts to heterogeneous, chiplet-based, CXL-augmented systems without rewriting for each architecture. This is why portability frameworks like Kokkos and SYCL matter, even if they haven't replaced CUDA yet.

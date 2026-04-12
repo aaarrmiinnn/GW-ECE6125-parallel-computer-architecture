@@ -11,13 +11,13 @@
 
 **Today we answer that challenge:**
 
-1. **Multistage Logarithmic Networks** — Omega, Butterfly, Benes
+1. **Multistage Logarithmic Networks** -- Omega, Butterfly, Benes
 2. **Circuit vs. Packet Switching** in multistage context
-3. **Fat Tree / Clos Networks** — the backbone of modern HPC
-4. **Ring Interconnects** — unidirectional, bidirectional, hierarchical
-5. **Mesh & Torus Networks** — on-chip workhorses
-6. **Cube & Hypercube Networks** — elegant math, real trade-offs
-7. **Topology Comparison** — how to choose
+3. **Fat Tree / Clos Networks** -- the backbone of modern HPC
+4. **Ring Interconnects** -- unidirectional, bidirectional, hierarchical
+5. **Mesh & Torus Networks** -- on-chip workhorses
+6. **Cube & Hypercube Networks** -- elegant math, real trade-offs
+7. **Topology Comparison** -- how to choose
 
 ---
 
@@ -25,8 +25,8 @@
 
 | Network | Cost | Latency | Problem |
 |---------|------|---------|---------|
-| **Bus** | O(1) | O(N) | Doesn't scale — contention grows |
-| **Crossbar** | O(N²) | O(1) | Too expensive — 1024 nodes = 1M switches |
+| **Bus** | O(1) | O(N) | Doesn't scale -- contention grows |
+| **Crossbar** | O(N²) | O(1) | Too expensive -- 1024 nodes = 1M switches |
 | **???** | O(N log N) | O(log N) | **This is what we want!** |
 
 **The insight:** We don't need *every possible* connection *simultaneously*
@@ -38,7 +38,7 @@ We just need to efficiently *route* any source to any destination through a netw
 
 ### Can we get lower cost than a Crossbar and yet still have low contention compared to a Bus?
 
-**Answer: YES — Multistage Logarithmic Networks**
+**Answer: YES -- Multistage Logarithmic Networks**
 
 ![Multistage Network Concept](images/multistage-concept.svg)
 
@@ -47,13 +47,13 @@ The key idea: replace one giant N×N crossbar with **log₂(N) stages of N/2 tin
 - **Cost:** (N/2) × log₂(N) = **O(N log N)** ← dramatic improvement
 - **Latency:** log₂(N) hops = **O(log N)** ← nearly as good as crossbar
 
-For **N = 1024:** Crossbar needs **1,048,576 switches** — Multistage needs only **5,120**
+For **N = 1024:** Crossbar needs **1,048,576 switches** -- Multistage needs only **5,120**
 
 ---
 
 ## The 2×2 Switch: The Building Block
 
-Every multistage network is built from **2×2 switches** — the simplest possible routing element.
+Every multistage network is built from **2×2 switches** -- the simplest possible routing element.
 
 A 2×2 switch has:
 - **2 inputs**, **2 outputs**
@@ -62,7 +62,7 @@ A 2×2 switch has:
 ![2x2 Switch](images/2x2-switch.svg)
 
 **Why 2×2?**
-- Minimal hardware — just one control bit per switch
+- Minimal hardware -- just one control bit per switch
 - Self-routing: the destination address *bit* directly controls the switch
 - Easy to cascade into larger networks
 
@@ -70,7 +70,7 @@ A 2×2 switch has:
 
 ## The Omega Network
 
-**Invented by D. Lawrie, 1975** — a landmark in interconnect design
+**Invented by D. Lawrie, 1975** -- a landmark in interconnect design
 
 **Structure for N = 8 nodes:**
 - **3 stages** (= log₂8) of **4 switches each** (= N/2)
@@ -79,7 +79,7 @@ A 2×2 switch has:
 
 ![Omega Network](images/omega-network.svg)
 
-**Key property:** There is **exactly one path** from any input to any output — self-routing using destination address bits.
+**Key property:** There is **exactly one path** from any input to any output -- self-routing using destination address bits.
 
 ---
 
@@ -131,23 +131,23 @@ Think of **shuffling a deck of 8 cards:**
 
 **Traditional routing:** each switch looks up a table to decide where to forward a packet
 
-**Self-routing:** the packet carries its own forwarding instructions — the destination address
+**Self-routing:** the packet carries its own forwarding instructions -- the destination address
 
 At **Stage k**: look at **bit k** of destination → use as the switch control signal
 
 **Benefits:**
-- Zero lookup time — routing decision is a single bit read
+- Zero lookup time -- routing decision is a single bit read
 - No state to maintain in switches
 - Works identically regardless of traffic patterns
 - Scales to any N = 2ⁿ without change to algorithm
 
-**Limitation:** exactly one path per source-destination pair — this causes **blocking**
+**Limitation:** exactly one path per source-destination pair -- this causes **blocking**
 
 ---
 
 ## Blocking in Omega Networks
 
-**Omega networks are blocking** — certain traffic patterns cause congestion even if destinations are distinct.
+**Omega networks are blocking** -- certain traffic patterns cause congestion even if destinations are distinct.
 
 **Why?** Only **one path** from source i to destination j.
 If two packets share any switch output port → **one must wait.**
@@ -170,11 +170,11 @@ If two packets share any switch output port → **one must wait.**
 
 Not all permutations cause blocking. Some can be routed without conflict:
 
-**Blocking Permutation** π₂ — conflicts at switches F, G, H:
+**Blocking Permutation** π₂ -- conflicts at switches F, G, H:
 
 ![Blocking Routing Table](images/pptx-blocking-table.png)
 
-**Non-Blocking Permutation** π₁ — all paths conflict-free:
+**Non-Blocking Permutation** π₁ -- all paths conflict-free:
 
 ![Non-Blocking Omega Diagram](images/pptx-omega-nonblocking.png)
 
@@ -206,19 +206,19 @@ Not all permutations cause blocking. Some can be routed without conflict:
 
 **Packet switching in a multistage network:**
 
-- Each packet is **self-routing** — carries destination address
+- Each packet is **self-routing** -- carries destination address
 - Packets **hop** from switch to switch, waiting at buffers if needed
 - No pre-configuration; packets can be in-flight simultaneously
 
 ![Packet-Switched Omega](images/pptx-packet-switched-omega.png)
 
 **Advantages:**
-- No setup latency — packets immediately enter the network
-- Better link utilization — links can carry packets from many sources
+- No setup latency -- packets immediately enter the network
+- Better link utilization -- links can carry packets from many sources
 - Natural handling of dynamic, unpredictable traffic
 
 **Disadvantages:**
-- Buffers needed at each switch — area and power cost
+- Buffers needed at each switch -- area and power cost
 - Variable, unpredictable latency
 - Head-of-line blocking: a stalled packet blocks those behind it
 
@@ -260,7 +260,7 @@ The same road network can be used by both scheduled convoys (circuit) or individ
 **Critical problem: Tree Saturation**
 - Switches at higher stages carry traffic for exponentially more pairs
 - In an N-node butterfly, the top switch carries traffic for ALL N/2 pairs
-- This creates a **hotspot** — the top becomes a bottleneck regardless of traffic!
+- This creates a **hotspot** -- the top becomes a bottleneck regardless of traffic!
 
 **Real use:** BBN Butterfly parallel computer (1980s), CM-5 data network
 
@@ -279,11 +279,11 @@ Level 0 (leaves):   ████ ████ ████ ████  (each h
 If each of N leaves sends traffic, the root switch must handle **N/2 times** more traffic than leaf switches → **bottleneck**
 
 **Solutions:**
-1. **Fat Trees** — add more bandwidth at higher levels
-2. **Randomized routing** — spread traffic before sending to destination (Valiant's algorithm)
-3. **Adaptive routing** — route around congested switches
+1. **Fat Trees** -- add more bandwidth at higher levels
+2. **Randomized routing** -- spread traffic before sending to destination (Valiant's algorithm)
+3. **Adaptive routing** -- route around congested switches
 
-> This is why the elegant simplicity of the butterfly network doesn't translate to practical deployments — the tree saturation problem is fundamental to its topology.
+> This is why the elegant simplicity of the butterfly network doesn't translate to practical deployments -- the tree saturation problem is fundamental to its topology.
 
 ---
 
@@ -292,15 +292,15 @@ If each of N leaves sends traffic, the root switch must handle **N/2 times** mor
 **Problem:** Omega blocks. Butterfly saturates at root.
 **Solution (Václav Beneš, 1965):** back-to-back butterfly networks
 
-**Structure:** Two butterfly networks connected in reverse — 2 log₂N − 1 stages total
+**Structure:** Two butterfly networks connected in reverse -- 2 log₂N − 1 stages total
 
 ![Benes Network](images/benes-network.svg)
 
 **Key property:** **Any** permutation can be routed without blocking *and* without rearranging existing connections
 
-**Cost:** O(N log N) — roughly 2× stages compared to Omega
+**Cost:** O(N log N) -- roughly 2× stages compared to Omega
 
-**Proof intuition:** The extra stages provide alternative paths — if one path is blocked, packets can take a "detour" through the second half.
+**Proof intuition:** The extra stages provide alternative paths -- if one path is blocked, packets can take a "detour" through the second half.
 
 **Real use:** telephone switching (Bell Labs original), optical crossconnects, FPGAs
 
@@ -310,7 +310,7 @@ If each of N leaves sends traffic, the root switch must handle **N/2 times** mor
 
 **The dominant topology in modern HPC and cloud computing**
 
-**Insight from Charles Leiserson (1985):** Fix tree saturation by making links at higher levels "fatter" — i.e., have **more bandwidth**
+**Insight from Charles Leiserson (1985):** Fix tree saturation by making links at higher levels "fatter" -- i.e., have **more bandwidth**
 
 **Modern implementation:** same link width everywhere, but **more parallel links** at higher levels
 
@@ -319,7 +319,7 @@ If each of N leaves sends traffic, the root switch must handle **N/2 times** mor
 **Properties:**
 - **Non-blocking** (with full provisioning): any source can reach any destination at full bandwidth
 - **Full bisection bandwidth**: aggregate bandwidth = sum of all host link bandwidths
-- **Cost:** O(N log N) — same as Omega/Butterfly, but non-blocking!
+- **Cost:** O(N log N) -- same as Omega/Butterfly, but non-blocking!
 - **Multiple paths**: many shortest paths between any two nodes → load balance + fault tolerance
 
 **Used in:** AWS, Google Cloud, Meta, NVIDIA SuperPOD, IBM Summit, Frontier, virtually every modern data center
@@ -351,14 +351,14 @@ This is the **Clos non-blocking condition**: m ≥ n where m = uplinks, n = inpu
   - Cost: O(N), easy to implement
 
 - **Bidirectional Ring:** data flows in either direction (take shortest path)
-  - Average path: **N/4** hops, worst case **N/4** — effectively halves diameter
+  - Average path: **N/4** hops, worst case **N/4** -- effectively halves diameter
 
 ![Ring Types](images/ring-types.svg)
 
 **Real examples:**
-- **Intel Haswell, Ivy Bridge, Sandy Bridge** — ring bus connecting cores, LLC, memory controller
-- **Intel Larrabee** — many-core ring
-- **IBM Cell Processor** — Element Interconnect Bus (ring)
+- **Intel Haswell, Ivy Bridge, Sandy Bridge** -- ring bus connecting cores, LLC, memory controller
+- **Intel Larrabee** -- many-core ring
+- **IBM Cell Processor** -- Element Interconnect Bus (ring)
 
 **When rings win:** small N, simple implementation, low cost, sufficient bandwidth
 
@@ -386,7 +386,7 @@ This is the **Clos non-blocking condition**: m ≥ n where m = uplinks, n = inpu
 **The bisection bandwidth difference:**
 - Unidirectional: cut anywhere → 1 wire crosses the cut
 - Bidirectional: cut anywhere → 2 wires cross the cut
-- Bidirectional doubles bisection bandwidth — critical for workloads with global communication
+- Bidirectional doubles bisection bandwidth -- critical for workloads with global communication
 
 **Injection policy** for bidirectional ring: when injecting a packet, choose the direction that reaches the destination in fewer hops.
 
@@ -404,9 +404,9 @@ As N grows, the ring becomes a bottleneck:
 | 32 | 16 | 10 |
 | 64 | 32 | 20 |
 
-**Latency grows linearly with N** — unacceptable for large systems
+**Latency grows linearly with N** -- unacceptable for large systems
 
-**Solution: Hierarchical Rings** — break the O(N) latency into O(√N)
+**Solution: Hierarchical Rings** -- break the O(N) latency into O(√N)
 
 ---
 
@@ -415,7 +415,7 @@ As N grows, the ring becomes a bottleneck:
 **Observation:** a ring of rings can dramatically reduce latency
 
 **Structure:**
-- **Local rings** of k nodes each — fast, small-diameter
+- **Local rings** of k nodes each -- fast, small-diameter
 - **Global ring** connecting one node from each local ring ("bridge nodes")
 - Bridge nodes forward traffic between local and global ring
 
@@ -424,11 +424,11 @@ As N grows, the ring becomes a bottleneck:
 **Latency analysis for N = k² nodes:**
 - Within a local ring: at most k/2 hops
 - Across local rings: at most k/2 hops on global ring
-- Total: at most **k hops = √N hops** — much better than O(N)!
+- Total: at most **k hops = √N hops** -- much better than O(N)!
 
-**Cost:** still O(N) links — we just add a few bridge connections
+**Cost:** still O(N) links -- we just add a few bridge connections
 
-**Example:** Intel Sandy Bridge-EP (Xeon E5) — 8-core ring with bidirectional links bridging to memory/I/O
+**Example:** Intel Sandy Bridge-EP (Xeon E5) -- 8-core ring with bidirectional links bridging to memory/I/O
 
 ---
 
@@ -455,7 +455,7 @@ Hierarchical rings give us:
 
 ## Intel Alder Lake (2022): Ring Bus in Production
 
-**Intel's 12th-gen Alder Lake uses a ring bus** — proving rings remain viable in 2022
+**Intel's 12th-gen Alder Lake uses a ring bus** -- proving rings remain viable in 2022
 
 ![Intel Alder Lake Die Shot](images/intel-alder-lake.jpg)
 
@@ -493,7 +493,7 @@ The mesh only makes sense when you have enough nodes that the ring latency becom
 **Why meshes win for on-chip:**
 - **Regular layout** maps directly to 2D chip topology
 - **Equal wire lengths** → uniform timing, no signal integrity issues
-- **Modular** — easy to add more nodes
+- **Modular** -- easy to add more nodes
 
 ---
 
@@ -529,16 +529,16 @@ The mesh only makes sense when you have enough nodes that the ring latency becom
 
 **Mesh + wraparound links = Torus**
 
-**What changes:** edge nodes connect to the opposite side — like the surface of a donut (torus)
+**What changes:** edge nodes connect to the opposite side -- like the surface of a donut (torus)
 
-- **Diameter:** √N hops (vs. 2√N for mesh — roughly half!)
+- **Diameter:** √N hops (vs. 2√N for mesh -- roughly half!)
 - **Average distance:** ~√N/2 hops
 - **Bisection bandwidth:** 2×√N wires cross any cut (vs. √N for mesh)
 - **Cost:** same O(N) nodes, slightly more links for wraparound
 
 ![Torus vs Mesh](images/mesh-torus-comparison.svg)
 
-**Key advantage:** No "edge effect" — all nodes are equivalent
+**Key advantage:** No "edge effect" -- all nodes are equivalent
 A mesh node at the corner is disadvantaged vs. a center node; a torus has no corners.
 
 ---
@@ -566,7 +566,7 @@ A mesh node at the corner is disadvantaged vs. a center node; a torus has no cor
 
 ## Folded Torus
 
-**Problem with physical torus:** wraparound links span the entire chip/board — **very long wires!**
+**Problem with physical torus:** wraparound links span the entire chip/board -- **very long wires!**
 Long wires = high capacitance = slower signals and more power.
 
 **Solution: Fold the torus**
@@ -579,7 +579,7 @@ Long wires = high capacitance = slower signals and more power.
 - **Much shorter wraparound wires**
 - Particularly important for on-chip 2D torus implementations
 
-**Tradeoff:** physical layout is less intuitive, but wire lengths are uniform — important for timing closure in chip design
+**Tradeoff:** physical layout is less intuitive, but wire lengths are uniform -- important for timing closure in chip design
 
 ---
 
@@ -589,13 +589,13 @@ Long wires = high capacitance = slower signals and more power.
 
 **64 processors** arranged in an 8×8 grid with **diagonal wraparound:**
 - Rather than wrapping row 0 to row 7 straight across (standard torus)
-- Row i wraps to column i of the next row — a **skewed** or **diagonal** wrap
+- Row i wraps to column i of the next row -- a **skewed** or **diagonal** wrap
 
 ![Illiac Mesh](images/illiac-mesh.svg)
 
-**Effect:** creates a different set of "short paths" than a standard torus — certain communication patterns (matrix operations, sorting) are much more efficient
+**Effect:** creates a different set of "short paths" than a standard torus -- certain communication patterns (matrix operations, sorting) are much more efficient
 
-**Modern relevance:** the Illiac mesh is topologically related to certain **Benes network** configurations — it demonstrates that there are many valid "mesh with wraparound" designs, each optimizing for different communication patterns.
+**Modern relevance:** the Illiac mesh is topologically related to certain **Benes network** configurations -- it demonstrates that there are many valid "mesh with wraparound" designs, each optimizing for different communication patterns.
 
 ---
 
@@ -645,7 +645,7 @@ Take two 3D cubes, connect corresponding nodes:
 
 ![4D Hypercube](images/hypercube-4d.svg)
 
-**Each node has exactly 4 links** — one to each neighbor differing in one bit:
+**Each node has exactly 4 links** -- one to each neighbor differing in one bit:
 Node **0101** connects to: **1**101, 0**0**01, 01**1**1, 010**0**
 
 ---
@@ -691,13 +691,13 @@ Path length = number of differing bits = **Hamming distance**
 | 1024 | **10** | 10,240 |
 | 1M | **20** | 20M |
 
-**Node degree grows with N** — each new node requires more pins, more cables, more ports
+**Node degree grows with N** -- each new node requires more pins, more cables, more ports
 
 Compare to **mesh/torus:** fixed degree of 4 (2D) or 6 (3D) regardless of N
 
 **Physical layout challenge:**
 - High-dimensional cross-links are difficult to route on a chip or PCB
-- Link lengths vary wildly — timing non-uniform
+- Link lengths vary wildly -- timing non-uniform
 
 **Conclusion:** Fixed-degree networks (mesh, torus, fat tree) are preferred at scale
 
@@ -720,7 +720,7 @@ Compare to **mesh/torus:** fixed degree of 4 (2D) or 6 (3D) regardless of N
 
 **Observations:**
 - Cost O(N log N) achieves near-crossbar latency
-- Fixed degree (4) and O(N) cost is possible with mesh/torus — pay with latency
+- Fixed degree (4) and O(N) cost is possible with mesh/torus -- pay with latency
 - Fat tree achieves non-blocking at O(N log N) cost
 
 ---
@@ -735,8 +735,8 @@ Compare to **mesh/torus:** fixed degree of 4 (2D) or 6 (3D) regardless of N
 - Large (1K+): Fat Tree or Torus
 
 **2. Traffic pattern**
-- Nearest-neighbor (stencil, PDE): **Mesh/Torus** — local traffic stays local
-- All-to-all (FFT, reductions): **Fat Tree** — any-to-any at full bandwidth
+- Nearest-neighbor (stencil, PDE): **Mesh/Torus** -- local traffic stays local
+- All-to-all (FFT, reductions): **Fat Tree** -- any-to-any at full bandwidth
 - Random/mixed: **Multistage** or **Fat Tree**
 
 **3. Physical constraints**
@@ -745,7 +745,7 @@ Compare to **mesh/torus:** fixed degree of 4 (2D) or 6 (3D) regardless of N
 - Entire supercomputer: **Torus** (predictable scaling)
 
 **4. Cost vs. performance**
-- Budget-constrained: **Ring or Mesh** — O(N) cost
+- Budget-constrained: **Ring or Mesh** -- O(N) cost
 - Non-blocking required: **Fat Tree** (higher cost justified by utilization)
 
 ---
@@ -755,11 +755,11 @@ Compare to **mesh/torus:** fixed degree of 4 (2D) or 6 (3D) regardless of N
 **Today's systems mix topologies for different purposes:**
 
 **HPC Clusters:**
-- **InfiniBand HDR/NDR (200 Gb/s)** — fat tree topology, non-blocking
+- **InfiniBand HDR/NDR (200 Gb/s)** -- fat tree topology, non-blocking
 - Used by: Frontier (#1 supercomputer 2022), Aurora, most top-500 systems
 
 **GPU Clusters (AI/ML):**
-- **NVLink 4.0 + NVSwitch** — all-to-all crossbar topology within a node (900 GB/s)
+- **NVLink 4.0 + NVSwitch** -- all-to-all crossbar topology within a node (900 GB/s)
 - Between nodes: **InfiniBand** fat tree (400 Gb/s with NVLink 5.0)
 - NVIDIA DGX H100, SuperPOD
 
@@ -768,7 +768,7 @@ Compare to **mesh/torus:** fixed degree of 4 (2D) or 6 (3D) regardless of N
 - **Ring:** Intel Core desktop chips (up to 8 cores)
 
 **Emerging:**
-- **CXL (Compute Express Link):** PCIe-based coherent memory interconnect — connects CPU, GPU, memory pools
+- **CXL (Compute Express Link):** PCIe-based coherent memory interconnect -- connects CPU, GPU, memory pools
 - **Optical interconnects:** photonic chips for multi-rack high-bandwidth connectivity
 
 ---
@@ -790,7 +790,7 @@ Compare to **mesh/torus:** fixed degree of 4 (2D) or 6 (3D) regardless of N
 - Hypercube: great routing, but degree grows with N
 
 **Universal Truths:**
-1. There is **no free lunch** — every topology trades cost for performance
+1. There is **no free lunch** -- every topology trades cost for performance
 2. **Traffic pattern** is the most important factor in choosing topology
 3. **Physical constraints** (chip layout, wire length) often override theoretical optimums
 
@@ -801,8 +801,8 @@ Compare to **mesh/torus:** fixed degree of 4 (2D) or 6 (3D) regardless of N
 - D. Lawrie, "Access and Alignment of Data in an Array Processor," IEEE Trans. Computers, 1975 (Omega network)
 - V. Beneš, "Optimal Rearrangeable Multistage Connecting Networks," Bell System Technical Journal, 1964
 - C. Leiserson, "Fat-Trees: Universal Networks for Hardware-Efficient Supercomputing," IEEE Trans. Computers, 1985
-- "Introduction to Parallel Computing" — Grama, Gupta, Karypis, Kumar
-- "Computer Architecture: A Quantitative Approach" — Hennessy & Patterson
+- "Introduction to Parallel Computing" -- Grama, Gupta, Karypis, Kumar
+- "Computer Architecture: A Quantitative Approach" -- Hennessy & Patterson
 - Patterson & Hennessy, "Computer Organization and Design"
 - CMU 15-418/15-618: Parallel Computer Architecture and Programming
 - ETH Zurich: Computer Architecture Lectures

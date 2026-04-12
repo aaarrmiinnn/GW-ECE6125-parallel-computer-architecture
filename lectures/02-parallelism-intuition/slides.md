@@ -89,7 +89,7 @@ A **cache** is a small, high-speed hardware storage layer that holds frequently 
 | Pros ✅ | Cons ❌ |
 |---------|---------|
 | **Simple hardware:** Easy to implement (no complex search logic) | **High conflict misses:** Multiple addresses compete for the same cache line |
-| **Fast access time:** Fixed mapping means no decision-making overhead | **Inflexible replacement:** No choice in eviction—forced replacement on collision |
+| **Fast access time:** Fixed mapping means no decision-making overhead | **Inflexible replacement:** No choice in eviction --forced replacement on collision |
 | **Low power consumption:** Minimal circuitry required | **Poor utilization:** Frequently accessed blocks may evict each other |
 
 ![Direct-Mapped Cache](images/image5.png)
