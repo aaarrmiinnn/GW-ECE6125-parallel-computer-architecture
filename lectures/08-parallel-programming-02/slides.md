@@ -45,22 +45,31 @@ Note: This fact explains almost everything about modern parallel architecture. W
 
 ## Latency, Bandwidth, and Arithmetic Intensity
 
-Three numbers define the cost of every communication:
+Three numbers tell you everything about whether your program is **communication-bound** or **compute-bound**:
 
-| Term | Definition | Units |
-|---|---|---|
-| **Latency ($\alpha$)** | Time to deliver *one* message, independent of size | microseconds (μs) |
-| **Bandwidth ($\beta$)** | Steady-state data rate for large transfers | gigabytes/second (GB/s) |
+| Metric | What It Measures | Why You Care | What It Tells You |
+|---|---|---|---|
+| **Latency ($\alpha$)** | Fixed cost to start one message (μs) | Dominates when you send **many small messages** | High latency + small messages = **latency-bound**. Fix: batch messages, reduce communication frequency |
+| **Bandwidth ($\beta$)** | Max data rate for large transfers (GB/s) | Dominates when you move **large volumes** of data | Low bandwidth + big transfers = **bandwidth-bound**. Fix: compress data, reduce what you send |
+| **Arithmetic Intensity** | $\frac{\text{FLOPs performed}}{\text{bytes moved}}$ | The ratio that decides everything | Low = **memory/IO-bound** (need less data movement). High = **compute-bound** (you're using the hardware well) |
 
 $$T_{\text{message}} = \alpha + \frac{n}{\beta}$$
 
-where $n$ is the message size in bytes. For small $n$, **latency dominates**. For large $n$, **bandwidth dominates**.
+> **The diagnostic:** Compute your kernel's arithmetic intensity. If it's below your hardware's ridge point, no amount of code tuning will help -- you need to move less data or do more work per byte.
+
+Note: This is the single most important slide in the lecture. Every performance question in parallel computing reduces to: am I moving too much data (bandwidth-bound), sending too many small messages (latency-bound), or actually limited by compute (rare, and the good case)? Arithmetic intensity is the number that answers this instantly. We'll see it again in the roofline model two slides from now.
+
+---
+
+## Message Time: Latency vs. Bandwidth Regimes
 
 ![Message time vs message size: latency vs bandwidth regimes](images/message_time_curve.svg)
 
-> **Arithmetic intensity** $= \frac{\text{FLOPs performed}}{\text{bytes communicated}}$. Low → memory-bound. High → compute-bound.
+- **Left of crossover (~few KB):** Sending 1 byte costs almost the same as sending 1000 bytes -- latency dominates
+- **Right of crossover:** Doubling the message doubles the time -- bandwidth dominates
+- **Practical implication:** Batching many small messages into one large message can be a massive win
 
-Note: Arithmetic intensity is the single most useful number to compute when you're analyzing a parallel algorithm. Dense matrix multiply has high intensity (~n operations per byte loaded, with blocking). Sparse matrix-vector multiply has low intensity (~2 operations per byte). This tells you before writing a line of code whether your algorithm will scale.
+Note: This curve explains why MPI programmers batch communications and why GPU programmers fuse kernels. If you're on the left side of the curve, reducing message count matters more than reducing message size. If you're on the right side, reducing how much data you send is what matters.
 
 ---
 
