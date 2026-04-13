@@ -1,86 +1,57 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 280">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 200">
   <style>
     text { font-family: Arial, Helvetica, sans-serif; fill: #222; }
-    .title { font-size: 14px; font-weight: bold; fill: #004065; }
-    .label { font-size: 13px; font-weight: bold; fill: #004065; }
+    .label { font-size: 12px; font-weight: bold; fill: #004065; }
     .small { font-size: 10px; fill: #555; }
     .proc { font-size: 9px; fill: white; font-weight: bold; }
     .mat-border { fill: none; stroke: #004065; stroke-width: 1.5; }
   </style>
 
-  <defs>
-    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5"
-            markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 0 L 10 5 L 0 10 z" fill="#004065"/>
-    </marker>
-  </defs>
+  <!-- ═══ A (split by rows) ═══ -->
+  <text x="55" y="16" class="label" text-anchor="middle">A (rows split)</text>
+  <rect x="15" y="24" width="80" height="28" fill="#004065" stroke="white" stroke-width="1" rx="2"/>
+  <text x="55" y="42" class="proc" text-anchor="middle">P0: n/P rows</text>
+  <rect x="15" y="52" width="80" height="28" fill="#2a7ab5" stroke="white" stroke-width="1" rx="2"/>
+  <text x="55" y="70" class="proc" text-anchor="middle">P1: n/P rows</text>
+  <rect x="15" y="80" width="80" height="28" fill="#5ba3d9" stroke="white" stroke-width="1" rx="2"/>
+  <text x="55" y="98" class="proc" text-anchor="middle">P2: n/P rows</text>
+  <rect x="15" y="108" width="80" height="28" fill="#c05000" stroke="white" stroke-width="1" rx="2"/>
+  <text x="55" y="126" class="proc" text-anchor="middle">P3: n/P rows</text>
+  <rect x="15" y="24" width="80" height="112" class="mat-border" rx="2"/>
 
-  <!-- Title -->
-  <text x="250" y="18" class="title" text-anchor="middle">1D Row Decomposition: C = A × B</text>
+  <!-- × -->
+  <text x="113" y="85" font-size="18" font-weight="bold" fill="#222" text-anchor="middle">×</text>
 
-  <!-- ═══ Matrix A (split by rows) ═══ -->
-  <text x="55" y="42" class="label" text-anchor="middle">A (split by rows)</text>
-  <rect x="15" y="50" width="80" height="30" fill="#004065" stroke="white" stroke-width="1" rx="2"/>
-  <text x="55" y="69" class="proc" text-anchor="middle">P0 rows</text>
-  <rect x="15" y="80" width="80" height="30" fill="#2a7ab5" stroke="white" stroke-width="1" rx="2"/>
-  <text x="55" y="99" class="proc" text-anchor="middle">P1 rows</text>
-  <rect x="15" y="110" width="80" height="30" fill="#5ba3d9" stroke="white" stroke-width="1" rx="2"/>
-  <text x="55" y="129" class="proc" text-anchor="middle">P2 rows</text>
-  <rect x="15" y="140" width="80" height="30" fill="#c05000" stroke="white" stroke-width="1" rx="2"/>
-  <text x="55" y="159" class="proc" text-anchor="middle">P3 rows</text>
-  <rect x="15" y="50" width="80" height="120" class="mat-border" rx="2"/>
+  <!-- ═══ B (full, broadcast to all) ═══ -->
+  <text x="170" y="16" class="label" text-anchor="middle">B (full copy)</text>
+  <rect x="130" y="24" width="80" height="112" fill="#fff4cc" stroke="#004065" stroke-width="1.5" rx="2"/>
+  <text x="170" y="76" class="small" text-anchor="middle">n × n</text>
+  <text x="170" y="90" class="small" text-anchor="middle">broadcast</text>
+  <text x="170" y="104" class="small" text-anchor="middle">to every P</text>
 
-  <!-- × symbol -->
-  <text x="115" y="115" font-size="20" font-weight="bold" fill="#222" text-anchor="middle">×</text>
+  <!-- = -->
+  <text x="228" y="85" font-size="18" font-weight="bold" fill="#222" text-anchor="middle">=</text>
 
-  <!-- ═══ Matrix B (full, broadcast) ═══ -->
-  <text x="175" y="42" class="label" text-anchor="middle">B (broadcast)</text>
-  <rect x="135" y="50" width="80" height="120" fill="#fff4cc" stroke="#004065" stroke-width="1.5" rx="2"/>
-  <text x="175" y="108" class="small" text-anchor="middle">entire matrix</text>
-  <text x="175" y="120" class="small" text-anchor="middle">sent to all P</text>
+  <!-- ═══ C (result, right side, same split as A) ═══ -->
+  <text x="295" y="16" class="label" text-anchor="middle">C (result)</text>
+  <rect x="255" y="24" width="80" height="28" fill="#004065" stroke="white" stroke-width="1" rx="2"/>
+  <text x="295" y="42" class="proc" text-anchor="middle">P0 computes</text>
+  <rect x="255" y="52" width="80" height="28" fill="#2a7ab5" stroke="white" stroke-width="1" rx="2"/>
+  <text x="295" y="70" class="proc" text-anchor="middle">P1 computes</text>
+  <rect x="255" y="80" width="80" height="28" fill="#5ba3d9" stroke="white" stroke-width="1" rx="2"/>
+  <text x="295" y="98" class="proc" text-anchor="middle">P2 computes</text>
+  <rect x="255" y="108" width="80" height="28" fill="#c05000" stroke="white" stroke-width="1" rx="2"/>
+  <text x="295" y="126" class="proc" text-anchor="middle">P3 computes</text>
+  <rect x="255" y="24" width="80" height="112" class="mat-border" rx="2"/>
 
-  <!-- = symbol -->
-  <text x="235" y="115" font-size="20" font-weight="bold" fill="#222" text-anchor="middle">=</text>
+  <!-- ═══ Mapping annotation ═══ -->
+  <!-- Arrow from A P0 row to C P0 row -->
+  <path d="M 95,38 C 140,20 220,20 255,38" fill="none" stroke="#004065" stroke-width="0.8" stroke-dasharray="3,2"/>
+  <path d="M 95,122 C 140,145 220,145 255,122" fill="none" stroke="#c05000" stroke-width="0.8" stroke-dasharray="3,2"/>
 
-  <!-- ═══ Matrix C (split same as A) ═══ -->
-  <text x="295" y="42" class="label" text-anchor="middle">C (result)</text>
-  <rect x="255" y="50" width="80" height="30" fill="#004065" stroke="white" stroke-width="1" rx="2"/>
-  <text x="295" y="69" class="proc" text-anchor="middle">P0 rows</text>
-  <rect x="255" y="80" width="80" height="30" fill="#2a7ab5" stroke="white" stroke-width="1" rx="2"/>
-  <text x="295" y="99" class="proc" text-anchor="middle">P1 rows</text>
-  <rect x="255" y="110" width="80" height="30" fill="#5ba3d9" stroke="white" stroke-width="1" rx="2"/>
-  <text x="295" y="129" class="proc" text-anchor="middle">P2 rows</text>
-  <rect x="255" y="140" width="80" height="30" fill="#c05000" stroke="white" stroke-width="1" rx="2"/>
-  <text x="295" y="159" class="proc" text-anchor="middle">P3 rows</text>
-  <rect x="255" y="50" width="80" height="120" class="mat-border" rx="2"/>
-
-  <!-- ═══ Right side: broadcast diagram ═══ -->
-  <text x="420" y="42" class="label" text-anchor="middle">Broadcast B</text>
-  <rect x="395" y="50" width="50" height="35" fill="#fff4cc" stroke="#004065" stroke-width="1" rx="2"/>
-  <text x="420" y="72" class="small" text-anchor="middle">B</text>
-
-  <!-- Arrows to 4 processors -->
-  <line x1="420" y1="85" x2="375" y2="115" stroke="#004065" stroke-width="1.2" marker-end="url(#arrow)"/>
-  <line x1="420" y1="85" x2="405" y2="115" stroke="#004065" stroke-width="1.2" marker-end="url(#arrow)"/>
-  <line x1="420" y1="85" x2="435" y2="115" stroke="#004065" stroke-width="1.2" marker-end="url(#arrow)"/>
-  <line x1="420" y1="85" x2="465" y2="115" stroke="#004065" stroke-width="1.2" marker-end="url(#arrow)"/>
-
-  <rect x="360" y="117" width="30" height="18" fill="#004065" rx="3"/>
-  <text x="375" y="130" class="proc" text-anchor="middle">P0</text>
-  <rect x="393" y="117" width="30" height="18" fill="#2a7ab5" rx="3"/>
-  <text x="408" y="130" class="proc" text-anchor="middle">P1</text>
-  <rect x="426" y="117" width="30" height="18" fill="#5ba3d9" rx="3"/>
-  <text x="441" y="130" class="proc" text-anchor="middle">P2</text>
-  <rect x="459" y="117" width="30" height="18" fill="#c05000" rx="3"/>
-  <text x="474" y="130" class="proc" text-anchor="middle">P3</text>
-
-  <text x="420" y="152" class="small" text-anchor="middle">each stores full B</text>
-
-  <!-- Bottom: step-by-step -->
-  <rect x="15" y="185" width="470" height="85" rx="6" fill="#fafafa" stroke="#e0e0e0"/>
-  <text x="250" y="204" class="small" text-anchor="middle" font-weight="bold" fill="#004065">Steps:</text>
-  <text x="250" y="220" class="small" text-anchor="middle">1. Split A into row blocks (one per processor)</text>
-  <text x="250" y="234" class="small" text-anchor="middle">2. Broadcast entire B to every processor</text>
-  <text x="250" y="248" class="small" text-anchor="middle">3. Each processor multiplies its A rows × full B → its C rows</text>
-  <text x="250" y="264" class="small" text-anchor="middle" fill="#c05000" font-weight="bold">Problem: every processor stores all of B → memory doesn't scale</text>
+  <!-- Bottom: derivations -->
+  <rect x="15" y="148" width="430" height="46" rx="5" fill="#fafafa" stroke="#e0e0e0"/>
+  <text x="230" y="164" class="small" text-anchor="middle" font-weight="bold" fill="#004065">Why these costs?</text>
+  <text x="230" y="178" class="small" text-anchor="middle">Each P computes (n/P) rows × n cols × n mults = 2n³/P FLOPs</text>
+  <text x="230" y="190" class="small" text-anchor="middle">Broadcast B (n² elements) via tree = O(n² log P).  Each P stores full B = O(n²) memory.</text>
 </svg>
