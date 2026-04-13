@@ -572,17 +572,19 @@ Note: The patterns we just covered are abstract. In practice, you pick a program
 
 ## The Five Major Models
 
-| Model | Memory Style | Parallelism Style | Hardware Target |
+| Model | Memory Style | Parallelism | Hardware |
 |---|---|---|---|
-| **OpenMP** | Shared | Threads + SIMD | Single node (multi-core CPU) |
+| **OpenMP** | Shared | Threads + SIMD | Multi-core CPU (1 node) |
 | **MPI** | Distributed | Message passing | Clusters of any size |
-| **CUDA / HIP** | GPU-local + host | Massive SIMT | NVIDIA / AMD GPUs |
+| **CUDA** / **HIP** | GPU-local + host | Massive SIMT | NVIDIA / AMD GPUs |
 | **PGAS** (Chapel, UPC) | Partitioned global | Global address space | Clusters w/ fast interconnect |
-| **Spark / Dask** | Distributed | Data parallel / map-reduce | Big-data clusters (cloud) |
+| **Spark / Dask** | Distributed | Map-reduce | Big-data clusters (cloud) |
 
-> **Real systems mix these.** A typical HPC code uses MPI between nodes, OpenMP within a node, and CUDA on the GPU, combining three models in one program.
+*HIP = AMD's portable GPU API. HIP code compiles for both AMD and NVIDIA GPUs.*
 
-Note: This three-level mix (MPI + OpenMP + CUDA) is called "MPI+X" and has been the dominant HPC pattern for a decade. The hierarchy mirrors the hardware: MPI crosses node boundaries, OpenMP crosses socket boundaries, CUDA crosses the host/device boundary. Each layer handles what it's good at.
+> <span class="accent">Real systems combine these ("MPI+X"):</span> MPI between nodes + OpenMP within a node + CUDA on the GPU. Each layer matches a level of the hardware hierarchy.
+
+Note: The MPI+X pattern has been the dominant HPC approach for a decade. The hierarchy mirrors hardware: MPI crosses node boundaries, OpenMP crosses socket boundaries, CUDA crosses the host/device boundary.
 
 ---
 
