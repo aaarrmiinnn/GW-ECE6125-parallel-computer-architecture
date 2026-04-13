@@ -537,7 +537,7 @@ Note: Any physics on a grid is likely a stencil. Stencils are the reason superco
 
 ## Task Graphs and Dataflow
 
-Describe the computation as a **DAG of tasks** and let a runtime schedule them.
+Describe the computation as a **DAG** (Directed Acyclic Graph) and let a runtime schedule it. "Directed" means edges point from producer to consumer. "Acyclic" means no cycles: task A cannot depend on task B if B depends on A. Without cycles, the runtime can always find a task whose inputs are ready.
 
 <div class="cols">
 <div class="left">
