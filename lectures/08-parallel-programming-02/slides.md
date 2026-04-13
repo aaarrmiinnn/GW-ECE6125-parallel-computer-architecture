@@ -273,7 +273,11 @@ The naive approach -- gather everything to one node, sum, broadcast back -- crea
 2. **Reduce-scatter phase** (P-1 steps): each GPU sends a chunk to its neighbor and accumulates. After this, each GPU holds 1/P of the final sum.
 3. **All-gather phase** (P-1 steps): each GPU passes its completed chunk around the ring until everyone has the full result.
 
-**Why it's optimal:** Every GPU sends and receives at full bandwidth simultaneously. Total data moved per GPU = 2 × (P-1)/P × N bytes -- nearly independent of P.
+**Why it's optimal:** Every GPU sends and receives at full bandwidth simultaneously.
+
+$$\text{Data per GPU} = 2 \cdot \frac{P-1}{P} \cdot N$$
+
+where $P$ = number of GPUs and $N$ = total message size in bytes. As $P$ grows, $\frac{P-1}{P} \approx 1$, so each GPU moves ~$2N$ bytes regardless of how many GPUs there are.
 
 > This is why NVIDIA built NCCL, why Meta obsesses over network topology, and why a bad switch can slow down LLM training by 2×.
 
