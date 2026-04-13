@@ -645,24 +645,28 @@ Note: MPI is harder than OpenMP because it forces you to think about data owners
 ## CUDA: Massive SIMT on GPUs
 
 ```c
+// __global__ = this function runs on the GPU, called from the CPU
 __global__ void saxpy(int N, float a, float *x, float *y) {
+    // each thread computes its own index from block/thread IDs
     int i = blockIdx.x * blockDim.x + threadIdx.x;
-    if (i < N) y[i] = a * x[i] + y[i];
+    if (i < N) y[i] = a * x[i] + y[i];  // y = a*x + y
 }
 
-// Host code: launch 1 million threads in a single call
-int threads_per_block = 256;
-int num_blocks = (N + threads_per_block - 1) / threads_per_block;
-saxpy<<<num_blocks, threads_per_block>>>(N, 2.0f, d_x, d_y);
+// Host (CPU) launches thousands of threads in one call
+int threads_per_block = 256;                              // threads per block
+int num_blocks = (N + threads_per_block - 1) / threads_per_block;  // enough blocks to cover N
+saxpy<<<num_blocks, threads_per_block>>>(N, 2.0f, d_x, d_y);      // <<<>>> = GPU launch syntax
 ```
 
-- Thousands of threads in **warps** of 32 execute the same instruction (SIMT)
-- Memory hierarchy you manage explicitly: global, shared, registers
-- The model for ML, graphics, scientific simulation
+- Threads run in **warps** of 32 executing the same instruction (SIMT)
+- You manage the memory hierarchy explicitly: global, shared, registers
+- The dominant model for ML, graphics, and scientific simulation
 
-> **When to pick CUDA:** Your kernel has high arithmetic intensity and regular data access, which is ideal for the GPU execution model.
+> **When to pick CUDA:** high arithmetic intensity and regular data access.
 
-Note: We'll cover GPU architecture in depth in Lecture 9. For now, the key mental model is: a GPU is a massively parallel SIMD processor with deep memory hierarchy. CUDA exposes all of it so the programmer can optimize aggressively. Frameworks like PyTorch hide this behind autograd and tensor ops, but under the hood it's CUDA kernels all the way down.
+*Used in: PyTorch and TensorFlow (all tensor ops are CUDA kernels), Blender/game engines, molecular dynamics (AMBER, GROMACS), every LLM training run.*
+
+Note: We'll cover GPU architecture in depth in Lecture 9. For now, the key mental model: a GPU is a massively parallel processor with deep memory hierarchy. CUDA exposes all of it for aggressive optimization. Frameworks like PyTorch hide this behind autograd, but under the hood it's CUDA kernels all the way down.
 
 ---
 
