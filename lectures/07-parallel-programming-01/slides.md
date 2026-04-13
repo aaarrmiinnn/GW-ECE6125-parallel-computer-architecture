@@ -12,6 +12,7 @@
 | 3 | **Decomposition** | How do we split a problem into parallel pieces? |
 | 4 | **Assignment & Load Balancing** | How do we keep all processors busy? |
 | 5 | **Orchestration & Synchronization** | How do parallel pieces coordinate safely? |
+| 6+ | **Optional Reading** | Race conditions, locks, atomics, barriers, deadlocks, four-step framework |
 
 Note: This lecture covers the **software side** of parallel computing. Previous lectures covered hardware (interconnects, cache coherence). Now we ask: given all that hardware, how do programmers actually use it?
 
@@ -440,6 +441,14 @@ Before adding synchronization, identify what **actually** needs coordination:
 > **Key insight:** Only synchronize where a real dependency exists. Over-synchronization is the #1 performance killer.
 
 Note: Draw the dependency graph of your computation. Nodes are tasks, edges are dependencies. The longest path is the **critical path** -- it determines minimum execution time regardless of processor count. This *is* Amdahl's serial fraction.
+
+---
+
+## Optional Reading
+
+### The remaining slides are supplementary material, not required for exams.
+
+Note: The following slides cover race conditions, synchronization primitives (locks, atomics, barriers), deadlocks, and the four-step framework. These topics are covered in more depth in Lecture 8. They are included here for reference and self-study.
 
 ---
 
