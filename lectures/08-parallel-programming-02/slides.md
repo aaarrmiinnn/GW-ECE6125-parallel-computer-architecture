@@ -426,16 +426,22 @@ total = sum(result)
 
 > **Why it scales:** Map is embarrassingly parallel. Reduce is O(log P) with a tree. Together they scale to thousands of machines.
 
-**More problems are map-reduce than you'd think:**
+Note: Google's original MapReduce paper (2004) launched the big-data era. The insight: express computation as map + reduce, and the framework handles distribution, fault tolerance, and scheduling automatically.
+
+---
+
+## Map-Reduce Is Everywhere
+
+More problems are map-reduce than you'd think:
 
 | Problem | Map | Reduce |
 |---|---|---|
-| Word counting | Each worker counts words in its chunk | Sum the counts |
-| ML training (data parallel) | Each GPU computes gradients on its batch | All-reduce to average gradients |
-| Image rendering | Each core renders a tile | Stitch tiles together |
-| Log analysis | Each node filters/parses its logs | Merge results |
+| Word counting | Count words in each chunk | Sum counts |
+| <span class="accent">ML training</span> | Each GPU computes gradients | All-reduce to average |
+| Image rendering | Each core renders a tile | Stitch tiles |
+| Log analysis | Each node filters its logs | Merge results |
 
-Note: Google's original MapReduce paper (2004) launched the big-data era. The insight was that if you express your computation as map + reduce, the framework handles distribution, fault tolerance, and scheduling automatically. Spark, Dask, Ray, and BigQuery all descended from this idea.
+Note: The hard part is recognizing that a problem *is* map-reduce in disguise. Once you see it, frameworks like Spark, Dask, Ray, and BigQuery give you parallelism for free.
 
 ---
 
