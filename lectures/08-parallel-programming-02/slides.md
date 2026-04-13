@@ -822,25 +822,30 @@ Note: The square-root scaling of communication is the central result of 2D decom
 
 ---
 
-## Approach 3: Cannon's Algorithm and SUMMA
+## Approach 3: Cannon's Algorithm
 
-Two famous refinements of 2D decomposition:
+> **Intuition:** instead of gathering all the data you need upfront, **pass blocks around a ring** so each process sees every block it needs, one at a time.
 
-**Cannon's Algorithm (1969)**
+- Processes sit on a 2D torus grid
+- Each step: shift $A$ blocks left, shift $B$ blocks up, multiply-accumulate
+- After $\sqrt{P}$ steps, every process has seen all the blocks it needs
+- Only neighbor-to-neighbor communication (no broadcasts)
 
-- Each step: shift A left by one block, shift B up by one block, multiply-accumulate
-- After √P steps, every block of C is complete
-- Only neighbor communication, which maps perfectly to a 2D torus network
+Note: Cannon's (1969) is elegant because it uses only neighbor communication, but it requires a square process grid and careful initial alignment of blocks. Every HPC student learns it because it beautifully illustrates how you can avoid broadcasts entirely.
 
-**SUMMA (Scalable Universal Matrix Multiplication, 1995)**
+---
 
-- At step k: broadcast the k-th column of A blocks across rows, broadcast the k-th row of B blocks down columns, multiply-accumulate
-- Uses collective broadcasts (which are efficient) instead of careful shifts
-- Easier to implement and works for non-square process grids
+## Approach 4: SUMMA
 
-> **Both achieve the same O(n² / √P) communication.** SUMMA is what you'll find in production libraries (ScaLAPACK's `PDGEMM`) because it's simpler and handles irregular sizes.
+> **Intuition:** instead of shifting blocks around, just **broadcast** the column of $A$ and row of $B$ you need at each step. Let the optimized broadcast do the work.
 
-Note: Cannon's algorithm is a historical artifact that every HPC student learns because it beautifully illustrates neighbor-only communication. SUMMA, which came 26 years later, is what everyone actually uses because collective broadcasts are well-optimized in every MPI implementation. A good example of how the "simpler algorithm that uses a better primitive" often beats the clever one.
+- At step $k$: broadcast the $k$-th column of $A$ blocks across rows, broadcast the $k$-th row of $B$ blocks down columns
+- Each process multiplies what it receives and accumulates into its block of $C$
+- Works for non-square process grids
+
+> Both Cannon and SUMMA achieve $O(n^2 / \sqrt{P})$ communication. <span class="accent">SUMMA is what production libraries use</span> (ScaLAPACK's `PDGEMM`) because broadcasts are simpler and already optimized in MPI.
+
+Note: SUMMA (1995) replaced Cannon in practice because collective broadcasts are heavily optimized in every MPI implementation. A good example of how the "simpler algorithm that uses a better primitive" beats the clever one.
 
 ---
 
