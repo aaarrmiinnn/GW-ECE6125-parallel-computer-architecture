@@ -392,12 +392,7 @@ Parallel efficiency = speedup ÷ P. Four forces push it below 1.0:
 
 > **Quick diagnostic:** Run at P=2, 4, 8, 16, 32. Plot efficiency. The shape tells you the cause:
 
-| Curve Shape | Likely Cause | Why |
-|---|---|---|
-| Flat then sudden drop | Communication overhead | Small P: communication is negligible. Large P: per-processor work shrinks but message count doesn't |
-| Steady decline from the start | Load imbalance | Even at P=2, one processor has more work -- wasted time scales with P |
-| Hard plateau at 1/s | Serial fraction (Amdahl) | No amount of P can speed up the serial part -- efficiency hits a floor |
-| Good then oscillating | Contention | Works fine until a shared resource (bus, lock, memory channel) saturates |
+![Efficiency curve shapes and what they diagnose](images/efficiency_curves.svg)
 
 Note: This is the most practical slide in Part 3. Before reaching for a profiler, just plotting efficiency at a few values of P tells you where to look. Different causes need different fixes: communication overhead needs batching or overlap, load imbalance needs dynamic scheduling, serial fraction needs algorithmic redesign, contention needs fewer shared resources.
 
