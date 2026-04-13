@@ -770,16 +770,16 @@ Note: The growing intensity means larger matrices use hardware more efficiently.
 <div class="left">
 
 - Split $A$ by rows: each process owns $n/P$ rows
-- Every process needs **all of $B$** → broadcast it
-- Then compute locally
+- Broadcast all of $B$ to every process
+- Each process computes its rows of $C$ locally
 
-| | Cost |
-|---|---|
-| Compute | $2n^3 / P$ |
-| Communication | $O(n^2 \log P)$ |
-| Memory / process | $O(n^2)$ |
+| | Cost | Why |
+|---|---|---|
+| Compute | $2n^3 / P$ | each P does $(n/P) \times n \times n$ multiply-adds |
+| Comm. | $O(n^2 \log P)$ | tree-broadcast of $n^2$ elements |
+| Memory | $O(n^2)$ | every P stores full $B$ |
 
-> <span class="accent">Problem:</span> memory per process doesn't shrink with $P$. Can't scale to matrices that don't fit on one machine.
+> <span class="accent">Problem:</span> memory doesn't shrink with $P$.
 
 </div>
 <div class="right">
@@ -799,16 +799,16 @@ Note: The 1D approach is easy to code and fine for small clusters. It fails when
 <div class="left">
 
 - Arrange $P$ processes in a $\sqrt{P} \times \sqrt{P}$ grid
-- Each process owns a $(n/\sqrt{P})^2$ block of $A$, $B$, and $C$
-- Needs one **row of $A$ blocks** and one **column of $B$ blocks**
+- Each process owns a $(n/\sqrt{P})^2$ block of $A$, $B$, $C$
+- Needs one **row of $A$ blocks** + one **column of $B$ blocks**
 
-| | Cost |
-|---|---|
-| Compute | $2n^3 / P$ |
-| Communication | $O(n^2 / \sqrt{P})$ |
-| Memory / process | $O(n^2 / P)$ |
+| | Cost | Why |
+|---|---|---|
+| Compute | $2n^3 / P$ | same total work, split evenly |
+| Comm. | $O(n^2 / \sqrt{P})$ | each P receives $\sqrt{P}$ blocks of size $(n/\sqrt{P})^2$ |
+| Memory | $O(n^2 / P)$ | each P stores only its block |
 
-> <span class="accent">Win:</span> communication grows as $\sqrt{P}$, not $P$. Memory shrinks linearly. This is the standard.
+> <span class="accent">Win:</span> communication grows as $\sqrt{P}$, memory shrinks linearly.
 
 </div>
 <div class="right">
