@@ -450,15 +450,13 @@ Note: The hard part is recognizing that a problem *is* map-reduce in disguise. O
 **Fork-join**: split work into subtasks, run them in parallel, wait at a join point.
 
 ```c
-// OpenMP: classic fork-join
-#pragma omp parallel
+#pragma omp parallel       // FORK: spawn a team of threads
 {
-    #pragma omp for
+    #pragma omp for        // split loop iterations across threads
     for (int i = 0; i < N; i++) {
         a[i] = heavy_work(i);
     }
-    // implicit join/barrier at end of parallel region
-}
+}                          // JOIN: all threads wait here, then one continues
 ```
 
 - Works naturally for **recursive divide-and-conquer**: quicksort, tree traversals
