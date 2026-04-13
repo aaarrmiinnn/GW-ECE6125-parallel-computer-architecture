@@ -509,23 +509,17 @@ Note: This is one of the most common CUDA optimizations. The same idea applies w
 
 ## Stencil / Structured Grid Pattern
 
-Each cell updates from its neighbors (we saw the halo exchange in Part 2).
+Each cell updates from its neighbors. We saw the halo exchange in Part 2.
+
+![Stencil halo exchange across process boundaries](images/stencil_halo.svg)
 
 ```c
-// Iterate over timesteps
-for (int t = 0; t < steps; t++) {
-    exchange_halos();                 // send/recv border rows with neighbors
-    for (int i = 1; i < N-1; i++)     // skip boundaries (halo cells)
-        for (int j = 1; j < N-1; j++)
-            // average of 4 neighbors (2D heat equation)
-            new_u[i][j] = 0.25 * (u[i-1][j] + u[i+1][j]
-                                 + u[i][j-1] + u[i][j+1]);
-    swap(u, new_u);                   // new values become current
-}
+// average of 4 neighbors (2D heat equation)
+new_u[i][j] = 0.25 * (u[i-1][j] + u[i+1][j]
+                     + u[i][j-1] + u[i][j+1]);
 ```
 
-- **Where you'll see it:** weather simulation, seismic imaging, fluid dynamics, image processing. Any physics on a grid is likely a stencil.
-- **Why it scales well:** each process only exchanges its border rows with neighbors, which is O(√N), while the interior computation is O(N). As the grid grows, communication becomes a shrinking fraction of the total work.
+Note: Any physics on a grid is likely a stencil: weather, seismic imaging, fluid dynamics, image processing. It scales well because communication (border exchange) is O(√N) while computation (interior) is O(N). As the grid grows, the fraction spent communicating shrinks. This is the pattern behind most of the world's supercomputer workload.
 
 Note: Stencils are the reason supercomputers exist. A huge fraction of the top-500 workload is some flavor of stencil computation: climate models, nuclear simulations, structural analysis.
 
