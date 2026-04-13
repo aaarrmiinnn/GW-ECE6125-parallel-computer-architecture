@@ -614,17 +614,18 @@ Note: OpenMP started in 1997 and is still going strong. The 2021 5.2 spec even a
 ## MPI: Distributed-Memory, Explicit Control
 
 ```c
-// Distributed dot product across P processes
+// Distributed dot product: same program runs on every process
 int rank, size;
-MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-MPI_Comm_size(MPI_COMM_WORLD, &size);
+MPI_Comm_rank(MPI_COMM_WORLD, &rank);  // "who am I?" (0..P-1)
+MPI_Comm_size(MPI_COMM_WORLD, &size);  // "how many of us?"
 
 double local_sum = 0;
-for (int i = rank; i < N; i += size) {
+for (int i = rank; i < N; i += size) { // each process takes every P-th element
     local_sum += a[i] * b[i];
 }
 
 double global_sum;
+// sum all local_sums and deliver result to every process
 MPI_Allreduce(&local_sum, &global_sum, 1, MPI_DOUBLE,
               MPI_SUM, MPI_COMM_WORLD);
 ```
@@ -633,9 +634,11 @@ MPI_Allreduce(&local_sum, &global_sum, 1, MPI_DOUBLE,
 - All data movement is explicit: you see every byte that crosses the network
 - Scales to the world's largest systems (~10 million ranks)
 
-> **When to pick MPI:** Your problem doesn't fit on one machine, or you want the ultimate control over communication.
+> **When to pick MPI:** your problem doesn't fit on one machine, or you need full control over communication.
 
-Note: MPI is notoriously harder than OpenMP because it forces you to think about data ownership and movement. But that same explicitness is why it scales further than anything else: there's no magic, so nothing degrades unexpectedly. Every top-500 supercomputer on Earth runs MPI.
+*Used in: every top-500 supercomputer, weather forecasting (WRF, ECMWF), molecular dynamics (LAMMPS, NAMD), Llama/GPT distributed training via NCCL (which uses MPI-like collectives).*
+
+Note: MPI is harder than OpenMP because it forces you to think about data ownership and movement. But that explicitness is why it scales further: there's no hidden magic, so nothing degrades unexpectedly.
 
 ---
 
