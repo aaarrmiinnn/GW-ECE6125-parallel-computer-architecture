@@ -753,7 +753,7 @@ Compute $C = A \times B$ where all are $n \times n$ matrices.
 
 - **Work:** $O(n^3)$ multiply-add operations
 - **Data:** $O(n^2)$ elements per matrix
-- **Arithmetic intensity:** $\sim n/3$ (grows with $n$)
+- **Arithmetic intensity:** $\frac{2n^3 \text{ FLOPs}}{3n^2 \times 8 \text{ bytes}} = \frac{n}{12}$ FLOPs/byte (grows with $n$)
 - **Sequential cost:** $2n^3$ FLOPs
 - **Example:** $n = 4096 \Rightarrow 2 \times 4096^3 \approx 137 \times 10^9$ FLOPs
 - **On one CPU core** at 50 GFLOP/s: $137 / 50 \approx$ <span class="accent">2.7 seconds</span>
