@@ -478,7 +478,9 @@ Different stages run in parallel on different data items -- like an assembly lin
 
 Once the pipeline is full, every stage works on a different item. <span class="accent">Throughput = 1 / (slowest stage)</span>.
 
-Note: Example: video transcoding -- Decode → Filter → Encode → Write. Each stage processes a different frame simultaneously. This also matches hardware: CPU instruction pipelines, GPU streams, and CUDA graphs all use this pattern. Pipeline parallelism is the key technique for LLM training at scale -- models too big for one GPU split layers across GPUs, with micro-batches flowing through (GPipe, PipeDream).
+**The programmer designs this:** you decide the stages, assign each to a processor, and manage the handoffs -- via CUDA streams, thread pools, or Unix pipes (`cat | grep | sort`).
+
+Note: Pipeline parallelism is the key technique for LLM training at scale -- models too big for one GPU split layers across GPUs, with micro-batches flowing through (GPipe, PipeDream). CPU instruction pipelines use the same idea in hardware, but here we're talking about the software version the programmer explicitly builds.
 
 ---
 
