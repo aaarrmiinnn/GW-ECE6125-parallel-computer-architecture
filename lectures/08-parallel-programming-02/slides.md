@@ -476,11 +476,34 @@ Different stages run in parallel on different data items -- like an assembly lin
 
 ![Pipeline parallelism: stages overlap on different inputs](images/pipeline.svg)
 
-Once the pipeline is full, every stage works on a different item. <span class="accent">Throughput = 1 / (slowest stage)</span>.
+<span class="accent">Throughput = 1 / (slowest stage)</span>. The programmer designs the stages and assigns each to a processor.
 
-**The programmer designs this:** you decide the stages, assign each to a processor, and manage the handoffs -- via CUDA streams, thread pools, or Unix pipes (`cat | grep | sort`).
+Note: CPU instruction pipelines use this idea in hardware, but here we're talking about the software version the programmer explicitly builds. Pipeline parallelism is also the key technique for LLM training -- models too big for one GPU split layers across GPUs, with micro-batches flowing through (GPipe, PipeDream).
 
-Note: Pipeline parallelism is the key technique for LLM training at scale -- models too big for one GPU split layers across GPUs, with micro-batches flowing through (GPipe, PipeDream). CPU instruction pipelines use the same idea in hardware, but here we're talking about the software version the programmer explicitly builds.
+---
+
+## Pipeline Example: CUDA Streams
+
+Overlap data transfer and computation by putting them in different streams:
+
+```c
+// Without pipeline: transfer ALL data, then compute ALL
+cudaMemcpy(d_data, h_data, N, cudaMemcpyHostToDevice);
+kernel<<<blocks, threads>>>(d_data, N);
+
+// With pipeline: split into chunks, overlap transfer and compute
+for (int i = 0; i < NUM_CHUNKS; i++) {
+    // Stream i: copy chunk i while stream i-1 computes
+    cudaMemcpyAsync(d_chunk[i], h_chunk[i], chunk_size,
+                    cudaMemcpyHostToDevice, stream[i]);
+    kernel<<<blocks, threads, 0, stream[i]>>>(d_chunk[i], chunk_size);
+}
+```
+
+- **Without pipeline:** GPU sits idle during transfer, then CPU sits idle during compute
+- **With pipeline:** transfer of chunk N+1 overlaps with compute on chunk N
+
+Note: This is one of the most common CUDA optimizations. The same idea applies with thread pools: one thread decodes, another processes, another writes -- each working on a different item. Unix pipes (`cat file | grep pattern | sort`) are the simplest version: three processes in a pipeline, the OS handles the handoffs.
 
 ---
 
