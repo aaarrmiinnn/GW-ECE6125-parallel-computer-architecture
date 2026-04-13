@@ -591,18 +591,21 @@ Note: The MPI+X pattern has been the dominant HPC approach for a decade. The hie
 ## OpenMP: Shared-Memory, Minimal Friction
 
 ```c
-// Parallel loop with reduction -- 3 extra characters turn this parallel
+// dot product: each thread gets a chunk of iterations
+// reduction(+:sum) safely combines per-thread partial sums
 #pragma omp parallel for reduction(+:sum)
 for (int i = 0; i < N; i++) {
-    sum += a[i] * b[i];
+    sum += a[i] * b[i];   // no locks needed, reduction handles it
 }
 ```
 
-- Incremental: add pragmas one loop at a time
-- No explicit data movement since it's all shared
+- Incremental: add pragmas one loop at a time, no restructuring needed
+- No explicit data movement since it's all shared memory
 - Limited to a single node (~100 cores, ~1 TB memory)
 
-> **When to pick OpenMP:** Your problem fits on one machine, you already have serial code, you want parallelism without restructuring everything.
+> **When to pick OpenMP:** your problem fits on one machine and you want parallelism with minimal code changes.
+
+*Used in: MATLAB's parallel internals, LLVM/GCC compiler parallelization, most scientific simulation codes (LAMMPS, GROMACS, OpenFOAM).*
 
 Note: OpenMP started in 1997 and is still going strong. The 2021 5.2 spec even added GPU offloading, making it a credible alternative to CUDA for portable code. It's the easiest parallel programming model on the planet: if you can understand a for loop, you can parallelize one with OpenMP.
 
