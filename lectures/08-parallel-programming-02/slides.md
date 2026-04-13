@@ -519,9 +519,7 @@ new_u[i][j] = 0.25 * (u[i-1][j] + u[i+1][j]
                      + u[i][j-1] + u[i][j+1]);
 ```
 
-Note: Any physics on a grid is likely a stencil: weather, seismic imaging, fluid dynamics, image processing. It scales well because communication (border exchange) is O(√N) while computation (interior) is O(N). As the grid grows, the fraction spent communicating shrinks. This is the pattern behind most of the world's supercomputer workload.
-
-Note: Stencils are the reason supercomputers exist. A huge fraction of the top-500 workload is some flavor of stencil computation: climate models, nuclear simulations, structural analysis.
+Note: Any physics on a grid is likely a stencil: weather, seismic imaging, fluid dynamics, image processing. It scales well because communication (border exchange) is O(√N) while computation (interior) is O(N). As the grid grows, the fraction spent communicating shrinks. Stencils are the reason supercomputers exist: climate models, nuclear simulations, structural analysis.
 
 ---
 
@@ -529,15 +527,23 @@ Note: Stencils are the reason supercomputers exist. A huge fraction of the top-5
 
 Describe the computation as a **DAG of tasks** and let a runtime schedule them.
 
-![Task DAG with dependencies](images/task_graph.svg)
+<div class="cols">
+<div class="left">
 
 - Each node is a task; each edge is a data dependency
 - The runtime runs any task whose inputs are ready
-- **Critical path** = longest path through the DAG = minimum wall-clock time
+- <span class="accent">Critical path</span> = longest path through the DAG = minimum wall-clock time
+- TensorFlow, PyTorch, Dask, and Ray all build task graphs under the hood
 
-> **Modern incarnation:** TensorFlow, PyTorch, Dask, and Ray all build task graphs under the hood. You write straight-line code; the framework extracts parallelism automatically.
+</div>
+<div class="right">
 
-Note: This is how deep learning frameworks get parallelism without asking you to manage threads. When you write `y = model(x)` in PyTorch, it's silently building a DAG of tensor operations that can be fused, reordered, and dispatched to CPU or GPU. CUDA graphs go even further: you capture a DAG once and replay it thousands of times with zero kernel-launch overhead.
+![Task DAG with dependencies](images/task_graph.svg)
+
+</div>
+</div>
+
+Note: This is how deep learning frameworks get parallelism without asking you to manage threads. When you write `y = model(x)` in PyTorch, it silently builds a DAG of tensor operations that can be fused, reordered, and dispatched to CPU or GPU. CUDA graphs go further: capture a DAG once and replay it thousands of times with zero kernel-launch overhead.
 
 ---
 
