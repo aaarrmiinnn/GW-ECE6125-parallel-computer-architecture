@@ -747,17 +747,18 @@ Note: Matrix multiply is the canonical parallel algorithm and the computational 
 
 ---
 
-## The Problem
+## The Problem: Matrix Multiply
 
-Compute `C = A × B`, where A, B, C are n × n matrices.
+Compute $C = A \times B$ where all are $n \times n$ matrices.
 
-- Work: O(n³) multiply-add operations
-- Data: O(n²) elements per matrix
-- **Arithmetic intensity:** ~ n / 3, which grows with n, which is why matrix multiply is *great* for parallel hardware
+- **Work:** $O(n^3)$ multiply-add operations
+- **Data:** $O(n^2)$ elements per matrix
+- **Arithmetic intensity:** $\sim n/3$ (grows with $n$)
+- **Sequential baseline:** 4096×4096 on one CPU core at 50 GFLOP/s ≈ 2.7 seconds
 
-Sequential cost: 2n³ floating-point operations. On a single modern CPU at 50 GFLOP/s, a 4096×4096 multiply takes about 2.7 seconds. We want to make it go faster using P processors.
+> Matrix multiply has <span class="accent">high and growing intensity</span>. This is why it's the ideal kernel for GPUs and why tensor cores exist.
 
-Note: The fact that matrix multiply has high and growing arithmetic intensity is *why* GPUs are so fast at ML workloads. A GPU's peak FLOP rate is only achievable on kernels with high intensity; matrix multiply hits that target easily, which is why tensor cores exist and why ML training uses them nearly 100% of the time.
+Note: The growing intensity means larger matrices use hardware more efficiently. This is why ML training (which is mostly matrix multiply) benefits so much from GPUs. A GPU's peak FLOP rate is only achievable on high-intensity kernels, and matrix multiply hits that target easily.
 
 ---
 
