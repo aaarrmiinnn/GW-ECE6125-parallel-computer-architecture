@@ -476,15 +476,9 @@ Different stages run in parallel on different data items -- like an assembly lin
 
 ![Pipeline parallelism: stages overlap on different inputs](images/pipeline.svg)
 
-**Example: video transcoding**
+Once the pipeline is full, every stage works on a different item. <span class="accent">Throughput = 1 / (slowest stage)</span>.
 
-1. Decode → 2. Filter → 3. Encode → 4. Write
-
-Once the pipeline is full, every stage is working on a different frame simultaneously. Throughput = 1 / (slowest stage time).
-
-> **Matches hardware:** This is exactly how a CPU's instruction pipeline works, and how GPU kernel streams and CUDA graphs overlap data movement with compute.
-
-Note: Pipeline parallelism is the key scaling technique for LLM training at extreme scale. Models like GPT-4 are too big to fit on a single GPU, so each layer runs on a different GPU, and micro-batches flow through the pipeline. Getting good utilization requires careful "pipeline scheduling" (GPipe, PipeDream, 1F1B) to avoid bubbles where GPUs sit idle waiting for the previous stage.
+Note: Example: video transcoding -- Decode → Filter → Encode → Write. Each stage processes a different frame simultaneously. This also matches hardware: CPU instruction pipelines, GPU streams, and CUDA graphs all use this pattern. Pipeline parallelism is the key technique for LLM training at scale -- models too big for one GPU split layers across GPUs, with micro-batches flowing through (GPipe, PipeDream).
 
 ---
 
