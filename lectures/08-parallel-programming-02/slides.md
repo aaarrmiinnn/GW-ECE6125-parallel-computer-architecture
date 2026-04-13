@@ -390,9 +390,16 @@ Parallel efficiency = speedup ÷ P. Four forces push it below 1.0:
 | **Load imbalance** | The slowest processor sets the pace -- idle time wastes resources |
 | **Contention** | Shared resources (memory, network, locks) saturate |
 
-> **Quick diagnostic:** Run at P=2, 4, 8, 16, 32. Plot efficiency. The shape of the curve tells you which force dominates.
+> **Quick diagnostic:** Run at P=2, 4, 8, 16, 32. Plot efficiency. The shape tells you the cause:
 
-Note: The shape of the efficiency curve is diagnostic. A flat ~0.9 curve that suddenly drops at large P: you've hit a communication wall. A linearly decreasing curve from the start: load imbalance. A plateau at exactly some fraction: Amdahl's serial section. Different shapes point you to different fixes -- profile first, optimize second.
+| Curve Shape | Likely Cause | Why |
+|---|---|---|
+| Flat then sudden drop | Communication overhead | Small P: communication is negligible. Large P: per-processor work shrinks but message count doesn't |
+| Steady decline from the start | Load imbalance | Even at P=2, one processor has more work -- wasted time scales with P |
+| Hard plateau at 1/s | Serial fraction (Amdahl) | No amount of P can speed up the serial part -- efficiency hits a floor |
+| Good then oscillating | Contention | Works fine until a shared resource (bus, lock, memory channel) saturates |
+
+Note: This is the most practical slide in Part 3. Before reaching for a profiler, just plotting efficiency at a few values of P tells you where to look. Different causes need different fixes: communication overhead needs batching or overlap, load imbalance needs dynamic scheduling, serial fraction needs algorithmic redesign, contention needs fewer shared resources.
 
 ---
 
