@@ -357,21 +357,23 @@ Note: Here's the real-world punch line: modern ML training is designed around we
 
 ## Amdahl vs. Gustafson: The Same Equation, Different Assumptions
 
+Where $s$ = serial fraction (portion that can't be parallelized) and $P$ = number of processors.
+
 **Amdahl (fixed problem size):**
 
-`Speedup = 1 / (s + (1-s)/P)`
+$$\text{Speedup}_{\text{Amdahl}} = \frac{1}{s + \frac{1-s}{P}}$$
 
-- As P → ∞, speedup → 1/s
-- A 5% serial fraction caps speedup at 20×, no matter how many processors you throw at it
+- As $P \to \infty$, speedup $\to 1/s$
+- If $s = 5\%$, speedup is capped at 20× -- no matter how many processors
 
 **Gustafson (fixed time, scale the problem):**
 
-`Speedup = s + (1-s) * P`
+$$\text{Speedup}_{\text{Gustafson}} = s + (1-s) \cdot P$$
 
-- As P → ∞, speedup grows linearly
-- Adding processors lets you solve a proportionally larger problem in the same wall-clock time
+- As $P \to \infty$, speedup grows linearly
+- Adding processors lets you solve a proportionally larger problem in the same time
 
-> **They don't contradict each other.** They answer different questions.
+> **They don't contradict each other.** Amdahl asks "how fast can I finish *this* problem?" Gustafson asks "how big a problem can I solve in *this* time?"
 
 Note: When people say "Amdahl was wrong," they usually mean "we shouldn't optimize for fixed problem sizes." That's fair for HPC and ML, where the goal is often to solve problems that were previously impossible. But Amdahl is *still* the right answer if your problem size is genuinely fixed -- for example, a real-time simulation that must finish in 16 ms per frame. Know which question you're asking.
 
