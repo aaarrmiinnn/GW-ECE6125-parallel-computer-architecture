@@ -766,41 +766,59 @@ Note: The growing intensity means larger matrices use hardware more efficiently.
 
 ## Approach 1: 1D Row Decomposition
 
-![1D row decomposition of matrix multiply](images/matmul_1d.svg)
+<div class="cols">
+<div class="left">
 
-- Split A by rows: each of P processes owns n/P rows
-- Every process needs the **entire matrix B** to compute its block of C
-- Broadcast B to everyone, then compute locally
+- Split $A$ by rows: each process owns $n/P$ rows
+- Every process needs **all of $B$** → broadcast it
+- Then compute locally
 
-**Cost analysis:**
+| | Cost |
+|---|---|
+| Compute | $2n^3 / P$ |
+| Communication | $O(n^2 \log P)$ |
+| Memory / process | $O(n^2)$ |
 
-- Compute per process: 2n³ / P
-- Communication: broadcast of n² elements → O(n² log P) with tree algorithm
-- Memory per process: O(n²), a full copy of B
+> <span class="accent">Problem:</span> memory per process doesn't shrink with $P$. Can't scale to matrices that don't fit on one machine.
 
-> **Problem:** Memory footprint is *constant* in P because every process holds an n² matrix. Can't scale to matrices that don't fit on one machine.
+</div>
+<div class="right">
 
-Note: The 1D approach is easy to code and fine for small clusters with small matrices. It fails exactly when you need parallelism most: big matrices on big clusters. The per-process memory doesn't shrink as you add processors, so you run out of RAM long before you run out of parallelism.
+![1D row decomposition](images/matmul_1d.svg)
+
+</div>
+</div>
+
+Note: The 1D approach is easy to code and fine for small clusters. It fails when you need parallelism most: big matrices on big clusters. Per-process memory stays constant, so you run out of RAM before you run out of parallelism.
 
 ---
 
 ## Approach 2: 2D Block Decomposition
 
-![2D block decomposition of matrix multiply](images/matmul_2d.svg)
+<div class="cols">
+<div class="left">
 
-- Arrange P processes in a √P × √P grid
-- Each process owns an (n/√P) × (n/√P) block of A, B, and C
-- To compute its block of C, a process needs the corresponding **row of A blocks** and **column of B blocks**
+- Arrange $P$ processes in a $\sqrt{P} \times \sqrt{P}$ grid
+- Each process owns a $(n/\sqrt{P})^2$ block of $A$, $B$, and $C$
+- Needs one **row of $A$ blocks** and one **column of $B$ blocks**
 
-**Cost analysis:**
+| | Cost |
+|---|---|
+| Compute | $2n^3 / P$ |
+| Communication | $O(n^2 / \sqrt{P})$ |
+| Memory / process | $O(n^2 / P)$ |
 
-- Compute: 2n³ / P
-- Communication: O(n² / √P) per process
-- Memory: O(n² / P) per process, which **scales with P**
+> <span class="accent">Win:</span> communication grows as $\sqrt{P}$, not $P$. Memory shrinks linearly. This is the standard.
 
-> **Win:** Communication grows only as √P, not P. Memory shrinks linearly. This is why 2D decomposition is the standard.
+</div>
+<div class="right">
 
-Note: The square-root scaling of communication volume is the central result of 2D decomposition. It's not obvious the first time you see it, but it's the reason dense linear algebra on supercomputers uses 2D grids universally. ScaLAPACK, PLASMA, and every modern dense LA library works this way.
+![2D block decomposition](images/matmul_2d.svg)
+
+</div>
+</div>
+
+Note: The square-root scaling of communication is the central result of 2D decomposition. ScaLAPACK, PLASMA, and every modern dense LA library uses 2D grids for this reason.
 
 ---
 
