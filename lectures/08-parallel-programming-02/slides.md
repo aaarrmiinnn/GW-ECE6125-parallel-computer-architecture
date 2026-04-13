@@ -215,9 +215,31 @@ Note: This is a key insight students miss -- they think collectives are an MPI t
 | **Scatter** | One process sends *different* pieces to each | Handing out work chunks |
 | **Gather** | Every process sends its piece to one collector | Assembling partial results |
 
-> **Why use a collective instead of a loop of point-to-point sends?** The library uses tree-based algorithms: O(log P) steps instead of O(P). At 1024 processes, that's 10 steps vs. 1024.
+Note: These three cover the most common data distribution needs. Broadcast is by far the most frequent -- any time every worker needs the same configuration, weights, or parameters.
 
-Note: Every major parallel library (MPI, NCCL, Gloo, Horovod) has highly tuned collective implementations. Never hand-roll them. On modern networks these collectives even use hardware offload -- InfiniBand switches can perform reductions inside the network without ever sending data back to the host. Mellanox calls this SHARP; it's a real feature of the Quantum-2 switches powering most AI training clusters.
+---
+
+## Why Collectives Beat Point-to-Point
+
+Why not just write a loop of sends?
+
+```c
+// NAIVE: root sends to each process one at a time -- O(P) steps
+for (int i = 1; i < num_procs; i++)
+    MPI_Send(data, size, MPI_INT, i, tag, comm);
+
+// BETTER: one call, library uses a tree internally -- O(log P) steps
+MPI_Bcast(data, size, MPI_INT, root, comm);
+```
+
+**The difference is a tree vs. a chain:**
+
+- **Naive loop:** Root sends P-1 messages, one after another. At P=1024, that's 1024 steps.
+- **Tree broadcast:** Root sends to 2 nodes, they each send to 2 more, and so on. At P=1024, that's only 10 steps (log₂ 1024).
+
+> **Rule:** Never hand-roll collectives. The library is faster because it uses tree algorithms, pipelining, and sometimes even hardware offload (InfiniBand switches can do reductions *inside the network*).
+
+Note: This is not a minor optimization -- it's the difference between O(P) and O(log P). At scale this matters enormously. Every major library (MPI, NCCL, Gloo) has spent years tuning these implementations. Hand-rolling a broadcast loop is one of the most common performance mistakes in parallel code.
 
 ---
 
