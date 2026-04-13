@@ -696,21 +696,23 @@ Note: PGAS is a beautiful idea that never quite took over because the abstractio
 ## Spark and Dask: Big Data in the Cloud
 
 ```python
-# PySpark: count words across terabytes of logs, parallelized automatically
-counts = (spark.read.text("s3://logs/")
-          .rdd
-          .flatMap(lambda line: line.value.split())
-          .map(lambda word: (word, 1))
-          .reduceByKey(lambda a, b: a + b))
+# PySpark: count words across terabytes of logs
+counts = (spark.read.text("s3://logs/")     # read from cloud storage
+          .rdd                               # treat as distributed dataset
+          .flatMap(lambda line: line.value.split())  # split each line into words
+          .map(lambda word: (word, 1))       # emit (word, 1) pairs
+          .reduceByKey(lambda a, b: a + b))  # sum counts per word
 ```
 
-- Data sits in distributed storage (S3, HDFS)
-- The framework partitions data, schedules tasks, and **handles failures** automatically
-- The programmer writes functional-style transformations; parallelism is implicit
+- **You never manage nodes:** data sits in distributed storage (S3, HDFS). The framework partitions it, schedules tasks, and moves data between nodes.
+- **Automatic fault tolerance:** if a node dies mid-job, the framework re-runs that partition from the last checkpoint. In MPI, a single failed rank kills the whole job.
+- **Functional style:** you chain transformations (map, filter, reduce). The framework decides what runs where.
 
-> **When to pick Spark/Dask:** Your problem is data-heavy rather than compute-heavy, you need fault tolerance across hundreds of commodity nodes, and you're OK with map-reduce semantics.
+> **When to pick Spark/Dask:** data-heavy problems on commodity cloud hardware where failures are expected.
 
-Note: Spark/Dask/Ray exist because HPC tools (MPI, OpenMP) weren't designed for cheap cloud hardware where individual machines fail constantly. These frameworks accept a small overhead in exchange for automatic fault tolerance: if a node dies mid-job, the framework restarts that partition. HPC codes don't tolerate this because a failed MPI rank typically kills the whole job.
+*Used in: Netflix recommendations, Uber surge pricing, genomics pipelines, most enterprise ETL/analytics, Databricks platform.*
+
+Note: Spark/Dask/Ray exist because MPI and OpenMP weren't designed for cheap cloud hardware where individual machines fail constantly. These frameworks trade a small performance overhead for automatic fault tolerance and ease of use.
 
 ---
 
