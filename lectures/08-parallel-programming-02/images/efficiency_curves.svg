@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="800" height="420" viewBox="0 0 800 420" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    text { font-family: Arial, Helvetica, sans-serif; fill: #222; }
+    .title { font-size: 16px; font-weight: bold; fill: #004065; }
+    .label { font-size: 12px; font-weight: bold; }
+    .axis-label { font-size: 10px; fill: #666; }
+    .axis { stroke: #333; stroke-width: 1.5; fill: none; }
+    .grid { stroke: #e8e8e8; stroke-width: 1; }
+    .caption { font-size: 11px; fill: #555; }
+  </style>
+
+  <!-- Title -->
+  <text x="400" y="22" class="title" text-anchor="middle">Efficiency Curve Shapes: Diagnosing the Bottleneck</text>
+
+  <!-- ═══ Panel 1: Communication Overhead ═══ -->
+  <text x="105" y="50" class="label" text-anchor="middle" fill="#004065">Communication</text>
+
+  <!-- Axes -->
+  <line x1="30" y1="65" x2="30" y2="165" class="axis"/>
+  <line x1="30" y1="165" x2="180" y2="165" class="axis"/>
+  <text x="10" y="70" class="axis-label">100%</text>
+  <text x="10" y="168" class="axis-label">0%</text>
+  <text x="105" y="180" class="axis-label" text-anchor="middle">Processors →</text>
+
+  <!-- Grid -->
+  <line x1="30" y1="90" x2="180" y2="90" class="grid"/>
+  <line x1="30" y1="115" x2="180" y2="115" class="grid"/>
+  <line x1="30" y1="140" x2="180" y2="140" class="grid"/>
+
+  <!-- Curve: flat then sudden drop -->
+  <path d="M 30,70 C 60,70 80,72 100,75 C 120,80 135,110 155,145 L 180,160"
+        fill="none" stroke="#c05000" stroke-width="2.5"/>
+
+  <text x="105" y="198" class="caption" text-anchor="middle">Flat, then sudden drop.</text>
+  <text x="105" y="210" class="caption" text-anchor="middle">Work shrinks but messages don't.</text>
+
+  <!-- ═══ Panel 2: Load Imbalance ═══ -->
+  <text x="305" y="50" class="label" text-anchor="middle" fill="#004065">Load Imbalance</text>
+
+  <line x1="230" y1="65" x2="230" y2="165" class="axis"/>
+  <line x1="230" y1="165" x2="380" y2="165" class="axis"/>
+  <text x="210" y="70" class="axis-label">100%</text>
+  <text x="210" y="168" class="axis-label">0%</text>
+  <text x="305" y="180" class="axis-label" text-anchor="middle">Processors →</text>
+
+  <line x1="230" y1="90" x2="380" y2="90" class="grid"/>
+  <line x1="230" y1="115" x2="380" y2="115" class="grid"/>
+  <line x1="230" y1="140" x2="380" y2="140" class="grid"/>
+
+  <!-- Curve: steady linear decline -->
+  <path d="M 230,72 L 280,90 L 330,110 L 380,135"
+        fill="none" stroke="#c05000" stroke-width="2.5"/>
+
+  <text x="305" y="198" class="caption" text-anchor="middle">Steady decline from the start.</text>
+  <text x="305" y="210" class="caption" text-anchor="middle">Slowest processor wastes everyone's time.</text>
+
+  <!-- ═══ Panel 3: Serial Fraction (Amdahl) ═══ -->
+  <text x="505" y="50" class="label" text-anchor="middle" fill="#004065">Serial Fraction</text>
+
+  <line x1="430" y1="65" x2="430" y2="165" class="axis"/>
+  <line x1="430" y1="165" x2="580" y2="165" class="axis"/>
+  <text x="410" y="70" class="axis-label">100%</text>
+  <text x="410" y="168" class="axis-label">0%</text>
+  <text x="505" y="180" class="axis-label" text-anchor="middle">Processors →</text>
+
+  <line x1="430" y1="90" x2="580" y2="90" class="grid"/>
+  <line x1="430" y1="115" x2="580" y2="115" class="grid"/>
+  <line x1="430" y1="140" x2="580" y2="140" class="grid"/>
+
+  <!-- Curve: drops then hard plateau -->
+  <path d="M 430,72 C 460,85 480,115 500,130 C 520,138 550,140 580,140"
+        fill="none" stroke="#c05000" stroke-width="2.5"/>
+
+  <!-- Plateau line -->
+  <line x1="430" y1="140" x2="580" y2="140" stroke="#004065" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="585" y="143" class="axis-label" fill="#004065">1/s</text>
+
+  <text x="505" y="198" class="caption" text-anchor="middle">Drops then hits a hard floor.</text>
+  <text x="505" y="210" class="caption" text-anchor="middle">Serial code can't be sped up.</text>
+
+  <!-- ═══ Panel 4: Contention ═══ -->
+  <text x="705" y="50" class="label" text-anchor="middle" fill="#004065">Contention</text>
+
+  <line x1="630" y1="65" x2="630" y2="165" class="axis"/>
+  <line x1="630" y1="165" x2="780" y2="165" class="axis"/>
+  <text x="610" y="70" class="axis-label">100%</text>
+  <text x="610" y="168" class="axis-label">0%</text>
+  <text x="705" y="180" class="axis-label" text-anchor="middle">Processors →</text>
+
+  <line x1="630" y1="90" x2="780" y2="90" class="grid"/>
+  <line x1="630" y1="115" x2="780" y2="115" class="grid"/>
+  <line x1="630" y1="140" x2="780" y2="140" class="grid"/>
+
+  <!-- Curve: good then jagged/oscillating drop -->
+  <path d="M 630,72 C 650,73 660,75 680,78 L 700,95 L 715,85 L 730,110 L 745,100 L 760,130 L 780,145"
+        fill="none" stroke="#c05000" stroke-width="2.5"/>
+
+  <text x="705" y="198" class="caption" text-anchor="middle">Good, then erratic drop.</text>
+  <text x="705" y="210" class="caption" text-anchor="middle">Shared resource saturates.</text>
+
+  <!-- Bottom: Y-axis label spanning all -->
+  <text x="10" y="120" font-size="12" font-weight="bold" fill="#004065" transform="rotate(-90 10 120)">Efficiency</text>
+</svg>
