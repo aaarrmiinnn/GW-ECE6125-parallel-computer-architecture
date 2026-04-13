@@ -461,12 +461,14 @@ Note: The hard part is recognizing that a problem *is* map-reduce in disguise. O
 }
 ```
 
-- Works naturally for **recursive divide-and-conquer**: quicksort, tree traversals, Cilk-style parallelism
-- Each branch can spawn more branches -- good load balancing via **work stealing**
+- Works naturally for **recursive divide-and-conquer**: quicksort, tree traversals
+- Each branch can spawn more branches -- load balances via <span class="accent">work stealing</span> (idle processors steal from busy ones)
 
-> **Work stealing:** Idle processors steal work from the queues of busy processors. Used by Cilk, Intel TBB, OpenMP tasks, Java's ForkJoinPool. It self-balances without any programmer effort.
+> **How is this different from map-reduce?** Map-reduce is <span class="accent">flat</span> -- one map phase, one reduce phase. Fork-join is <span class="accent">recursive</span> -- subtasks spawn more subtasks of unpredictable size. Use map-reduce when every piece is the same shape; use fork-join when the work is irregular.
 
-Note: Fork-join fits problems where the shape of the parallelism is dynamic -- you don't know in advance how many pieces there will be. Quicksort is the canonical example: each partition creates two new parallel subproblems of unpredictable size. Work stealing handles this gracefully; static assignment would leave processors idle.
+*Cilk (MIT, 1994) pioneered work stealing for fork-join. Its ideas live on in Intel TBB, OpenMP tasks, and Java's ForkJoinPool.*
+
+Note: Quicksort is the canonical fork-join example: each partition creates two subproblems of unpredictable size. Static assignment would leave processors idle; work stealing handles this gracefully because idle processors grab work dynamically.
 
 ---
 
