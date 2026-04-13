@@ -424,9 +424,18 @@ total = sum(result)
 
 **Map-Reduce**: map first, then reduce -- trivially parallel because both steps have no dependencies between elements.
 
-> **Why it scales:** The map phase is embarrassingly parallel. The reduce phase is O(log P) with a tree. You can scale this pattern to thousands of machines -- which is how Google indexed the web in the 2000s and how Apache Spark works today.
+> **Why it scales:** Map is embarrassingly parallel. Reduce is O(log P) with a tree. Together they scale to thousands of machines.
 
-Note: Map-reduce is the starting point for data parallelism. If you can express your problem this way, you get parallelism essentially for free from any modern framework -- Spark, Dask, Ray, BigQuery, even SQL window functions. The hard part is realizing that many problems *are* map-reduce in disguise: word counting, training an ML model on batches, rendering a movie frame-by-frame.
+**More problems are map-reduce than you'd think:**
+
+| Problem | Map | Reduce |
+|---|---|---|
+| Word counting | Each worker counts words in its chunk | Sum the counts |
+| ML training (data parallel) | Each GPU computes gradients on its batch | All-reduce to average gradients |
+| Image rendering | Each core renders a tile | Stitch tiles together |
+| Log analysis | Each node filters/parses its logs | Merge results |
+
+Note: Google's original MapReduce paper (2004) launched the big-data era. The insight was that if you express your computation as map + reduce, the framework handles distribution, fault tolerance, and scheduling automatically. Spark, Dask, Ray, and BigQuery all descended from this idea.
 
 ---
 
