@@ -509,17 +509,29 @@ Note: This is one of the most common CUDA optimizations. The same idea applies w
 
 ## Stencil / Structured Grid Pattern
 
-Each cell updates from its neighbors. We saw the halo exchange in Part 2.
+Each cell updates from its neighbors (we saw the halo exchange in Part 2).
 
-![Stencil halo exchange across process boundaries](images/stencil_halo.svg)
+<div class="cols">
+<div class="left">
 
 ```c
-// average of 4 neighbors (2D heat equation)
+// 2D heat equation: average of 4 neighbors
 new_u[i][j] = 0.25 * (u[i-1][j] + u[i+1][j]
                      + u[i][j-1] + u[i][j+1]);
 ```
 
-Note: Any physics on a grid is likely a stencil: weather, seismic imaging, fluid dynamics, image processing. It scales well because communication (border exchange) is O(√N) while computation (interior) is O(N). As the grid grows, the fraction spent communicating shrinks. Stencils are the reason supercomputers exist: climate models, nuclear simulations, structural analysis.
+- **Used in:** weather, seismic imaging, fluid dynamics, image processing
+- **Scales well:** border exchange is O(√N), interior compute is O(N). More grid = less relative communication.
+
+</div>
+<div class="right">
+
+![Stencil halo exchange](images/stencil_halo.svg)
+
+</div>
+</div>
+
+Note: Any physics on a grid is likely a stencil. Stencils are the reason supercomputers exist: climate models, nuclear simulations, structural analysis. The pattern is so important that specialized DSLs (Halide, Exo) exist just to optimize stencil kernels.
 
 ---
 
