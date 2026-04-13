@@ -729,9 +729,11 @@ A pragmatic decision table:
 | Dense compute, regular data access | **CUDA / HIP** |
 | Cluster, global data view, productivity matters | **PGAS (Chapel)** |
 | Large data, cloud, fault tolerance, SQL-ish | **Spark / Dask** |
-| "Write once, run anywhere" portable accelerator code | **SYCL / Kokkos / oneAPI** |
+| Portable code across CPUs, GPUs, and accelerators | **SYCL / Kokkos / oneAPI** |
 
-> **Reality check:** Most real production systems combine two or three of these. Pick the simplest one that could work, and add others only when forced.
+*SYCL is a C++ standard for writing one kernel that compiles to NVIDIA, AMD, and Intel hardware. Kokkos (Sandia National Lab) and oneAPI (Intel) solve the same problem with different APIs. All three aim to avoid CUDA vendor lock-in.*
+
+> **Reality check:** Most production systems combine two or three of these. Pick the simplest one that works, add others only when forced.
 
 Note: A common trap is over-engineering: someone reaches for MPI + CUDA + OpenMP on day one when OpenMP alone would have worked. Start simple, measure, and add complexity only when the simpler tool hits a wall. Your future maintenance self will thank you.
 
