@@ -712,6 +712,8 @@ counts = (spark.read.text("s3://logs/")     # read from cloud storage
 
 *Used in: Netflix recommendations, Uber surge pricing, genomics pipelines, most enterprise ETL/analytics, Databricks platform.*
 
+*Connection to Part 4: Map-reduce is the **pattern**. Spark/Dask are **implementations** of that pattern with fault tolerance, scheduling, and cloud storage built in. Google's original MapReduce (2004) was the first; Spark replaced it by keeping data in memory instead of writing to disk between steps.*
+
 Note: Spark/Dask/Ray exist because MPI and OpenMP weren't designed for cheap cloud hardware where individual machines fail constantly. These frameworks trade a small performance overhead for automatic fault tolerance and ease of use.
 
 ---
