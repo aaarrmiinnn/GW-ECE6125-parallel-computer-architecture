@@ -675,22 +675,21 @@ Note: We'll cover GPU architecture in depth in Lecture 9. For now, the key menta
 The middle ground between shared and distributed memory.
 
 ```chapel
-// Chapel: distribute an array across processors, then write
-// code as if it's a single shared array
+// Chapel: array is split across processors automatically
 var A: [1..N] int dmapped Block(boundingBox = {1..N});
 forall i in 1..N do
-    A[i] = compute(i);   // runs on the processor that owns A[i]
+    A[i] = compute(i);   // runs on whichever processor owns A[i]
 ```
 
-- Every process sees a **single logical address space**, but each portion has an owner
-- Remote accesses compile to one-sided messages automatically (`MPI_Put`/`MPI_Get`)
-- Code reads like shared-memory; runtime handles the network
+- **One address space, many owners:** you write `A[i]` as if the array is local. The runtime figures out which processor owns element `i` and fetches it if needed.
+- **Hidden network messages:** if `A[i]` lives on another node, the compiler inserts a network transfer (`MPI_Put`/`MPI_Get`) for you. No explicit send/recv.
+- **The tradeoff:** easy to write, but easy to accidentally trigger slow remote accesses without realizing it.
 
-**Languages:** Chapel (Cray/HPE), UPC, UPC++, X10, Fortran coarrays
+**Languages:** Chapel (Cray/HPE), UPC, UPC++, Fortran coarrays
 
-> **When to pick PGAS:** You want the productivity of shared-memory programming with the scalability of distributed memory, if the runtime delivers.
+> **When to pick PGAS:** you want shared-memory simplicity at distributed-memory scale.
 
-Note: PGAS is a beautiful idea that never quite took over. The challenge is that the abstraction hides where data lives, making it easy to write code with hidden remote accesses that kill performance. Chapel has seen a renaissance lately as HPE/Cray has been pushing it for modern exascale systems. Whether it catches on will depend on whether productivity gains outweigh CUDA/MPI inertia.
+Note: PGAS is a beautiful idea that never quite took over because the abstraction hides where data lives. It's easy to write code with hidden remote accesses that kill performance. Chapel has seen a renaissance with HPE/Cray pushing it for exascale systems.
 
 ---
 
