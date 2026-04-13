@@ -877,32 +877,34 @@ Note: The patterns we covered are timeless, but the hardware and workloads drivi
 
 ## Heterogeneous Parallelism
 
-Modern systems are not uniform. They combine multiple kinds of compute:
+> **Intuition:** instead of one type of processor doing everything, modern systems use **specialized units** for different parts of the work, like a hospital with surgeons, radiologists, and nurses instead of all general practitioners.
 
-| Unit | Strength | Weakness |
+| Unit | Good At | Not Good At |
 |---|---|---|
-| **CPU** | Flexible control flow, large caches | Modest peak throughput |
-| **GPU** | Massive throughput, high intensity kernels | Weak at branches, kernel-launch overhead |
-| **TPU / NPU** | Matmul-optimized, power-efficient | Inflexible, fixed-function |
-| **FPGA** | Custom datapaths, deterministic latency | Hard to program, long build times |
+| **CPU** | Complex logic, branching, OS tasks | Raw throughput |
+| **GPU** | Massive data-parallel math | Irregular branches |
+| **TPU / NPU** | Matrix multiply, power efficiency | Anything outside ML |
+| **FPGA** | Custom pipelines, fixed latency | Slow to reprogram |
 
-> **Challenge:** Writing code that uses the right unit for each piece of work, and moves data between them efficiently, is the central problem of modern performance engineering.
+> <span class="accent">The programmer's job:</span> decide which unit runs which part, and minimize data movement between them.
 
-Note: Frameworks like SYCL, oneAPI, Kokkos, and Raja try to unify these with a single source-level abstraction. They mostly work, but "zero cost abstraction" is a lie. There's always a gap between hand-tuned CUDA and portable code. The gap is narrowing, though, and for many applications portable is good enough.
+Note: SYCL, oneAPI, Kokkos, and Raja try to unify this with portable code. The gap between hand-tuned CUDA and portable is narrowing, but still real.
 
 ---
 
 ## CXL and the Blurring of Memory Boundaries
 
-**Compute Express Link (CXL)** is an emerging interconnect (CXL 3.0 shipping in 2026) that lets CPUs, GPUs, and accelerators share **coherent memory pools**.
+> **Intuition:** today, each server has its own private RAM. CXL lets multiple servers **share a common pool of memory** with hardware-enforced coherence, like a shared whiteboard that everyone can read and write without stepping on each other.
 
-- A pool of DRAM on the network can be mapped into a server's address space
-- Multiple servers can access the same pool
-- The traditional wall between shared-memory and distributed-memory erodes
+**Compute Express Link (CXL)** is a new interconnect (CXL 3.0, 2026):
 
-> **Implication:** You may soon write PGAS-style code on commodity hardware with hardware coherence. The programming model shifts back toward shared memory, at least for medium-scale systems.
+- **Shared memory pools:** a rack of DRAM that any server can map into its address space
+- **Hardware coherence:** the protocol keeps everyone's view consistent (like the cache coherence from Lecture 6, but across servers)
+- **The wall crumbles:** shared-memory vs. distributed-memory is no longer a hardware boundary, it's a scale question
 
-Note: CXL isn't just theoretical. Intel Sapphire Rapids, AMD Genoa, and every major cloud provider are actively deploying it. Meta's OCP-style servers use CXL memory expansion to disaggregate memory from compute. The long-term vision is a data center where any server can access any memory with coherent semantics, eliminating the need for most explicit data movement.
+> <span class="accent">For programmers:</span> PGAS-style "write to any address" code may work on commodity hardware without explicit message passing.
+
+Note: CXL is shipping now in Intel Sapphire Rapids, AMD Genoa, and major cloud providers. Meta uses CXL memory expansion to disaggregate memory from compute. The long-term vision: a data center where any server accesses any memory with coherent semantics.
 
 ---
 
@@ -925,32 +927,31 @@ Note: Serverless parallelism flips the economics of HPC on its head. Traditional
 
 ## Fault Tolerance at Scale
 
-At 1000 nodes, something fails every day. At 10,000 nodes, something fails every hour.
+> **Intuition:** with 10,000 nodes, something breaks every hour. Your program must survive hardware failures the way a web server survives dropped connections.
 
 | Strategy | How | Used By |
 |---|---|---|
-| **Checkpoint / restart** | Periodically save state; restart from last checkpoint | HPC, LLM training |
-| **Recompute from lineage** | Remember *how* to reconstruct a partition | Spark, Dask |
+| **Checkpoint / restart** | Save state periodically; roll back on failure | HPC, LLM training |
+| **Recompute from lineage** | Remember the recipe, not the result; rerun if lost | Spark, Dask |
 | **Replication** | Keep copies on multiple nodes | HDFS, Kafka |
-| **Redundant computation** | Run the same task twice, vote | Mission-critical systems |
 
-> **LLM training example:** Meta's Llama training recorded failures every few hours on ~16k GPUs. Restart from checkpoints cost millions of GPU-hours over a training run.
+> <span class="accent">Real example:</span> Meta's Llama training on ~16k GPUs saw failures every few hours. Restarts from checkpoints cost millions of GPU-hours.
 
-Note: Fault tolerance is usually absent from intro parallel programming courses, but it's unavoidable at real scale. Every large ML training job has a dedicated reliability team whose full-time job is detecting, isolating, and working around hardware failures. The checkpoint-restart loop is so central that frameworks like PyTorch Lightning and DeepSpeed include it as a first-class feature.
+Note: Fault tolerance is unavoidable at real scale. PyTorch Lightning and DeepSpeed include checkpoint-restart as a first-class feature. Every large ML training job has a dedicated reliability team.
 
 ---
 
 ## Energy Efficiency
 
-Power is a first-class constraint, not an afterthought.
+> **Intuition:** we've been asking "how fast?" The new question is "how many watts?" Power limits what you can build, where you can build it, and what it costs to run.
 
-- A supercomputer like Frontier (Oak Ridge) consumes ~20 MW, enough for 20,000 homes
-- Training GPT-class models uses **gigawatt-hours**, comparable to the annual consumption of thousands of homes
-- Data center electricity is projected to be **~10% of global electricity** by 2030
+- **Frontier** (Oak Ridge): ~20 MW, enough to power 20,000 homes
+- **Training GPT-class models:** gigawatt-hours per run
+- **By 2030:** data centers projected to consume ~10% of global electricity
 
-> **Design implication:** Performance per watt matters as much as raw performance. This is why TPUs, tensor cores, and FP8 training exist: lower precision means less energy per operation.
+> <span class="accent">Design implication:</span> performance per watt matters as much as raw speed. This drives TPUs, tensor cores, and FP8 training (lower precision = less energy per operation).
 
-Note: The new axis of hardware competition is performance per watt, not peak performance. NVIDIA's H100 is faster than its predecessor but also more efficient per operation. Google's TPU v5 trades flexibility for efficiency on a narrow set of ML operations. Energy constraints are also pushing accelerators closer to the source of power. Microsoft recently signed deals for nuclear reactors to power AI training campuses.
+Note: The new axis of hardware competition is performance per watt. NVIDIA's H100 is both faster and more efficient than its predecessor. Microsoft has signed deals for nuclear reactors to power AI training campuses.
 
 ---
 
