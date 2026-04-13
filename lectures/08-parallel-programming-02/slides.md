@@ -253,9 +253,31 @@ Note: This is not a minor optimization -- it's the difference between O(P) and O
 | **All-reduce** | Combine, and the result ends up on *every* process | Averaging gradients in ML training |
 | **All-to-all** | Every process sends a different chunk to every other | FFT, matrix transpose |
 
-> **All-reduce is the hottest collective in the world.** Every step of training a neural network across N GPUs ends with an all-reduce to average the gradients. NVIDIA's NCCL and AMD's RCCL exist primarily to make it fast.
+> **Key distinction:** Reduce sends the result to *one* process. All-reduce sends it to *all*. All-to-all is the most expensive -- every process talks to every other.
 
-Note: Ring all-reduce -- invented by Baidu researchers around 2017 and popularized by Horovod -- achieves optimal bandwidth by arranging GPUs in a logical ring and passing partial sums around. Each GPU sends and receives at full bandwidth throughout. This is why you'll see Meta, Google, and OpenAI obsess over network topology: a bad topology can cut all-reduce bandwidth in half, which directly slows down LLM training.
+Note: When do you pick which? Reduce when only the root needs the answer (e.g., printing a final result). All-reduce when every process needs the answer to continue (e.g., every GPU needs the averaged gradients for the next training step). All-to-all when the data needs to be completely rearranged (e.g., transposing a distributed matrix). All-reduce is by far the most common in practice.
+
+---
+
+## Deep Dive: How All-Reduce Actually Works
+
+All-reduce is the most performance-critical collective in modern computing. Every step of training a neural network across N GPUs ends with:
+
+**"Average all the gradients, and give every GPU the result."**
+
+The naive approach -- gather everything to one node, sum, broadcast back -- creates a bottleneck at that single node. The solution: **ring all-reduce**.
+
+**How ring all-reduce works (P = 4 GPUs):**
+
+1. Arrange GPUs in a logical ring: GPU0 → GPU1 → GPU2 → GPU3 → GPU0
+2. **Reduce-scatter phase** (P-1 steps): each GPU sends a chunk to its neighbor and accumulates. After this, each GPU holds 1/P of the final sum.
+3. **All-gather phase** (P-1 steps): each GPU passes its completed chunk around the ring until everyone has the full result.
+
+**Why it's optimal:** Every GPU sends and receives at full bandwidth simultaneously. Total data moved per GPU = 2 × (P-1)/P × N bytes -- nearly independent of P.
+
+> This is why NVIDIA built NCCL, why Meta obsesses over network topology, and why a bad switch can slow down LLM training by 2×.
+
+Note: Ring all-reduce was popularized by Baidu researchers around 2017 and adopted by Horovod, then NCCL. Modern implementations also use tree all-reduce for latency-sensitive small messages (trees have O(log P) latency vs. ring's O(P) latency, but ring wins on bandwidth for large messages). In practice, NCCL picks the best algorithm automatically based on message size and topology.
 
 ---
 
