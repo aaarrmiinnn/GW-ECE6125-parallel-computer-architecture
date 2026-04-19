@@ -1,0 +1,104 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 280">
+  <style>
+    text { font-family: Arial, Helvetica, sans-serif; fill: #222; }
+    .title { font-size: 16px; font-weight: bold; fill: #004065; }
+    .label { font-size: 11px; font-weight: bold; fill: #004065; }
+    .hdr { font-size: 11px; font-weight: bold; fill: #004065; }
+    .warp { font-size: 9px; fill: white; font-weight: bold; }
+    .stat { font-size: 11px; fill: #666; font-style: italic; }
+  </style>
+
+  <text x="350" y="22" class="title" text-anchor="middle">Warp Scheduler Timeline: 4 Schedulers, Multiple Warps</text>
+
+  <!-- Column headers (cycles) -->
+  <text x="130" y="50" class="hdr" text-anchor="middle">Cycle 1</text>
+  <text x="180" y="50" class="hdr" text-anchor="middle">Cycle 2</text>
+  <text x="230" y="50" class="hdr" text-anchor="middle">Cycle 3</text>
+  <text x="280" y="50" class="hdr" text-anchor="middle">Cycle 4</text>
+  <text x="330" y="50" class="hdr" text-anchor="middle">Cycle 5</text>
+  <text x="380" y="50" class="hdr" text-anchor="middle">Cycle 6</text>
+  <text x="430" y="50" class="hdr" text-anchor="middle">Cycle 7</text>
+  <text x="480" y="50" class="hdr" text-anchor="middle">Cycle 8</text>
+  <text x="530" y="50" class="hdr" text-anchor="middle">Cycle 9</text>
+  <text x="580" y="50" class="hdr" text-anchor="middle">Cycle 10</text>
+  <text x="630" y="50" class="hdr" text-anchor="middle">Cycle 11</text>
+
+  <!-- Row labels -->
+  <text x="55" y="80" class="label" text-anchor="middle">Sched 0</text>
+  <text x="55" y="116" class="label" text-anchor="middle">Sched 1</text>
+  <text x="55" y="152" class="label" text-anchor="middle">Sched 2</text>
+  <text x="55" y="188" class="label" text-anchor="middle">Sched 3</text>
+
+  <!-- Warp colors: W0=#004065, W1=#c05000, W2=#2e7d32, W3=#6a1b9a, W4=#0277bd -->
+  <!-- Row 0: Scheduler 0 -->
+  <rect x="106" y="64" width="46" height="24" rx="4" fill="#004065"/><text x="129" y="80" class="warp" text-anchor="middle">W0</text>
+  <rect x="156" y="64" width="46" height="24" rx="4" fill="#6a1b9a"/><text x="179" y="80" class="warp" text-anchor="middle">W4</text>
+  <rect x="206" y="64" width="46" height="24" rx="4" fill="#004065"/><text x="229" y="80" class="warp" text-anchor="middle">W0</text>
+  <rect x="256" y="64" width="46" height="24" rx="4" fill="#0277bd"/><text x="279" y="80" class="warp" text-anchor="middle">W8</text>
+  <rect x="306" y="64" width="46" height="24" rx="4" fill="#004065"/><text x="329" y="80" class="warp" text-anchor="middle">W0</text>
+  <rect x="356" y="64" width="46" height="24" rx="4" fill="#6a1b9a"/><text x="379" y="80" class="warp" text-anchor="middle">W4</text>
+  <rect x="406" y="64" width="46" height="24" rx="4" fill="#004065"/><text x="429" y="80" class="warp" text-anchor="middle">W0</text>
+  <rect x="456" y="64" width="46" height="24" rx="4" fill="#0277bd"/><text x="479" y="80" class="warp" text-anchor="middle">W8</text>
+  <rect x="506" y="64" width="46" height="24" rx="4" fill="#004065"/><text x="529" y="80" class="warp" text-anchor="middle">W0</text>
+  <rect x="556" y="64" width="46" height="24" rx="4" fill="#6a1b9a"/><text x="579" y="80" class="warp" text-anchor="middle">W4</text>
+  <rect x="606" y="64" width="46" height="24" rx="4" fill="#004065"/><text x="629" y="80" class="warp" text-anchor="middle">W0</text>
+
+  <!-- Row 1: Scheduler 1 -->
+  <rect x="106" y="100" width="46" height="24" rx="4" fill="#c05000"/><text x="129" y="116" class="warp" text-anchor="middle">W1</text>
+  <rect x="156" y="100" width="46" height="24" rx="4" fill="#2e7d32"/><text x="179" y="116" class="warp" text-anchor="middle">W5</text>
+  <rect x="206" y="100" width="46" height="24" rx="4" fill="#c05000"/><text x="229" y="116" class="warp" text-anchor="middle">W1</text>
+  <rect x="256" y="100" width="46" height="24" rx="4" fill="#2e7d32"/><text x="279" y="116" class="warp" text-anchor="middle">W5</text>
+  <rect x="306" y="100" width="46" height="24" rx="4" fill="#c05000"/><text x="329" y="116" class="warp" text-anchor="middle">W1</text>
+  <rect x="356" y="100" width="46" height="24" rx="4" fill="#2e7d32"/><text x="379" y="116" class="warp" text-anchor="middle">W5</text>
+  <rect x="406" y="100" width="46" height="24" rx="4" fill="#c05000"/><text x="429" y="116" class="warp" text-anchor="middle">W1</text>
+  <rect x="456" y="100" width="46" height="24" rx="4" fill="#2e7d32"/><text x="479" y="116" class="warp" text-anchor="middle">W5</text>
+  <rect x="506" y="100" width="46" height="24" rx="4" fill="#c05000"/><text x="529" y="116" class="warp" text-anchor="middle">W1</text>
+  <rect x="556" y="100" width="46" height="24" rx="4" fill="#2e7d32"/><text x="579" y="116" class="warp" text-anchor="middle">W5</text>
+  <rect x="606" y="100" width="46" height="24" rx="4" fill="#c05000"/><text x="629" y="116" class="warp" text-anchor="middle">W1</text>
+
+  <!-- Row 2: Scheduler 2 -->
+  <rect x="106" y="136" width="46" height="24" rx="4" fill="#2e7d32"/><text x="129" y="152" class="warp" text-anchor="middle">W2</text>
+  <rect x="156" y="136" width="46" height="24" rx="4" fill="#6a1b9a"/><text x="179" y="152" class="warp" text-anchor="middle">W6</text>
+  <rect x="206" y="136" width="46" height="24" rx="4" fill="#2e7d32"/><text x="229" y="152" class="warp" text-anchor="middle">W2</text>
+  <rect x="256" y="136" width="46" height="24" rx="4" fill="#6a1b9a"/><text x="279" y="152" class="warp" text-anchor="middle">W6</text>
+  <rect x="306" y="136" width="46" height="24" rx="4" fill="#2e7d32"/><text x="329" y="152" class="warp" text-anchor="middle">W2</text>
+  <rect x="356" y="136" width="46" height="24" rx="4" fill="#6a1b9a"/><text x="379" y="152" class="warp" text-anchor="middle">W6</text>
+  <rect x="406" y="136" width="46" height="24" rx="4" fill="#2e7d32"/><text x="429" y="152" class="warp" text-anchor="middle">W2</text>
+  <rect x="456" y="136" width="46" height="24" rx="4" fill="#6a1b9a"/><text x="479" y="152" class="warp" text-anchor="middle">W6</text>
+  <rect x="506" y="136" width="46" height="24" rx="4" fill="#2e7d32"/><text x="529" y="152" class="warp" text-anchor="middle">W2</text>
+  <rect x="556" y="136" width="46" height="24" rx="4" fill="#6a1b9a"/><text x="579" y="152" class="warp" text-anchor="middle">W6</text>
+  <rect x="606" y="136" width="46" height="24" rx="4" fill="#2e7d32"/><text x="629" y="152" class="warp" text-anchor="middle">W2</text>
+
+  <!-- Row 3: Scheduler 3 -->
+  <rect x="106" y="172" width="46" height="24" rx="4" fill="#6a1b9a"/><text x="129" y="188" class="warp" text-anchor="middle">W3</text>
+  <rect x="156" y="172" width="46" height="24" rx="4" fill="#0277bd"/><text x="179" y="188" class="warp" text-anchor="middle">W7</text>
+  <rect x="206" y="172" width="46" height="24" rx="4" fill="#6a1b9a"/><text x="229" y="188" class="warp" text-anchor="middle">W3</text>
+  <rect x="256" y="172" width="46" height="24" rx="4" fill="#0277bd"/><text x="279" y="188" class="warp" text-anchor="middle">W7</text>
+  <rect x="306" y="172" width="46" height="24" rx="4" fill="#6a1b9a"/><text x="329" y="188" class="warp" text-anchor="middle">W3</text>
+  <rect x="356" y="172" width="46" height="24" rx="4" fill="#0277bd"/><text x="379" y="188" class="warp" text-anchor="middle">W7</text>
+  <rect x="406" y="172" width="46" height="24" rx="4" fill="#6a1b9a"/><text x="429" y="188" class="warp" text-anchor="middle">W3</text>
+  <rect x="456" y="172" width="46" height="24" rx="4" fill="#0277bd"/><text x="479" y="188" class="warp" text-anchor="middle">W7</text>
+  <rect x="506" y="172" width="46" height="24" rx="4" fill="#6a1b9a"/><text x="529" y="188" class="warp" text-anchor="middle">W3</text>
+  <rect x="556" y="172" width="46" height="24" rx="4" fill="#0277bd"/><text x="579" y="188" class="warp" text-anchor="middle">W7</text>
+  <rect x="606" y="172" width="46" height="24" rx="4" fill="#6a1b9a"/><text x="629" y="188" class="warp" text-anchor="middle">W3</text>
+
+  <!-- Cycle arrow -->
+  <line x1="106" y1="210" x2="650" y2="210" stroke="#004065" stroke-width="1.5" marker-end="url(#arr)"/>
+  <defs><marker id="arr" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#004065"/></marker></defs>
+  <text x="380" y="224" font-size="11" fill="#004065" text-anchor="middle">Clock Cycles</text>
+
+  <!-- Legend -->
+  <text x="350" y="248" class="stat" text-anchor="middle">Each scheduler independently selects a ready warp every cycle (zero-overhead context switch)</text>
+
+  <!-- Warp legend -->
+  <rect x="120" y="256" width="16" height="12" rx="2" fill="#004065"/>
+  <text x="140" y="266" font-size="9" fill="#666">W0/W8</text>
+  <rect x="190" y="256" width="16" height="12" rx="2" fill="#c05000"/>
+  <text x="210" y="266" font-size="9" fill="#666">W1</text>
+  <rect x="245" y="256" width="16" height="12" rx="2" fill="#2e7d32"/>
+  <text x="265" y="266" font-size="9" fill="#666">W2/W5</text>
+  <rect x="315" y="256" width="16" height="12" rx="2" fill="#6a1b9a"/>
+  <text x="335" y="266" font-size="9" fill="#666">W3/W4/W6</text>
+  <rect x="405" y="256" width="16" height="12" rx="2" fill="#0277bd"/>
+  <text x="425" y="266" font-size="9" fill="#666">W7/W8</text>
+</svg>

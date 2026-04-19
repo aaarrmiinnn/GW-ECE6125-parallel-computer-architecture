@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 280">
+  <defs>
+    <marker id="arr2" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#004065"/>
+    </marker>
+  </defs>
+  <style>
+    text { font-family: Arial, Helvetica, sans-serif; fill: #222; }
+    .title { font-size: 16px; font-weight: bold; fill: #004065; }
+    .label { font-size: 11px; font-weight: bold; fill: #004065; }
+    .wht { font-size: 9px; fill: white; font-weight: bold; }
+    .stat { font-size: 11px; fill: #666; font-style: italic; }
+  </style>
+
+  <text x="350" y="20" class="title" text-anchor="middle">Latency Hiding Through Warp-Level Multithreading</text>
+
+  <!-- Section: With enough warps -->
+  <text x="20" y="44" class="label">With enough warps (latency hidden):</text>
+
+  <!-- Warp A: issues memory load then waits -->
+  <text x="20" y="68" font-size="10" fill="#004065" font-weight="bold">Warp A</text>
+  <rect x="65" y="56" width="40" height="20" rx="3" fill="#004065"/>
+  <text x="85" y="70" class="wht" text-anchor="middle">COMP</text>
+  <rect x="107" y="56" width="90" height="20" rx="3" fill="#FFD200" stroke="#004065" stroke-width="1"/>
+  <text x="152" y="70" font-size="9" fill="#004065" font-weight="bold" text-anchor="middle">MEM LOAD</text>
+  <!-- waiting period shown as dashed line -->
+  <line x1="199" y1="66" x2="560" y2="66" stroke="#FFD200" stroke-width="2" stroke-dasharray="4,3"/>
+  <!-- data arrives -->
+  <rect x="562" y="56" width="40" height="20" rx="3" fill="#004065"/>
+  <text x="582" y="70" class="wht" text-anchor="middle">COMP</text>
+  <text x="612" y="70" font-size="10" fill="#2e7d32" font-weight="bold">Data ready</text>
+
+  <!-- Warp B -->
+  <text x="20" y="96" font-size="10" fill="#c05000" font-weight="bold">Warp B</text>
+  <rect x="107" y="84" width="80" height="20" rx="3" fill="#c05000"/>
+  <text x="147" y="98" class="wht" text-anchor="middle">COMPUTE</text>
+  <rect x="189" y="84" width="60" height="20" rx="3" fill="#FFD200" stroke="#004065" stroke-width="1"/>
+  <text x="219" y="98" font-size="9" fill="#004065" font-weight="bold" text-anchor="middle">MEM</text>
+
+  <!-- Warp C -->
+  <text x="20" y="124" font-size="10" fill="#2e7d32" font-weight="bold">Warp C</text>
+  <rect x="189" y="112" width="80" height="20" rx="3" fill="#2e7d32"/>
+  <text x="229" y="126" class="wht" text-anchor="middle">COMPUTE</text>
+  <rect x="271" y="112" width="60" height="20" rx="3" fill="#FFD200" stroke="#004065" stroke-width="1"/>
+  <text x="301" y="126" font-size="9" fill="#004065" font-weight="bold" text-anchor="middle">MEM</text>
+
+  <!-- Warp D -->
+  <text x="20" y="152" font-size="10" fill="#6a1b9a" font-weight="bold">Warp D</text>
+  <rect x="271" y="140" width="80" height="20" rx="3" fill="#6a1b9a"/>
+  <text x="311" y="154" class="wht" text-anchor="middle">COMPUTE</text>
+  <rect x="353" y="140" width="60" height="20" rx="3" fill="#FFD200" stroke="#004065" stroke-width="1"/>
+  <text x="383" y="154" font-size="9" fill="#004065" font-weight="bold" text-anchor="middle">MEM</text>
+
+  <!-- More warps -->
+  <text x="20" y="178" font-size="10" fill="#0277bd" font-weight="bold">Warp E</text>
+  <rect x="353" y="166" width="80" height="20" rx="3" fill="#0277bd"/>
+  <text x="393" y="180" class="wht" text-anchor="middle">COMPUTE</text>
+
+  <!-- Time arrow -->
+  <line x1="65" y1="198" x2="650" y2="198" stroke="#004065" stroke-width="1.5" marker-end="url(#arr2)"/>
+  <text x="360" y="212" font-size="10" fill="#004065" text-anchor="middle">Time (cycles) -- SM is never idle</text>
+
+  <!-- Divider -->
+  <line x1="20" y1="222" x2="680" y2="222" stroke="#ccc" stroke-width="1" stroke-dasharray="4,4"/>
+
+  <!-- Section: Without enough warps -->
+  <text x="20" y="240" class="label">Without enough warps (stall):</text>
+
+  <text x="20" y="264" font-size="10" fill="#004065" font-weight="bold">Warp A</text>
+  <rect x="65" y="250" width="40" height="20" rx="3" fill="#004065"/>
+  <text x="85" y="264" class="wht" text-anchor="middle">COMP</text>
+  <rect x="107" y="250" width="60" height="20" rx="3" fill="#FFD200" stroke="#004065" stroke-width="1"/>
+  <text x="137" y="264" font-size="9" fill="#004065" font-weight="bold" text-anchor="middle">MEM</text>
+  <!-- Stall -->
+  <rect x="169" y="250" width="390" height="20" rx="3" fill="#eee" stroke="#ccc" stroke-width="1"/>
+  <text x="364" y="264" font-size="10" fill="#c05000" font-weight="bold" text-anchor="middle">STALL -- waiting for memory (~300 cycles wasted)</text>
+  <rect x="561" y="250" width="40" height="20" rx="3" fill="#004065"/>
+  <text x="581" y="264" class="wht" text-anchor="middle">COMP</text>
+</svg>

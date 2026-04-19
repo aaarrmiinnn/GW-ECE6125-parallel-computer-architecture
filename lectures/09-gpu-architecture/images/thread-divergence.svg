@@ -1,0 +1,146 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 300">
+  <style>
+    text { font-family: Arial, Helvetica, sans-serif; fill: #222; }
+    .title { font-size: 16px; font-weight: bold; fill: #004065; }
+    .label { font-size: 11px; font-weight: bold; fill: #004065; }
+    .code { font-size: 11px; font-family: 'Courier New', monospace; fill: #004065; }
+    .stat { font-size: 11px; fill: #666; font-style: italic; }
+    .warn { font-size: 11px; fill: #c05000; font-weight: bold; }
+    .good { font-size: 11px; fill: #2e7d32; font-weight: bold; }
+  </style>
+
+  <text x="350" y="20" class="title" text-anchor="middle">Thread Divergence in a Warp (SIMT Execution)</text>
+
+  <!-- Pass 1: if path -->
+  <text x="20" y="46" class="label">Pass 1: if (tid % 2 == 0)  --  "Path A"</text>
+
+  <!-- 32 thread squares -->
+  <g>
+    <rect x="20" y="54" width="17" height="17" rx="2" fill="#004065"/><text x="28" y="66" font-size="7" fill="white" text-anchor="middle">0</text>
+    <rect x="39" y="54" width="17" height="17" rx="2" fill="#ccc"/><text x="47" y="66" font-size="7" fill="#666" text-anchor="middle">1</text>
+    <rect x="58" y="54" width="17" height="17" rx="2" fill="#004065"/><text x="66" y="66" font-size="7" fill="white" text-anchor="middle">2</text>
+    <rect x="77" y="54" width="17" height="17" rx="2" fill="#ccc"/><text x="85" y="66" font-size="7" fill="#666" text-anchor="middle">3</text>
+    <rect x="96" y="54" width="17" height="17" rx="2" fill="#004065"/><text x="104" y="66" font-size="7" fill="white" text-anchor="middle">4</text>
+    <rect x="115" y="54" width="17" height="17" rx="2" fill="#ccc"/><text x="123" y="66" font-size="7" fill="#666" text-anchor="middle">5</text>
+    <rect x="134" y="54" width="17" height="17" rx="2" fill="#004065"/><text x="142" y="66" font-size="7" fill="white" text-anchor="middle">6</text>
+    <rect x="153" y="54" width="17" height="17" rx="2" fill="#ccc"/><text x="161" y="66" font-size="7" fill="#666" text-anchor="middle">7</text>
+    <rect x="172" y="54" width="17" height="17" rx="2" fill="#004065"/><text x="180" y="66" font-size="7" fill="white" text-anchor="middle">8</text>
+    <rect x="191" y="54" width="17" height="17" rx="2" fill="#ccc"/><text x="199" y="66" font-size="7" fill="#666" text-anchor="middle">9</text>
+    <rect x="210" y="54" width="17" height="17" rx="2" fill="#004065"/><text x="218" y="66" font-size="7" fill="white" text-anchor="middle">10</text>
+    <rect x="229" y="54" width="17" height="17" rx="2" fill="#ccc"/><text x="237" y="66" font-size="7" fill="#666" text-anchor="middle">11</text>
+    <rect x="248" y="54" width="17" height="17" rx="2" fill="#004065"/>
+    <rect x="267" y="54" width="17" height="17" rx="2" fill="#ccc"/>
+    <rect x="286" y="54" width="17" height="17" rx="2" fill="#004065"/>
+    <rect x="305" y="54" width="17" height="17" rx="2" fill="#ccc"/>
+    <rect x="324" y="54" width="17" height="17" rx="2" fill="#004065"/>
+    <rect x="343" y="54" width="17" height="17" rx="2" fill="#ccc"/>
+    <rect x="362" y="54" width="17" height="17" rx="2" fill="#004065"/>
+    <rect x="381" y="54" width="17" height="17" rx="2" fill="#ccc"/>
+    <rect x="400" y="54" width="17" height="17" rx="2" fill="#004065"/>
+    <rect x="419" y="54" width="17" height="17" rx="2" fill="#ccc"/>
+    <rect x="438" y="54" width="17" height="17" rx="2" fill="#004065"/>
+    <rect x="457" y="54" width="17" height="17" rx="2" fill="#ccc"/>
+    <rect x="476" y="54" width="17" height="17" rx="2" fill="#004065"/>
+    <rect x="495" y="54" width="17" height="17" rx="2" fill="#ccc"/>
+    <rect x="514" y="54" width="17" height="17" rx="2" fill="#004065"/>
+    <rect x="533" y="54" width="17" height="17" rx="2" fill="#ccc"/>
+    <rect x="552" y="54" width="17" height="17" rx="2" fill="#004065"/>
+    <rect x="571" y="54" width="17" height="17" rx="2" fill="#ccc"/>
+    <rect x="590" y="54" width="17" height="17" rx="2" fill="#004065"/>
+    <rect x="609" y="54" width="17" height="17" rx="2" fill="#ccc"/>
+  </g>
+  <text x="640" y="66" font-size="9" fill="#004065" font-weight="bold">Active</text>
+  <text x="640" y="76" font-size="9" fill="#999">Masked</text>
+
+  <!-- Pass 2: else path -->
+  <text x="20" y="100" class="label">Pass 2: else  --  "Path B"</text>
+  <g>
+    <rect x="20" y="108" width="17" height="17" rx="2" fill="#ccc"/>
+    <rect x="39" y="108" width="17" height="17" rx="2" fill="#c05000"/>
+    <rect x="58" y="108" width="17" height="17" rx="2" fill="#ccc"/>
+    <rect x="77" y="108" width="17" height="17" rx="2" fill="#c05000"/>
+    <rect x="96" y="108" width="17" height="17" rx="2" fill="#ccc"/>
+    <rect x="115" y="108" width="17" height="17" rx="2" fill="#c05000"/>
+    <rect x="134" y="108" width="17" height="17" rx="2" fill="#ccc"/>
+    <rect x="153" y="108" width="17" height="17" rx="2" fill="#c05000"/>
+    <rect x="172" y="108" width="17" height="17" rx="2" fill="#ccc"/>
+    <rect x="191" y="108" width="17" height="17" rx="2" fill="#c05000"/>
+    <rect x="210" y="108" width="17" height="17" rx="2" fill="#ccc"/>
+    <rect x="229" y="108" width="17" height="17" rx="2" fill="#c05000"/>
+    <rect x="248" y="108" width="17" height="17" rx="2" fill="#ccc"/>
+    <rect x="267" y="108" width="17" height="17" rx="2" fill="#c05000"/>
+    <rect x="286" y="108" width="17" height="17" rx="2" fill="#ccc"/>
+    <rect x="305" y="108" width="17" height="17" rx="2" fill="#c05000"/>
+    <rect x="324" y="108" width="17" height="17" rx="2" fill="#ccc"/>
+    <rect x="343" y="108" width="17" height="17" rx="2" fill="#c05000"/>
+    <rect x="362" y="108" width="17" height="17" rx="2" fill="#ccc"/>
+    <rect x="381" y="108" width="17" height="17" rx="2" fill="#c05000"/>
+    <rect x="400" y="108" width="17" height="17" rx="2" fill="#ccc"/>
+    <rect x="419" y="108" width="17" height="17" rx="2" fill="#c05000"/>
+    <rect x="438" y="108" width="17" height="17" rx="2" fill="#ccc"/>
+    <rect x="457" y="108" width="17" height="17" rx="2" fill="#c05000"/>
+    <rect x="476" y="108" width="17" height="17" rx="2" fill="#ccc"/>
+    <rect x="495" y="108" width="17" height="17" rx="2" fill="#c05000"/>
+    <rect x="514" y="108" width="17" height="17" rx="2" fill="#ccc"/>
+    <rect x="533" y="108" width="17" height="17" rx="2" fill="#c05000"/>
+    <rect x="552" y="108" width="17" height="17" rx="2" fill="#ccc"/>
+    <rect x="571" y="108" width="17" height="17" rx="2" fill="#c05000"/>
+    <rect x="590" y="108" width="17" height="17" rx="2" fill="#ccc"/>
+    <rect x="609" y="108" width="17" height="17" rx="2" fill="#c05000"/>
+  </g>
+
+  <text x="350" y="146" class="warn" text-anchor="middle">Both paths execute serially. 50% SIMD efficiency per pass.</text>
+
+  <!-- Divider -->
+  <line x1="20" y1="158" x2="680" y2="158" stroke="#ccc" stroke-width="1" stroke-dasharray="4,4"/>
+
+  <!-- Fixed version: warp-level branching -->
+  <text x="20" y="178" class="label">Fixed: Warp-level branching (all threads take same path)</text>
+
+  <!-- Warp 0: all go Path A (blue) -->
+  <text x="20" y="200" font-size="10" fill="#004065" font-weight="bold">Warp 0 (Path A):</text>
+  <g>
+    <rect x="130" y="188" width="17" height="17" rx="2" fill="#004065"/>
+    <rect x="149" y="188" width="17" height="17" rx="2" fill="#004065"/>
+    <rect x="168" y="188" width="17" height="17" rx="2" fill="#004065"/>
+    <rect x="187" y="188" width="17" height="17" rx="2" fill="#004065"/>
+    <rect x="206" y="188" width="17" height="17" rx="2" fill="#004065"/>
+    <rect x="225" y="188" width="17" height="17" rx="2" fill="#004065"/>
+    <rect x="244" y="188" width="17" height="17" rx="2" fill="#004065"/>
+    <rect x="263" y="188" width="17" height="17" rx="2" fill="#004065"/>
+    <rect x="282" y="188" width="17" height="17" rx="2" fill="#004065"/>
+    <rect x="301" y="188" width="17" height="17" rx="2" fill="#004065"/>
+    <rect x="320" y="188" width="17" height="17" rx="2" fill="#004065"/>
+    <rect x="339" y="188" width="17" height="17" rx="2" fill="#004065"/>
+    <rect x="358" y="188" width="17" height="17" rx="2" fill="#004065"/>
+    <rect x="377" y="188" width="17" height="17" rx="2" fill="#004065"/>
+    <rect x="396" y="188" width="17" height="17" rx="2" fill="#004065"/>
+    <rect x="415" y="188" width="17" height="17" rx="2" fill="#004065"/>
+  </g>
+  <text x="445" y="200" font-size="9" fill="#004065">... 32 threads</text>
+
+  <!-- Warp 1: all go Path B (orange) -->
+  <text x="20" y="228" font-size="10" fill="#c05000" font-weight="bold">Warp 1 (Path B):</text>
+  <g>
+    <rect x="130" y="216" width="17" height="17" rx="2" fill="#c05000"/>
+    <rect x="149" y="216" width="17" height="17" rx="2" fill="#c05000"/>
+    <rect x="168" y="216" width="17" height="17" rx="2" fill="#c05000"/>
+    <rect x="187" y="216" width="17" height="17" rx="2" fill="#c05000"/>
+    <rect x="206" y="216" width="17" height="17" rx="2" fill="#c05000"/>
+    <rect x="225" y="216" width="17" height="17" rx="2" fill="#c05000"/>
+    <rect x="244" y="216" width="17" height="17" rx="2" fill="#c05000"/>
+    <rect x="263" y="216" width="17" height="17" rx="2" fill="#c05000"/>
+    <rect x="282" y="216" width="17" height="17" rx="2" fill="#c05000"/>
+    <rect x="301" y="216" width="17" height="17" rx="2" fill="#c05000"/>
+    <rect x="320" y="216" width="17" height="17" rx="2" fill="#c05000"/>
+    <rect x="339" y="216" width="17" height="17" rx="2" fill="#c05000"/>
+    <rect x="358" y="216" width="17" height="17" rx="2" fill="#c05000"/>
+    <rect x="377" y="216" width="17" height="17" rx="2" fill="#c05000"/>
+    <rect x="396" y="216" width="17" height="17" rx="2" fill="#c05000"/>
+    <rect x="415" y="216" width="17" height="17" rx="2" fill="#c05000"/>
+  </g>
+  <text x="445" y="228" font-size="9" fill="#c05000">... 32 threads</text>
+
+  <text x="350" y="260" class="good" text-anchor="middle">100% SIMD efficiency -- no masked threads</text>
+  <text x="350" y="278" class="stat" text-anchor="middle">Key insight: reorganize data so threads in a warp follow the same path</text>
+</svg>

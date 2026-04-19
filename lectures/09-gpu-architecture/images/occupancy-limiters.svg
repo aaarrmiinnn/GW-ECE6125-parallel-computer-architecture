@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 300">
+  <style>
+    text { font-family: Arial, Helvetica, sans-serif; fill: #222; }
+    .title { font-size: 16px; font-weight: bold; fill: #004065; }
+    .label { font-size: 11px; font-weight: bold; fill: #004065; }
+    .axis { font-size: 10px; fill: #666; }
+    .val { font-size: 9px; fill: white; font-weight: bold; }
+    .stat { font-size: 10px; fill: #666; font-style: italic; }
+  </style>
+
+  <text x="350" y="22" class="title" text-anchor="middle">How Resources Limit Occupancy (H100)</text>
+
+  <!-- Y-axis label -->
+  <text x="40" y="40" class="label">Warps</text>
+  <text x="40" y="52" class="label">per SM</text>
+
+  <!-- Y-axis ticks -->
+  <text x="62" y="70" class="axis" text-anchor="end">64</text>
+  <text x="62" y="106" class="axis" text-anchor="end">48</text>
+  <text x="62" y="142" class="axis" text-anchor="end">32</text>
+  <text x="62" y="178" class="axis" text-anchor="end">16</text>
+  <text x="62" y="214" class="axis" text-anchor="end">0</text>
+
+  <!-- Gridlines -->
+  <g stroke="#eee" stroke-width="1">
+    <line x1="68" y1="66" x2="660" y2="66"/>
+    <line x1="68" y1="102" x2="660" y2="102"/>
+    <line x1="68" y1="138" x2="660" y2="138"/>
+    <line x1="68" y1="174" x2="660" y2="174"/>
+    <line x1="68" y1="210" x2="660" y2="210"/>
+  </g>
+
+  <!-- Max warps dashed line -->
+  <line x1="68" y1="66" x2="660" y2="66" stroke="#004065" stroke-width="1.5" stroke-dasharray="6,3"/>
+  <text x="670" y="70" font-size="9" fill="#004065" font-weight="bold">Max: 64</text>
+
+  <!-- Bars: Register-limited (blue) -->
+  <!-- 32 regs/thread: 65536/32 = 2048 threads = 64 warps -->
+  <rect x="90" y="66" width="50" height="144" rx="3" fill="#004065"/>
+  <text x="115" y="140" class="val" text-anchor="middle">64</text>
+
+  <!-- 48 regs: 65536/48 = 1365 -> 42 warps -->
+  <rect x="160" y="114" width="50" height="96" rx="3" fill="#004065"/>
+  <text x="185" y="168" class="val" text-anchor="middle">42</text>
+
+  <!-- 64 regs: 65536/64 = 1024 -> 32 warps -->
+  <rect x="230" y="138" width="50" height="72" rx="3" fill="#004065"/>
+  <text x="255" y="178" class="val" text-anchor="middle">32</text>
+
+  <!-- 96 regs: 65536/96 = 682 -> 21 warps -->
+  <rect x="300" y="162" width="50" height="48" rx="3" fill="#c05000"/>
+  <text x="325" y="192" class="val" text-anchor="middle">21</text>
+
+  <!-- 128 regs: 65536/128 = 512 -> 16 warps -->
+  <rect x="370" y="174" width="50" height="36" rx="3" fill="#c05000"/>
+  <text x="395" y="198" class="val" text-anchor="middle">16</text>
+
+  <!-- X-axis labels for register bars -->
+  <text x="115" y="226" class="axis" text-anchor="middle">32</text>
+  <text x="185" y="226" class="axis" text-anchor="middle">48</text>
+  <text x="255" y="226" class="axis" text-anchor="middle">64</text>
+  <text x="325" y="226" class="axis" text-anchor="middle">96</text>
+  <text x="395" y="226" class="axis" text-anchor="middle">128</text>
+  <text x="255" y="244" class="label" text-anchor="middle">Registers per thread</text>
+
+  <!-- Divider -->
+  <line x1="445" y1="56" x2="445" y2="216" stroke="#ccc" stroke-width="1" stroke-dasharray="4,4"/>
+
+  <!-- Bars: Shared memory limited (gold) -->
+  <!-- 228KB total. At 8KB/block: 28 blocks, 64 warps (not limiting) -->
+  <rect x="470" y="66" width="50" height="144" rx="3" fill="#FFD200" stroke="#004065" stroke-width="1"/>
+  <text x="495" y="140" font-size="9" fill="#004065" font-weight="bold" text-anchor="middle">64</text>
+
+  <!-- 16KB/block: 14 blocks, limited by block count -->
+  <rect x="530" y="102" width="50" height="108" rx="3" fill="#FFD200" stroke="#004065" stroke-width="1"/>
+  <text x="555" y="162" font-size="9" fill="#004065" font-weight="bold" text-anchor="middle">48</text>
+
+  <!-- 32KB/block: 7 blocks -->
+  <rect x="590" y="138" width="50" height="72" rx="3" fill="#FFD200" stroke="#004065" stroke-width="1"/>
+  <text x="615" y="178" font-size="9" fill="#004065" font-weight="bold" text-anchor="middle">32</text>
+
+  <text x="495" y="226" class="axis" text-anchor="middle">8 KB</text>
+  <text x="555" y="226" class="axis" text-anchor="middle">16 KB</text>
+  <text x="615" y="226" class="axis" text-anchor="middle">32 KB</text>
+  <text x="555" y="244" class="label" text-anchor="middle">Shared mem per block</text>
+
+  <!-- Legend -->
+  <rect x="90" y="256" width="14" height="10" rx="2" fill="#004065"/>
+  <text x="108" y="265" font-size="10" fill="#666">Register-limited</text>
+  <rect x="210" y="256" width="14" height="10" rx="2" fill="#c05000"/>
+  <text x="228" y="265" font-size="10" fill="#c05000" font-weight="bold">Bottleneck</text>
+  <rect x="320" y="256" width="14" height="10" rx="2" fill="#FFD200" stroke="#004065" stroke-width="0.5"/>
+  <text x="338" y="265" font-size="10" fill="#666">Shared memory-limited</text>
+
+  <text x="350" y="288" class="stat" text-anchor="middle">Occupancy = active warps / max warps. Higher is not always better -- diminishing returns past ~50%.</text>
+</svg>

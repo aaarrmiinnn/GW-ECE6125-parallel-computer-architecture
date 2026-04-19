@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 300">
+  <style>
+    text { font-family: Arial, Helvetica, sans-serif; fill: #222; }
+    .title { font-size: 16px; font-weight: bold; fill: #004065; }
+    .gpu { font-size: 11px; font-weight: bold; fill: white; }
+    .sw { font-size: 12px; font-weight: bold; fill: #004065; }
+    .bw { font-size: 8px; fill: #666; }
+    .stat { font-size: 11px; fill: #666; font-style: italic; }
+  </style>
+
+  <text x="350" y="22" class="title" text-anchor="middle">DGX H100: 8-GPU NVSwitch Topology</text>
+
+  <!-- Central NVSwitch -->
+  <rect x="280" y="120" width="140" height="50" rx="8" fill="#FFD200" stroke="#004065" stroke-width="2"/>
+  <text x="350" y="142" class="sw" text-anchor="middle">NVSwitch</text>
+  <text x="350" y="157" font-size="9" fill="#004065" text-anchor="middle">4th Gen (7.2 TB/s)</text>
+
+  <!-- 8 GPU boxes in a ring-like arrangement -->
+  <!-- Top row: GPU 0, 1, 2, 3 -->
+  <rect x="60" y="36" width="90" height="36" rx="6" fill="#004065" stroke="#004065" stroke-width="2"/>
+  <text x="105" y="58" class="gpu" text-anchor="middle">GPU 0 (H100)</text>
+
+  <rect x="190" y="36" width="90" height="36" rx="6" fill="#004065" stroke="#004065" stroke-width="2"/>
+  <text x="235" y="58" class="gpu" text-anchor="middle">GPU 1 (H100)</text>
+
+  <rect x="420" y="36" width="90" height="36" rx="6" fill="#004065" stroke="#004065" stroke-width="2"/>
+  <text x="465" y="58" class="gpu" text-anchor="middle">GPU 2 (H100)</text>
+
+  <rect x="550" y="36" width="90" height="36" rx="6" fill="#004065" stroke="#004065" stroke-width="2"/>
+  <text x="595" y="58" class="gpu" text-anchor="middle">GPU 3 (H100)</text>
+
+  <!-- Bottom row: GPU 4, 5, 6, 7 -->
+  <rect x="60" y="218" width="90" height="36" rx="6" fill="#004065" stroke="#004065" stroke-width="2"/>
+  <text x="105" y="240" class="gpu" text-anchor="middle">GPU 4 (H100)</text>
+
+  <rect x="190" y="218" width="90" height="36" rx="6" fill="#004065" stroke="#004065" stroke-width="2"/>
+  <text x="235" y="240" class="gpu" text-anchor="middle">GPU 5 (H100)</text>
+
+  <rect x="420" y="218" width="90" height="36" rx="6" fill="#004065" stroke="#004065" stroke-width="2"/>
+  <text x="465" y="240" class="gpu" text-anchor="middle">GPU 6 (H100)</text>
+
+  <rect x="550" y="218" width="90" height="36" rx="6" fill="#004065" stroke="#004065" stroke-width="2"/>
+  <text x="595" y="240" class="gpu" text-anchor="middle">GPU 7 (H100)</text>
+
+  <!-- NVLink connections: each GPU to NVSwitch -->
+  <g stroke="#FFD200" stroke-width="2.5" fill="none">
+    <!-- Top GPUs to switch -->
+    <line x1="105" y1="72" x2="300" y2="120"/>
+    <line x1="235" y1="72" x2="320" y2="120"/>
+    <line x1="465" y1="72" x2="380" y2="120"/>
+    <line x1="595" y1="72" x2="400" y2="120"/>
+    <!-- Bottom GPUs to switch -->
+    <line x1="105" y1="218" x2="300" y2="170"/>
+    <line x1="235" y1="218" x2="320" y2="170"/>
+    <line x1="465" y1="218" x2="380" y2="170"/>
+    <line x1="595" y1="218" x2="400" y2="170"/>
+  </g>
+
+  <!-- Bandwidth labels on select lines -->
+  <text x="175" y="92" class="bw" transform="rotate(-18,175,92)">900 GB/s</text>
+  <text x="525" y="92" class="bw" transform="rotate(18,525,92)">900 GB/s</text>
+  <text x="175" y="202" class="bw" transform="rotate(18,175,202)">900 GB/s</text>
+  <text x="525" y="202" class="bw" transform="rotate(-18,525,202)">900 GB/s</text>
+
+  <!-- Bottom annotation -->
+  <text x="350" y="274" class="stat" text-anchor="middle">All-to-all connectivity: any GPU can talk to any other at 900 GB/s (NVLink 4.0, 18 links per GPU)</text>
+  <text x="350" y="292" class="stat" text-anchor="middle">Total bisection bandwidth: 7.2 TB/s. Enables efficient all-reduce for distributed training.</text>
+</svg>
