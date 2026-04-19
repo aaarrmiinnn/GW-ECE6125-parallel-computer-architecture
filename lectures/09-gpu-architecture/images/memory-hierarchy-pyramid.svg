@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 350">
+  <style>
+    text { font-family: Arial, Helvetica, sans-serif; fill: #222; }
+    .title { font-size: 16px; font-weight: bold; fill: #004065; }
+    .level { font-size: 12px; font-weight: bold; fill: white; }
+    .specs { font-size: 10px; fill: #222; }
+    .arrow-label { font-size: 11px; font-weight: bold; fill: #004065; }
+    .stat { font-size: 10px; fill: #666; font-style: italic; }
+  </style>
+
+  <text x="350" y="22" class="title" text-anchor="middle">GPU Memory Hierarchy (H100)</text>
+
+  <!-- Level 0: Registers (top, smallest) -->
+  <polygon points="310,40 390,40 410,90 290,90" fill="#004065" stroke="#004065" stroke-width="2"/>
+  <text x="350" y="62" class="level" text-anchor="middle">Registers</text>
+  <text x="350" y="78" font-size="9" fill="#cfe2f3" text-anchor="middle">256 KB/SM</text>
+
+  <!-- Level 1: Shared Memory / L1 -->
+  <polygon points="280,96 420,96 460,150 240,150" fill="#c05000" stroke="#c05000" stroke-width="2"/>
+  <text x="350" y="118" class="level" text-anchor="middle">Shared Memory / L1</text>
+  <text x="350" y="134" font-size="9" fill="#fff4cc" text-anchor="middle">228 KB/SM (configurable)</text>
+
+  <!-- Level 2: L2 Cache -->
+  <polygon points="230,156 470,156 520,214 180,214" fill="#FFD200" stroke="#004065" stroke-width="2"/>
+  <text x="350" y="178" font-size="13" font-weight="bold" fill="#004065" text-anchor="middle">L2 Cache</text>
+  <text x="350" y="196" font-size="10" fill="#004065" text-anchor="middle">50 MB (shared across all SMs)</text>
+
+  <!-- Level 3: HBM3 Global Memory (bottom, widest) -->
+  <polygon points="170,220 530,220 590,282 110,282" fill="#004065" stroke="#004065" stroke-width="2"/>
+  <text x="350" y="244" font-size="14" font-weight="bold" fill="white" text-anchor="middle">HBM3 Global Memory</text>
+  <text x="350" y="262" font-size="10" fill="#cfe2f3" text-anchor="middle">80 GB -- 3.35 TB/s bandwidth</text>
+
+  <!-- Specs on the right -->
+  <text x="470" y="65" class="specs">~1 cycle latency, ~tens TB/s</text>
+  <text x="500" y="123" class="specs">~20-30 cycles</text>
+  <text x="540" y="185" class="specs">~200 cycles</text>
+  <text x="600" y="250" class="specs">~400 cycles</text>
+
+  <!-- Left arrow: Faster, smaller -->
+  <line x1="80" y1="270" x2="80" y2="50" stroke="#004065" stroke-width="2" marker-end="url(#arrup)"/>
+  <defs>
+    <marker id="arrup" markerWidth="8" markerHeight="6" refX="4" refY="3" orient="auto">
+      <path d="M0,6 L4,0 L8,6 Z" fill="#004065"/>
+    </marker>
+    <marker id="arrdn" markerWidth="8" markerHeight="6" refX="4" refY="3" orient="auto">
+      <path d="M0,0 L4,6 L8,0 Z" fill="#004065"/>
+    </marker>
+  </defs>
+  <text x="75" y="160" class="arrow-label" text-anchor="end" transform="rotate(-90,75,160)">Faster, smaller</text>
+
+  <!-- Right arrow: Larger, slower -->
+  <line x1="100" y1="50" x2="100" y2="270" stroke="#004065" stroke-width="2" marker-end="url(#arrdn)"/>
+  <text x="105" y="160" class="arrow-label" text-anchor="start" transform="rotate(90,105,160)">Larger, slower</text>
+
+  <!-- Bottom note -->
+  <text x="350" y="310" class="stat" text-anchor="middle">Each level trades capacity for speed. Programs should maximize data reuse at higher levels.</text>
+  <text x="350" y="328" class="stat" text-anchor="middle">Shared memory is programmer-managed (software scratchpad), unlike CPU caches.</text>
+</svg>

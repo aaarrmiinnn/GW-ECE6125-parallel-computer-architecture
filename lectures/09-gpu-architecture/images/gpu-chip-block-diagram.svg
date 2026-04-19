@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 350">
+  <style>
+    text { font-family: Arial, Helvetica, sans-serif; fill: #222; }
+    .title { font-size: 16px; font-weight: bold; fill: #004065; }
+    .label { font-size: 12px; font-weight: bold; fill: #004065; }
+    .sm { font-size: 9px; fill: white; font-weight: bold; }
+    .stat { font-size: 11px; fill: #666; font-style: italic; }
+    .mem { font-size: 11px; font-weight: bold; fill: #004065; }
+  </style>
+
+  <text x="350" y="22" class="title" text-anchor="middle">GPU Chip Block Diagram (NVIDIA H100)</text>
+
+  <!-- GPC 0 -->
+  <rect x="20" y="38" width="155" height="135" rx="8" fill="#cfe2f3" stroke="#004065" stroke-width="2"/>
+  <text x="97" y="55" class="label" text-anchor="middle">GPC 0</text>
+  <!-- SMs inside GPC 0 -->
+  <rect x="28" y="60" width="68" height="24" rx="4" fill="#004065"/><text x="62" y="76" class="sm" text-anchor="middle">SM 0</text>
+  <rect x="100" y="60" width="68" height="24" rx="4" fill="#004065"/><text x="134" y="76" class="sm" text-anchor="middle">SM 1</text>
+  <rect x="28" y="88" width="68" height="24" rx="4" fill="#004065"/><text x="62" y="104" class="sm" text-anchor="middle">SM 2</text>
+  <rect x="100" y="88" width="68" height="24" rx="4" fill="#004065"/><text x="134" y="104" class="sm" text-anchor="middle">SM 3</text>
+  <rect x="28" y="116" width="68" height="24" rx="4" fill="#004065"/><text x="62" y="132" class="sm" text-anchor="middle">SM 4</text>
+  <rect x="100" y="116" width="68" height="24" rx="4" fill="#004065"/><text x="134" y="132" class="sm" text-anchor="middle">SM 5</text>
+  <rect x="28" y="144" width="140" height="22" rx="4" fill="#FFD200" stroke="#004065" stroke-width="1"/>
+  <text x="98" y="159" font-size="9" fill="#004065" font-weight="bold" text-anchor="middle">Raster / ROP / Tex</text>
+
+  <!-- GPC 1 -->
+  <rect x="185" y="38" width="155" height="135" rx="8" fill="#cfe2f3" stroke="#004065" stroke-width="2"/>
+  <text x="262" y="55" class="label" text-anchor="middle">GPC 1</text>
+  <rect x="193" y="60" width="68" height="24" rx="4" fill="#004065"/><text x="227" y="76" class="sm" text-anchor="middle">SM 6</text>
+  <rect x="265" y="60" width="68" height="24" rx="4" fill="#004065"/><text x="299" y="76" class="sm" text-anchor="middle">SM 7</text>
+  <rect x="193" y="88" width="68" height="24" rx="4" fill="#004065"/><text x="227" y="104" class="sm" text-anchor="middle">SM 8</text>
+  <rect x="265" y="88" width="68" height="24" rx="4" fill="#004065"/><text x="299" y="104" class="sm" text-anchor="middle">SM 9</text>
+  <rect x="193" y="116" width="68" height="24" rx="4" fill="#004065"/><text x="227" y="132" class="sm" text-anchor="middle">SM 10</text>
+  <rect x="265" y="116" width="68" height="24" rx="4" fill="#004065"/><text x="299" y="132" class="sm" text-anchor="middle">SM 11</text>
+  <rect x="193" y="144" width="140" height="22" rx="4" fill="#FFD200" stroke="#004065" stroke-width="1"/>
+  <text x="263" y="159" font-size="9" fill="#004065" font-weight="bold" text-anchor="middle">Raster / ROP / Tex</text>
+
+  <!-- GPC 2 -->
+  <rect x="350" y="38" width="155" height="135" rx="8" fill="#cfe2f3" stroke="#004065" stroke-width="2"/>
+  <text x="427" y="55" class="label" text-anchor="middle">GPC 2</text>
+  <rect x="358" y="60" width="68" height="24" rx="4" fill="#004065"/><text x="392" y="76" class="sm" text-anchor="middle">SM 12</text>
+  <rect x="430" y="60" width="68" height="24" rx="4" fill="#004065"/><text x="464" y="76" class="sm" text-anchor="middle">SM 13</text>
+  <rect x="358" y="88" width="68" height="24" rx="4" fill="#004065"/><text x="392" y="104" class="sm" text-anchor="middle">SM 14</text>
+  <rect x="430" y="88" width="68" height="24" rx="4" fill="#004065"/><text x="464" y="104" class="sm" text-anchor="middle">SM 15</text>
+  <rect x="358" y="116" width="68" height="24" rx="4" fill="#004065"/><text x="392" y="132" class="sm" text-anchor="middle">SM 16</text>
+  <rect x="430" y="116" width="68" height="24" rx="4" fill="#004065"/><text x="464" y="132" class="sm" text-anchor="middle">SM 17</text>
+  <rect x="358" y="144" width="140" height="22" rx="4" fill="#FFD200" stroke="#004065" stroke-width="1"/>
+  <text x="428" y="159" font-size="9" fill="#004065" font-weight="bold" text-anchor="middle">Raster / ROP / Tex</text>
+
+  <!-- GPC 3 + ellipsis -->
+  <rect x="515" y="38" width="155" height="135" rx="8" fill="#cfe2f3" stroke="#004065" stroke-width="2"/>
+  <text x="592" y="55" class="label" text-anchor="middle">GPC 3 ... 7</text>
+  <rect x="523" y="60" width="68" height="24" rx="4" fill="#004065"/><text x="557" y="76" class="sm" text-anchor="middle">SM ...</text>
+  <rect x="595" y="60" width="68" height="24" rx="4" fill="#004065"/><text x="629" y="76" class="sm" text-anchor="middle">SM ...</text>
+  <rect x="523" y="88" width="68" height="24" rx="4" fill="#004065"/><text x="557" y="104" class="sm" text-anchor="middle">SM ...</text>
+  <rect x="595" y="88" width="68" height="24" rx="4" fill="#004065"/><text x="629" y="104" class="sm" text-anchor="middle">SM ...</text>
+  <rect x="523" y="116" width="68" height="24" rx="4" fill="#004065"/><text x="557" y="132" class="sm" text-anchor="middle">SM ...</text>
+  <rect x="595" y="116" width="68" height="24" rx="4" fill="#004065"/><text x="629" y="132" class="sm" text-anchor="middle">SM ...</text>
+  <rect x="523" y="144" width="140" height="22" rx="4" fill="#FFD200" stroke="#004065" stroke-width="1"/>
+  <text x="593" y="159" font-size="9" fill="#004065" font-weight="bold" text-anchor="middle">Raster / ROP / Tex</text>
+
+  <!-- Stats annotation -->
+  <text x="350" y="192" class="stat" text-anchor="middle">8 GPCs x ~16 SMs each = 132 SMs total</text>
+
+  <!-- Crossbar / Interconnect -->
+  <rect x="20" y="200" width="650" height="20" rx="4" fill="#c05000" opacity="0.9"/>
+  <text x="350" y="214" font-size="11" fill="white" font-weight="bold" text-anchor="middle">GigaThread Engine / Crossbar Interconnect</text>
+
+  <!-- L2 Cache -->
+  <rect x="20" y="226" width="650" height="28" rx="6" fill="#FFD200" stroke="#004065" stroke-width="2"/>
+  <text x="350" y="245" class="mem" text-anchor="middle">L2 Cache (50 MB)</text>
+
+  <!-- Memory Controllers -->
+  <rect x="20" y="260" width="650" height="22" rx="4" fill="#cfe2f3" stroke="#004065" stroke-width="1.5"/>
+  <text x="350" y="275" font-size="11" fill="#004065" font-weight="bold" text-anchor="middle">Memory Controllers (HBM3 Interface)</text>
+
+  <!-- HBM Stacks -->
+  <rect x="40" y="290" width="108" height="28" rx="6" fill="#004065"/><text x="94" y="309" class="sm" text-anchor="middle">HBM3 Stack 0</text>
+  <rect x="158" y="290" width="108" height="28" rx="6" fill="#004065"/><text x="212" y="309" class="sm" text-anchor="middle">HBM3 Stack 1</text>
+  <rect x="276" y="290" width="108" height="28" rx="6" fill="#004065"/><text x="330" y="309" class="sm" text-anchor="middle">HBM3 Stack 2</text>
+  <rect x="394" y="290" width="108" height="28" rx="6" fill="#004065"/><text x="448" y="309" class="sm" text-anchor="middle">HBM3 Stack 3</text>
+  <rect x="512" y="290" width="108" height="28" rx="6" fill="#004065"/><text x="566" y="309" class="sm" text-anchor="middle">HBM3 Stack 4</text>
+  <text x="646" y="309" font-size="10" fill="#666">80 GB</text>
+
+  <!-- Connections from mem controllers to HBM -->
+  <line x1="94" y1="282" x2="94" y2="290" stroke="#004065" stroke-width="1.5"/>
+  <line x1="212" y1="282" x2="212" y2="290" stroke="#004065" stroke-width="1.5"/>
+  <line x1="330" y1="282" x2="330" y2="290" stroke="#004065" stroke-width="1.5"/>
+  <line x1="448" y1="282" x2="448" y2="290" stroke="#004065" stroke-width="1.5"/>
+  <line x1="566" y1="282" x2="566" y2="290" stroke="#004065" stroke-width="1.5"/>
+
+  <text x="350" y="340" class="stat" text-anchor="middle">3.35 TB/s aggregate memory bandwidth</text>
+</svg>

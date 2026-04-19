@@ -1,0 +1,175 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 300">
+  <defs>
+    <marker id="arrbk" markerWidth="6" markerHeight="4" refX="6" refY="2" orient="auto">
+      <path d="M0,0 L6,2 L0,4 Z" fill="#004065"/>
+    </marker>
+    <marker id="arror" markerWidth="6" markerHeight="4" refX="6" refY="2" orient="auto">
+      <path d="M0,0 L6,2 L0,4 Z" fill="#c05000"/>
+    </marker>
+    <marker id="arrgn" markerWidth="6" markerHeight="4" refX="6" refY="2" orient="auto">
+      <path d="M0,0 L6,2 L0,4 Z" fill="#2e7d32"/>
+    </marker>
+  </defs>
+  <style>
+    text { font-family: Arial, Helvetica, sans-serif; fill: #222; }
+    .title { font-size: 16px; font-weight: bold; fill: #004065; }
+    .label { font-size: 12px; font-weight: bold; fill: #004065; }
+    .sub { font-size: 10px; fill: #666; }
+    .good { font-size: 10px; fill: #2e7d32; font-weight: bold; }
+    .bad { font-size: 10px; fill: #c05000; font-weight: bold; }
+  </style>
+
+  <text x="350" y="20" class="title" text-anchor="middle">Shared Memory Bank Conflicts</text>
+
+  <!-- === No Conflict (left) === -->
+  <rect x="10" y="30" width="215" height="260" rx="6" fill="white" stroke="#004065" stroke-width="1.5"/>
+  <text x="117" y="50" class="label" text-anchor="middle">No Conflict</text>
+  <text x="117" y="63" class="sub" text-anchor="middle">Each thread hits different bank</text>
+
+  <!-- Threads row -->
+  <g>
+    <rect x="22" y="72" width="18" height="14" rx="2" fill="#004065"/><text x="31" y="83" font-size="7" fill="white" text-anchor="middle">T0</text>
+    <rect x="42" y="72" width="18" height="14" rx="2" fill="#004065"/><text x="51" y="83" font-size="7" fill="white" text-anchor="middle">T1</text>
+    <rect x="62" y="72" width="18" height="14" rx="2" fill="#004065"/><text x="71" y="83" font-size="7" fill="white" text-anchor="middle">T2</text>
+    <rect x="82" y="72" width="18" height="14" rx="2" fill="#004065"/><text x="91" y="83" font-size="7" fill="white" text-anchor="middle">T3</text>
+    <rect x="102" y="72" width="18" height="14" rx="2" fill="#004065"/><text x="111" y="83" font-size="7" fill="white" text-anchor="middle">T4</text>
+    <rect x="122" y="72" width="18" height="14" rx="2" fill="#004065"/><text x="131" y="83" font-size="7" fill="white" text-anchor="middle">T5</text>
+    <rect x="142" y="72" width="18" height="14" rx="2" fill="#004065"/><text x="151" y="83" font-size="7" fill="white" text-anchor="middle">T6</text>
+    <rect x="162" y="72" width="18" height="14" rx="2" fill="#004065"/><text x="171" y="83" font-size="7" fill="white" text-anchor="middle">T7</text>
+    <rect x="182" y="72" width="18" height="14" rx="2" fill="#004065"/>
+    <text x="198" y="83" font-size="6" fill="#666">...</text>
+  </g>
+
+  <!-- Arrows (straight down) -->
+  <g stroke="#004065" stroke-width="1" fill="none">
+    <line x1="31" y1="88" x2="31" y2="106" marker-end="url(#arrbk)"/>
+    <line x1="51" y1="88" x2="51" y2="106" marker-end="url(#arrbk)"/>
+    <line x1="71" y1="88" x2="71" y2="106" marker-end="url(#arrbk)"/>
+    <line x1="91" y1="88" x2="91" y2="106" marker-end="url(#arrbk)"/>
+    <line x1="111" y1="88" x2="111" y2="106" marker-end="url(#arrbk)"/>
+    <line x1="131" y1="88" x2="131" y2="106" marker-end="url(#arrbk)"/>
+    <line x1="151" y1="88" x2="151" y2="106" marker-end="url(#arrbk)"/>
+    <line x1="171" y1="88" x2="171" y2="106" marker-end="url(#arrbk)"/>
+  </g>
+
+  <!-- Banks row -->
+  <g>
+    <rect x="22" y="110" width="18" height="14" rx="2" fill="#cfe2f3" stroke="#004065" stroke-width="1"/><text x="31" y="121" font-size="7" fill="#004065" text-anchor="middle">B0</text>
+    <rect x="42" y="110" width="18" height="14" rx="2" fill="#cfe2f3" stroke="#004065" stroke-width="1"/><text x="51" y="121" font-size="7" fill="#004065" text-anchor="middle">B1</text>
+    <rect x="62" y="110" width="18" height="14" rx="2" fill="#cfe2f3" stroke="#004065" stroke-width="1"/><text x="71" y="121" font-size="7" fill="#004065" text-anchor="middle">B2</text>
+    <rect x="82" y="110" width="18" height="14" rx="2" fill="#cfe2f3" stroke="#004065" stroke-width="1"/><text x="91" y="121" font-size="7" fill="#004065" text-anchor="middle">B3</text>
+    <rect x="102" y="110" width="18" height="14" rx="2" fill="#cfe2f3" stroke="#004065" stroke-width="1"/><text x="111" y="121" font-size="7" fill="#004065" text-anchor="middle">B4</text>
+    <rect x="122" y="110" width="18" height="14" rx="2" fill="#cfe2f3" stroke="#004065" stroke-width="1"/><text x="131" y="121" font-size="7" fill="#004065" text-anchor="middle">B5</text>
+    <rect x="142" y="110" width="18" height="14" rx="2" fill="#cfe2f3" stroke="#004065" stroke-width="1"/><text x="151" y="121" font-size="7" fill="#004065" text-anchor="middle">B6</text>
+    <rect x="162" y="110" width="18" height="14" rx="2" fill="#cfe2f3" stroke="#004065" stroke-width="1"/><text x="171" y="121" font-size="7" fill="#004065" text-anchor="middle">B7</text>
+    <rect x="182" y="110" width="18" height="14" rx="2" fill="#cfe2f3" stroke="#004065" stroke-width="1"/>
+    <text x="198" y="121" font-size="6" fill="#666">...</text>
+  </g>
+
+  <text x="117" y="148" class="good" text-anchor="middle">1 cycle -- full bandwidth</text>
+
+  <!-- === 2-Way Conflict (middle) === -->
+  <rect x="240" y="30" width="215" height="260" rx="6" fill="white" stroke="#c05000" stroke-width="1.5"/>
+  <text x="347" y="50" class="label" text-anchor="middle">2-Way Bank Conflict</text>
+  <text x="347" y="63" class="sub" text-anchor="middle">Two threads hit same bank</text>
+
+  <!-- Threads row -->
+  <g>
+    <rect x="252" y="72" width="18" height="14" rx="2" fill="#004065"/><text x="261" y="83" font-size="7" fill="white" text-anchor="middle">T0</text>
+    <rect x="272" y="72" width="18" height="14" rx="2" fill="#c05000"/><text x="281" y="83" font-size="7" fill="white" text-anchor="middle">T1</text>
+    <rect x="292" y="72" width="18" height="14" rx="2" fill="#004065"/><text x="301" y="83" font-size="7" fill="white" text-anchor="middle">T2</text>
+    <rect x="312" y="72" width="18" height="14" rx="2" fill="#c05000"/><text x="321" y="83" font-size="7" fill="white" text-anchor="middle">T3</text>
+    <rect x="332" y="72" width="18" height="14" rx="2" fill="#004065"/><text x="341" y="83" font-size="7" fill="white" text-anchor="middle">T4</text>
+    <rect x="352" y="72" width="18" height="14" rx="2" fill="#c05000"/><text x="361" y="83" font-size="7" fill="white" text-anchor="middle">T5</text>
+    <rect x="372" y="72" width="18" height="14" rx="2" fill="#004065"/><text x="381" y="83" font-size="7" fill="white" text-anchor="middle">T6</text>
+    <rect x="392" y="72" width="18" height="14" rx="2" fill="#c05000"/><text x="401" y="83" font-size="7" fill="white" text-anchor="middle">T7</text>
+    <rect x="412" y="72" width="18" height="14" rx="2" fill="#004065"/>
+    <text x="438" y="83" font-size="6" fill="#666">...</text>
+  </g>
+
+  <!-- Arrows: T0,T1 both go to B0; T2,T3 to B2, etc -->
+  <g stroke="#c05000" stroke-width="1" fill="none">
+    <line x1="261" y1="88" x2="261" y2="106" marker-end="url(#arror)"/>
+    <line x1="281" y1="88" x2="263" y2="106" marker-end="url(#arror)"/>
+    <line x1="301" y1="88" x2="301" y2="106" marker-end="url(#arror)"/>
+    <line x1="321" y1="88" x2="303" y2="106" marker-end="url(#arror)"/>
+    <line x1="341" y1="88" x2="341" y2="106" marker-end="url(#arror)"/>
+    <line x1="361" y1="88" x2="343" y2="106" marker-end="url(#arror)"/>
+    <line x1="381" y1="88" x2="381" y2="106" marker-end="url(#arror)"/>
+    <line x1="401" y1="88" x2="383" y2="106" marker-end="url(#arror)"/>
+  </g>
+
+  <!-- Banks (only even used, shown with conflict highlight) -->
+  <g>
+    <rect x="252" y="110" width="18" height="14" rx="2" fill="#FFD200" stroke="#c05000" stroke-width="1.5"/><text x="261" y="121" font-size="7" fill="#004065" text-anchor="middle">B0</text>
+    <rect x="272" y="110" width="18" height="14" rx="2" fill="#eee" stroke="#ccc" stroke-width="1"/><text x="281" y="121" font-size="7" fill="#999" text-anchor="middle">B1</text>
+    <rect x="292" y="110" width="18" height="14" rx="2" fill="#FFD200" stroke="#c05000" stroke-width="1.5"/><text x="301" y="121" font-size="7" fill="#004065" text-anchor="middle">B2</text>
+    <rect x="312" y="110" width="18" height="14" rx="2" fill="#eee" stroke="#ccc" stroke-width="1"/><text x="321" y="121" font-size="7" fill="#999" text-anchor="middle">B3</text>
+    <rect x="332" y="110" width="18" height="14" rx="2" fill="#FFD200" stroke="#c05000" stroke-width="1.5"/><text x="341" y="121" font-size="7" fill="#004065" text-anchor="middle">B4</text>
+    <rect x="352" y="110" width="18" height="14" rx="2" fill="#eee" stroke="#ccc" stroke-width="1"/><text x="361" y="121" font-size="7" fill="#999" text-anchor="middle">B5</text>
+    <rect x="372" y="110" width="18" height="14" rx="2" fill="#FFD200" stroke="#c05000" stroke-width="1.5"/><text x="381" y="121" font-size="7" fill="#004065" text-anchor="middle">B6</text>
+    <rect x="392" y="110" width="18" height="14" rx="2" fill="#eee" stroke="#ccc" stroke-width="1"/><text x="401" y="121" font-size="7" fill="#999" text-anchor="middle">B7</text>
+    <rect x="412" y="110" width="18" height="14" rx="2" fill="#FFD200" stroke="#c05000" stroke-width="1.5"/>
+  </g>
+
+  <text x="347" y="148" class="bad" text-anchor="middle">2 cycles -- serialized access</text>
+  <text x="347" y="162" class="sub" text-anchor="middle">Stride-2 causes 2-way conflict</text>
+
+  <!-- === Broadcast (right) === -->
+  <rect x="470" y="30" width="215" height="260" rx="6" fill="white" stroke="#2e7d32" stroke-width="1.5"/>
+  <text x="577" y="50" class="label" text-anchor="middle">Broadcast</text>
+  <text x="577" y="63" class="sub" text-anchor="middle">All threads read same address</text>
+
+  <!-- Threads -->
+  <g>
+    <rect x="482" y="72" width="18" height="14" rx="2" fill="#004065"/><text x="491" y="83" font-size="7" fill="white" text-anchor="middle">T0</text>
+    <rect x="502" y="72" width="18" height="14" rx="2" fill="#004065"/><text x="511" y="83" font-size="7" fill="white" text-anchor="middle">T1</text>
+    <rect x="522" y="72" width="18" height="14" rx="2" fill="#004065"/><text x="531" y="83" font-size="7" fill="white" text-anchor="middle">T2</text>
+    <rect x="542" y="72" width="18" height="14" rx="2" fill="#004065"/><text x="551" y="83" font-size="7" fill="white" text-anchor="middle">T3</text>
+    <rect x="562" y="72" width="18" height="14" rx="2" fill="#004065"/>
+    <rect x="582" y="72" width="18" height="14" rx="2" fill="#004065"/>
+    <rect x="602" y="72" width="18" height="14" rx="2" fill="#004065"/>
+    <rect x="622" y="72" width="18" height="14" rx="2" fill="#004065"/>
+    <rect x="642" y="72" width="18" height="14" rx="2" fill="#004065"/>
+    <text x="668" y="83" font-size="6" fill="#666">...</text>
+  </g>
+
+  <!-- All arrows converge to one bank -->
+  <g stroke="#2e7d32" stroke-width="1" fill="none">
+    <line x1="491" y1="88" x2="491" y2="106" marker-end="url(#arrgn)"/>
+    <line x1="511" y1="88" x2="493" y2="106" marker-end="url(#arrgn)"/>
+    <line x1="531" y1="88" x2="495" y2="106" marker-end="url(#arrgn)"/>
+    <line x1="551" y1="88" x2="497" y2="106" marker-end="url(#arrgn)"/>
+    <line x1="571" y1="88" x2="499" y2="106" marker-end="url(#arrgn)"/>
+    <line x1="591" y1="88" x2="500" y2="106" marker-end="url(#arrgn)"/>
+    <line x1="611" y1="88" x2="501" y2="106" marker-end="url(#arrgn)"/>
+    <line x1="631" y1="88" x2="502" y2="106" marker-end="url(#arrgn)"/>
+    <line x1="651" y1="88" x2="503" y2="106" marker-end="url(#arrgn)"/>
+  </g>
+
+  <!-- Banks: only B0 highlighted -->
+  <g>
+    <rect x="482" y="110" width="18" height="14" rx="2" fill="#2e7d32" stroke="#2e7d32" stroke-width="1.5"/><text x="491" y="121" font-size="7" fill="white" text-anchor="middle">B0</text>
+    <rect x="502" y="110" width="18" height="14" rx="2" fill="#eee" stroke="#ccc" stroke-width="1"/><text x="511" y="121" font-size="7" fill="#999" text-anchor="middle">B1</text>
+    <rect x="522" y="110" width="18" height="14" rx="2" fill="#eee" stroke="#ccc" stroke-width="1"/><text x="531" y="121" font-size="7" fill="#999" text-anchor="middle">B2</text>
+    <rect x="542" y="110" width="18" height="14" rx="2" fill="#eee" stroke="#ccc" stroke-width="1"/><text x="551" y="121" font-size="7" fill="#999" text-anchor="middle">B3</text>
+    <rect x="562" y="110" width="18" height="14" rx="2" fill="#eee" stroke="#ccc" stroke-width="1"/>
+    <rect x="582" y="110" width="18" height="14" rx="2" fill="#eee" stroke="#ccc" stroke-width="1"/>
+    <rect x="602" y="110" width="18" height="14" rx="2" fill="#eee" stroke="#ccc" stroke-width="1"/>
+    <rect x="622" y="110" width="18" height="14" rx="2" fill="#eee" stroke="#ccc" stroke-width="1"/>
+    <rect x="642" y="110" width="18" height="14" rx="2" fill="#eee" stroke="#ccc" stroke-width="1"/>
+  </g>
+
+  <text x="577" y="148" class="good" text-anchor="middle">1 cycle -- hardware broadcast</text>
+  <text x="577" y="162" class="sub" text-anchor="middle">Free! Same word to all threads</text>
+
+  <!-- Bottom explanation -->
+  <rect x="20" y="172" width="660" height="50" rx="6" fill="#fff4cc" stroke="#004065" stroke-width="1"/>
+  <text x="350" y="190" font-size="11" fill="#004065" font-weight="bold" text-anchor="middle">Shared memory has 32 banks. Address maps to bank = (addr / 4) % 32</text>
+  <text x="350" y="206" font-size="10" fill="#666" text-anchor="middle">Conflict-free: stride-1 (consecutive 4-byte words). Worst case: stride-32 (all same bank = 32-way conflict).</text>
+
+  <!-- Explanation of fix -->
+  <text x="350" y="240" font-size="11" fill="#004065" font-weight="bold" text-anchor="middle">Fix: pad shared memory arrays to avoid power-of-2 strides</text>
+  <text x="350" y="258" font-size="10" fill="#666" font-family="'Courier New', monospace" text-anchor="middle">__shared__ float tile[32][33]; // pad from 32 to 33 columns</text>
+  <text x="350" y="278" font-size="10" fill="#666" font-style="italic" text-anchor="middle">The extra column shifts bank mappings so column accesses are conflict-free.</text>
+</svg>
