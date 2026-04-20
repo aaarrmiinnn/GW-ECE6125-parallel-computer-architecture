@@ -240,7 +240,13 @@ Each of the 4 warp schedulers in an SM can:
 
 With 4 schedulers, an SM can execute <span class="accent">4 warp-instructions per cycle</span>, keeping 128 CUDA cores busy.
 
-> At 1.83 GHz, that's 4 × 32 × 1.83 billion = ~234 billion FP32 operations/second per SM. Across 132 SMs: ~31 TFLOPS FP32.
+**Per SM throughput:**
+
+$$4 \text{ schedulers} \times 32 \text{ threads/warp} \times 2 \text{ (multiply + add)} \times 1.83 \times 10^9 \text{ Hz} \approx 469 \text{ GFLOPS}$$
+
+**Full GPU (H100):**
+
+$$469 \text{ GFLOPS/SM} \times 132 \text{ SMs} \approx 62 \text{ TFLOPS FP32}$$
 
 Note: Dual issue means the scheduler can dispatch two non-dependent instructions from the same warp in one cycle (e.g., a multiply and an add). This is architecture-dependent and the compiler must arrange instructions to enable it.
 
