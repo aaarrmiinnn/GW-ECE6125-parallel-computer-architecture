@@ -1,0 +1,145 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 300">
+  <style>
+    text { font-family: Arial, Helvetica, sans-serif; fill: #222; }
+    .title { font-size: 14px; font-weight: bold; fill: #004065; }
+    .label { font-size: 11px; font-weight: bold; fill: #004065; }
+    .code { font-family: monospace; font-size: 10px; fill: #222; }
+    .small { font-size: 10px; fill: #555; }
+    .tid { font-size: 9px; fill: white; font-weight: bold; }
+  </style>
+
+  <!-- Title -->
+  <text x="350" y="18" class="title" text-anchor="middle">CUDA Thread Indexing: Grid → Blocks → Threads</text>
+
+  <!-- ═══ Grid level ═══ -->
+  <text x="80" y="42" class="label" text-anchor="middle">Grid (all blocks)</text>
+  <rect x="15" y="50" width="130" height="90" rx="6" fill="none" stroke="#004065" stroke-width="2" stroke-dasharray="5,3"/>
+
+  <!-- 6 blocks in grid (2x3) -->
+  <rect x="22" y="56" width="36" height="28" rx="3" fill="#cfe2f3" stroke="#004065" stroke-width="1"/>
+  <text x="40" y="74" class="small" text-anchor="middle">Block(0,0)</text>
+  <rect x="62" y="56" width="36" height="28" rx="3" fill="#cfe2f3" stroke="#004065" stroke-width="1"/>
+  <text x="80" y="74" class="small" text-anchor="middle">Block(1,0)</text>
+  <rect x="102" y="56" width="36" height="28" rx="3" fill="#cfe2f3" stroke="#004065" stroke-width="1"/>
+  <text x="120" y="74" class="small" text-anchor="middle">Block(2,0)</text>
+
+  <rect x="22" y="88" width="36" height="28" rx="3" fill="#cfe2f3" stroke="#004065" stroke-width="1"/>
+  <text x="40" y="106" class="small" text-anchor="middle">Block(0,1)</text>
+  <rect x="62" y="88" width="36" height="28" rx="3" fill="#FFD200" stroke="#004065" stroke-width="2"/>
+  <text x="80" y="106" class="small" text-anchor="middle" font-weight="bold">Block(1,1)</text>
+  <rect x="102" y="88" width="36" height="28" rx="3" fill="#cfe2f3" stroke="#004065" stroke-width="1"/>
+  <text x="120" y="106" class="small" text-anchor="middle">Block(2,1)</text>
+
+  <text x="80" y="130" class="code" text-anchor="middle">gridDim = (3, 2)</text>
+
+  <!-- Arrow -->
+  <line x1="150" y1="95" x2="180" y2="95" stroke="#004065" stroke-width="1.5" marker-end="url(#arr2)"/>
+  <text x="165" y="88" class="small" text-anchor="middle">zoom in</text>
+
+  <!-- ═══ Block level ═══ -->
+  <text x="295" y="42" class="label" text-anchor="middle">Block (1,1)</text>
+  <rect x="190" y="50" width="210" height="90" rx="6" fill="#FFD200" fill-opacity="0.2" stroke="#004065" stroke-width="2"/>
+
+  <!-- 4x4 threads inside -->
+  <g transform="translate(200, 56)">
+    <rect x="0" y="0" width="22" height="18" rx="2" fill="#004065"/><text x="11" y="13" class="tid" text-anchor="middle">T(0,0)</text>
+    <rect x="25" y="0" width="22" height="18" rx="2" fill="#004065"/><text x="36" y="13" class="tid" text-anchor="middle">T(1,0)</text>
+    <rect x="50" y="0" width="22" height="18" rx="2" fill="#004065"/><text x="61" y="13" class="tid" text-anchor="middle">T(2,0)</text>
+    <rect x="75" y="0" width="22" height="18" rx="2" fill="#004065"/><text x="86" y="13" class="tid" text-anchor="middle">T(3,0)</text>
+    <rect x="100" y="0" width="22" height="18" rx="2" fill="#004065"/><text x="111" y="13" class="tid" text-anchor="middle">...</text>
+    <rect x="125" y="0" width="22" height="18" rx="2" fill="#004065"/><text x="136" y="13" class="tid" text-anchor="middle">...</text>
+    <rect x="150" y="0" width="22" height="18" rx="2" fill="#004065"/><text x="161" y="13" class="tid" text-anchor="middle">...</text>
+    <rect x="175" y="0" width="22" height="18" rx="2" fill="#c05000"/><text x="186" y="13" class="tid" text-anchor="middle">T(7,0)</text>
+
+    <rect x="0" y="22" width="22" height="18" rx="2" fill="#004065"/><text x="11" y="35" class="tid" text-anchor="middle">T(0,1)</text>
+    <rect x="25" y="22" width="22" height="18" rx="2" fill="#004065"/><text x="36" y="35" class="tid" text-anchor="middle">T(1,1)</text>
+    <rect x="50" y="22" width="22" height="18" rx="2" fill="#004065"/><text x="61" y="35" class="tid" text-anchor="middle">T(2,1)</text>
+    <rect x="75" y="22" width="22" height="18" rx="2" fill="#004065"/><text x="86" y="35" class="tid" text-anchor="middle">T(3,1)</text>
+    <rect x="100" y="22" width="22" height="18" rx="2" fill="#004065"/><text x="111" y="35" class="tid" text-anchor="middle">...</text>
+    <rect x="125" y="22" width="22" height="18" rx="2" fill="#004065"/><text x="136" y="35" class="tid" text-anchor="middle">...</text>
+    <rect x="150" y="22" width="22" height="18" rx="2" fill="#004065"/><text x="161" y="35" class="tid" text-anchor="middle">...</text>
+    <rect x="175" y="22" width="22" height="18" rx="2" fill="#004065"/><text x="186" y="35" class="tid" text-anchor="middle">T(7,1)</text>
+
+    <rect x="0" y="44" width="22" height="18" rx="2" fill="#004065"/><text x="11" y="57" class="tid" text-anchor="middle">T(0,2)</text>
+    <rect x="25" y="44" width="22" height="18" rx="2" fill="#004065"/><text x="36" y="57" class="tid" text-anchor="middle">...</text>
+    <rect x="50" y="44" width="22" height="18" rx="2" fill="#004065"/><text x="61" y="57" class="tid" text-anchor="middle">...</text>
+    <rect x="75" y="44" width="22" height="18" rx="2" fill="#004065"/><text x="86" y="57" class="tid" text-anchor="middle">...</text>
+    <rect x="100" y="44" width="22" height="18" rx="2" fill="#004065"/><text x="111" y="57" class="tid" text-anchor="middle">...</text>
+    <rect x="125" y="44" width="22" height="18" rx="2" fill="#004065"/><text x="136" y="57" class="tid" text-anchor="middle">...</text>
+    <rect x="150" y="44" width="22" height="18" rx="2" fill="#004065"/><text x="161" y="57" class="tid" text-anchor="middle">...</text>
+    <rect x="175" y="44" width="22" height="18" rx="2" fill="#004065"/><text x="186" y="57" class="tid" text-anchor="middle">T(7,2)</text>
+  </g>
+
+  <text x="295" y="130" class="code" text-anchor="middle">blockDim = (8, 4) → 32 threads per block</text>
+
+  <!-- ═══ Formula box ═══ -->
+  <rect x="420" y="45" width="270" height="100" rx="6" fill="#fafafa" stroke="#e0e0e0"/>
+  <text x="555" y="62" class="label" text-anchor="middle">Computing Global Thread ID</text>
+
+  <text x="435" y="82" class="code">// 1D case (most common):</text>
+  <text x="435" y="96" class="code">int gid = blockIdx.x * blockDim.x</text>
+  <text x="435" y="108" class="code">         + threadIdx.x;</text>
+
+  <text x="435" y="126" class="code">// 2D case:</text>
+  <text x="435" y="138" class="code">int col = blockIdx.x * blockDim.x + threadIdx.x;</text>
+  <text x="435" y="150" class="code">int row = blockIdx.y * blockDim.y + threadIdx.y;</text>
+
+  <!-- ═══ Bottom: how it maps to data ═══ -->
+  <rect x="15" y="155" width="680" height="60" rx="6" fill="#fafafa" stroke="#e0e0e0"/>
+  <text x="350" y="172" class="label" text-anchor="middle">How it maps to data (1D example: array of N elements)</text>
+
+  <!-- Array representation -->
+  <g transform="translate(30, 180)">
+    <rect x="0" y="0" width="40" height="22" rx="2" fill="#FFD200" stroke="#004065" stroke-width="1"/>
+    <text x="20" y="15" class="small" text-anchor="middle">a[0]</text>
+    <rect x="42" y="0" width="40" height="22" rx="2" fill="#FFD200" stroke="#004065" stroke-width="1"/>
+    <text x="62" y="15" class="small" text-anchor="middle">a[1]</text>
+    <rect x="84" y="0" width="40" height="22" rx="2" fill="#FFD200" stroke="#004065" stroke-width="1"/>
+    <text x="104" y="15" class="small" text-anchor="middle">...</text>
+    <rect x="126" y="0" width="40" height="22" rx="2" fill="#FFD200" stroke="#004065" stroke-width="1"/>
+    <text x="146" y="15" class="small" text-anchor="middle">a[7]</text>
+
+    <rect x="180" y="0" width="40" height="22" rx="2" fill="#cfe2f3" stroke="#004065" stroke-width="1"/>
+    <text x="200" y="15" class="small" text-anchor="middle">a[8]</text>
+    <rect x="222" y="0" width="40" height="22" rx="2" fill="#cfe2f3" stroke="#004065" stroke-width="1"/>
+    <text x="242" y="15" class="small" text-anchor="middle">a[9]</text>
+    <rect x="264" y="0" width="40" height="22" rx="2" fill="#cfe2f3" stroke="#004065" stroke-width="1"/>
+    <text x="284" y="15" class="small" text-anchor="middle">...</text>
+    <rect x="306" y="0" width="40" height="22" rx="2" fill="#cfe2f3" stroke="#004065" stroke-width="1"/>
+    <text x="326" y="15" class="small" text-anchor="middle">a[15]</text>
+
+    <rect x="360" y="0" width="40" height="22" rx="2" fill="#fff4cc" stroke="#004065" stroke-width="1"/>
+    <text x="380" y="15" class="small" text-anchor="middle">a[16]</text>
+    <rect x="402" y="0" width="40" height="22" rx="2" fill="#fff4cc" stroke="#004065" stroke-width="1"/>
+    <text x="422" y="15" class="small" text-anchor="middle">a[17]</text>
+    <rect x="444" y="0" width="40" height="22" rx="2" fill="#fff4cc" stroke="#004065" stroke-width="1"/>
+    <text x="464" y="15" class="small" text-anchor="middle">...</text>
+    <rect x="486" y="0" width="40" height="22" rx="2" fill="#fff4cc" stroke="#004065" stroke-width="1"/>
+    <text x="506" y="15" class="small" text-anchor="middle">a[23]</text>
+
+    <rect x="540" y="0" width="40" height="22" rx="2" fill="#e8e8e8" stroke="#004065" stroke-width="1"/>
+    <text x="560" y="15" class="small" text-anchor="middle">...</text>
+    <rect x="582" y="0" width="40" height="22" rx="2" fill="#e8e8e8" stroke="#004065" stroke-width="1"/>
+    <text x="602" y="15" class="small" text-anchor="middle">a[N-1]</text>
+  </g>
+
+  <!-- Block labels under array -->
+  <text x="143" y="225" class="small" text-anchor="middle" fill="#004065" font-weight="bold">Block 0</text>
+  <text x="323" y="225" class="small" text-anchor="middle" fill="#004065" font-weight="bold">Block 1</text>
+  <text x="473" y="225" class="small" text-anchor="middle" fill="#004065" font-weight="bold">Block 2</text>
+  <text x="623" y="225" class="small" text-anchor="middle" fill="#666">Block ...</text>
+
+  <!-- Bottom formula -->
+  <text x="350" y="255" class="code" text-anchor="middle">gid = blockIdx.x * blockDim.x + threadIdx.x   →   each thread processes a[gid]</text>
+
+  <!-- Bracket showing blockDim.x = 8 -->
+  <line x1="30" y1="235" x2="166" y2="235" stroke="#c05000" stroke-width="1.5"/>
+  <text x="98" y="248" font-size="9" fill="#c05000" text-anchor="middle" font-weight="bold">blockDim.x = 8</text>
+
+  <defs>
+    <marker id="arr2" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#004065"/>
+    </marker>
+  </defs>
+</svg>

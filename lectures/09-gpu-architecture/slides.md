@@ -215,6 +215,23 @@ Note: The block scheduler is a hardware unit. It looks at each block's resource 
 
 ---
 
+## Thread Indexing: How Threads Find Their Data
+
+Each thread computes its unique <span class="accent">global ID</span> from its position in the hierarchy:
+
+![CUDA thread indexing: Grid, Blocks, Threads](images/thread-indexing.svg)
+
+- `blockIdx.x` / `.y` : which block am I in? (within the grid)
+- `threadIdx.x` / `.y` : which thread am I? (within my block)
+- `blockDim.x` / `.y` : how many threads per block?
+- `gridDim.x` / `.y` : how many blocks in the grid?
+
+> Each thread uses its global ID to index into the data array. This is how millions of threads each process a different element without any coordination.
+
+Note: The formula `gid = blockIdx.x * blockDim.x + threadIdx.x` is the most-written line in all of CUDA. It maps the 2-level hierarchy (grid of blocks, block of threads) down to a flat array index. For 2D problems (images, matrices), you compute separate row and col indices using the .y components. The hardware provides these built-in variables for free; they come from the thread's position in the launch configuration.
+
+---
+
 ## Warps: The True Execution Unit
 
 Lecture 8 introduced warps as "32 threads executing the same instruction." Now let's look at the hardware.
