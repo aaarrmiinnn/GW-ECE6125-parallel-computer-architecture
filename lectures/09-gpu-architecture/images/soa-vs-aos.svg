@@ -1,0 +1,150 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 280">
+  <style>
+    text { font-family: Arial, Helvetica, sans-serif; fill: #222; }
+    .title { font-size: 13px; font-weight: bold; fill: #004065; }
+    .label { font-size: 10px; font-weight: bold; fill: #004065; }
+    .small { font-size: 9px; fill: #555; }
+    .cell { stroke: #004065; stroke-width: 1; rx: 2; ry: 2; }
+    .bad { font-size: 10px; fill: #cc0000; font-weight: bold; }
+    .good { font-size: 10px; fill: #228B22; font-weight: bold; }
+  </style>
+
+  <defs>
+    <marker id="arr3" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="5" markerHeight="5" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#c05000"/>
+    </marker>
+    <marker id="arr4" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="5" markerHeight="5" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#228B22"/>
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="350" y="16" class="title" text-anchor="middle">1 Million Particles: AoS vs SoA Memory Layout</text>
+
+  <!-- ═══ AoS (top) ═══ -->
+  <text x="20" y="40" class="label">AoS: struct Particle { x, y, z, mass }; Particle p[N];</text>
+  <text x="620" y="40" class="bad">Stride-4</text>
+
+  <!-- Memory cells for AoS -->
+  <g transform="translate(20, 48)">
+    <!-- Particle 0 -->
+    <rect x="0" y="0" width="32" height="22" class="cell" fill="#FFD200"/>
+    <text x="16" y="15" class="small" text-anchor="middle" font-weight="bold">x₀</text>
+    <rect x="33" y="0" width="32" height="22" class="cell" fill="#cfe2f3"/>
+    <text x="49" y="15" class="small" text-anchor="middle">y₀</text>
+    <rect x="66" y="0" width="32" height="22" class="cell" fill="#d4edda"/>
+    <text x="82" y="15" class="small" text-anchor="middle">z₀</text>
+    <rect x="99" y="0" width="32" height="22" class="cell" fill="#e8e8e8"/>
+    <text x="115" y="15" class="small" text-anchor="middle">m₀</text>
+
+    <!-- Particle 1 -->
+    <rect x="140" y="0" width="32" height="22" class="cell" fill="#FFD200"/>
+    <text x="156" y="15" class="small" text-anchor="middle" font-weight="bold">x₁</text>
+    <rect x="173" y="0" width="32" height="22" class="cell" fill="#cfe2f3"/>
+    <text x="189" y="15" class="small" text-anchor="middle">y₁</text>
+    <rect x="206" y="0" width="32" height="22" class="cell" fill="#d4edda"/>
+    <text x="222" y="15" class="small" text-anchor="middle">z₁</text>
+    <rect x="239" y="0" width="32" height="22" class="cell" fill="#e8e8e8"/>
+    <text x="255" y="15" class="small" text-anchor="middle">m₁</text>
+
+    <!-- Particle 2 -->
+    <rect x="280" y="0" width="32" height="22" class="cell" fill="#FFD200"/>
+    <text x="296" y="15" class="small" text-anchor="middle" font-weight="bold">x₂</text>
+    <rect x="313" y="0" width="32" height="22" class="cell" fill="#cfe2f3"/>
+    <text x="329" y="15" class="small" text-anchor="middle">y₂</text>
+    <rect x="346" y="0" width="32" height="22" class="cell" fill="#d4edda"/>
+    <text x="362" y="15" class="small" text-anchor="middle">z₂</text>
+    <rect x="379" y="0" width="32" height="22" class="cell" fill="#e8e8e8"/>
+    <text x="395" y="15" class="small" text-anchor="middle">m₂</text>
+
+    <!-- Particle 3 -->
+    <rect x="420" y="0" width="32" height="22" class="cell" fill="#FFD200"/>
+    <text x="436" y="15" class="small" text-anchor="middle" font-weight="bold">x₃</text>
+    <rect x="453" y="0" width="32" height="22" class="cell" fill="#cfe2f3"/>
+    <text x="469" y="15" class="small" text-anchor="middle">y₃</text>
+    <rect x="486" y="0" width="32" height="22" class="cell" fill="#d4edda"/>
+    <text x="502" y="15" class="small" text-anchor="middle">z₃</text>
+    <rect x="519" y="0" width="32" height="22" class="cell" fill="#e8e8e8"/>
+    <text x="535" y="15" class="small" text-anchor="middle">m₃</text>
+
+    <text x="570" y="15" class="small">...</text>
+  </g>
+
+  <!-- Arrows showing scattered reads for x -->
+  <g transform="translate(20, 48)">
+    <line x1="16" y1="25" x2="16" y2="38" stroke="#c05000" stroke-width="1.5" marker-end="url(#arr3)"/>
+    <line x1="156" y1="25" x2="156" y2="38" stroke="#c05000" stroke-width="1.5" marker-end="url(#arr3)"/>
+    <line x1="296" y1="25" x2="296" y2="38" stroke="#c05000" stroke-width="1.5" marker-end="url(#arr3)"/>
+    <line x1="436" y1="25" x2="436" y2="38" stroke="#c05000" stroke-width="1.5" marker-end="url(#arr3)"/>
+  </g>
+  <text x="350" y="100" class="small" text-anchor="middle" fill="#c05000">Thread 0 reads x₀, Thread 1 reads x₁, Thread 2 reads x₂ ... but they are 16 bytes apart! (4 separate transactions)</text>
+
+  <!-- Divider -->
+  <line x1="20" y1="112" x2="680" y2="112" stroke="#ddd" stroke-width="1"/>
+
+  <!-- ═══ SoA (bottom) ═══ -->
+  <text x="20" y="130" class="label">SoA: float x[N], y[N], z[N], mass[N];</text>
+  <text x="620" y="130" class="good">Stride-1</text>
+
+  <!-- Memory cells for SoA: all x's together -->
+  <g transform="translate(20, 138)">
+    <rect x="0" y="0" width="32" height="22" class="cell" fill="#FFD200"/>
+    <text x="16" y="15" class="small" text-anchor="middle" font-weight="bold">x₀</text>
+    <rect x="33" y="0" width="32" height="22" class="cell" fill="#FFD200"/>
+    <text x="49" y="15" class="small" text-anchor="middle" font-weight="bold">x₁</text>
+    <rect x="66" y="0" width="32" height="22" class="cell" fill="#FFD200"/>
+    <text x="82" y="15" class="small" text-anchor="middle" font-weight="bold">x₂</text>
+    <rect x="99" y="0" width="32" height="22" class="cell" fill="#FFD200"/>
+    <text x="115" y="15" class="small" text-anchor="middle" font-weight="bold">x₃</text>
+    <rect x="132" y="0" width="32" height="22" class="cell" fill="#FFD200"/>
+    <text x="148" y="15" class="small" text-anchor="middle">...</text>
+
+    <!-- then y's -->
+    <rect x="180" y="0" width="32" height="22" class="cell" fill="#cfe2f3"/>
+    <text x="196" y="15" class="small" text-anchor="middle">y₀</text>
+    <rect x="213" y="0" width="32" height="22" class="cell" fill="#cfe2f3"/>
+    <text x="229" y="15" class="small" text-anchor="middle">y₁</text>
+    <rect x="246" y="0" width="32" height="22" class="cell" fill="#cfe2f3"/>
+    <text x="262" y="15" class="small" text-anchor="middle">y₂</text>
+    <rect x="279" y="0" width="32" height="22" class="cell" fill="#cfe2f3"/>
+    <text x="295" y="15" class="small" text-anchor="middle">...</text>
+
+    <!-- then z's -->
+    <rect x="327" y="0" width="32" height="22" class="cell" fill="#d4edda"/>
+    <text x="343" y="15" class="small" text-anchor="middle">z₀</text>
+    <rect x="360" y="0" width="32" height="22" class="cell" fill="#d4edda"/>
+    <text x="376" y="15" class="small" text-anchor="middle">z₁</text>
+    <rect x="393" y="0" width="32" height="22" class="cell" fill="#d4edda"/>
+    <text x="409" y="15" class="small" text-anchor="middle">z₂</text>
+    <rect x="426" y="0" width="32" height="22" class="cell" fill="#d4edda"/>
+    <text x="442" y="15" class="small" text-anchor="middle">...</text>
+
+    <!-- then mass -->
+    <rect x="474" y="0" width="32" height="22" class="cell" fill="#e8e8e8"/>
+    <text x="490" y="15" class="small" text-anchor="middle">m₀</text>
+    <rect x="507" y="0" width="32" height="22" class="cell" fill="#e8e8e8"/>
+    <text x="523" y="15" class="small" text-anchor="middle">m₁</text>
+    <rect x="540" y="0" width="32" height="22" class="cell" fill="#e8e8e8"/>
+    <text x="556" y="15" class="small" text-anchor="middle">m₂</text>
+    <rect x="573" y="0" width="32" height="22" class="cell" fill="#e8e8e8"/>
+    <text x="589" y="15" class="small" text-anchor="middle">...</text>
+  </g>
+
+  <!-- Arrows showing coalesced reads for x -->
+  <g transform="translate(20, 138)">
+    <line x1="16" y1="25" x2="16" y2="38" stroke="#228B22" stroke-width="1.5" marker-end="url(#arr4)"/>
+    <line x1="49" y1="25" x2="49" y2="38" stroke="#228B22" stroke-width="1.5" marker-end="url(#arr4)"/>
+    <line x1="82" y1="25" x2="82" y2="38" stroke="#228B22" stroke-width="1.5" marker-end="url(#arr4)"/>
+    <line x1="115" y1="25" x2="115" y2="38" stroke="#228B22" stroke-width="1.5" marker-end="url(#arr4)"/>
+  </g>
+  <text x="350" y="192" class="small" text-anchor="middle" fill="#228B22">Thread 0 reads x₀, Thread 1 reads x₁, Thread 2 reads x₂ ... consecutive in memory! (1 coalesced transaction)</text>
+
+  <!-- Bottom comparison -->
+  <rect x="120" y="205" width="460" height="65" rx="6" fill="#fafafa" stroke="#e0e0e0"/>
+  <text x="350" y="222" class="label" text-anchor="middle">Performance difference (1M particles, reading all x values):</text>
+  <text x="350" y="240" class="small" text-anchor="middle">AoS: 32 threads need 32 cache lines (stride-4) → <tspan fill="#c05000" font-weight="bold">~4 separate 128B transactions per warp</tspan></text>
+  <text x="350" y="255" class="small" text-anchor="middle">SoA: 32 threads fit in 1 cache line (stride-1) → <tspan fill="#228B22" font-weight="bold">1 coalesced 128B transaction per warp</tspan></text>
+  <text x="350" y="268" font-size="11" text-anchor="middle" fill="#004065" font-weight="bold">Same data, same computation. SoA is ~4x faster just from memory layout.</text>
+</svg>

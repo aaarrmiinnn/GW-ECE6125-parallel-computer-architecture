@@ -723,24 +723,13 @@ Note: The bandwidth column is approximate. Even stride-2 access halves your effe
 
 ## Structure of Arrays vs Array of Structures
 
-> **Intuition:** on a CPU, you group related fields together (AoS) for cache locality per element. On a GPU, you group same fields together (SoA) so adjacent threads access adjacent memory.
+> **Example:** 1 million particles, each with (x, y, z, mass). A kernel reads all x values. How you store the data determines whether this is 1 transaction or 4 per warp.
 
-**Array of Structures (AoS), CPU-friendly:**
-```c
-struct Particle { float x, y, z, mass; };
-Particle particles[N];
-// Thread i reads particles[i].x → stride-4, non-coalesced
-```
+![AoS vs SoA memory layout for particles](images/soa-vs-aos.svg)
 
-**Structure of Arrays (SoA), GPU-friendly:**
-```c
-float x[N], y[N], z[N], mass[N];
-// Thread i reads x[i] → stride-1, coalesced
-```
+> <span class="accent">Same data, same computation. SoA is ~4x faster</span> purely from memory layout.
 
-> <span class="accent">SoA on GPU can be 10x faster</span> than AoS for the same computation, purely from coalescing.
-
-Note: If you port CPU code to CUDA and it's slow, the first thing to check is your data layout. AoS-to-SoA conversion is often the single biggest performance win. Libraries like Thrust provide zip iterators to help.
+Note: If you port CPU code to CUDA and it's slow, the first thing to check is your data layout. AoS-to-SoA conversion is often the single biggest performance win. On CPUs, AoS is preferred because accessing all fields of one particle hits one cache line. On GPUs, adjacent threads access different particles, so you want all x's contiguous so they coalesce.
 
 ---
 
