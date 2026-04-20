@@ -296,7 +296,27 @@ Note: The 4 in the denominator is the number of warp schedulers per SM. Each cyc
 
 > 132 SMs running at 1.83 GHz with tensor cores delivers <span class="accent">~1,979 TFLOPS FP8</span>, which is the number that matters for LLM training.
 
-Note: The jump from FP32 (~31 TFLOPS) to FP8 (~1,979 TFLOPS) via tensor cores is 64x. This is why mixed-precision training is so important. We'll cover tensor cores in Part 6.
+Note: The jump from FP32 (~62 TFLOPS) to FP8 (~1,979 TFLOPS) via tensor cores is ~32x. This is why mixed-precision training is so important. The next slide explains what a tensor core actually is.
+
+---
+
+## What is a Tensor Core?
+
+> **Intuition:** a regular CUDA core does one multiply-add per cycle. A tensor core does a <span class="accent">4x4 matrix multiply-accumulate in one cycle</span> (128 multiply-adds).
+
+- **Introduced:** Volta architecture (V100, 2017) to accelerate deep learning
+- **Why it helps:** neural network training is dominated by matrix multiplications (forward pass, backward pass, attention). Tensor cores do this 10-30x faster than regular CUDA cores.
+- **The trick:** they operate on <span class="accent">lower precision</span> (FP16, BF16, FP8) instead of FP32. Neural networks tolerate this because gradients don't need 32-bit accuracy.
+
+| Generation | Precision Support | Peak Throughput |
+|---|---|---|
+| Volta (2017) | FP16 | 125 TFLOPS |
+| Ampere (2020) | FP16, BF16, TF32, INT8 | 312 TFLOPS |
+| Hopper (2022) | FP16, BF16, FP8 | 1,979 TFLOPS |
+
+> Without tensor cores, training GPT-scale models would take 10-30x longer. They are the reason modern AI is economically feasible.
+
+Note: You don't call tensor cores directly in most code. Libraries like cuBLAS and cuDNN use them automatically when you call matrix multiply with compatible precision. PyTorch's `torch.cuda.amp` (automatic mixed precision) handles the FP16/FP32 bookkeeping. Part 6 (optional) covers the details of mixed precision and the WMMA API.
 
 ---
 
