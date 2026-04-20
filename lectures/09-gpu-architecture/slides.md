@@ -162,7 +162,7 @@ Note: Now that we know why GPUs exist, let's open one up. The key building block
 
 > An H100 has 8 GPCs containing 132 SMs total (not evenly split: some GPCs have 16 SMs, others 17). Think of each SM as a small parallel processor.
 
-Note: Why "Streaming" Multiprocessor? The name comes from the stream processing model: data flows through the processor like a stream, with each element processed independently by the same program. This is the same idea as the graphics pipeline (vertices and pixels "stream" through shaders). NVIDIA kept the name even as GPUs moved to general-purpose compute. The GPC is an organizational unit left over from graphics. For compute, what matters is the SM count and the L2/HBM bandwidth. Each SM runs independently with its own warp schedulers and register file.
+Note: Why "Streaming" Multiprocessor? The name comes from the stream processing model: data flows through the processor like a stream, with each element processed independently by the same program. This is the same idea as the graphics pipeline (vertices and pixels "stream" through shaders). NVIDIA kept the name even as GPUs moved to general-purpose compute. The diagram shows "Raster / ROP / Tex" in each GPC. These are graphics-specific units: **Raster** converts triangles to pixel fragments, **ROP** (Raster Operations Pipeline) handles final pixel output (blending, depth testing, antialiasing, writing to the framebuffer), and **Tex** (Texture Units) fetch and filter texture data from memory. For compute workloads these units are largely idle, but they remain on the chip because GPUs still serve graphics. The GPC is an organizational unit that groups SMs with these fixed-function units. For compute, what matters is the SM count and the L2/HBM bandwidth.
 
 ---
 
