@@ -573,23 +573,32 @@ Note: The L2 is shared across all SMs, so contention is possible. If 132 SMs all
 
 ## Global Memory (HBM)
 
-**HBM3 on H100:** 80 GB capacity, 3,350 GB/s bandwidth, 300-500 cycle latency.
+<div class="cols">
+<div class="left">
 
-- The main data store: arrays, matrices, model weights all live here
-- Accessed via memory controllers and wide buses (5 HBM stacks, each 1024-bit wide)
+**HBM3 on H100:** 80 GB, 3,350 GB/s, 300-500 cycle latency.
+
+- Main data store: arrays, matrices, model weights
+- 5 HBM stacks, each 1024-bit wide bus
 - <span class="accent">Bandwidth is the bottleneck for most kernels</span>
 
-**Is 3.35 TB/s enough?**
+**Is 3.35 TB/s enough?** Find the roofline ridge point:
 
-H100 peak FP32: ~31 TFLOPS. To keep it fed with 4-byte operands:
+$$\text{Ridge} = \frac{\text{Peak FLOPS}}{\text{Peak BW}} = \frac{62 \text{ TFLOPS}}{3.35 \text{ TB/s}} \approx 18.5 \text{ FLOPs/byte}$$
 
-$$\text{Bytes needed} = 31 \times 10^{12} \times 4 = 124 \text{ TB/s}$$
+If your kernel does fewer than ~18 FLOPs per byte loaded, it is <span class="accent">memory-bound</span> and will never hit peak compute.
 
-Available: 3.35 TB/s. You need arithmetic intensity of ~37 FLOPs/byte to be compute-bound.
+> Most kernels fall below this. Most GPU kernels are memory-bound.
 
-> Most kernels fall below this threshold. <span class="accent">Most GPU kernels are memory-bound.</span>
+</div>
+<div class="right">
 
-Note: This connects to the roofline model from Lecture 8. The ridge point on an H100 is around 9 FLOPs/byte for FP32 (31 TFLOPS / 3.35 TB/s). Any kernel below that intensity is bandwidth-limited, and faster ALUs won't help.
+![GPU memory hierarchy](images/memory-hierarchy-pyramid.svg)
+
+</div>
+</div>
+
+Note: This connects to the roofline model from Lecture 8. The ridge point tells you the minimum arithmetic intensity needed to be compute-bound. Below it, adding more ALUs won't help because the bottleneck is feeding them data. Above it, you're in the good case where the hardware is fully utilized. Dense matrix multiply (~n/12 FLOPs/byte) crosses this threshold for large matrices; sparse operations and element-wise ops typically do not.
 
 ---
 
