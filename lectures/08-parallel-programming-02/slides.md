@@ -13,8 +13,8 @@
 | 3 | **Scaling Laws in Depth** | When does doubling processors double performance? |
 | 4 | **Parallel Patterns** | What reusable templates solve most parallel problems? |
 | 5 | **Programming Models** | MPI, OpenMP, CUDA, PGAS, Spark: how do we pick? |
-| 6 | **Case Study** | End-to-end: parallel matrix multiply with real numbers |
-| 7 | **Modern Context** | Heterogeneous, cloud, energy, fault tolerance |
+| 6 | **Case Study** <span class="optional">(Optional)</span> | End-to-end: parallel matrix multiply with real numbers |
+| 7 | **Modern Context** <span class="optional">(Optional)</span> | Heterogeneous, cloud, energy, fault tolerance |
 | 8 | **Pitfalls & Wrap-Up** | What goes wrong, and how to avoid it |
 
 Note: Lecture 7 gave you the four-step framework (decompose → assign → orchestrate → map) and Amdahl's Law. This lecture goes deeper into what makes real parallel programs fast or slow. The answer is almost always communication, not computation. We'll assume you already know the basics of decomposition, synchronization, and SPMD from Lecture 7.
@@ -740,10 +740,11 @@ Note: A common trap is over-engineering: someone reaches for MPI + CUDA + OpenMP
 ---
 
 ## Part 6: Case Study: Parallel Matrix Multiply
+### <span class="optional">Optional Reading</span>
 
 ### From naive to near-optimal in four steps
 
-Note: Matrix multiply is the canonical parallel algorithm and the computational core of deep learning. Walking through how we parallelize it touches every concept in this lecture: decomposition, communication patterns, arithmetic intensity, scaling.
+Note: Parts 6 and 7 are supplementary material, not required for exams. Matrix multiply is the canonical parallel algorithm and the computational core of deep learning. Walking through how we parallelize it touches every concept in this lecture: decomposition, communication patterns, arithmetic intensity, scaling.
 
 ---
 
@@ -868,10 +869,11 @@ Note: These numbers are representative. Actual efficiencies depend heavily on ne
 ---
 
 ## Part 7: Modern Context
+### <span class="optional">Optional Reading</span>
 
 ### What's actually happening in the real world
 
-Note: The patterns we covered are timeless, but the hardware and workloads driving them have shifted dramatically in the last few years. This section grounds the theory in 2026 reality.
+Note: This part is supplementary material, not required for exams. The patterns we covered are timeless, but the hardware and workloads driving them have shifted dramatically in the last few years. This section grounds the theory in 2026 reality.
 
 ---
 

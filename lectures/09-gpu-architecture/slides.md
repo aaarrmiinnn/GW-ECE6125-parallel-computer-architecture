@@ -13,8 +13,8 @@
 | 3 | **SIMT Execution Model** | What happens when threads in a warp disagree? |
 | 4 | **GPU Memory Hierarchy** | How do you get data to the ALUs fast enough? |
 | 5 | **Memory Access Patterns** | Why does memory layout matter more than algorithm choice? |
-| 6 | **Tensor Cores and Mixed Precision** <span class="optional">(Optional)</span> | How do tensor cores achieve 10x throughput? |
-| 7 | **Modern GPU Architectures** <span class="optional">(Optional)</span> | What does a 2025 GPU cluster look like? |
+| 6 | **Tensor Cores and Mixed Precision** | How do tensor cores achieve 10x throughput? |
+| 7 | **Modern GPU Architectures** | What does a 2025 GPU cluster look like? |
 | 8 | **Best Practices and Wrap-Up** | What are the most impactful optimizations? |
 
 Note: Lectures 7 and 8 introduced CUDA programming: kernels, thread blocks, warps of 32, and the basics of shared vs. global memory. This lecture goes inside the hardware. By the end, you'll understand why certain code patterns are fast and others are slow, at the transistor level.
@@ -804,11 +804,10 @@ Note: Matrix transpose is the canonical example of shared memory tiling. The nai
 ---
 
 ## Part 6: Tensor Cores and Mixed Precision
-### <span class="optional">Optional Reading</span>
 
 ### How do tensor cores achieve 10x the throughput of regular CUDA cores?
 
-Note: Parts 6 and 7 are supplementary material, not required for exams. Tensor cores are the single biggest architectural innovation for AI workloads in the last decade. They exploit the fact that neural networks tolerate lower precision, which lets the hardware do dramatically more work per cycle.
+Note: Tensor cores are the single biggest architectural innovation for AI workloads in the last decade. They exploit the fact that neural networks tolerate lower precision, which lets the hardware do dramatically more work per cycle.
 
 ---
 
@@ -896,11 +895,10 @@ Note: The constraint (exactly 2:4 zeros) is strict. Random sparsity doesn't help
 ---
 
 ## Part 7: Modern GPU Architectures
-### <span class="optional">Optional Reading</span>
 
 ### What does a 2025 GPU cluster look like?
 
-Note: This part is supplementary material, not required for exams. Individual GPU performance matters, but modern AI training uses thousands of GPUs connected by high-speed networks. The cluster architecture is as important as the chip architecture.
+Note: Individual GPU performance matters, but modern AI training uses thousands of GPUs connected by high-speed networks. The cluster architecture is as important as the chip architecture.
 
 ---
 
