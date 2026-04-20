@@ -619,23 +619,24 @@ Note: These are niche but worth knowing. If all 32 threads in a warp read the sa
 
 ## Unified Memory and Page Migration
 
+> **The problem:** normally CPU and GPU have separate memory. The programmer must `cudaMalloc` on GPU, `cudaMemcpy` to transfer, run the kernel, then copy back. Tedious and error-prone.
+
+> **Unified Memory** (CUDA 6, 2014): one pointer that works on both sides. The OS migrates pages automatically on access, like virtual memory page faults.
+
 ```c
-// Allocate memory accessible from both CPU and GPU
 float *data;
-cudaMallocManaged(&data, N * sizeof(float));
-// CPU writes to data
-for (int i = 0; i < N; i++) data[i] = i;
-// GPU kernel reads data (pages migrate automatically)
-kernel<<<blocks, threads>>>(data, N);
+cudaMallocManaged(&data, N * sizeof(float));  // single allocation, works on CPU and GPU
+for (int i = 0; i < N; i++) data[i] = i;      // CPU writes (data lives in CPU RAM)
+kernel<<<blocks, threads>>>(data, N);          // GPU reads (OS migrates pages to HBM)
 ```
 
-- OS migrates pages between CPU and GPU on demand
-- Convenient for prototyping (no explicit `cudaMemcpy`)
-- <span class="accent">Can cause page faults and stalls</span> on first access from each side
+- **Pro:** no manual `cudaMemcpy`, simpler code
+- **Con:** first GPU access triggers a <span class="accent">page fault</span> (~10-50 μs stall per page migration)
+- **Result:** unpredictable latency spikes during kernel execution
 
-> Production code still uses explicit transfers for predictable performance. Unified memory trades control for convenience.
+> Production code uses explicit transfers so you control *when* data moves (and overlap it with compute). Unified memory is for prototyping.
 
-Note: Unified memory got much better with page prefetching and hints (cudaMemPrefetchAsync, cudaMemAdvise). But for latency-sensitive code, explicit memory management is still preferred because you control exactly when transfers happen.
+Note: Unified memory improved with `cudaMemPrefetchAsync` (prefetch pages before the kernel needs them) and `cudaMemAdvise` (hints about access patterns). But for latency-sensitive code, explicit management is still preferred because you control exactly when transfers happen and can overlap them with computation using streams.
 
 ---
 
