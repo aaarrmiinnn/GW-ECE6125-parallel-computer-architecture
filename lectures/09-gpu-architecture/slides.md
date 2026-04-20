@@ -274,9 +274,9 @@ When a warp issues a memory load (300+ cycles to HBM), the scheduler switches to
 
 $$\text{Warps needed} \geq \frac{\text{memory latency (cycles)}}{\text{throughput (cycles/instruction)}}$$
 
-With 300-cycle latency and 1 cycle per warp-instruction: need ~300 / 4 ≈ 75 warps per SM to fully hide latency. H100 allows 64 warps max, so in practice you can almost fully hide it.
+With 300-cycle latency and 4 warp schedulers (each consuming 1 warp per cycle): need $300 / 4 = 75$ warps per SM to fully hide latency. H100 allows 64 warps max, so in practice you can almost fully hide it.
 
-Note: This formula is the key to GPU performance. If you don't have enough warps to fill the latency gap, the compute units sit idle waiting for data. Occupancy (active warps / max warps) directly measures how well you're hiding latency. But as we'll see in Part 3, maximum occupancy isn't always optimal.
+Note: The 4 in the denominator is the number of warp schedulers per SM. Each cycle, all 4 schedulers can issue in parallel, so the SM retires 4 warp-instructions per cycle. To keep all 4 schedulers busy for 300 cycles while one warp waits on memory, you need 300 / 4 = 75 other warps ready to execute. Since H100 caps at 64 warps per SM, there's a small gap, which is why even at 100% occupancy you can't fully hide HBM latency. Occupancy (active warps / max warps) directly measures how well you're hiding latency. But as we'll see in Part 3, maximum occupancy isn't always optimal.
 
 ---
 
