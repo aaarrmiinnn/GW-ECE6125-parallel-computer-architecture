@@ -306,7 +306,7 @@ Note: The jump from FP32 (~62 TFLOPS) to FP8 (~1,979 TFLOPS) via tensor cores is
 
 - **Introduced:** Volta architecture (V100, 2017) to accelerate deep learning
 - **Why it helps:** neural network training is dominated by matrix multiplications (forward pass, backward pass, attention). Tensor cores do this 10-30x faster than regular CUDA cores.
-- **The trick:** they operate on <span class="accent">lower precision</span> (FP16, BF16, FP8) instead of FP32. Neural networks tolerate this because gradients don't need 32-bit accuracy.
+- **The trick:** they operate on <span class="accent">lower precision</span> (FP16, BF16, FP8) for the bulk of computation, while keeping FP32 where it matters (weight updates, optimizer state). Gradients *are* sensitive to precision (small values can underflow to zero in FP16), which is why mixed precision uses loss scaling and BF16 (same range as FP32).
 
 | Generation | Precision Support | Peak Throughput |
 |---|---|---|
