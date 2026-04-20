@@ -103,6 +103,8 @@ Note: A CPU spends most of its transistors on control logic (branch prediction, 
 
 > The GPU has <span class="accent">8x</span> the FP64 throughput, <span class="accent">250x</span> the FP16 throughput, and <span class="accent">7x</span> the memory bandwidth. But only 80 GB of memory vs 1.5 TB.
 
+*Why 7x bandwidth?* GPUs use HBM (High Bandwidth Memory) stacked directly on the chip package via silicon interposers (5120-bit bus). CPUs use DDR on DIMM slots connected by long PCB traces (~512-bit bus). Short wires = wide bus = high bandwidth. The tradeoff: HBM is ~5x more expensive per GB and limited in capacity.
+
 Note: The memory capacity gap is why CPUs still matter. If your data doesn't fit in 80 GB, you need the CPU or multiple GPUs. The bandwidth gap (7x) is why memory-bound kernels run faster on GPU even if they don't use much compute.
 
 ---
