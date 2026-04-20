@@ -437,23 +437,33 @@ On H100, max warps = 64. If your kernel uses enough resources that only 32 warps
 | **Shared memory per block** | More shared memory per block = fewer blocks fit on the SM |
 | **Threads per block** | Fewer threads per block = more blocks needed to fill the SM |
 
-Note: You can query occupancy before launching a kernel using `cudaOccupancyMaxActiveBlocksPerMultiprocessor()`. The NVIDIA occupancy calculator spreadsheet and Nsight Compute both show this.
+Query occupancy before launching:
+
+```c
+int maxActiveBlocks;
+cudaOccupancyMaxActiveBlocksPerMultiprocessor(
+    &maxActiveBlocks, myKernel, blockSize, sharedMemSize);
+```
+
+Note: This CUDA API tells you how many blocks of your kernel can run simultaneously on one SM, given the kernel's resource usage. Nsight Compute shows the same information visually.
 
 ---
 
 ## Occupancy Limiters: Worked Example
 
+> The chart below shows how the maximum number of warps per SM drops as you use more registers per thread. The horizontal dashed line is the hardware max (64 warps). The <span class="accent">orange bar</span> marks the bottleneck.
+
 ![Occupancy limiters chart](images/occupancy-limiters.svg)
 
-**Example:** kernel uses 64 registers per thread, 256 threads per block (8 warps), 0 shared memory.
+**Walking through the math** (64 registers/thread, 256 threads/block):
 
-- Register limit: 65,536 registers / 64 per thread = 1,024 threads = 32 warps
-- Block limit: 32 max blocks, each with 8 warps = 256 warps (not the bottleneck)
-- **Result:** 32 / 64 = <span class="accent">50% occupancy</span>, limited by registers
+- Register file is 65,536 registers per SM
+- $65{,}536 / 64 = 1{,}024$ threads = 32 warps can fit
+- Block limit: 32 max blocks × 8 warps each = 256 warps (not the bottleneck)
+- <span class="accent">Result:</span> $32 / 64 = 50\%$ occupancy, limited by registers
+- Reducing to 48 registers: $65{,}536 / 48 \approx 1{,}365$ threads ≈ 42 warps → 66%
 
-Reducing to 48 registers per thread: 65,536 / 48 = 1,365 threads ≈ 42 warps → 66% occupancy.
-
-Note: The compiler flag `-maxrregcount=N` can cap register usage per thread, but the compiler may spill registers to slow local memory. It's a tradeoff between occupancy and per-thread performance.
+Note: You can cap register usage with the compiler flag `-maxrregcount=N`, but the compiler may spill excess registers to local memory (which is actually global memory speed, ~400 cycles). It's a tradeoff: higher occupancy but slower per-thread execution. Always measure both ways.
 
 ---
 
