@@ -869,17 +869,16 @@ Note: These are spec-sheet peak numbers. Real-world training efficiency (MFU, mo
 
 ## Structured Sparsity (Ampere+)
 
-> **Intuition:** if half the weights in a matrix are zero (in a specific pattern), the hardware can skip those multiplications and double throughput.
+> **The idea:** after training, many weights can be pruned to zero without hurting accuracy. If the zeros follow a hardware-friendly pattern, the tensor core skips those multiplications for free.
 
-**The 2:4 pattern:** in every group of 4 consecutive values, exactly 2 must be zero.
+![Structured sparsity: the 2:4 pattern](images/structured-sparsity.svg)
 
-- Hardware stores only the non-zero values + a 2-bit index per group
-- Tensor cores skip the zero multiplications
-- <span class="accent">2x throughput</span> over dense tensor core operations
+- **2:4 constraint:** in every group of 4 values, exactly 2 must be zero
+- **Hardware reward:** tensor core sees only the non-zeros. <span class="accent">2x throughput, 50% storage</span>
+- **The catch:** random sparsity doesn't work. You need a sparsity-aware pruning algorithm that forces the 2:4 pattern. Not all layers tolerate this.
+- **Use case:** inference after careful pruning and fine-tuning
 
-> Useful for inference after pruning. Training with structured sparsity is an active research area.
-
-Note: The constraint (exactly 2:4 zeros) is strict. Random sparsity doesn't help because the hardware can't exploit it. Pruning algorithms must be sparsity-aware to produce the required pattern. NVIDIA provides libraries for sparse matrix operations.
+Note: This is an example of hardware/software co-design. The hardware dictates a constraint (2:4 pattern), the software (pruning algorithms) must comply, and the reward is 2x throughput. NVIDIA's cuSPARSELt library handles the compressed format. Training with structured sparsity is an active research area but not yet mainstream.
 
 ---
 

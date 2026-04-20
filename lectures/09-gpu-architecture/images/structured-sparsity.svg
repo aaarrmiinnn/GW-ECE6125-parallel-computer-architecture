@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 250">
+  <style>
+    text { font-family: Arial, Helvetica, sans-serif; fill: #222; }
+    .title { font-size: 13px; font-weight: bold; fill: #004065; }
+    .label { font-size: 10px; font-weight: bold; fill: #004065; }
+    .small { font-size: 9px; fill: #555; }
+    .cell { stroke: #004065; stroke-width: 1; rx: 2; ry: 2; }
+    .val { font-size: 10px; font-weight: bold; }
+  </style>
+
+  <defs>
+    <marker id="arr5" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#004065"/>
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="350" y="16" class="title" text-anchor="middle">Structured Sparsity: The 2:4 Pattern</text>
+
+  <!-- ═══ Dense matrix row (before pruning) ═══ -->
+  <text x="20" y="42" class="label">Original weights (dense): 8 values</text>
+
+  <g transform="translate(20, 50)">
+    <rect x="0" y="0" width="50" height="24" class="cell" fill="#cfe2f3"/>
+    <text x="25" y="16" class="val" text-anchor="middle">0.3</text>
+    <rect x="54" y="0" width="50" height="24" class="cell" fill="#cfe2f3"/>
+    <text x="79" y="16" class="val" text-anchor="middle">-0.1</text>
+    <rect x="108" y="0" width="50" height="24" class="cell" fill="#cfe2f3"/>
+    <text x="133" y="16" class="val" text-anchor="middle">0.7</text>
+    <rect x="162" y="0" width="50" height="24" class="cell" fill="#cfe2f3"/>
+    <text x="187" y="16" class="val" text-anchor="middle">0.2</text>
+
+    <rect x="230" y="0" width="50" height="24" class="cell" fill="#cfe2f3"/>
+    <text x="255" y="16" class="val" text-anchor="middle">-0.5</text>
+    <rect x="284" y="0" width="50" height="24" class="cell" fill="#cfe2f3"/>
+    <text x="309" y="16" class="val" text-anchor="middle">0.4</text>
+    <rect x="338" y="0" width="50" height="24" class="cell" fill="#cfe2f3"/>
+    <text x="363" y="16" class="val" text-anchor="middle">0.0</text>
+    <rect x="392" y="0" width="50" height="24" class="cell" fill="#cfe2f3"/>
+    <text x="417" y="16" class="val" text-anchor="middle">-0.8</text>
+
+    <!-- Group brackets -->
+    <line x1="0" y1="28" x2="212" y2="28" stroke="#c05000" stroke-width="1.5"/>
+    <text x="106" y="40" font-size="8" fill="#c05000" text-anchor="middle">group of 4</text>
+    <line x1="230" y1="28" x2="442" y2="28" stroke="#c05000" stroke-width="1.5"/>
+    <text x="336" y="40" font-size="8" fill="#c05000" text-anchor="middle">group of 4</text>
+  </g>
+
+  <!-- Arrow down -->
+  <text x="250" y="105" class="small" text-anchor="middle">↓ Prune: keep 2 largest per group, zero the rest (2:4 pattern)</text>
+
+  <!-- ═══ After pruning ═══ -->
+  <text x="20" y="125" class="label">After pruning (2:4 sparse):</text>
+
+  <g transform="translate(20, 133)">
+    <rect x="0" y="0" width="50" height="24" class="cell" fill="#FFD200"/>
+    <text x="25" y="16" class="val" text-anchor="middle">0.3</text>
+    <rect x="54" y="0" width="50" height="24" class="cell" fill="#e8e8e8"/>
+    <text x="79" y="16" class="val" text-anchor="middle" fill="#999">0</text>
+    <rect x="108" y="0" width="50" height="24" class="cell" fill="#FFD200"/>
+    <text x="133" y="16" class="val" text-anchor="middle">0.7</text>
+    <rect x="162" y="0" width="50" height="24" class="cell" fill="#e8e8e8"/>
+    <text x="187" y="16" class="val" text-anchor="middle" fill="#999">0</text>
+
+    <rect x="230" y="0" width="50" height="24" class="cell" fill="#FFD200"/>
+    <text x="255" y="16" class="val" text-anchor="middle">-0.5</text>
+    <rect x="284" y="0" width="50" height="24" class="cell" fill="#e8e8e8"/>
+    <text x="309" y="16" class="val" text-anchor="middle" fill="#999">0</text>
+    <rect x="338" y="0" width="50" height="24" class="cell" fill="#e8e8e8"/>
+    <text x="363" y="16" class="val" text-anchor="middle" fill="#999">0</text>
+    <rect x="392" y="0" width="50" height="24" class="cell" fill="#FFD200"/>
+    <text x="417" y="16" class="val" text-anchor="middle">-0.8</text>
+
+    <!-- Labels -->
+    <text x="470" y="16" class="small">← gold = kept</text>
+    <text x="470" y="30" class="small">← grey = pruned (zero)</text>
+  </g>
+
+  <!-- Arrow down -->
+  <text x="250" y="180" class="small" text-anchor="middle">↓ Hardware stores only non-zeros + 2-bit index</text>
+
+  <!-- ═══ Compressed storage ═══ -->
+  <text x="20" y="198" class="label">Compressed (what tensor core sees):</text>
+
+  <g transform="translate(20, 206)">
+    <!-- Values -->
+    <rect x="0" y="0" width="50" height="24" class="cell" fill="#FFD200"/>
+    <text x="25" y="16" class="val" text-anchor="middle">0.3</text>
+    <rect x="54" y="0" width="50" height="24" class="cell" fill="#FFD200"/>
+    <text x="79" y="16" class="val" text-anchor="middle">0.7</text>
+    <rect x="120" y="0" width="50" height="24" class="cell" fill="#FFD200"/>
+    <text x="145" y="16" class="val" text-anchor="middle">-0.5</text>
+    <rect x="174" y="0" width="50" height="24" class="cell" fill="#FFD200"/>
+    <text x="199" y="16" class="val" text-anchor="middle">-0.8</text>
+
+    <!-- Index metadata -->
+    <rect x="250" y="0" width="80" height="24" class="cell" fill="#fff4cc"/>
+    <text x="290" y="16" font-size="9" text-anchor="middle" fill="#004065" font-weight="bold">idx: 0,2</text>
+    <rect x="334" y="0" width="80" height="24" class="cell" fill="#fff4cc"/>
+    <text x="374" y="16" font-size="9" text-anchor="middle" fill="#004065" font-weight="bold">idx: 0,3</text>
+
+    <text x="440" y="16" class="small">← 50% storage, 2x throughput</text>
+  </g>
+</svg>
