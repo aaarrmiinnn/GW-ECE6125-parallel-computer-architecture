@@ -33,9 +33,7 @@ Note: GPUs started as fixed-function graphics accelerators. The path from render
 
 > **Intuition:** rendering a 3D scene means running the *same math* on millions of vertices and pixels independently. This is the original data-parallel workload.
 
-- **Vertex processing:** transform 3D coordinates to 2D screen positions
-- **Rasterization:** determine which pixels each triangle covers
-- **Fragment shading:** compute the color of each pixel (lighting, textures)
+![Graphics pipeline: vertices, rasterization, shading](images/graphics-pipeline.svg)
 
 When shaders became *programmable* (2001), the GPU became a general-purpose data-parallel processor hiding inside a graphics card.
 

@@ -1,0 +1,121 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 240">
+  <style>
+    text { font-family: Arial, Helvetica, sans-serif; fill: #222; }
+    .title { font-size: 14px; font-weight: bold; fill: #004065; }
+    .label { font-size: 12px; font-weight: bold; fill: white; }
+    .sub { font-size: 10px; fill: #555; }
+    .step-box { rx: 8; ry: 8; stroke-width: 2; }
+  </style>
+
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#004065"/>
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="350" y="18" class="title" text-anchor="middle">The Graphics Pipeline: Three Stages</text>
+
+  <!-- ═══ Stage 1: Vertex Processing ═══ -->
+  <rect x="15" y="35" width="200" height="80" class="step-box" fill="#004065" stroke="#003050"/>
+  <text x="115" y="58" class="label" text-anchor="middle">1. Vertex Processing</text>
+  <text x="115" y="75" font-size="10" fill="#cfe2f3" text-anchor="middle">Transform 3D → 2D</text>
+
+  <!-- 3D wireframe triangle -->
+  <polygon points="55,105 95,85 135,105" fill="none" stroke="#FFD200" stroke-width="2"/>
+  <polygon points="80,105 120,85 155,100" fill="none" stroke="#FFD200" stroke-width="1.5" stroke-dasharray="3,2" opacity="0.6"/>
+  <!-- Small axis lines for 3D feel -->
+  <line x1="30" y1="108" x2="45" y2="108" stroke="#cfe2f3" stroke-width="1"/>
+  <line x1="30" y1="108" x2="30" y2="93" stroke="#cfe2f3" stroke-width="1"/>
+  <line x1="30" y1="108" x2="38" y2="113" stroke="#cfe2f3" stroke-width="1"/>
+  <text x="27" y="90" font-size="8" fill="#cfe2f3">y</text>
+  <text x="47" y="107" font-size="8" fill="#cfe2f3">x</text>
+  <text x="40" y="118" font-size="8" fill="#cfe2f3">z</text>
+
+  <!-- Arrow 1→2 -->
+  <line x1="220" y1="75" x2="248" y2="75" stroke="#004065" stroke-width="2" marker-end="url(#arr)"/>
+
+  <!-- ═══ Stage 2: Rasterization ═══ -->
+  <rect x="253" y="35" width="200" height="80" class="step-box" fill="#004065" stroke="#003050"/>
+  <text x="353" y="58" class="label" text-anchor="middle">2. Rasterization</text>
+  <text x="353" y="75" font-size="10" fill="#cfe2f3" text-anchor="middle">Which pixels does each</text>
+  <text x="353" y="86" font-size="10" fill="#cfe2f3" text-anchor="middle">triangle cover?</text>
+
+  <!-- Pixel grid with triangle overlay -->
+  <g transform="translate(295, 70)">
+    <!-- 8x3 pixel grid -->
+    <rect x="0" y="20" width="12" height="12" fill="none" stroke="#556" stroke-width="0.5"/>
+    <rect x="12" y="20" width="12" height="12" fill="none" stroke="#556" stroke-width="0.5"/>
+    <rect x="24" y="20" width="12" height="12" fill="none" stroke="#556" stroke-width="0.5"/>
+    <rect x="36" y="20" width="12" height="12" fill="#FFD200" stroke="#556" stroke-width="0.5" opacity="0.7"/>
+    <rect x="48" y="20" width="12" height="12" fill="#FFD200" stroke="#556" stroke-width="0.5" opacity="0.7"/>
+    <rect x="60" y="20" width="12" height="12" fill="#FFD200" stroke="#556" stroke-width="0.5" opacity="0.7"/>
+    <rect x="72" y="20" width="12" height="12" fill="none" stroke="#556" stroke-width="0.5"/>
+    <rect x="84" y="20" width="12" height="12" fill="none" stroke="#556" stroke-width="0.5"/>
+
+    <rect x="0" y="32" width="12" height="12" fill="none" stroke="#556" stroke-width="0.5"/>
+    <rect x="12" y="32" width="12" height="12" fill="none" stroke="#556" stroke-width="0.5"/>
+    <rect x="24" y="32" width="12" height="12" fill="#FFD200" stroke="#556" stroke-width="0.5" opacity="0.7"/>
+    <rect x="36" y="32" width="12" height="12" fill="#FFD200" stroke="#556" stroke-width="0.5" opacity="0.7"/>
+    <rect x="48" y="32" width="12" height="12" fill="#FFD200" stroke="#556" stroke-width="0.5" opacity="0.7"/>
+    <rect x="60" y="32" width="12" height="12" fill="#FFD200" stroke="#556" stroke-width="0.5" opacity="0.7"/>
+    <rect x="72" y="32" width="12" height="12" fill="#FFD200" stroke="#556" stroke-width="0.5" opacity="0.7"/>
+    <rect x="84" y="32" width="12" height="12" fill="none" stroke="#556" stroke-width="0.5"/>
+
+    <rect x="0" y="44" width="12" height="12" fill="none" stroke="#556" stroke-width="0.5"/>
+    <rect x="12" y="44" width="12" height="12" fill="#FFD200" stroke="#556" stroke-width="0.5" opacity="0.7"/>
+    <rect x="24" y="44" width="12" height="12" fill="#FFD200" stroke="#556" stroke-width="0.5" opacity="0.7"/>
+    <rect x="36" y="44" width="12" height="12" fill="#FFD200" stroke="#556" stroke-width="0.5" opacity="0.7"/>
+    <rect x="48" y="44" width="12" height="12" fill="#FFD200" stroke="#556" stroke-width="0.5" opacity="0.7"/>
+    <rect x="60" y="44" width="12" height="12" fill="#FFD200" stroke="#556" stroke-width="0.5" opacity="0.7"/>
+    <rect x="72" y="44" width="12" height="12" fill="#FFD200" stroke="#556" stroke-width="0.5" opacity="0.7"/>
+    <rect x="84" y="44" width="12" height="12" fill="#FFD200" stroke="#556" stroke-width="0.5" opacity="0.7"/>
+
+    <!-- Triangle outline over grid -->
+    <polygon points="48,18 96,58 6,58" fill="none" stroke="#c05000" stroke-width="1.5"/>
+  </g>
+
+  <!-- Arrow 2→3 -->
+  <line x1="458" y1="75" x2="486" y2="75" stroke="#004065" stroke-width="2" marker-end="url(#arr)"/>
+
+  <!-- ═══ Stage 3: Fragment Shading ═══ -->
+  <rect x="491" y="35" width="200" height="80" class="step-box" fill="#004065" stroke="#003050"/>
+  <text x="591" y="58" class="label" text-anchor="middle">3. Fragment Shading</text>
+  <text x="591" y="75" font-size="10" fill="#cfe2f3" text-anchor="middle">Compute each pixel's color</text>
+  <text x="591" y="86" font-size="10" fill="#cfe2f3" text-anchor="middle">(lighting, textures, shadows)</text>
+
+  <!-- Colored pixel grid (shaded triangle) -->
+  <g transform="translate(533, 70)">
+    <rect x="36" y="20" width="12" height="12" fill="#8B4513" stroke="#556" stroke-width="0.5"/>
+    <rect x="48" y="20" width="12" height="12" fill="#A0522D" stroke="#556" stroke-width="0.5"/>
+    <rect x="60" y="20" width="12" height="12" fill="#6B3410" stroke="#556" stroke-width="0.5"/>
+
+    <rect x="24" y="32" width="12" height="12" fill="#CD853F" stroke="#556" stroke-width="0.5"/>
+    <rect x="36" y="32" width="12" height="12" fill="#DEB887" stroke="#556" stroke-width="0.5"/>
+    <rect x="48" y="32" width="12" height="12" fill="#D2B48C" stroke="#556" stroke-width="0.5"/>
+    <rect x="60" y="32" width="12" height="12" fill="#BC8F5F" stroke="#556" stroke-width="0.5"/>
+    <rect x="72" y="32" width="12" height="12" fill="#8B7355" stroke="#556" stroke-width="0.5"/>
+
+    <rect x="12" y="44" width="12" height="12" fill="#F5DEB3" stroke="#556" stroke-width="0.5"/>
+    <rect x="24" y="44" width="12" height="12" fill="#FFE4B5" stroke="#556" stroke-width="0.5"/>
+    <rect x="36" y="44" width="12" height="12" fill="#FFDEAD" stroke="#556" stroke-width="0.5"/>
+    <rect x="48" y="44" width="12" height="12" fill="#EED5B7" stroke="#556" stroke-width="0.5"/>
+    <rect x="60" y="44" width="12" height="12" fill="#DEB887" stroke="#556" stroke-width="0.5"/>
+    <rect x="72" y="44" width="12" height="12" fill="#CDAA7D" stroke="#556" stroke-width="0.5"/>
+    <rect x="84" y="44" width="12" height="12" fill="#8B7355" stroke="#556" stroke-width="0.5"/>
+  </g>
+
+  <!-- Bottom: key insight -->
+  <rect x="80" y="130" width="540" height="50" rx="6" fill="#fafafa" stroke="#e0e0e0"/>
+  <text x="350" y="150" font-size="12" font-weight="bold" fill="#004065" text-anchor="middle">Key insight: every vertex and every pixel runs the same program independently</text>
+  <text x="350" y="166" font-size="11" fill="#c05000" text-anchor="middle">This is data parallelism. Making shaders programmable (2001) turned the GPU into a general-purpose parallel processor.</text>
+
+  <!-- Bottom labels -->
+  <text x="115" y="200" class="sub" text-anchor="middle">3D geometry</text>
+  <text x="115" y="212" class="sub" text-anchor="middle">(millions of vertices)</text>
+  <text x="353" y="200" class="sub" text-anchor="middle">Pixel coverage</text>
+  <text x="353" y="212" class="sub" text-anchor="middle">(which pixels are inside?)</text>
+  <text x="591" y="200" class="sub" text-anchor="middle">Final image</text>
+  <text x="591" y="212" class="sub" text-anchor="middle">(color per pixel)</text>
+</svg>
