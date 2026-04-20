@@ -558,11 +558,11 @@ Note: The split between shared memory and L1 is configurable via `cudaFuncSetAtt
 **Hopper feature: L2 persistence control**
 
 ```c
-// Pin frequently-accessed data in L2 to avoid HBM trips
-cudaAccessPolicyWindow policy;
-policy.base_ptr = frequently_used_buffer;
-policy.num_bytes = size;
-policy.hitProp = cudaAccessPropertyPersisting;
+cudaAccessPolicyWindow policy;              // create a caching policy
+policy.base_ptr = frequently_used_buffer;   // which buffer to pin
+policy.num_bytes = size;                    // how many bytes to keep in L2
+policy.hitProp = cudaAccessPropertyPersisting; // "don't evict this data"
+// After setting this, accesses to this buffer stay in L2 across kernel launches
 ```
 
 > For kernels that repeatedly access the same small dataset (like an embedding table), pinning in L2 can be a significant win.
