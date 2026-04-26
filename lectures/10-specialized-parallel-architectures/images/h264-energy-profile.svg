@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 250">
+  <style>
+    text { font-family: Arial, Helvetica, sans-serif; fill: #222; }
+    .title { font-size: 15px; font-weight: bold; fill: #004065; }
+    .label { font-size: 12px; font-weight: bold; }
+    .note { font-size: 10px; fill: #666; font-style: italic; }
+  </style>
+
+  <text x="350" y="22" class="title" text-anchor="middle">H.264 Video Encoding: CPU vs Dedicated ASIC</text>
+
+  <!-- CPU bar -->
+  <text x="55" y="72" class="label" text-anchor="end" fill="#004065">CPU</text>
+  <text x="55" y="84" font-size="10" text-anchor="end" fill="#666">~1 W</text>
+
+  <!-- CPU bar: overhead (blue) + compute (orange) -->
+  <rect x="70" y="58" width="520" height="36" rx="6" fill="#004065" stroke="#004065" stroke-width="2"/>
+  <rect x="538" y="58" width="52" height="36" rx="0" fill="#c05000"/>
+  <rect x="70" y="58" width="520" height="36" rx="6" fill="none" stroke="#004065" stroke-width="2"/>
+  <text x="300" y="81" font-size="11" fill="white" font-weight="bold" text-anchor="middle">Instruction overhead, scheduling, data movement (~90%)</text>
+  <text x="564" y="81" font-size="9" fill="white" font-weight="bold" text-anchor="middle">Work</text>
+
+  <!-- ASIC bar -->
+  <text x="55" y="142" class="label" text-anchor="end" fill="#c05000">ASIC</text>
+  <text x="55" y="154" font-size="10" text-anchor="end" fill="#666">~10 mW</text>
+
+  <!-- ASIC bar: almost all compute -->
+  <rect x="70" y="128" width="5.8" height="36" rx="3" fill="#c05000" stroke="#c05000" stroke-width="2"/>
+  <text x="82" y="148" font-size="10" fill="#c05000" font-weight="bold" text-anchor="start">Hardwired pipeline -- near-zero overhead</text>
+
+  <!-- 100x difference bracket -->
+  <line x1="630" y1="58" x2="630" y2="164" stroke="#004065" stroke-width="2"/>
+  <line x1="625" y1="58" x2="635" y2="58" stroke="#004065" stroke-width="2"/>
+  <line x1="625" y1="164" x2="635" y2="164" stroke="#004065" stroke-width="2"/>
+  <rect x="640" y="92" width="55" height="38" rx="6" fill="#fff4cc" stroke="#c05000" stroke-width="2"/>
+  <text x="667" y="110" font-size="13" fill="#c05000" font-weight="bold" text-anchor="middle">100x</text>
+  <text x="667" y="124" font-size="9" fill="#c05000" text-anchor="middle">difference</text>
+
+  <!-- Legend -->
+  <rect x="70" y="185" width="16" height="12" rx="2" fill="#004065"/>
+  <text x="92" y="195" font-size="10" fill="#222">Overhead energy</text>
+  <rect x="200" y="185" width="16" height="12" rx="2" fill="#c05000"/>
+  <text x="222" y="195" font-size="10" fill="#222">Useful computation</text>
+
+  <text x="350" y="228" class="note" text-anchor="middle">ASICs eliminate instruction fetch, decode, and caches -- energy goes directly to computation.</text>
+  <text x="350" y="242" class="note" text-anchor="middle">This is why every smartphone has a dedicated video encoder/decoder block.</text>
+</svg>

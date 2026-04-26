@@ -1,0 +1,134 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 300">
+  <style>
+    text { font-family: Arial, Helvetica, sans-serif; fill: #222; }
+    .title { font-size: 15px; font-weight: bold; fill: #004065; }
+    .clb { font-size: 8px; font-weight: bold; fill: #004065; }
+    .label { font-size: 10px; font-weight: bold; }
+    .note { font-size: 10px; fill: #666; font-style: italic; }
+  </style>
+
+  <text x="350" y="20" class="title" text-anchor="middle">FPGA Architecture: Configurable Logic Blocks + Routing Fabric</text>
+
+  <!-- Grid offset: start at (120,40), each cell 90x52, gap for routing -->
+
+  <!-- Routing lines (dashed, behind everything) -->
+  <g stroke="#999" stroke-width="1" stroke-dasharray="3,3" opacity="0.5">
+    <!-- Horizontal routing channels -->
+    <line x1="120" y1="90" x2="520" y2="90"/>
+    <line x1="120" y1="148" x2="520" y2="148"/>
+    <line x1="120" y1="206" x2="520" y2="206"/>
+    <line x1="120" y1="264" x2="520" y2="264"/>
+    <!-- Vertical routing channels -->
+    <line x1="218" y1="38" x2="218" y2="278"/>
+    <line x1="318" y1="38" x2="318" y2="278"/>
+    <line x1="418" y1="38" x2="418" y2="278"/>
+  </g>
+
+  <!-- CLB grid: 4 columns x 4 rows -->
+  <!-- Row 0 -->
+  <g>
+    <rect x="125" y="40" width="85" height="44" rx="6" fill="#cfe2f3" stroke="#004065" stroke-width="1.5"/>
+    <text x="150" y="57" class="clb">LUT</text><text x="180" y="57" class="clb">FF</text>
+    <text x="167" y="74" font-size="7" fill="#666" text-anchor="middle">CLB</text>
+
+    <rect x="225" y="40" width="85" height="44" rx="6" fill="#cfe2f3" stroke="#004065" stroke-width="1.5"/>
+    <text x="250" y="57" class="clb">LUT</text><text x="280" y="57" class="clb">FF</text>
+    <text x="267" y="74" font-size="7" fill="#666" text-anchor="middle">CLB</text>
+
+    <rect x="325" y="40" width="85" height="44" rx="6" fill="#cfe2f3" stroke="#004065" stroke-width="1.5"/>
+    <text x="350" y="57" class="clb">LUT</text><text x="380" y="57" class="clb">FF</text>
+    <text x="367" y="74" font-size="7" fill="#666" text-anchor="middle">CLB</text>
+
+    <rect x="425" y="40" width="85" height="44" rx="6" fill="#cfe2f3" stroke="#004065" stroke-width="1.5"/>
+    <text x="450" y="57" class="clb">LUT</text><text x="480" y="57" class="clb">FF</text>
+    <text x="467" y="74" font-size="7" fill="#666" text-anchor="middle">CLB</text>
+  </g>
+
+  <!-- Row 1 -->
+  <g>
+    <rect x="125" y="98" width="85" height="44" rx="6" fill="#cfe2f3" stroke="#004065" stroke-width="1.5"/>
+    <text x="150" y="115" class="clb">LUT</text><text x="180" y="115" class="clb">FF</text>
+    <text x="167" y="132" font-size="7" fill="#666" text-anchor="middle">CLB</text>
+
+    <rect x="225" y="98" width="85" height="44" rx="6" fill="#cfe2f3" stroke="#004065" stroke-width="1.5"/>
+    <text x="250" y="115" class="clb">LUT</text><text x="280" y="115" class="clb">FF</text>
+    <text x="267" y="132" font-size="7" fill="#666" text-anchor="middle">CLB</text>
+
+    <rect x="325" y="98" width="85" height="44" rx="6" fill="#cfe2f3" stroke="#004065" stroke-width="1.5"/>
+    <text x="350" y="115" class="clb">LUT</text><text x="380" y="115" class="clb">FF</text>
+    <text x="367" y="132" font-size="7" fill="#666" text-anchor="middle">CLB</text>
+
+    <rect x="425" y="98" width="85" height="44" rx="6" fill="#cfe2f3" stroke="#004065" stroke-width="1.5"/>
+    <text x="450" y="115" class="clb">LUT</text><text x="480" y="115" class="clb">FF</text>
+    <text x="467" y="132" font-size="7" fill="#666" text-anchor="middle">CLB</text>
+  </g>
+
+  <!-- Row 2 -->
+  <g>
+    <rect x="125" y="156" width="85" height="44" rx="6" fill="#cfe2f3" stroke="#004065" stroke-width="1.5"/>
+    <text x="150" y="173" class="clb">LUT</text><text x="180" y="173" class="clb">FF</text>
+
+    <rect x="225" y="156" width="85" height="44" rx="6" fill="#cfe2f3" stroke="#004065" stroke-width="1.5"/>
+    <text x="250" y="173" class="clb">LUT</text><text x="280" y="173" class="clb">FF</text>
+
+    <rect x="325" y="156" width="85" height="44" rx="6" fill="#cfe2f3" stroke="#004065" stroke-width="1.5"/>
+    <text x="350" y="173" class="clb">LUT</text><text x="380" y="173" class="clb">FF</text>
+
+    <rect x="425" y="156" width="85" height="44" rx="6" fill="#cfe2f3" stroke="#004065" stroke-width="1.5"/>
+    <text x="450" y="173" class="clb">LUT</text><text x="480" y="173" class="clb">FF</text>
+  </g>
+
+  <!-- Row 3 -->
+  <g>
+    <rect x="125" y="214" width="85" height="44" rx="6" fill="#cfe2f3" stroke="#004065" stroke-width="1.5"/>
+    <text x="150" y="231" class="clb">LUT</text><text x="180" y="231" class="clb">FF</text>
+
+    <rect x="225" y="214" width="85" height="44" rx="6" fill="#cfe2f3" stroke="#004065" stroke-width="1.5"/>
+    <text x="250" y="231" class="clb">LUT</text><text x="280" y="231" class="clb">FF</text>
+
+    <rect x="325" y="214" width="85" height="44" rx="6" fill="#cfe2f3" stroke="#004065" stroke-width="1.5"/>
+    <text x="350" y="231" class="clb">LUT</text><text x="380" y="231" class="clb">FF</text>
+
+    <rect x="425" y="214" width="85" height="44" rx="6" fill="#cfe2f3" stroke="#004065" stroke-width="1.5"/>
+    <text x="450" y="231" class="clb">LUT</text><text x="480" y="231" class="clb">FF</text>
+  </g>
+
+  <!-- DSP blocks along right edge -->
+  <rect x="530" y="55" width="42" height="30" rx="4" fill="#FFD200" stroke="#004065" stroke-width="1.5"/>
+  <text x="551" y="74" font-size="9" fill="#222" font-weight="bold" text-anchor="middle">DSP</text>
+  <rect x="530" y="113" width="42" height="30" rx="4" fill="#FFD200" stroke="#004065" stroke-width="1.5"/>
+  <text x="551" y="132" font-size="9" fill="#222" font-weight="bold" text-anchor="middle">DSP</text>
+  <rect x="530" y="171" width="42" height="30" rx="4" fill="#FFD200" stroke="#004065" stroke-width="1.5"/>
+  <text x="551" y="190" font-size="9" fill="#222" font-weight="bold" text-anchor="middle">DSP</text>
+  <rect x="530" y="229" width="42" height="30" rx="4" fill="#FFD200" stroke="#004065" stroke-width="1.5"/>
+  <text x="551" y="248" font-size="9" fill="#222" font-weight="bold" text-anchor="middle">DSP</text>
+
+  <!-- BRAM blocks along left edge -->
+  <rect x="62" y="55" width="48" height="30" rx="4" fill="#004065" stroke="#004065" stroke-width="1.5" opacity="0.7"/>
+  <text x="86" y="74" font-size="9" fill="white" font-weight="bold" text-anchor="middle">BRAM</text>
+  <rect x="62" y="113" width="48" height="30" rx="4" fill="#004065" stroke="#004065" stroke-width="1.5" opacity="0.7"/>
+  <text x="86" y="132" font-size="9" fill="white" font-weight="bold" text-anchor="middle">BRAM</text>
+  <rect x="62" y="171" width="48" height="30" rx="4" fill="#004065" stroke="#004065" stroke-width="1.5" opacity="0.7"/>
+  <text x="86" y="190" font-size="9" fill="white" font-weight="bold" text-anchor="middle">BRAM</text>
+  <rect x="62" y="229" width="48" height="30" rx="4" fill="#004065" stroke="#004065" stroke-width="1.5" opacity="0.7"/>
+  <text x="86" y="248" font-size="9" fill="white" font-weight="bold" text-anchor="middle">BRAM</text>
+
+  <!-- Center label -->
+  <text x="318" y="150" font-size="10" fill="#999" text-anchor="middle" font-style="italic">Programmable Routing Fabric</text>
+
+  <!-- Legend -->
+  <rect x="590" y="50" width="100" height="120" rx="6" fill="#f8f8f8" stroke="#004065" stroke-width="1"/>
+  <text x="640" y="68" font-size="10" fill="#004065" font-weight="bold" text-anchor="middle">Legend</text>
+  <rect x="600" y="76" width="12" height="10" rx="2" fill="#cfe2f3" stroke="#004065" stroke-width="1"/>
+  <text x="618" y="85" font-size="9">CLB (Logic)</text>
+  <rect x="600" y="92" width="12" height="10" rx="2" fill="#FFD200" stroke="#004065" stroke-width="1"/>
+  <text x="618" y="101" font-size="9">DSP Block</text>
+  <rect x="600" y="108" width="12" height="10" rx="2" fill="#004065" opacity="0.7"/>
+  <text x="618" y="117" font-size="9">Block RAM</text>
+  <line x1="600" y1="130" x2="612" y2="130" stroke="#999" stroke-width="1" stroke-dasharray="3,3"/>
+  <text x="618" y="134" font-size="9">Routing</text>
+  <text x="640" y="155" font-size="8" fill="#666" text-anchor="middle">LUT = Lookup Table</text>
+  <text x="640" y="165" font-size="8" fill="#666" text-anchor="middle">FF = Flip-Flop</text>
+
+  <text x="350" y="290" class="note" text-anchor="middle">FPGAs are "hardware you can reprogram." CLBs implement any logic function; routing connects them.</text>
+</svg>

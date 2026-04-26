@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 280">
+  <defs>
+    <marker id="arr" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+      <path d="M0,0 L7,2.5 L0,5 Z" fill="#004065"/>
+    </marker>
+    <marker id="arrboth" markerWidth="7" markerHeight="5" refX="0" refY="2.5" orient="auto">
+      <path d="M7,0 L0,2.5 L7,5 Z" fill="#004065"/>
+    </marker>
+  </defs>
+  <style>
+    text { font-family: Arial, Helvetica, sans-serif; fill: #222; }
+    .title { font-size: 15px; font-weight: bold; fill: #004065; }
+    .block { font-size: 10px; font-weight: bold; }
+    .sub { font-size: 9px; fill: #666; }
+    .note { font-size: 10px; fill: #666; font-style: italic; }
+  </style>
+
+  <text x="350" y="20" class="title" text-anchor="middle">Google TPU v1 Block Diagram</text>
+
+  <!-- Host Interface -->
+  <rect x="15" y="110" width="70" height="50" rx="6" fill="#004065" stroke="#004065" stroke-width="2"/>
+  <text x="50" y="133" class="block" text-anchor="middle" fill="white">Host</text>
+  <text x="50" y="145" class="block" text-anchor="middle" fill="white">Interface</text>
+  <text x="50" y="170" class="sub" text-anchor="middle">PCIe</text>
+
+  <!-- Arrow -->
+  <line x1="85" y1="135" x2="108" y2="135" stroke="#004065" stroke-width="2" marker-end="url(#arr)"/>
+
+  <!-- Weight FIFO -->
+  <rect x="112" y="110" width="70" height="50" rx="6" fill="#cfe2f3" stroke="#004065" stroke-width="2"/>
+  <text x="147" y="133" class="block" text-anchor="middle" fill="#004065">Weight</text>
+  <text x="147" y="145" class="block" text-anchor="middle" fill="#004065">FIFO</text>
+  <text x="147" y="170" class="sub" text-anchor="middle">4-stage</text>
+
+  <!-- Arrow -->
+  <line x1="182" y1="135" x2="208" y2="135" stroke="#004065" stroke-width="2" marker-end="url(#arr)"/>
+
+  <!-- Matrix Multiply Unit (large, gold) -->
+  <rect x="212" y="90" width="170" height="80" rx="6" fill="#FFD200" stroke="#004065" stroke-width="2.5"/>
+  <text x="297" y="118" font-size="13" font-weight="bold" text-anchor="middle" fill="#004065">Matrix Multiply Unit</text>
+  <text x="297" y="136" font-size="12" font-weight="bold" text-anchor="middle" fill="#004065">256 x 256 ALUs</text>
+  <text x="297" y="154" font-size="10" text-anchor="middle" fill="#666">INT8: 65,536 MACs/cycle</text>
+
+  <!-- Arrow -->
+  <line x1="382" y1="135" x2="408" y2="135" stroke="#004065" stroke-width="2" marker-end="url(#arr)"/>
+
+  <!-- Accumulators -->
+  <rect x="412" y="110" width="75" height="50" rx="6" fill="#cfe2f3" stroke="#004065" stroke-width="2"/>
+  <text x="449" y="130" class="block" text-anchor="middle" fill="#004065">Accumu-</text>
+  <text x="449" y="142" class="block" text-anchor="middle" fill="#004065">lators</text>
+  <text x="449" y="170" class="sub" text-anchor="middle">4096 x 32b</text>
+
+  <!-- Arrow -->
+  <line x1="487" y1="135" x2="510" y2="135" stroke="#004065" stroke-width="2" marker-end="url(#arr)"/>
+
+  <!-- Activation Unit -->
+  <rect x="514" y="110" width="75" height="50" rx="6" fill="#c05000" stroke="#004065" stroke-width="2" opacity="0.85"/>
+  <text x="551" y="130" class="block" text-anchor="middle" fill="white">Activation</text>
+  <text x="551" y="142" class="block" text-anchor="middle" fill="white">Unit</text>
+  <text x="551" y="170" class="sub" text-anchor="middle">ReLU, etc.</text>
+
+  <!-- Arrow to output -->
+  <line x1="589" y1="135" x2="618" y2="135" stroke="#004065" stroke-width="2" marker-end="url(#arr)"/>
+
+  <!-- Output -->
+  <rect x="622" y="115" width="60" height="40" rx="6" fill="#004065" stroke="#004065" stroke-width="2"/>
+  <text x="652" y="140" class="block" text-anchor="middle" fill="white">Output</text>
+
+  <!-- Unified Buffer (above, spanning MXU area) -->
+  <rect x="150" y="32" width="380" height="40" rx="6" fill="#3a7ca5" stroke="#004065" stroke-width="2"/>
+  <text x="340" y="50" font-size="12" font-weight="bold" text-anchor="middle" fill="white">Unified Buffer (24 MB SRAM)</text>
+  <text x="340" y="64" font-size="10" text-anchor="middle" fill="#cfe2f3">Stores activations between layers</text>
+
+  <!-- Bidirectional arrows from Unified Buffer to MXU and Activation -->
+  <line x1="270" y1="72" x2="270" y2="88" stroke="#004065" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="284" y1="88" x2="284" y2="72" stroke="#004065" stroke-width="2" marker-end="url(#arr)"/>
+
+  <line x1="449" y1="72" x2="449" y2="108" stroke="#004065" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="463" y1="108" x2="463" y2="72" stroke="#004065" stroke-width="2" marker-end="url(#arr)"/>
+
+  <!-- Annotations -->
+  <rect x="100" y="200" width="500" height="60" rx="6" fill="#fff4cc" stroke="#004065" stroke-width="1.5"/>
+  <text x="350" y="218" font-size="11" fill="#004065" font-weight="bold" text-anchor="middle">Key Design Choices</text>
+  <text x="350" y="233" font-size="10" fill="#222" text-anchor="middle">Deterministic execution (no caches, no branches) -- predictable latency for inference</text>
+  <text x="350" y="248" font-size="10" fill="#222" text-anchor="middle">CISC-style instructions: one instruction triggers 256x256 matrix multiply (~100K cycles)</text>
+</svg>

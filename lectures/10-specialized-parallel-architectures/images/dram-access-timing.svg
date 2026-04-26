@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 220">
+  <style>
+    text { font-family: Arial, Helvetica, sans-serif; fill: #222; }
+    .title { font-size: 15px; font-weight: bold; fill: #004065; }
+    .phase { font-size: 10px; font-weight: bold; fill: white; }
+    .timing { font-size: 9px; fill: #666; }
+    .scenario { font-size: 11px; font-weight: bold; }
+    .note { font-size: 10px; fill: #666; font-style: italic; }
+  </style>
+
+  <text x="350" y="20" class="title" text-anchor="middle">DRAM Access Timing: Row Hit vs Row Miss</text>
+
+  <!-- Phase labels at top -->
+  <text x="350" y="40" font-size="10" fill="#666" text-anchor="middle">Full access sequence (Row Miss / Row Conflict)</text>
+
+  <!-- Timeline phases -->
+  <!-- Precharge: x=70 w=140 -->
+  <rect x="70" y="50" width="140" height="36" rx="6" fill="#888" stroke="#666" stroke-width="1.5"/>
+  <text x="140" y="71" class="phase" text-anchor="middle">Precharge (tRP)</text>
+  <text x="140" y="97" class="timing" text-anchor="middle">~13 ns</text>
+
+  <!-- Row Activate: x=215 w=140 -->
+  <rect x="215" y="50" width="140" height="36" rx="6" fill="#004065" stroke="#004065" stroke-width="1.5"/>
+  <text x="285" y="71" class="phase" text-anchor="middle">Row Activate (tRCD)</text>
+  <text x="285" y="97" class="timing" text-anchor="middle">~13 ns</text>
+
+  <!-- Column Select: x=360 w=140 -->
+  <rect x="360" y="50" width="140" height="36" rx="6" fill="#b8a000" stroke="#004065" stroke-width="1.5"/>
+  <text x="430" y="71" class="phase" text-anchor="middle">Column Select (CL)</text>
+  <text x="430" y="97" class="timing" text-anchor="middle">~13 ns</text>
+
+  <!-- Data Transfer: x=505 w=90 -->
+  <rect x="505" y="50" width="90" height="36" rx="6" fill="#c05000" stroke="#004065" stroke-width="1.5"/>
+  <text x="550" y="65" class="phase" text-anchor="middle">Data</text>
+  <text x="550" y="77" class="phase" text-anchor="middle">Transfer</text>
+  <text x="550" y="97" class="timing" text-anchor="middle">~5 ns</text>
+
+  <!-- Arrows between phases -->
+  <line x1="210" y1="68" x2="215" y2="68" stroke="#222" stroke-width="1.5"/>
+  <line x1="355" y1="68" x2="360" y2="68" stroke="#222" stroke-width="1.5"/>
+  <line x1="500" y1="68" x2="505" y2="68" stroke="#222" stroke-width="1.5"/>
+
+  <!-- Scenario 1: Row Miss -->
+  <rect x="50" y="115" width="620" height="32" rx="6" fill="#fff4cc" stroke="#c05000" stroke-width="2"/>
+  <text x="66" y="135" class="scenario" fill="#c05000">Row Miss / Conflict:</text>
+  <!-- Bracket over all 4 phases -->
+  <text x="330" y="135" font-size="10" fill="#c05000" text-anchor="middle">Precharge + Activate + Column Select + Transfer</text>
+  <text x="600" y="135" font-size="12" fill="#c05000" font-weight="bold" text-anchor="middle">~45 ns</text>
+
+  <!-- Scenario 2: Row Hit -->
+  <rect x="50" y="155" width="620" height="32" rx="6" fill="#cfe2f3" stroke="#004065" stroke-width="2"/>
+  <text x="66" y="175" class="scenario" fill="#004065">Row Hit (same row open):</text>
+  <!-- Only Column Select + Transfer -->
+  <text x="330" y="175" font-size="10" fill="#004065" text-anchor="middle">Skip Precharge + Activate -- Column Select + Transfer only</text>
+  <text x="600" y="175" font-size="12" fill="#004065" font-weight="bold" text-anchor="middle">~18 ns</text>
+
+  <!-- Speed ratio -->
+  <text x="350" y="208" class="note" text-anchor="middle">Row hits are ~2.5x faster. Memory controllers try to schedule accesses to the same open row ("row buffer locality").</text>
+</svg>
