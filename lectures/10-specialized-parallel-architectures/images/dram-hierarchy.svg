@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 300">
+  <style>
+    text { font-family: Arial, Helvetica, sans-serif; fill: #222; }
+    .title { font-size: 15px; font-weight: bold; fill: #004065; }
+    .level { font-size: 12px; font-weight: bold; }
+    .info { font-size: 10px; }
+    .note { font-size: 10px; fill: #666; font-style: italic; }
+  </style>
+
+  <text x="350" y="20" class="title" text-anchor="middle">DRAM Hierarchy: Channel / Rank / Bank / Row</text>
+
+  <!-- Channel (outermost) -->
+  <rect x="30" y="35" width="640" height="230" rx="8" fill="#cfe2f3" stroke="#004065" stroke-width="2.5" opacity="0.4"/>
+  <rect x="30" y="35" width="640" height="230" rx="8" fill="none" stroke="#004065" stroke-width="2.5"/>
+  <text x="45" y="55" class="level" fill="#004065">Channel</text>
+  <text x="45" y="68" class="info" fill="#004065">2-8 per system; independent command/data bus</text>
+
+  <!-- Rank (inside channel) -->
+  <rect x="55" y="78" width="600" height="175" rx="6" fill="#004065" stroke="#004065" stroke-width="2" opacity="0.12"/>
+  <rect x="55" y="78" width="600" height="175" rx="6" fill="none" stroke="#004065" stroke-width="2"/>
+  <text x="70" y="96" class="level" fill="#004065">Rank</text>
+  <text x="70" y="109" class="info" fill="#004065">64-bit data path; all chips respond together</text>
+
+  <!-- Banks (inside rank) - show 4 banks -->
+  <g>
+    <!-- Bank 0 -->
+    <rect x="80" y="118" width="125" height="122" rx="6" fill="#FFD200" stroke="#004065" stroke-width="1.5" opacity="0.35"/>
+    <rect x="80" y="118" width="125" height="122" rx="6" fill="none" stroke="#004065" stroke-width="1.5"/>
+    <text x="142" y="137" class="level" text-anchor="middle" fill="#004065">Bank 0</text>
+    <text x="142" y="150" font-size="9" text-anchor="middle" fill="#666">Own row buffer</text>
+
+    <!-- Rows inside Bank 0 -->
+    <rect x="92" y="158" width="100" height="16" rx="3" fill="#fff4cc" stroke="#004065" stroke-width="1"/>
+    <text x="142" y="170" font-size="8" text-anchor="middle" fill="#004065">Row 0 (~8 KB)</text>
+    <rect x="92" y="178" width="100" height="16" rx="3" fill="#fff4cc" stroke="#004065" stroke-width="1"/>
+    <text x="142" y="190" font-size="8" text-anchor="middle" fill="#004065">Row 1</text>
+    <rect x="92" y="198" width="100" height="16" rx="3" fill="#fff4cc" stroke="#004065" stroke-width="1"/>
+    <text x="142" y="210" font-size="8" text-anchor="middle" fill="#666">...</text>
+    <text x="142" y="230" font-size="8" text-anchor="middle" fill="#666">~64K-128K rows</text>
+
+    <!-- Bank 1 -->
+    <rect x="215" y="118" width="125" height="122" rx="6" fill="#FFD200" stroke="#004065" stroke-width="1.5" opacity="0.35"/>
+    <rect x="215" y="118" width="125" height="122" rx="6" fill="none" stroke="#004065" stroke-width="1.5"/>
+    <text x="277" y="137" class="level" text-anchor="middle" fill="#004065">Bank 1</text>
+    <text x="277" y="150" font-size="9" text-anchor="middle" fill="#666">Own row buffer</text>
+    <rect x="227" y="158" width="100" height="16" rx="3" fill="#fff4cc" stroke="#004065" stroke-width="1"/>
+    <rect x="227" y="178" width="100" height="16" rx="3" fill="#fff4cc" stroke="#004065" stroke-width="1"/>
+    <rect x="227" y="198" width="100" height="16" rx="3" fill="#fff4cc" stroke="#004065" stroke-width="1"/>
+
+    <!-- ... ellipsis -->
+    <text x="380" y="180" font-size="18" fill="#004065" font-weight="bold" text-anchor="middle">...</text>
+
+    <!-- Bank N -->
+    <rect x="420" y="118" width="125" height="122" rx="6" fill="#FFD200" stroke="#004065" stroke-width="1.5" opacity="0.35"/>
+    <rect x="420" y="118" width="125" height="122" rx="6" fill="none" stroke="#004065" stroke-width="1.5"/>
+    <text x="482" y="137" class="level" text-anchor="middle" fill="#004065">Bank 31</text>
+    <text x="482" y="150" font-size="9" text-anchor="middle" fill="#666">Own row buffer</text>
+    <rect x="432" y="158" width="100" height="16" rx="3" fill="#fff4cc" stroke="#004065" stroke-width="1"/>
+    <rect x="432" y="178" width="100" height="16" rx="3" fill="#fff4cc" stroke="#004065" stroke-width="1"/>
+    <rect x="432" y="198" width="100" height="16" rx="3" fill="#fff4cc" stroke="#004065" stroke-width="1"/>
+  </g>
+
+  <!-- Key property labels on right -->
+  <rect x="555" y="120" width="90" height="115" rx="6" fill="#f8f8f8" stroke="#004065" stroke-width="1"/>
+  <text x="600" y="140" font-size="9" fill="#004065" font-weight="bold" text-anchor="middle">DDR5:</text>
+  <text x="600" y="155" font-size="9" fill="#666" text-anchor="middle">32 banks/rank</text>
+  <text x="600" y="170" font-size="9" fill="#666" text-anchor="middle">2 bank groups</text>
+  <text x="600" y="190" font-size="9" fill="#004065" font-weight="bold" text-anchor="middle">Banks operate</text>
+  <text x="600" y="203" font-size="9" fill="#004065" font-weight="bold" text-anchor="middle">independently</text>
+  <text x="600" y="218" font-size="9" fill="#004065" font-weight="bold" text-anchor="middle">= parallelism!</text>
+
+  <text x="350" y="282" class="note" text-anchor="middle">More banks = more parallelism. Memory controllers interleave requests across banks to hide latency.</text>
+</svg>

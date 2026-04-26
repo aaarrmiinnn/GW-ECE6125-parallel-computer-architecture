@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 250">
+  <defs>
+    <marker id="darr" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+      <path d="M0,0 L7,2.5 L0,5 Z" fill="#004065"/>
+    </marker>
+    <marker id="darrG" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+      <path d="M0,0 L7,2.5 L0,5 Z" fill="#2e7d32"/>
+    </marker>
+  </defs>
+  <style>
+    text { font-family: Arial, Helvetica, sans-serif; fill: #222; }
+    .title { font-size: 15px; font-weight: bold; fill: #004065; }
+    .panel { font-size: 13px; font-weight: bold; }
+    .box { font-size: 10px; font-weight: bold; }
+    .note { font-size: 10px; fill: #666; font-style: italic; }
+  </style>
+
+  <text x="350" y="20" class="title" text-anchor="middle">Control Flow (CPU) vs Dataflow (Systolic) Execution</text>
+
+  <!-- Divider -->
+  <line x1="350" y1="30" x2="350" y2="215" stroke="#ccc" stroke-width="1.5" stroke-dasharray="5,3"/>
+
+  <!-- LEFT PANEL: Control Flow -->
+  <text x="175" y="48" class="panel" text-anchor="middle" fill="#004065">Control Flow (CPU)</text>
+
+  <!-- Circular loop: Fetch -> Decode -> Execute -> Writeback -> back to Fetch -->
+  <rect x="120" y="60" width="68" height="28" rx="6" fill="#004065" stroke="#004065" stroke-width="1.5"/>
+  <text x="154" y="78" class="box" text-anchor="middle" fill="white">Fetch</text>
+
+  <line x1="188" y1="74" x2="210" y2="74" stroke="#004065" stroke-width="1.5" marker-end="url(#darr)"/>
+
+  <rect x="214" y="60" width="68" height="28" rx="6" fill="#004065" stroke="#004065" stroke-width="1.5"/>
+  <text x="248" y="78" class="box" text-anchor="middle" fill="white">Decode</text>
+
+  <!-- Down arrow -->
+  <line x1="248" y1="88" x2="248" y2="108" stroke="#004065" stroke-width="1.5" marker-end="url(#darr)"/>
+
+  <rect x="214" y="112" width="68" height="28" rx="6" fill="#c05000" stroke="#004065" stroke-width="1.5"/>
+  <text x="248" y="130" class="box" text-anchor="middle" fill="white">Execute</text>
+
+  <line x1="214" y1="126" x2="192" y2="126" stroke="#004065" stroke-width="1.5" marker-end="url(#darr)"/>
+
+  <rect x="120" y="112" width="68" height="28" rx="6" fill="#004065" stroke="#004065" stroke-width="1.5"/>
+  <text x="154" y="130" class="box" text-anchor="middle" fill="white">Writeback</text>
+
+  <!-- Loop back arrow (Writeback -> Fetch) -->
+  <line x1="140" y1="112" x2="140" y2="88" stroke="#004065" stroke-width="1.5" marker-end="url(#darr)"/>
+
+  <!-- Loop label -->
+  <path d="M 105,74 C 90,74 90,126 105,126" fill="none" stroke="#c05000" stroke-width="2" stroke-dasharray="4,2"/>
+  <text x="80" y="104" font-size="9" fill="#c05000" font-weight="bold" text-anchor="middle">Loop</text>
+
+  <!-- Label -->
+  <text x="175" y="165" font-size="10" fill="#004065" font-weight="bold" text-anchor="middle">Instructions drive execution</text>
+  <text x="175" y="180" font-size="9" fill="#666" text-anchor="middle">Fetch a new instruction each cycle;</text>
+  <text x="175" y="192" font-size="9" fill="#666" text-anchor="middle">control logic decides what to do next.</text>
+  <text x="175" y="208" font-size="9" fill="#c05000" text-anchor="middle">~10% energy on actual compute</text>
+
+  <!-- RIGHT PANEL: Dataflow -->
+  <text x="525" y="48" class="panel" text-anchor="middle" fill="#2e7d32">Dataflow (Systolic Array)</text>
+
+  <!-- Straight pipeline: Data In -> PE -> PE -> PE -> Result Out -->
+  <rect x="370" y="80" width="56" height="28" rx="6" fill="#3a7ca5" stroke="#004065" stroke-width="1.5"/>
+  <text x="398" y="98" class="box" text-anchor="middle" fill="white">Data In</text>
+
+  <line x1="426" y1="94" x2="440" y2="94" stroke="#2e7d32" stroke-width="2" marker-end="url(#darrG)"/>
+
+  <rect x="444" y="80" width="44" height="28" rx="6" fill="#FFD200" stroke="#004065" stroke-width="1.5"/>
+  <text x="466" y="98" class="box" text-anchor="middle" fill="#004065">PE</text>
+
+  <line x1="488" y1="94" x2="502" y2="94" stroke="#2e7d32" stroke-width="2" marker-end="url(#darrG)"/>
+
+  <rect x="506" y="80" width="44" height="28" rx="6" fill="#FFD200" stroke="#004065" stroke-width="1.5"/>
+  <text x="528" y="98" class="box" text-anchor="middle" fill="#004065">PE</text>
+
+  <line x1="550" y1="94" x2="564" y2="94" stroke="#2e7d32" stroke-width="2" marker-end="url(#darrG)"/>
+
+  <rect x="568" y="80" width="44" height="28" rx="6" fill="#FFD200" stroke="#004065" stroke-width="1.5"/>
+  <text x="590" y="98" class="box" text-anchor="middle" fill="#004065">PE</text>
+
+  <line x1="612" y1="94" x2="626" y2="94" stroke="#2e7d32" stroke-width="2" marker-end="url(#darrG)"/>
+
+  <rect x="630" y="80" width="56" height="28" rx="6" fill="#2e7d32" stroke="#004065" stroke-width="1.5"/>
+  <text x="658" y="98" class="box" text-anchor="middle" fill="white">Result</text>
+
+  <!-- No loop annotation -->
+  <text x="525" y="130" font-size="10" fill="#2e7d32" font-weight="bold" text-anchor="middle">No instruction fetch. No loop.</text>
+
+  <!-- Label -->
+  <text x="525" y="165" font-size="10" fill="#2e7d32" font-weight="bold" text-anchor="middle">Data drives execution</text>
+  <text x="525" y="180" font-size="9" fill="#666" text-anchor="middle">Each PE has a fixed function (MAC);</text>
+  <text x="525" y="192" font-size="9" fill="#666" text-anchor="middle">data flows through like a pipeline.</text>
+  <text x="525" y="208" font-size="9" fill="#2e7d32" text-anchor="middle">~90%+ energy on actual compute</text>
+
+  <!-- Bottom summary -->
+  <rect x="120" y="218" width="460" height="26" rx="6" fill="#cfe2f3" stroke="#004065" stroke-width="1.5"/>
+  <text x="350" y="236" font-size="10" fill="#004065" font-weight="bold" text-anchor="middle">Dataflow eliminates instruction overhead -- the hardware IS the program.</text>
+</svg>

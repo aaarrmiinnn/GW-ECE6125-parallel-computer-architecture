@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 280">
+  <style>
+    text { font-family: Arial, Helvetica, sans-serif; fill: #222; }
+    .title { font-size: 15px; font-weight: bold; fill: #004065; }
+    .chip { font-size: 11px; font-weight: bold; }
+    .sub { font-size: 9px; }
+    .note { font-size: 10px; fill: #666; font-style: italic; }
+  </style>
+
+  <text x="350" y="20" class="title" text-anchor="middle">Composable Chiplet Package</text>
+
+  <!-- Package outline -->
+  <rect x="60" y="35" width="580" height="200" rx="10" fill="#f0f0f0" stroke="#004065" stroke-width="2.5"/>
+  <text x="625" y="52" font-size="9" fill="#666">Package</text>
+
+  <!-- Central I/O Die + Interconnect -->
+  <rect x="215" y="105" width="270" height="60" rx="6" fill="#cfe2f3" stroke="#004065" stroke-width="2"/>
+  <text x="350" y="130" font-size="12" font-weight="bold" text-anchor="middle" fill="#004065">I/O Die + Interconnect</text>
+  <text x="350" y="145" font-size="10" text-anchor="middle" fill="#004065">UCIe / CXL Fabric</text>
+
+  <!-- CPU Chiplet 0 -->
+  <rect x="80" y="50" width="90" height="45" rx="6" fill="#004065" stroke="#004065" stroke-width="2"/>
+  <text x="125" y="72" class="chip" text-anchor="middle" fill="white">CPU Core 0</text>
+  <text x="125" y="85" class="sub" text-anchor="middle" fill="#cfe2f3">Compute die</text>
+
+  <!-- CPU Chiplet 1 -->
+  <rect x="185" y="50" width="90" height="45" rx="6" fill="#004065" stroke="#004065" stroke-width="2"/>
+  <text x="230" y="72" class="chip" text-anchor="middle" fill="white">CPU Core 1</text>
+  <text x="230" y="85" class="sub" text-anchor="middle" fill="#cfe2f3">Compute die</text>
+
+  <!-- GPU Chiplet -->
+  <rect x="290" y="50" width="100" height="45" rx="6" fill="#FFD200" stroke="#004065" stroke-width="2"/>
+  <text x="340" y="72" class="chip" text-anchor="middle" fill="#004065">GPU</text>
+  <text x="340" y="85" class="sub" text-anchor="middle" fill="#666">Graphics die</text>
+
+  <!-- ML Accelerator -->
+  <rect x="405" y="50" width="100" height="45" rx="6" fill="#c05000" stroke="#004065" stroke-width="2" opacity="0.9"/>
+  <text x="455" y="72" class="chip" text-anchor="middle" fill="white">ML Accel</text>
+  <text x="455" y="85" class="sub" text-anchor="middle" fill="#ffe0cc">NPU / DSA die</text>
+
+  <!-- HBM Stack 0 -->
+  <rect x="520" y="50" width="55" height="80" rx="6" fill="#888" stroke="#004065" stroke-width="2"/>
+  <text x="547" y="80" class="chip" text-anchor="middle" fill="white">HBM</text>
+  <text x="547" y="93" class="sub" text-anchor="middle" fill="#ddd">Stack 0</text>
+  <rect x="524" y="54" width="47" height="6" rx="2" fill="#aaa"/>
+  <rect x="524" y="62" width="47" height="6" rx="2" fill="#aaa"/>
+
+  <!-- HBM Stack 1 -->
+  <rect x="585" y="50" width="55" height="80" rx="6" fill="#888" stroke="#004065" stroke-width="2"/>
+  <text x="612" y="80" class="chip" text-anchor="middle" fill="white">HBM</text>
+  <text x="612" y="93" class="sub" text-anchor="middle" fill="#ddd">Stack 1</text>
+  <rect x="589" y="54" width="47" height="6" rx="2" fill="#aaa"/>
+  <rect x="589" y="62" width="47" height="6" rx="2" fill="#aaa"/>
+
+  <!-- Connection lines from chiplets to I/O die -->
+  <g stroke="#004065" stroke-width="1.5" stroke-dasharray="4,2">
+    <line x1="125" y1="95" x2="270" y2="105"/>
+    <line x1="230" y1="95" x2="300" y2="105"/>
+    <line x1="340" y1="95" x2="350" y2="105"/>
+    <line x1="455" y1="95" x2="420" y2="105"/>
+    <line x1="547" y1="130" x2="485" y2="130"/>
+    <line x1="612" y1="130" x2="485" y2="135"/>
+  </g>
+
+  <!-- Bottom annotations -->
+  <rect x="80" y="175" width="230" height="50" rx="6" fill="#fff4cc" stroke="#004065" stroke-width="1.5"/>
+  <text x="195" y="193" font-size="10" fill="#004065" font-weight="bold" text-anchor="middle">Why Chiplets?</text>
+  <text x="195" y="207" font-size="9" fill="#222" text-anchor="middle">Better yields (smaller dies)</text>
+  <text x="195" y="219" font-size="9" fill="#222" text-anchor="middle">Mix process nodes per function</text>
+
+  <rect x="330" y="175" width="230" height="50" rx="6" fill="#cfe2f3" stroke="#004065" stroke-width="1.5"/>
+  <text x="445" y="193" font-size="10" fill="#004065" font-weight="bold" text-anchor="middle">Real Examples</text>
+  <text x="445" y="207" font-size="9" fill="#222" text-anchor="middle">AMD EPYC (Zen 5), Apple M4 Ultra</text>
+  <text x="445" y="219" font-size="9" fill="#222" text-anchor="middle">Intel Ponte Vecchio (47 tiles)</text>
+
+  <text x="350" y="260" class="note" text-anchor="middle">UCIe (Universal Chiplet Interconnect Express) enables mix-and-match dies from different vendors.</text>
+  <text x="350" y="273" class="note" text-anchor="middle">CXL provides cache-coherent interconnect across chiplets -- extending coherence beyond the die.</text>
+</svg>

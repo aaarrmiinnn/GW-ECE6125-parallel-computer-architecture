@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 250">
+  <style>
+    text { font-family: Arial, Helvetica, sans-serif; fill: #222; }
+    .title { font-size: 15px; font-weight: bold; fill: #004065; }
+    .axis { font-size: 10px; fill: #666; }
+    .val { font-size: 9px; font-weight: bold; }
+    .note { font-size: 10px; fill: #666; font-style: italic; }
+  </style>
+
+  <text x="350" y="20" class="title" text-anchor="middle">Arithmetic Precision: Energy and Area Cost (Relative to FP16)</text>
+
+  <!-- Y-axis -->
+  <line x1="100" y1="40" x2="100" y2="190" stroke="#666" stroke-width="1.5"/>
+  <text x="50" y="120" class="axis" text-anchor="middle" transform="rotate(-90,50,120)">Relative Cost (vs FP16 = 1x)</text>
+
+  <!-- Y-axis ticks -->
+  <line x1="95" y1="185" x2="100" y2="185" stroke="#666" stroke-width="1"/>
+  <text x="90" y="189" class="axis" text-anchor="end">0x</text>
+  <line x1="95" y1="158" x2="100" y2="158" stroke="#666" stroke-width="1"/>
+  <text x="90" y="162" class="axis" text-anchor="end">4x</text>
+  <line x1="95" y1="131" x2="100" y2="131" stroke="#666" stroke-width="1"/>
+  <text x="90" y="135" class="axis" text-anchor="end">8x</text>
+  <line x1="95" y1="104" x2="100" y2="104" stroke="#666" stroke-width="1"/>
+  <text x="90" y="108" class="axis" text-anchor="end">12x</text>
+  <line x1="95" y1="77" x2="100" y2="77" stroke="#666" stroke-width="1"/>
+  <text x="90" y="81" class="axis" text-anchor="end">16x</text>
+
+  <!-- X-axis -->
+  <line x1="100" y1="190" x2="620" y2="190" stroke="#666" stroke-width="1.5"/>
+
+  <!-- Scale: 0x at y=185, 16x at y=77. Per unit = (185-77)/16 = 6.75px -->
+  <!-- FP64: E=16x, A=16x. FP32: E=4x, A=4x. FP16: E=1x, A=1x. INT8: E=0.3x, A=0.3x -->
+
+  <!-- Group: FP64 at x=160 -->
+  <rect x="140" y="77" width="30" height="108" rx="3" fill="#004065" stroke="#004065" stroke-width="1"/>
+  <rect x="175" y="77" width="30" height="108" rx="3" fill="#FFD200" stroke="#004065" stroke-width="1"/>
+  <text x="160" y="72" class="val" text-anchor="middle" fill="#004065">16x</text>
+  <text x="195" y="72" class="val" text-anchor="middle" fill="#b8a000">16x</text>
+  <text x="172" y="205" font-size="11" font-weight="bold" text-anchor="middle" fill="#004065">FP64</text>
+
+  <!-- Group: FP32 at x=290 -->
+  <rect x="270" y="158" width="30" height="27" rx="3" fill="#004065" stroke="#004065" stroke-width="1"/>
+  <rect x="305" y="158" width="30" height="27" rx="3" fill="#FFD200" stroke="#004065" stroke-width="1"/>
+  <text x="290" y="153" class="val" text-anchor="middle" fill="#004065">4x</text>
+  <text x="325" y="153" class="val" text-anchor="middle" fill="#b8a000">4x</text>
+  <text x="302" y="205" font-size="11" font-weight="bold" text-anchor="middle" fill="#004065">FP32</text>
+
+  <!-- Group: FP16 at x=420 -->
+  <rect x="400" y="178" width="30" height="7" rx="3" fill="#004065" stroke="#004065" stroke-width="1"/>
+  <rect x="435" y="178" width="30" height="7" rx="3" fill="#FFD200" stroke="#004065" stroke-width="1"/>
+  <text x="420" y="173" class="val" text-anchor="middle" fill="#004065">1x</text>
+  <text x="455" y="173" class="val" text-anchor="middle" fill="#b8a000">1x</text>
+  <text x="432" y="205" font-size="11" font-weight="bold" text-anchor="middle" fill="#004065">FP16</text>
+
+  <!-- Group: INT8 at x=550 (highlighted) -->
+  <rect x="522" y="180" width="38" height="5" rx="3" fill="#c05000" stroke="#c05000" stroke-width="2"/>
+  <rect x="565" y="180" width="38" height="5" rx="3" fill="#c05000" stroke="#c05000" stroke-width="2" opacity="0.5"/>
+  <text x="548" y="173" class="val" text-anchor="middle" fill="#c05000">0.3x</text>
+  <text x="590" y="173" class="val" text-anchor="middle" fill="#c05000">0.3x</text>
+  <text x="565" y="205" font-size="11" font-weight="bold" text-anchor="middle" fill="#c05000">INT8</text>
+
+  <!-- Highlight box around INT8 -->
+  <rect x="515" y="160" width="98" height="54" rx="6" fill="none" stroke="#c05000" stroke-width="2" stroke-dasharray="4,2"/>
+  <text x="564" y="150" font-size="9" fill="#c05000" font-weight="bold" text-anchor="middle">Cheapest!</text>
+
+  <!-- Legend -->
+  <rect x="430" y="42" width="14" height="10" rx="2" fill="#004065"/>
+  <text x="450" y="51" font-size="10" fill="#222">Energy</text>
+  <rect x="500" y="42" width="14" height="10" rx="2" fill="#FFD200" stroke="#004065" stroke-width="1"/>
+  <text x="520" y="51" font-size="10" fill="#222">Area</text>
+
+  <text x="350" y="235" class="note" text-anchor="middle">Reducing precision from FP32 to INT8 yields ~13x energy savings -- key insight behind ML accelerators.</text>
+  <text x="350" y="248" class="note" text-anchor="middle">Source: Horowitz, "Computing's Energy Problem" (ISSCC 2014)</text>
+</svg>

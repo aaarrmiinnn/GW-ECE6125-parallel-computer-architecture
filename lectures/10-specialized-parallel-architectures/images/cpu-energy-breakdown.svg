@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 250">
+  <style>
+    text { font-family: Arial, Helvetica, sans-serif; fill: #222; }
+    .title { font-size: 15px; font-weight: bold; fill: #004065; }
+    .label { font-size: 11px; font-weight: bold; }
+    .pct { font-size: 10px; fill: white; font-weight: bold; }
+    .note { font-size: 10px; fill: #666; font-style: italic; }
+  </style>
+
+  <text x="350" y="22" class="title" text-anchor="middle">CPU Energy Breakdown: Where Does the Power Go?</text>
+
+  <!-- Bar background -->
+  <rect x="60" y="70" width="580" height="50" rx="6" fill="#eee" stroke="#004065" stroke-width="2"/>
+
+  <!-- Instruction Fetch/Decode ~35% => 203px -->
+  <rect x="60" y="70" width="203" height="50" rx="6" fill="#004065"/>
+  <text x="161" y="99" class="pct" text-anchor="middle">Instruction Fetch/Decode</text>
+  <text x="161" y="112" class="pct" text-anchor="middle">~35%</text>
+
+  <!-- Pipeline Control ~20% => 116px -->
+  <rect x="263" y="70" width="116" height="50" fill="#3a7ca5"/>
+  <text x="321" y="99" class="pct" text-anchor="middle">Pipeline</text>
+  <text x="321" y="112" class="pct" text-anchor="middle">Control ~20%</text>
+
+  <!-- Data Movement ~35% => 203px -->
+  <rect x="379" y="70" width="203" height="50" fill="#FFD200"/>
+  <text x="480" y="99" class="label" text-anchor="middle" fill="#222">Data Movement</text>
+  <text x="480" y="112" font-size="10" text-anchor="middle" fill="#222">~35%</text>
+
+  <!-- Actual Computation ~10% => 58px -->
+  <rect x="582" y="70" width="58" height="50" rx="0" fill="#c05000"/>
+  <rect x="582" y="70" width="58" height="50" rx="0" fill="#c05000" stroke="#c05000" stroke-width="2"/>
+  <text x="611" y="93" font-size="9" fill="white" font-weight="bold" text-anchor="middle">Actual</text>
+  <text x="611" y="104" font-size="9" fill="white" font-weight="bold" text-anchor="middle">Compute</text>
+  <text x="611" y="115" font-size="9" fill="white" font-weight="bold" text-anchor="middle">~10%</text>
+
+  <!-- Right rounded corner overlay -->
+  <rect x="60" y="70" width="580" height="50" rx="6" fill="none" stroke="#004065" stroke-width="2"/>
+
+  <!-- Callout for computation -->
+  <line x1="611" y1="125" x2="611" y2="155" stroke="#c05000" stroke-width="2"/>
+  <line x1="611" y1="155" x2="520" y2="155" stroke="#c05000" stroke-width="2"/>
+  <rect x="370" y="142" width="152" height="28" rx="6" fill="#fff4cc" stroke="#c05000" stroke-width="2"/>
+  <text x="446" y="160" font-size="12" fill="#c05000" font-weight="bold" text-anchor="middle">&lt;15% does useful math!</text>
+
+  <!-- Legend -->
+  <text x="60" y="200" class="note">Source: Hennessy &amp; Patterson, "A New Golden Age for Computer Architecture" (2019)</text>
+  <text x="60" y="215" class="note">Overhead dominates: instruction supply, scheduling, and data movement consume >85% of energy.</text>
+
+  <!-- Bracket labels -->
+  <text x="250" y="55" font-size="10" fill="#004065" font-weight="bold" text-anchor="middle">Overhead (>85%)</text>
+  <line x1="60" y1="60" x2="580" y2="60" stroke="#004065" stroke-width="1.5"/>
+  <line x1="60" y1="57" x2="60" y2="63" stroke="#004065" stroke-width="1.5"/>
+  <line x1="580" y1="57" x2="580" y2="63" stroke="#004065" stroke-width="1.5"/>
+</svg>

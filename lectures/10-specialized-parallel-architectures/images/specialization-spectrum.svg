@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 250">
+  <style>
+    text { font-family: Arial, Helvetica, sans-serif; fill: #222; }
+    .title { font-size: 15px; font-weight: bold; fill: #004065; }
+    .perf { font-size: 11px; font-weight: bold; }
+    .flex { font-size: 9px; fill: #666; }
+    .chip { font-size: 12px; font-weight: bold; fill: white; }
+    .arrow-label { font-size: 11px; font-weight: bold; fill: #004065; }
+  </style>
+
+  <text x="350" y="22" class="title" text-anchor="middle">Specialization Spectrum: Flexibility vs Efficiency</text>
+
+  <!-- Main arrow bar -->
+  <defs>
+    <marker id="arr" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#004065"/>
+    </marker>
+    <linearGradient id="specGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#004065"/>
+      <stop offset="100%" stop-color="#8B4513"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Arrow line -->
+  <line x1="50" y1="120" x2="660" y2="120" stroke="#004065" stroke-width="2.5" marker-end="url(#arr)"/>
+  <line x1="50" y1="120" x2="40" y2="120" stroke="#004065" stroke-width="2.5"/>
+
+  <!-- Arrow labels -->
+  <text x="50" y="155" class="arrow-label" text-anchor="start">More Flexible</text>
+  <text x="650" y="155" class="arrow-label" text-anchor="end">More Efficient</text>
+
+  <!-- Stop positions: 80, 220, 350, 480, 620 -->
+
+  <!-- CPU -->
+  <rect x="48" y="92" width="64" height="36" rx="6" fill="#004065" stroke="#004065" stroke-width="2"/>
+  <text x="80" y="115" class="chip" text-anchor="middle">CPU</text>
+  <text x="80" y="82" class="perf" text-anchor="middle" fill="#004065">1x</text>
+  <text x="80" y="166" class="flex" text-anchor="middle">Any program</text>
+
+  <!-- GPU -->
+  <rect x="188" y="92" width="64" height="36" rx="6" fill="#3a7ca5" stroke="#004065" stroke-width="2"/>
+  <text x="220" y="115" class="chip" text-anchor="middle">GPU</text>
+  <text x="220" y="82" class="perf" text-anchor="middle" fill="#3a7ca5">10x</text>
+  <text x="220" y="166" class="flex" text-anchor="middle">Data-parallel</text>
+
+  <!-- FPGA -->
+  <rect x="318" y="92" width="64" height="36" rx="6" fill="#FFD200" stroke="#004065" stroke-width="2"/>
+  <text x="350" y="115" class="chip" text-anchor="middle" fill="#222">FPGA</text>
+  <text x="350" y="82" class="perf" text-anchor="middle" fill="#b8a000">20-50x</text>
+  <text x="350" y="166" class="flex" text-anchor="middle">Reconfigurable</text>
+
+  <!-- DSA -->
+  <rect x="448" y="92" width="64" height="36" rx="6" fill="#c05000" stroke="#004065" stroke-width="2"/>
+  <text x="480" y="115" class="chip" text-anchor="middle">DSA</text>
+  <text x="480" y="82" class="perf" text-anchor="middle" fill="#c05000">20-100x</text>
+  <text x="480" y="166" class="flex" text-anchor="middle">One domain</text>
+
+  <!-- ASIC -->
+  <rect x="588" y="92" width="64" height="36" rx="6" fill="#3a2010" stroke="#004065" stroke-width="2"/>
+  <text x="620" y="115" class="chip" text-anchor="middle">ASIC</text>
+  <text x="620" y="82" class="perf" text-anchor="middle" fill="#3a2010">100-1000x</text>
+  <text x="620" y="166" class="flex" text-anchor="middle">One algorithm</text>
+
+  <!-- Perf/Watt header -->
+  <text x="350" y="68" font-size="10" fill="#666" text-anchor="middle" font-style="italic">Performance per Watt (relative to CPU)</text>
+
+  <!-- Bottom summary -->
+  <rect x="150" y="190" width="400" height="36" rx="6" fill="#cfe2f3" stroke="#004065" stroke-width="1.5"/>
+  <text x="350" y="208" font-size="11" fill="#004065" font-weight="bold" text-anchor="middle">Key insight: specialization trades generality for efficiency.</text>
+  <text x="350" y="220" font-size="10" fill="#666" text-anchor="middle">As transistor scaling slows, specialization becomes the primary path to better perf/watt.</text>
+</svg>

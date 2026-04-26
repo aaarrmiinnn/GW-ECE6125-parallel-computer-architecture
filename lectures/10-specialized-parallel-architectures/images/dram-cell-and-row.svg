@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 280">
+  <style>
+    text { font-family: Arial, Helvetica, sans-serif; fill: #222; }
+    .title { font-size: 15px; font-weight: bold; fill: #004065; }
+    .label { font-size: 11px; font-weight: bold; fill: #004065; }
+    .small { font-size: 9px; fill: #666; }
+    .note { font-size: 10px; fill: #666; font-style: italic; }
+  </style>
+
+  <text x="350" y="20" class="title" text-anchor="middle">DRAM Cell Structure and Row Access</text>
+
+  <!-- LEFT: Single 1T1C cell -->
+  <rect x="15" y="32" width="200" height="210" rx="6" fill="#f8f8f8" stroke="#004065" stroke-width="1.5"/>
+  <text x="115" y="50" class="label" text-anchor="middle">Single 1T1C Cell</text>
+
+  <!-- Word Line -->
+  <line x1="30" y1="80" x2="195" y2="80" stroke="#004065" stroke-width="2"/>
+  <text x="35" y="74" font-size="10" fill="#004065" font-weight="bold">Word Line (WL)</text>
+
+  <!-- Transistor (gate symbol) -->
+  <line x1="115" y1="80" x2="115" y2="95" stroke="#004065" stroke-width="2"/>
+  <rect x="105" y="95" width="20" height="4" fill="#004065"/>
+  <line x1="105" y1="100" x2="105" y2="130" stroke="#004065" stroke-width="2"/>
+  <line x1="125" y1="100" x2="125" y2="130" stroke="#004065" stroke-width="2"/>
+  <text x="140" y="115" font-size="10" fill="#222">MOSFET</text>
+
+  <!-- Bit Line (vertical, connects to transistor) -->
+  <line x1="105" y1="130" x2="105" y2="60" stroke="#3a7ca5" stroke-width="2"/>
+  <line x1="105" y1="60" x2="105" y2="45" stroke="#3a7ca5" stroke-width="2" stroke-dasharray="4,2"/>
+  <text x="90" y="58" font-size="9" fill="#3a7ca5" font-weight="bold" text-anchor="end">Bit Line (BL)</text>
+
+  <!-- Capacitor -->
+  <line x1="125" y1="130" x2="125" y2="155" stroke="#004065" stroke-width="2"/>
+  <line x1="112" y1="155" x2="138" y2="155" stroke="#c05000" stroke-width="3"/>
+  <line x1="112" y1="163" x2="138" y2="163" stroke="#c05000" stroke-width="3"/>
+  <line x1="125" y1="163" x2="125" y2="180" stroke="#004065" stroke-width="2"/>
+  <line x1="115" y1="180" x2="135" y2="180" stroke="#004065" stroke-width="1.5"/>
+  <line x1="119" y1="185" x2="131" y2="185" stroke="#004065" stroke-width="1.5"/>
+  <text x="148" y="162" font-size="10" fill="#c05000" font-weight="bold">C (stores</text>
+  <text x="148" y="174" font-size="10" fill="#c05000" font-weight="bold">charge = bit)</text>
+
+  <!-- Annotation -->
+  <text x="115" y="210" class="small" text-anchor="middle">WL=HIGH opens transistor,</text>
+  <text x="115" y="222" class="small" text-anchor="middle">charge flows to BL (destructive read).</text>
+  <text x="115" y="234" class="small" text-anchor="middle">Must rewrite after every read!</text>
+
+  <!-- RIGHT: Row of cells + sense amps -->
+  <rect x="240" y="32" width="445" height="210" rx="6" fill="#f8f8f8" stroke="#004065" stroke-width="1.5"/>
+  <text x="462" y="50" class="label" text-anchor="middle">Row of Cells with Sense Amplifiers</text>
+
+  <!-- Word Line horizontal -->
+  <line x1="260" y1="78" x2="660" y2="78" stroke="#004065" stroke-width="2"/>
+  <text x="266" y="72" font-size="9" fill="#004065" font-weight="bold">Word Line (activates entire row)</text>
+
+  <!-- Cells along row -->
+  <g>
+    <rect x="290" y="86" width="36" height="44" rx="4" fill="#cfe2f3" stroke="#004065" stroke-width="1.5"/>
+    <text x="308" y="105" font-size="8" fill="#004065" text-anchor="middle">1T1C</text>
+    <text x="308" y="116" font-size="8" fill="#004065" text-anchor="middle">Cell 0</text>
+
+    <rect x="340" y="86" width="36" height="44" rx="4" fill="#cfe2f3" stroke="#004065" stroke-width="1.5"/>
+    <text x="358" y="105" font-size="8" fill="#004065" text-anchor="middle">1T1C</text>
+    <text x="358" y="116" font-size="8" fill="#004065" text-anchor="middle">Cell 1</text>
+
+    <rect x="390" y="86" width="36" height="44" rx="4" fill="#cfe2f3" stroke="#004065" stroke-width="1.5"/>
+    <text x="408" y="105" font-size="8" fill="#004065" text-anchor="middle">1T1C</text>
+    <text x="408" y="116" font-size="8" fill="#004065" text-anchor="middle">Cell 2</text>
+
+    <text x="448" y="112" font-size="14" fill="#666" text-anchor="middle">...</text>
+
+    <rect x="470" y="86" width="36" height="44" rx="4" fill="#cfe2f3" stroke="#004065" stroke-width="1.5"/>
+    <text x="488" y="105" font-size="8" fill="#004065" text-anchor="middle">1T1C</text>
+    <text x="488" y="116" font-size="8" fill="#004065" text-anchor="middle">Cell N-1</text>
+
+    <rect x="520" y="86" width="36" height="44" rx="4" fill="#cfe2f3" stroke="#004065" stroke-width="1.5"/>
+    <text x="538" y="105" font-size="8" fill="#004065" text-anchor="middle">1T1C</text>
+    <text x="538" y="116" font-size="8" fill="#004065" text-anchor="middle">Cell N</text>
+  </g>
+
+  <!-- Bit Lines (vertical from cells to sense amps) -->
+  <g stroke="#3a7ca5" stroke-width="1.5">
+    <line x1="308" y1="130" x2="308" y2="162"/>
+    <line x1="358" y1="130" x2="358" y2="162"/>
+    <line x1="408" y1="130" x2="408" y2="162"/>
+    <line x1="488" y1="130" x2="488" y2="162"/>
+    <line x1="538" y1="130" x2="538" y2="162"/>
+  </g>
+  <text x="570" y="150" font-size="9" fill="#3a7ca5" font-weight="bold">Bit Lines</text>
+
+  <!-- Sense Amplifiers -->
+  <rect x="270" y="162" width="300" height="30" rx="6" fill="#FFD200" stroke="#004065" stroke-width="2"/>
+  <text x="420" y="182" font-size="11" fill="#222" font-weight="bold" text-anchor="middle">Sense Amplifiers (detect tiny charge)</text>
+
+  <!-- Row Buffer -->
+  <line x1="420" y1="192" x2="420" y2="205" stroke="#004065" stroke-width="2"/>
+  <rect x="290" y="205" width="260" height="26" rx="6" fill="#c05000" stroke="#004065" stroke-width="2" opacity="0.85"/>
+  <text x="420" y="222" font-size="11" fill="white" font-weight="bold" text-anchor="middle">Row Buffer (~8 KB) -- acts as a cache</text>
+
+  <!-- Annotation -->
+  <text x="350" y="260" class="note" text-anchor="middle">Destructive read: opening a row drains all capacitors. Sense amps detect + restore the charge.</text>
+  <text x="350" y="273" class="note" text-anchor="middle">Subsequent accesses to the same row ("row hit") are served from the row buffer -- much faster.</text>
+</svg>
