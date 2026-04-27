@@ -51,7 +51,7 @@ Note: The end of Dennard scaling is the root cause. When you could get free perf
 |---|---|---|---|
 | **CPU** | 1x (baseline) | Any program | Lowest (software) |
 | **GPU** | ~10x | Data-parallel programs | Low (CUDA) |
-| **FPGA** | ~20-50x | Reconfigurable logic | Medium (RTL/HLS) |
+| **FPGA** | ~20-50x | Reconfigurable logic | Medium (RTL / HLS: High-Level Synthesis) |
 | **DSA** (e.g., TPU) | ~20-100x | One domain (e.g., ML) | High (chip design) |
 | **ASIC** | ~100-1000x | One algorithm | Highest ($50M-500M <span class="accent">NRE</span>) |
 
@@ -367,7 +367,7 @@ Note: The relationship is roughly quadratic for floating-point (energy scales wi
 **Hardware approaches:**
 - 3D stacking (HBM)
 - Wider interfaces (5120-bit HBM bus)
-- Near-memory computing (PIM)
+- Near-memory computing / PIM (Processing-In-Memory)
 - Large on-chip SRAM (TPU: 24 MB unified buffer)
 
 </div>
@@ -543,7 +543,7 @@ Note: Meta's MTIA is interesting because it targets recommendation models (not L
 
 1. **Dedicate silicon to the dominant operation.** If 90% of cycles are matrix multiply, make 90% of the die matrix multiply units.
 2. **Use the simplest data types that preserve accuracy.** INT8 for inference, BF16 for training (Lecture 09).
-3. **Use a simple control model.** No speculation, no out-of-order. Fixed dataflow or simple VLIW.
+3. **Use a simple control model.** No speculation, no out-of-order. Fixed dataflow or simple VLIW (Very Long Instruction Word: one instruction encodes multiple parallel operations).
 4. **Invest in local memory.** Large on-chip SRAM buffers to minimize DRAM access.
 5. **Co-design hardware and software.** The compiler and hardware are designed together (XLA for TPU).
 
