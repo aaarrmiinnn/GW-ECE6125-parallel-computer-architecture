@@ -234,17 +234,31 @@ Note: These numbers are from Horowitz's ISSCC 2014 keynote for 45nm technology. 
 
 ---
 
-## DRAM Basics
+## DRAM Basics: How One Bit is Stored
 
-> **Intuition:** DRAM stores each bit as charge on a tiny capacitor. Reading is destructive (drains the charge), so every read must be followed by a rewrite. This fundamental physics shapes everything about DRAM performance.
+> **Analogy:** think of each DRAM cell as a tiny bucket (capacitor) that holds water (charge). A full bucket = 1, an empty bucket = 0. The problem: to check whether the bucket is full, you have to tip it, which empties it. So every read destroys the data, and you must refill the bucket afterward.
 
 ![DRAM cell and row buffer](images/dram-cell-and-row.svg)
 
-- **1T1C cell:** one transistor (access gate) + one capacitor (stores the bit)
-- **Row buffer:** a row of sense amplifiers that holds one activated row (~2 Kbits = 8 KB)
-- **Destructive read:** opening the transistor shares charge between capacitor and bitline. Sense amplifier detects the tiny voltage difference, then rewrites the value.
+- **1T1C cell:** one transistor (the gate that opens the bucket) + one capacitor (the bucket itself)
+- **Why DRAM is cheap:** this is the simplest possible storage cell (1 transistor per bit vs. 6 for SRAM)
+- **Why DRAM is slow:** every read is destructive, and capacitors leak, requiring refresh every ~64 ms
 
-Note: The 1T1C cell is the smallest possible storage element, which is why DRAM is so dense (and cheap). But the destructive read and the need for periodic refresh (every ~64ms) add complexity and latency that SRAM avoids.
+Note: DRAM's density advantage (1 transistor/bit vs SRAM's 6) is why main memory is DRAM and caches are SRAM. You get ~4x more capacity per chip area, at the cost of speed and complexity.
+
+---
+
+## DRAM: The Row Buffer and Sense Amplifiers
+
+> **Analogy:** imagine a warehouse with millions of tiny lockers (cells) arranged in rows. You can't read one locker directly. Instead, you open an entire row of lockers onto a countertop (the <span class="accent">row buffer</span>). Then you pick the specific locker you want from the countertop. Reading another item from the same row is fast (it's already on the counter). Reading from a different row means putting everything back first, then opening the new row.
+
+- **Row activation:** open a row of cells onto the row buffer (~8 KB of data). This is the slow step (~10 ns).
+- **Sense amplifiers:** the row buffer is made of sense amplifiers. Each one detects the tiny voltage difference from a cell (was the bucket full or empty?) and amplifies it to a clean 0 or 1. It also rewrites the value back to the cell (refills the bucket).
+- **Column select:** once a row is in the row buffer, you pick specific columns (bytes) to read. This is fast (~10 ns).
+
+> <span class="accent">Row buffer = DRAM's internal cache.</span> Sequential access (same row) is 3-4x faster than random access (different rows) because you skip the activation step.
+
+Note: This is the hardware reason why sequential memory access patterns are faster than random access, at every level of the system. GPU coalescing (Lecture 09) and CPU prefetching both exploit this: if you access data that's already in the row buffer, you pay only the column select cost. If you jump to a new row, you pay precharge + activate + column select.
 
 ---
 
