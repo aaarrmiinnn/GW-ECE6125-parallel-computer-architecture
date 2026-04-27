@@ -53,11 +53,13 @@ Note: The end of Dennard scaling is the root cause. When you could get free perf
 | **GPU** | ~10x | Data-parallel programs | Low (CUDA) |
 | **FPGA** | ~20-50x | Reconfigurable logic | Medium (RTL/HLS) |
 | **DSA** (e.g., TPU) | ~20-100x | One domain (e.g., ML) | High (chip design) |
-| **ASIC** | ~100-1000x | One algorithm | Highest ($50M-500M NRE) |
+| **ASIC** | ~100-1000x | One algorithm | Highest ($50M-500M <span class="accent">NRE</span>) |
 
 > Moving right trades flexibility for efficiency. The question is: how stable is your workload?
 
-Note: NRE = Non-Recurring Engineering cost. An ASIC can cost $50-500M to design and tape out. You only do this if the volume justifies it (millions of chips) or the performance is critical (Google TPU, Apple Neural Engine).
+*<span class="accent">NRE</span> = Non-Recurring Engineering: the one-time cost to design and tape out a chip. You pay it once regardless of how many chips you make. At $50-500M, only high-volume or mission-critical workloads justify an ASIC.*
+
+Note: Google, Amazon, and Apple can afford ASIC NRE because they deploy millions of chips. A startup usually cannot. This is why FPGAs and DSAs exist as middle ground options.
 
 ---
 
