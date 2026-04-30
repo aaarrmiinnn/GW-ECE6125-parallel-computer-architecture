@@ -12,10 +12,8 @@
 | 2 | **GPU Hardware** | What does a GPU look like inside? |
 | 3 | **SIMT Execution Model** | What happens when threads in a warp disagree? |
 | 4 | **GPU Memory Hierarchy** | How do you get data to the ALUs fast enough? |
-| 5 | **Memory Access Patterns** | Why does memory layout matter more than algorithm choice? |
-| 6 | **Tensor Cores and Mixed Precision** | How do tensor cores achieve 10x throughput? |
-| 7 | **Modern GPU Architectures** | What does a 2025 GPU cluster look like? |
-| 8 | **Best Practices and Wrap-Up** | What are the most impactful optimizations? |
+| 5 | **Memory Access Patterns** (coalescing only) | Why does memory layout matter more than algorithm choice? |
+| 5b+ | **Optional Reading** | SoA/AoS, bank conflicts, tensor cores, modern architectures, best practices |
 
 Note: Lectures 7 and 8 introduced CUDA programming: kernels, thread blocks, warps of 32, and the basics of shared vs. global memory. This lecture goes inside the hardware. By the end, you'll understand why certain code patterns are fast and others are slow, at the transistor level.
 
@@ -718,6 +716,14 @@ float val = input[indices[threadIdx.x]];  // scattered, worst case
 | Random | up to 32 | ~3% |
 
 Note: The bandwidth column is approximate. Even stride-2 access halves your effective bandwidth because you're loading cache lines that are only half-used. Always aim for stride-1 access in the innermost loop.
+
+---
+
+## Optional Reading
+
+### The remaining slides are supplementary material, not required for exams.
+
+Note: The following slides cover SoA vs AoS, bank conflicts, matrix transpose, tensor cores, modern architectures, and best practices. They provide deeper detail for students interested in GPU optimization and hardware trends.
 
 ---
 
