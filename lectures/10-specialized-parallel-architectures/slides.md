@@ -11,11 +11,7 @@
 | 1 | **The Specialization Spectrum** | Why can't GPUs do everything? |
 | 2 | **Energy Efficiency** | Where does the energy go in a CPU instruction? |
 | 3 | **The Memory Bottleneck** | Why is moving data more expensive than computing? |
-| 4 | **FPGAs** | What if you could reprogram the hardware itself? |
-| 5 | **Domain-Specific Architectures** | Can we get ASIC efficiency with some programmability? |
-| 6 | **Systolic Arrays and Dataflow** | How does data flow through a TPU? |
-| 7 | **Programming Specialized Hardware** | How do programmers actually use this hardware? |
-| 8 | **The Future** | Chiplets, disaggregation, composable accelerators |
+| 4-8 | **Optional Reading** | FPGAs, DSAs/TPU, systolic arrays, programming, chiplets |
 
 Note: Lecture 09 covered GPU architecture in depth. This lecture asks the next question: when is even a GPU not specialized enough? The answer leads to FPGAs, TPUs, and custom ASICs, all driven by one fundamental constraint: energy.
 
@@ -376,6 +372,14 @@ Note: The relationship is roughly quadratic for floating-point (energy scales wi
 > **Three principles:** (1) Move data closer to compute. (2) Move compute closer to data. (3) Reduce how much data you move.
 
 Note: Every specialized accelerator embodies these principles. The TPU has a 24 MB on-chip buffer to avoid DRAM trips. HBM stacks memory on the chip. Processing-in-memory (PIM) puts compute logic inside the DRAM chip itself. The trend is clear: the future is about co-locating compute and data.
+
+---
+
+## Optional Reading
+
+### The remaining slides are supplementary material, not required for exams.
+
+Note: The following slides cover FPGAs, domain-specific architectures (TPUs), systolic arrays, programming specialized hardware, and the future of chiplets. They provide deeper detail for students interested in hardware specialization.
 
 ---
 
